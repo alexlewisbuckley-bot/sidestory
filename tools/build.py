@@ -386,9 +386,9 @@ def build():
     for p in PRODUCTS:
         slug_page = "product-" + p["slug"]
         shots = photos.manifest()[p["slug"]]
-        # the card frame is a wider crop, so it carries more native detail than
-        # the tight one — use it for the PDP hero, where the image is largest
-        shots = ["p-%s-card.jpg" % p["slug"]] + shots[1:]
+        # the product page uses its own frame: same crop size as the card, so the
+        # same detail, but with the bottle centred — nothing rises over it here
+        shots = ["p-%s-hero.jpg" % p["slug"]] + shots[1:]
         gal = [fp("assets/img/" + f) for f in shots]
         alts = ["The bottle", "Boxed with its printed story", "The outer carton", "The set"]
         thumbs = "".join(

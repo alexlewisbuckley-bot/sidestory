@@ -56,6 +56,9 @@ LOOSE = dict(subject_h=0.72, pad_x=1.16, top_bias=0.48)
 # Card frames leave the lower third of the image clear, because the quick-add
 # panel slides up over it on hover and must not cover the bottle.
 CARD  = dict(subject_h=0.46, pad_x=2.1,  top_bias=0.38)
+# The product page has no panel rising over the image, so the bottle sits in the
+# middle of the frame there. Same crop size as the card, so the same detail.
+HERO  = dict(subject_h=0.46, pad_x=2.1,  top_bias=0.50)
 # The subject boxes are reliable now, so the old width floor is not only
 # unnecessary but harmful: it inflated the crop for the narrow-bottle masters
 # and made those cards read smaller than the rest.
@@ -102,7 +105,7 @@ def subject_box(im):
     return float(x0), float(y0), float(x1), float(y1)
 
 
-MODES = {"tight": TIGHT, "loose": LOOSE, "card": CARD}
+MODES = {"tight": TIGHT, "loose": LOOSE, "card": CARD, "hero": HERO}
 
 
 def square_crop(path, out, mode="tight", size=1000):
@@ -165,10 +168,11 @@ if __name__ == "__main__":
             print(f"  p-{slug}-{i+1}.jpg".ljust(30) +
                   f"{mode:5}  {round(os.path.getsize(o)/1024)}KB   <- {src}.jpg")
             if i == 0:
-                oc = os.path.join(OUT, f"p-{slug}-card.jpg")
-                square_crop(p, oc, "card", 1200)
-                print(f"  p-{slug}-card.jpg".ljust(30) +
-                      f"card   {round(os.path.getsize(oc)/1024)}KB   <- {src}.jpg")
+                for m, tgt in (("card", 1200), ("hero", 1400)):
+                    om = os.path.join(OUT, f"p-{slug}-{m}.jpg")
+                    square_crop(p, om, m, tgt)
+                    print(f"  p-{slug}-{m}.jpg".ljust(30) +
+                          f"{m:5}  {round(os.path.getsize(om)/1024)}KB   <- {src}.jpg")
             if debug:
                 t = Image.open(o).copy(); t.thumbnail((240, 240)); tiles.append(t)
                 if i == 0:
