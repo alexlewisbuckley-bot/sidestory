@@ -97,6 +97,31 @@
   --accent-stone:var(--stone-hotel-lobby);
   --accent-field:var(--stone-tint-hotel-lobby);
 
+  /* Deep field, one per lid. A full-bleed band carries ivory text, and four
+     of the seven stones are far too light to hold it — Calacatta at #E0DCD0
+     manages 1.2:1, which is unreadable. So each field is the stone's own
+     pigment taken down in shadow: the hue is untouched and the colour is
+     scaled multiplicatively toward black until it reaches 7.43:1 against the
+     ivory, which is exactly what the designed Verde Jade field already
+     measures. Stones already at or above that are used as drawn.
+       drawn -> field, contrast vs ivory
+       Nero Marquina     #1C1D1D -> unchanged   14.78:1
+       Verde Jade        #3E5147 -> unchanged    7.43:1
+       Rosso Levanto     #7A2E2A -> unchanged    8.16:1
+       Leopard Salome    #8A6A3F -> #5f492b      7.43:1  (was 4.36)
+       Rosso Francia     #B5593F -> #793b2a      7.43:1  (was 4.11)
+       Giallo Siena      #C99A3F -> #60491e      7.43:1  (was 2.25)
+       Calacatta         #E0DCD0 -> #4e4d49      7.43:1  (was 1.20)
+     Every field also clears 5:1 against the ochre used for the labels. */
+  --field-hotel-lobby:#1c1d1d;
+  --field-sibling-rivalry:#5f492b;
+  --field-pillow-talk:#4e4d49;
+  --field-sunday-service:#3e5147;
+  --field-third-date:#7a2e2a;
+  --field-road-trip:#793b2a;
+  --field-4pm-matinee:#60491e;
+  --field:var(--field-sunday-service);
+
   /* -- 04 Responsive ----------------------------------------------------
      The collection holds three modes, authored on the 390 / 768 / 1440
      artboards. Between those widths the file specifies nothing, so each
@@ -966,6 +991,22 @@ footer a:hover{opacity:1}
   margin:var(--space-4) auto 0}
 .yset .btn{margin-top:var(--space-5)}
 
+/* the stone modes, set on the band that carries them */
+.stone-hotel-lobby{--field:var(--field-hotel-lobby);
+  --accent-stone:var(--stone-hotel-lobby);--accent-field:var(--stone-tint-hotel-lobby)}
+.stone-sibling-rivalry{--field:var(--field-sibling-rivalry);
+  --accent-stone:var(--stone-sibling-rivalry);--accent-field:var(--stone-tint-sibling-rivalry)}
+.stone-pillow-talk{--field:var(--field-pillow-talk);
+  --accent-stone:var(--stone-pillow-talk);--accent-field:var(--stone-tint-pillow-talk)}
+.stone-sunday-service{--field:var(--field-sunday-service);
+  --accent-stone:var(--stone-sunday-service);--accent-field:var(--stone-tint-sunday-service)}
+.stone-third-date{--field:var(--field-third-date);
+  --accent-stone:var(--stone-third-date);--accent-field:var(--stone-tint-third-date)}
+.stone-road-trip{--field:var(--field-road-trip);
+  --accent-stone:var(--stone-road-trip);--accent-field:var(--stone-tint-road-trip)}
+.stone-4pm-matinee{--field:var(--field-4pm-matinee);
+  --accent-stone:var(--stone-matinee);--accent-field:var(--stone-tint-matinee)}
+
 /* ============================================================ one story == */
 .shead{background:var(--ivory);padding-block:var(--space-5) var(--space-10)}
 .shead .c{text-align:center;max-width:44rem;margin:var(--space-8) auto 0}
@@ -1018,7 +1059,7 @@ footer a:hover{opacity:1}
   background:var(--plaster)}
 
 /* the fragrance the story became */
-.sbecame{position:relative;background:var(--verde);color:var(--ivory);
+.sbecame{position:relative;background:var(--field);color:var(--ivory);
   padding-block:var(--space-10);overflow:hidden}
 .sbecame .inner{position:relative;z-index:1}
 .sbecame .c{max-width:32.5rem}
@@ -1040,7 +1081,7 @@ footer a:hover{opacity:1}
 /* the plate fades into the field rather than butting against it */
 .sbecame::after{content:"";position:absolute;top:0;height:100%;width:12.5rem;
   right:calc(min(39%,35rem) - 12.5rem);
-  background:linear-gradient(to right,var(--verde),rgba(62,81,71,0));z-index:1;pointer-events:none}
+  background:linear-gradient(to right,var(--field),transparent);z-index:1;pointer-events:none}
 @media (max-width:60em){ .sbecame::after{display:none} }
 
 /* previous / next */

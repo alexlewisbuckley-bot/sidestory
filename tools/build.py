@@ -867,7 +867,7 @@ def build():
   </div>
 </section>
 
-<section class="sbecame">
+<section class="sbecame stone-{q['slug']}">
   <div class="inner">
     <div class="c">
       <p class="k">The scent this became</p>
