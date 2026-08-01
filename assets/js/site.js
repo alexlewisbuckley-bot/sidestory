@@ -206,7 +206,11 @@
   function overlayClose(el){
     const i=OPEN.findIndex(o=>o.el===el); if(i<0)return;
     const rec=OPEN.splice(i,1)[0];
-    if(rec.opts&&rec.opts.scrim) rec.opts.scrim.classList.remove('on');
+    /* the scrim is unhidden on open and was never hidden again — invisible,
+       because it is opacity:0 and pointer-events:none without .on, but it sat
+       in the accessibility tree for the rest of the session */
+    if(rec.opts&&rec.opts.scrim){ const sc=rec.opts.scrim; sc.classList.remove('on');
+      setTimeout(()=>{ if(!sc.classList.contains('on')) sc.hidden=true; },420); }
     el.classList.remove('open','on');
     if(!OPEN.length) document.documentElement.classList.remove('overlay-open');
     setTimeout(()=>{ if(!el.classList.contains('open')&&!el.classList.contains('on')) el.hidden=true; },420);
@@ -221,6 +225,220 @@
   addEventListener('keydown',trap);
   addEventListener('keydown',e=>{ if(e.key==='Escape'&&OPEN.length) overlayClose(OPEN[OPEN.length-1].el); });
   window.SSoverlay={open:overlayOpen,close:overlayClose};
+
+  /* ---- search ---------------------------------------------------------
+     Search was a page. Going to it meant leaving whatever you were reading,
+     and coming back meant the back button — which is a lot to ask of someone
+     who only wanted to check whether the green one is the incense one.
+
+     It is a panel now, opened in place from the header on every page and
+     from the phone menu, with results as you type. The index is forty-odd
+     entries shipped inline with the page, so there is no request between the
+     keystroke and the answer: no spinner, no empty frame, no debounce needed.
+
+     search.html stays exactly where it was. It is the destination without
+     JavaScript, it is what a bookmark or a shared link resolves to, and when
+     JavaScript is on its own field runs the same matcher and renders into
+     the same markup — so the page and the panel cannot drift apart. */
+  (function(){
+    const IDX = window.SS_IDX || [];
+    if(!IDX.length) return;
+
+    /* A term matches on the title first, then anywhere in the haystack, and
+       a match at the start of a word beats one buried mid-string: typing
+       "ros" should find Rosso Levanto before it finds "morning". Every term
+       has to match something, so "green stone" narrows rather than widens. */
+    function score(row, terms){
+      const t = row.t.toLowerCase();
+      let total = 0;
+      for(const q of terms){
+        let s = 0;
+        if(t === q) s = 120;
+        else if(t.startsWith(q)) s = 90;
+        else if(t.indexOf(' '+q) > -1) s = 70;
+        else if(t.indexOf(q) > -1) s = 45;
+        else if(row.x.indexOf(' '+q) > -1) s = 30;
+        else if(row.x.indexOf(q) > -1) s = 12;
+        if(!s) return 0;
+        total += s;
+      }
+      return total;
+    }
+    function search(q){
+      const terms = q.toLowerCase().split(/\s+/).filter(Boolean);
+      if(!terms.length) return [];
+      const hits = [];
+      for(const row of IDX){ const s = score(row, terms); if(s) hits.push({row, s}); }
+      /* stable within a score: the index is already in the order the house
+         would put things in, and shuffling equal matches looks like a bug */
+      hits.sort((a,b)=>b.s-a.s);
+      return hits.slice(0,8).map(h=>h.row);
+    }
+
+    const esc = s => s.replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+    /* the matched run is marked in the result, so it is obvious why a row is
+       there — particularly for the ones matched on a note or a feeling that
+       is not in the visible text */
+    function mark(text, terms){
+      let out = esc(text);
+      for(const q of terms){
+        if(q.length < 2) continue;
+        const re = new RegExp('(' + q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&') + ')', 'ig');
+        out = out.replace(re, '<mark>$1</mark>');
+      }
+      return out;
+    }
+    function render(rows, q, into){
+      const terms = q.toLowerCase().split(/\s+/).filter(Boolean);
+      /* Collect into groups before writing any markup. Emitting a heading
+         whenever the kind changed as the sorted list was walked printed "The
+         house" twice with a "Shop" between them, because the sort is by score
+         and a strong match and a weak one in the same group need not be
+         adjacent. Groups appear in the order their best match did. */
+      const order = [], byKind = {};
+      for(const r of rows){
+        if(!byKind[r.k]){ byKind[r.k] = []; order.push(r.k); }
+        byKind[r.k].push(r);
+      }
+      let html = '';
+      for(const k of order){
+        html += '<p class="mpfh">' + esc(k) + '</p><div class="srchlist">';
+        for(const r of byKind[k]){
+          html += '<a href="' + esc(r.h) + '"><span>' + mark(r.t, terms) + '</span>'
+                + '<span class="sm">' + mark(r.s, terms) + '</span></a>';
+        }
+        html += '</div>';
+      }
+      into.innerHTML = html;
+    }
+
+    /* ---- the panel --------------------------------------------------- */
+    const panel = document.getElementById('srch');
+    const scrim = document.getElementById('srchscrim');
+    const q = document.getElementById('srchq');
+    const res = document.getElementById('srchres');
+    const idle = document.getElementById('srchidle');
+    const none = document.getElementById('srchnone');
+    const sr = document.getElementById('srchsr');
+    const clear = document.getElementById('srchclear');
+
+    if(panel && q){
+      const run = () => {
+        const v = q.value.trim();
+        clear.hidden = !v;
+        if(!v){
+          idle.hidden = false; res.hidden = true; none.hidden = true;
+          res.innerHTML = ''; q.setAttribute('aria-expanded','false'); sr.textContent = '';
+          return;
+        }
+        const rows = search(v);
+        idle.hidden = true;
+        q.setAttribute('aria-expanded', String(!!rows.length));
+        if(rows.length){
+          render(rows, v, res); res.hidden = false; none.hidden = true;
+          sr.textContent = rows.length + (rows.length===1?' result':' results') + ' for ' + v;
+        } else {
+          res.hidden = true; res.innerHTML = '';
+          none.hidden = false;
+          none.innerHTML = 'Nothing for &ldquo;' + esc(v) + '&rdquo;. Try a note &mdash; '
+            + '<button type="button" data-srch-try="incense">incense</button>, '
+            + '<button type="button" data-srch-try="citrus">citrus</button>, '
+            + '<button type="button" data-srch-try="amber">amber</button> &mdash; '
+            + 'or a feeling, a stone, or the name of a story.';
+          sr.textContent = 'No results for ' + v;
+        }
+      };
+      q.addEventListener('input', run);
+
+      /* same measurement as the phone menu: the announcement bar above the
+         header scrolls away, so the header's bottom edge is not a constant */
+      const nav = document.querySelector('.nav');
+      const open = () => {
+        if(panel.classList.contains('open')) return;
+        if(nav) panel.style.setProperty('--srch-top',
+          Math.round(nav.getBoundingClientRect().bottom) + 'px');
+        overlayOpen(panel, {scrim});
+        /* overlayOpen focuses the dialog; the one place a control should take
+           focus instead is a search field, where the keyboard is the point */
+        setTimeout(()=>{ q.focus(); q.select(); }, 90);
+      };
+      const close = () => overlayClose(panel);
+      window.SSsearch = {open, close};
+
+      document.getElementById('srchclose').addEventListener('click', close);
+      scrim && scrim.addEventListener('click', close);
+      clear.addEventListener('click', ()=>{ q.value=''; run(); q.focus(); });
+      none.addEventListener('click', e=>{
+        const t = e.target.closest('[data-srch-try]'); if(!t) return;
+        q.value = t.dataset.srchTry; run(); q.focus();
+      });
+      /* following a result closes the panel: without this the overlay's scroll
+         lock survives the navigation on a bfcache restore */
+      panel.addEventListener('click', e=>{ if(e.target.closest('.srchlist a')) close(); });
+
+      /* Down from the field walks the results, up walks back and returns to
+         the field at the top — the same shape as any address bar. Enter in
+         the field takes the first result, because that is what the return key
+         means to everyone who has ever used a search box. */
+      /* only what is actually on screen: the idle suggestions stay in the DOM
+         behind the results, and focusing a display:none link silently drops
+         focus to <body> — the arrow key appeared to do nothing at all */
+      const items = () => [...panel.querySelectorAll('.srchlist a')]
+        .filter(a => a.offsetParent !== null);
+      panel.addEventListener('keydown', e=>{
+        if(e.key === 'Enter' && e.target === q){
+          const first = items()[0]; if(first){ e.preventDefault(); first.click(); }
+          return;
+        }
+        if(e.key !== 'ArrowDown' && e.key !== 'ArrowUp') return;
+        const list = items(); if(!list.length) return;
+        e.preventDefault();
+        const at = list.indexOf(document.activeElement);
+        if(e.key === 'ArrowDown') list[at < 0 ? 0 : Math.min(at+1, list.length-1)].focus();
+        else if(at <= 0) q.focus();
+        else list[at-1].focus();
+      });
+
+      /* Every route in: the header link, the phone menu's, and the footer's.
+         They stay real links to search.html, so the markup still works with
+         no JavaScript and a long press still offers "open in new tab". */
+      document.addEventListener('click', e=>{
+        const a = e.target.closest('a[href$="search.html"]');
+        if(!a || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button) return;
+        if(location.pathname.endsWith('/search.html')) return;   /* already there */
+        e.preventDefault(); open();
+      });
+      addEventListener('keydown', e=>{
+        /* the shortcut every search field has had for a decade */
+        if(e.key === '/' && !/^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement.tagName)){
+          e.preventDefault(); open();
+        }
+      });
+    }
+
+    /* ---- the page, running the same matcher -------------------------- */
+    const pq = document.querySelector('.searchbar input');
+    if(pq){
+      const pres = document.getElementById('pagesearchres');
+      const pidle = document.getElementById('pagesearchidle');
+      if(pres){
+        const prun = () => {
+          const v = pq.value.trim();
+          if(!v){ pres.hidden = true; pres.innerHTML=''; if(pidle) pidle.hidden = false; return; }
+          const rows = search(v);
+          if(pidle) pidle.hidden = true;
+          if(rows.length){ render(rows, v, pres); pres.hidden = false; }
+          else { pres.innerHTML = '<p class="srchnone">Nothing for &ldquo;'+esc(v)
+            +'&rdquo;. Try a note, a feeling, a stone, or the name of a story.</p>';
+            pres.hidden = false; }
+        };
+        pq.addEventListener('input', prun);
+        const url = new URLSearchParams(location.search).get('q');
+        if(url){ pq.value = url; prun(); }
+        pq.form && pq.form.addEventListener('submit', e=>{ e.preventDefault(); prun(); });
+      }
+    }
+  })();
 
   /* ---- the phone menu -------------------------------------------------
      It used to re-flow the desktop nav into an absolutely-positioned

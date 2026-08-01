@@ -2137,6 +2137,114 @@ input:user-invalid,textarea:user-invalid{border-color:var(--text-error)}
     letter-spacing:var(--track-micro);text-transform:uppercase;color:var(--txt-2)}
 }
 
+/* ------------------------------------------------------------ search ---
+   The panel. On a phone it takes the screen below the header, because a
+   search field with a keyboard under it has no room to share; from 48em it
+   drops out of the header as a band, the width of the page, and the page
+   stays visible and dimmed underneath — you can see where you were, which is
+   the whole argument for not making search a destination.
+
+   It reuses the phone menu's row and label styles rather than inventing a
+   second list treatment. Two panels that drop out of the same header should
+   not be two designs.
+   ------------------------------------------------------------------------ */
+/* below the panel and below the header, not above them: the bag drawer's
+   scrim is a modal scrim over a page you have left, this one dims a page you
+   are still standing on while the header stays lit and usable */
+.srchscrim{position:fixed;inset:0;z-index:calc(var(--z-header) - 2);background:rgba(15,15,14,.35);
+  opacity:0;pointer-events:none;transition:opacity var(--d-settled) var(--settle)}
+.srchscrim.on{opacity:1;pointer-events:auto}
+
+/* bottom:auto with a max-height, not bottom:0 — the panel ends where its
+   content ends and the dimmed page carries on beneath it, on a phone exactly
+   as on a desktop. Filling the screen for one result made a single match look
+   like a failure. The max-height is what keeps it on the screen, and 100dvh
+   shrinks when the on-screen keyboard comes up, which is when that matters. */
+.srch{position:fixed;left:0;right:0;top:var(--srch-top,var(--navh));bottom:auto;
+  max-height:calc(100dvh - var(--srch-top,var(--navh)));
+  border-bottom:1px solid var(--line);box-shadow:var(--shadow-panel);
+  display:block;z-index:calc(var(--z-header) - 1);background:var(--ivory);
+  overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;contain:paint;
+  opacity:0;visibility:hidden;transform:translate3d(0,-.5rem,0);
+  transition:opacity var(--d-quick) var(--settle),
+             transform var(--d-quick) var(--settle),
+             visibility var(--d-quick) var(--settle)}
+.srch.open{opacity:1;visibility:visible;transform:none}
+.srchin{padding:var(--s-4) var(--gutter);
+  padding-bottom:calc(var(--s-6) + env(safe-area-inset-bottom))}
+
+/* Title and Close on their own row, the way the scent sheet does it. Sitting
+   Close beside the field cost the field eighty pixels, and "A fragrance, a
+   feeling, a stone…" was being clipped mid-word on a 390px screen — the one
+   piece of copy in the panel that tells you what it will accept. */
+.srchhead{display:flex;align-items:center;justify-content:space-between;
+  gap:var(--s-4);margin-bottom:var(--s-3)}
+.srchhead h2{font-family:var(--font-sans);font-weight:500;font-size:var(--t-xs);
+  letter-spacing:var(--track-label);text-transform:uppercase;color:var(--brass-text)}
+.srchbar{display:flex;align-items:center;gap:var(--s-3);
+  border-bottom:1px solid var(--ink);padding-bottom:var(--s-2)}
+/* -webkit-appearance:none kills the iOS inset shadow and the rounded well;
+   the decoration button is Safari's own clear ✕, replaced by a labelled one */
+.srchq{flex:1 1 auto;min-width:0;min-height:2.75rem;padding:0;
+  -webkit-appearance:none;appearance:none;background:none;border:0;border-radius:0;
+  color:var(--ink);font-family:var(--font-serif);
+  font-size:clamp(1.25rem,4.4vw,1.75rem);line-height:1.2}
+.srchq::-webkit-search-decoration,.srchq::-webkit-search-cancel-button{-webkit-appearance:none}
+.srchq::placeholder{color:var(--txt-2);opacity:1}
+.srchq:focus{outline:none}
+.srchclear,.srchclose{flex:none;display:inline-flex;align-items:center;justify-content:center;
+  min-height:2.75rem;padding-inline:var(--s-2);
+  font-family:var(--font-sans);font-size:var(--t-xs);letter-spacing:var(--track-label);
+  text-transform:uppercase;color:var(--txt-2);
+  transition:color var(--d-quick) var(--settle)}
+.srchclear:hover,.srchclose:hover,
+.srchclear:focus-visible,.srchclose:focus-visible{color:var(--ink)}
+.srchclose{margin-right:calc(var(--s-2) * -1)}
+
+.srchbody{margin-top:var(--s-2)}
+/* Stacked, not two columns. A result's second line is a note list — "incense,
+   linen, morning air · Verde Jade" — and setting it opposite the name on a
+   390px screen left it running into the gutter with the name squeezed to
+   nothing. It sits under the name and wraps like the prose it is. */
+.srchlist a{display:flex;flex-direction:column;align-items:flex-start;gap:.1rem;
+  justify-content:center;min-height:2.875rem;padding-block:.45rem;
+  font-family:var(--font-sans);font-size:var(--t-sm);line-height:1.35;color:var(--txt);
+  border-bottom:1px solid rgba(43,46,45,.06);
+  transition:color var(--d-quick) var(--settle)}
+.srchlist a:hover,.srchlist a:focus-visible{color:var(--ink)}
+.srchlist .sm{min-width:0;color:var(--txt-2);font-size:var(--t-xs);line-height:1.4}
+/* the matched run, marked so it is clear why a row is in the list — the
+   brass underline the site uses for emphasis, not a yellow highlighter */
+.srch mark,.pagesearch mark{background:none;color:var(--ink);
+  box-shadow:inset 0 -1px 0 var(--ochre-200)}
+.srchnone{margin-top:var(--s-4);font-family:var(--font-sans);font-size:var(--t-sm);
+  line-height:1.6;color:var(--txt-2);max-width:34em}
+.srchnone button{font:inherit;color:var(--ink);
+  box-shadow:inset 0 -1px 0 var(--ochre-200);transition:box-shadow var(--d-quick) var(--settle)}
+.srchnone button:hover{box-shadow:inset 0 -2px 0 var(--brass-text)}
+
+@media (min-width:48em){
+  /* a band, not a takeover: it ends where its content ends and the page
+     carries on underneath */
+  .srchin{max-width:90rem;margin-inline:auto;padding-block:var(--s-5) var(--s-6)}
+  /* CSS columns rather than a grid: the number of groups a query returns is
+     not known when the stylesheet is written, and columns fill whatever
+     arrives without a rule per shape. break-inside keeps a heading with the
+     list it names. */
+  .srchbody{margin-top:var(--s-5)}
+  .srchidle,.srchres{columns:2;column-gap:var(--s-6)}
+  .srchidle>*,.srchres>*{break-inside:avoid}
+  .srchidle>.mpfh,.srchres>.mpfh{break-after:avoid}
+  .srchidle>.mpfh:first-child,.srchres>.mpfh:first-child{margin-top:0}
+}
+@media (min-width:64em){
+  .srchq{font-size:2rem}
+}
+
+/* the standalone page runs the same matcher into the same markup */
+.pagesearch{margin-top:var(--s-5)}
+.pagesearch .srchlist{max-width:44rem}
+
 /* ------------------------------------------------------------ search --- */
 .searchbar{display:flex;flex-wrap:wrap;gap:var(--s-2);margin-top:var(--s-4)}
 .searchbar input{flex:1 1 18rem;min-height:3.25rem;padding:0 0 .5rem;background:none;
@@ -2587,7 +2695,7 @@ a,button,summary,label,input,select,textarea,[role="button"]{
 /* Scrolling an overlay should not carry on into the page underneath it once
    it reaches its end — the drawer and the scent sheet both sit above a locked
    body, and chaining the scroll through is how an overlay feels flimsy. */
-.drawer,.sheetlist,.mega{overscroll-behavior:contain}
+.drawer,.sheetlist,.mega,.srch,.menupanel{overscroll-behavior:contain}
 
 /* Windows High Contrast throws away every background and shadow, which on
    this site means the selected size, the pressed scent chip and the drawn
@@ -2610,6 +2718,7 @@ a,button,summary,label,input,select,textarea,[role="button"]{
    are not part of the story someone wanted to keep. */
 @media print{
   .topbar,.ann,.drawer,.sheet,.sheetscrim,.mega,.menu-dim,.menupanel,.enter-veil,
+  .srch,.srchscrim,
   .shelfbar,.quick,.cue,footer .cols,.news,.skip{display:none!important}
   *{background:#fff!important;color:#000!important;box-shadow:none!important}
   a[href^="http"]::after{content:" (" attr(href) ")";font-size:.85em}

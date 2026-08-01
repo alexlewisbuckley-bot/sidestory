@@ -637,11 +637,124 @@ def plate(q, n):
     return "assets/img/p-%s-1.jpg" % q["slug"]
 
 
+def search_index():
+    """Everything the overlay can find, as one small array shipped on every
+    page. Forty-odd entries is nothing to send and nothing to score, so the
+    results are synchronous — no request, no spinner, no empty frame between
+    the keystroke and the answer.
+
+    `t` is what is shown, `s` the line under it, `k` the group heading, `h`
+    the destination, and `x` the haystack: everything worth matching on,
+    lower-cased and space-padded so a term can be tested for a word start.
+    Notes, feelings, stones and the story's opening line are all in there,
+    because "something smoky", "for my sister" and "green marble" are how
+    people actually look for a perfume."""
+    import json
+    rows = []
+
+    def add(t, s, k, h, *words):
+        blob = " ".join([t, s] + [w for w in words if w]).lower()
+        for ch in ",.;:·—–…!?()’'\"":
+            blob = blob.replace(ch, " ")
+        rows.append(dict(t=t, s=s, k=k, h=h, x=" " + " ".join(blob.split()) + " "))
+
+    for p in PRODUCTS:
+        add(p["name"], f'{p["notes"]} · {p["stone"]}', "Fragrances",
+            f'product-{p["slug"]}.html',
+            p["feeling"], p["family"], p["wear"], p["story"], "eau de parfum perfume bottle 100ml")
+    for p in PRODUCTS:
+        add(f'{p["name"]} — the story', f'{p["story"]} · {p["feeling"]} · {p["read"]}', "Stories",
+            f'story-{p["slug"]}.html', p["line"], "short story fiction read")
+
+    add("The Fragrances", "All seven, filtered by feeling, stone or note", "Shop",
+        "collection.html", "collection shop everything browse")
+    add("100 ml", "The full bottle, carved stone lid, printed story — £160", "Shop",
+        "collection-100ml.html", "large full size bottle price")
+    add("7.5 ml", "Travel size in a printed sleeve — £40", "Shop",
+        "collection-7-5ml.html", "small travel purse mini size price")
+    add("Samples", "2 ml of any story — £5, redeemed against your first bottle", "Shop",
+        "collection-samples.html", "try tester discovery 2ml decant")
+    add("The First Lines", "All seven in miniature — £38", "Shop",
+        "samples.html", "discovery set sampler starter gift bundle")
+    add("Gifting", "Dedications, wrapping, and what to choose for whom", "Shop",
+        "gifting.html", "present wrap dedication engraving christmas birthday")
+
+    for j in JOURNAL:
+        add(j["title"], j["sub"], "Journal", f'journal.html#{j["slug"]}', j["kicker"])
+    add("Atelier journal", "Campaigns, founders' notes, and lid diaries", "Journal",
+        "journal.html", "blog news writing articles")
+
+    add("Your Stories", "The seven commissioned stories, in full", "The house",
+        "stories.html", "read fiction writers")
+    add("Share Yours", "Send us the story a scent belongs to", "The house",
+        "share.html", "submit write postbag community")
+    add("Our House", "How Side Story works, and why the story comes first", "The house",
+        "our-house.html", "about founders history brand")
+    add("The Making", "Brief, story, scent, stone — in that order", "The house",
+        "our-house.html#making", "process craft perfumer grasse")
+    add("The Stones", "Seven marbles, one lid each", "The house",
+        "our-house.html#stones", "marble lid carving quarry nero calacatta verde rosso giallo")
+
+    add("Shipping & Returns", "Delivery times, costs, and the 30-day return", "Practical",
+        "shipping.html", "delivery postage refund exchange tracking free")
+    add("Stockists", "Where to smell them in person", "Practical",
+        "stockists.html", "shops stores counters find near")
+    add("Contact", "Ask us anything", "Practical", "contact.html", "email phone help support")
+    add("FAQ", "The questions we are asked most", "Practical",
+        "faq.html", "questions answers help longevity sillage vegan cruelty ingredients")
+    add("Account", "Orders, dedications, and the stories you have unlocked", "Practical",
+        "account.html", "login sign in profile orders")
+    add("Privacy, Terms & Cookies", "The legal pages", "Practical",
+        "legal.html", "policy gdpr data cookies terms conditions")
+    return json.dumps(rows, ensure_ascii=False, separators=(",", ":"))
+
+
+def search_overlay():
+    quick = "".join(
+        f'<a href="product-{p["slug"]}.html"><span>{p["name"]}</span>'
+        f'<span class="sm">{p["notes"]}</span></a>'
+        for p in PRODUCTS[:4])
+    return f"""<div class="srchscrim" id="srchscrim" hidden></div>
+<div class="srch" id="srch" role="dialog" aria-modal="true" aria-labelledby="srch-title" hidden>
+  <div class="srchin">
+    <div class="srchhead">
+      <h2 id="srch-title">Search</h2>
+      <button type="button" class="srchclose" id="srchclose">Close</button>
+    </div>
+    <div class="srchbar">
+      <input id="srchq" class="srchq" type="search" autocomplete="off" autocorrect="off"
+             autocapitalize="none" spellcheck="false" enterkeyhint="search"
+             placeholder="A fragrance, a feeling, a stone&hellip;" aria-label="Search"
+             role="combobox" aria-expanded="false" aria-controls="srchres" aria-autocomplete="list">
+      <button type="button" class="srchclear" id="srchclear" aria-label="Clear search" hidden>Clear</button>
+    </div>
+    <div class="srchbody">
+      <div class="srchidle" id="srchidle">
+        <p class="mpfh">Popular this week</p>
+        <div class="srchlist">{quick}</div>
+        <p class="mpfh">Or start here</p>
+        <div class="srchlist">
+          <a href="collection.html"><span>All seven stories</span></a>
+          <a href="samples.html"><span>The First Lines</span><span class="sm">&pound;38</span></a>
+          <a href="gifting.html"><span>Gifting</span></a>
+          <a href="stories.html"><span>Your Stories</span></a>
+        </div>
+      </div>
+      <div class="srchres" id="srchres" hidden></div>
+      <p class="srchnone" id="srchnone" hidden></p>
+    </div>
+    <p class="srchsr vh" id="srchsr" role="status" aria-live="polite"></p>
+  </div>
+</div>
+"""
+
+
 def page(slug, title, desc, body, current=None, css=("assets/css/fonts.css", "assets/css/app.css"), body_attr=""):
     out = head(title, desc, css, body_attr) + topbar(current or (slug + ".html")) \
         + '<main id="main">\n' + body.strip() + "\n</main>\n" \
-        + footer() + DRAWER \
+        + footer() + DRAWER + search_overlay() \
         + f'<script>window.SS_CAT={catalogue_json()};</script>\n' \
+        + f'<script>window.SS_IDX={search_index()};</script>\n' \
         + f'<script src="{fp("assets/js/site.js")}"></script>\n</body></html>\n'
     # one pass over the finished page, so the footer wordmark and the drawer
     # are covered too — they are appended after the body and were escaping it
@@ -1409,8 +1522,9 @@ def build():
   <div class="phead">
     <p class="k">Search</p>
     <h1>What are you after?</h1>
-    <form class="searchbar" onsubmit="event.preventDefault()">
-      <input type="search" placeholder="A fragrance, a feeling, a stone&hellip;" aria-label="Search">
+    <form class="searchbar" role="search" action="search.html" method="get">
+      <input type="search" name="q" autocomplete="off" autocapitalize="none" spellcheck="false"
+             enterkeyhint="search" placeholder="A fragrance, a feeling, a stone&hellip;" aria-label="Search">
       <button class="btn btn-ink" type="submit">Search</button>
     </form>
     <div class="tagrow">
@@ -1419,9 +1533,10 @@ def build():
       <a href="collection.html">Woods</a><a href="collection.html">Citrus</a><a href="collection.html">Incense</a>
     </div>
   </div>
+  <div class="srchres pagesearch" id="pagesearchres" hidden></div>
 </div>
 
-<section class="band">
+<section class="band" id="pagesearchidle">
   <div class="inner">
     <p class="k">Popular this week</p>
     <h2 class="vh">Fragrances</h2>
