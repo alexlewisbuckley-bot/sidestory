@@ -402,13 +402,21 @@ def topbar(current):
         '<a href="%s"%s%s>%s</a>' % (href, ' data-mega="1"' if href == MEGA_FOR else "",
                                      cur if href == current else "", label)
         for href, label in NAV_LINKS)
+    # The phone menu is its own panel, not the desktop nav re-flowed. The desktop
+    # links carry data-mega and open the shop panel on focus — moving focus into
+    # them on a phone opened the mega menu underneath the burger menu, which is
+    # the whole reason the old one felt broken. A separate element also lets the
+    # panel own its scrolling and its stacking without fighting the header row.
+    mob = "\n        ".join(
+        '<a href="%s"%s>%s</a>' % (href, cur if href == current else "", label)
+        for href, label in NAV_LINKS)
     return f"""<div class="enter-veil" aria-hidden="true"></div>
 <div class="menu-dim" id="menudim"></div>
 <div class="ann"><span>A second story’s sample, complimentary with every bottle</span></div>
 <div class="topbar">
 <header class="nav">
   <div class="inner">
-    <button class="burger" aria-label="Menu" aria-expanded="false" aria-controls="primary-nav"><i></i><i></i><i></i></button>
+    <button class="burger" aria-label="Menu" aria-expanded="false" aria-controls="menupanel"><i></i><i></i><i></i></button>
     <a class="brand" href="index.html" aria-label="Side Story — Parfums &amp; Oils"><img src="{fp('assets/img/logo.svg')}" alt="Side Story — Parfums &amp; Oils" width="300" height="68"></a>
     <nav class="links" id="primary-nav" aria-label="Primary">
       {items}
@@ -452,6 +460,26 @@ def topbar(current):
   </div>
 </header>
 </div>
+<nav class="menupanel" id="menupanel" aria-label="Menu" hidden>
+  <div class="mpin">
+    <div class="mplinks">
+      {mob}
+    </div>
+    <p class="mpfh">Shop by size</p>
+    <div class="mpsizes">
+      <a href="collection-100ml.html">100 ml<span>&pound;160</span></a>
+      <a href="collection-7-5ml.html">7.5 ml<span>&pound;40</span></a>
+      <a href="samples.html">The First Lines<span>&pound;38</span></a>
+      <a href="collection-samples.html">Samples<span>&pound;5</span></a>
+    </div>
+    <div class="mputil">
+      <a href="search.html">Search</a>
+      <a href="account.html">Account</a>
+      <a href="journal.html">Journal</a>
+      <a href="contact.html">Contact</a>
+    </div>
+  </div>
+</nav>
 """
 
 

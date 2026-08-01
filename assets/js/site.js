@@ -67,32 +67,7 @@
     if(!big) return; big.style.opacity=0;
     setTimeout(()=>{swapFromThumb(big,btn,src);big.style.opacity=1;},200);
   };
-  /* the homepage nav uses .links, the other pages .navlinks — accept either */
-  const burger=document.querySelector('.burger');
-  const navlinks=document.querySelector('.navlinks,.links');
-  if(burger&&navlinks){
-    burger.setAttribute('aria-expanded','false');
-    burger.addEventListener('click',()=>{
-      const open=!navlinks.classList.contains('open');
-      navlinks.classList.toggle('open',open);
-      burger.setAttribute('aria-expanded',String(open));
-      document.documentElement.classList.toggle('overlay-open',open);
-      if(open){ const f=navlinks.querySelector('a'); if(f) setTimeout(()=>f.focus(),60); }
-    });
-    navlinks.addEventListener('click',e=>{
-      if(e.target.tagName==='A'){navlinks.classList.remove('open');
-        burger.setAttribute('aria-expanded','false');
-        document.documentElement.classList.remove('overlay-open');}
-    });
-    addEventListener('keydown',e=>{
-      if(e.key==='Escape'&&navlinks.classList.contains('open')){
-        navlinks.classList.remove('open');
-        burger.setAttribute('aria-expanded','false');
-        document.documentElement.classList.remove('overlay-open');
-        burger.focus();
-      }
-    });
-  }
+  /* the phone menu is wired up below, once the overlay contract exists */
 
   /* Swapping an image that lives inside a <picture>.
 
@@ -229,6 +204,69 @@
   addEventListener('keydown',trap);
   addEventListener('keydown',e=>{ if(e.key==='Escape'&&OPEN.length) overlayClose(OPEN[OPEN.length-1].el); });
   window.SSoverlay={open:overlayOpen,close:overlayClose};
+
+  /* ---- the phone menu -------------------------------------------------
+     It used to re-flow the desktop nav into an absolutely-positioned
+     dropdown. Three things were wrong with that and they compounded:
+
+       · the desktop links carry data-mega, and the handler focused the first
+         one on open — which opened the shop panel, at a higher z-index, over
+         the menu that had just opened it;
+       · an absolute panel is as tall as its content, so with the page
+         scroll-locked behind it the overflow was unreachable;
+       · it toggled `display`, which is a layout pass on every open and close
+         and cannot be transitioned, so both read as a stutter.
+
+     The panel is now its own element, fixed between the header and the bottom
+     of the screen, with its own scroller, and it goes through the same
+     overlayOpen/overlayClose contract as the bag drawer and the scent sheet —
+     one focus trap, one scroll-lock record, one Escape handler, focus
+     returned to the burger on close. */
+  (function(){
+    const burger=document.querySelector('.burger');
+    const panel=document.getElementById('menupanel');
+    if(!burger||!panel) return;
+    const nav=document.querySelector('.nav');
+    const isOpen=()=>panel.classList.contains('open');
+
+    /* The announcement bar above the header scrolls away, so the header's
+       bottom edge is not a constant. Measure it at the moment of opening
+       rather than guessing, and write it to a custom property so the panel
+       positions itself in the same frame it becomes visible. */
+    const place=()=>{
+      const b=nav?Math.round(nav.getBoundingClientRect().bottom):0;
+      panel.style.setProperty('--mp-top',b+'px');
+    };
+    const open=()=>{ if(isOpen())return; place();
+      burger.setAttribute('aria-expanded','true'); overlayOpen(panel); };
+    const close=()=>{ if(!isOpen())return;
+      burger.setAttribute('aria-expanded','false'); overlayClose(panel);
+      panel.scrollTop=0; };
+
+    burger.setAttribute('aria-expanded','false');
+    /* One click listener, deliberately. Opening on pointerdown to save the
+       old 300ms tap delay and swallowing the click is the usual trick, but a
+       touch-synthesised click carries detail:0 exactly like a keyboard one,
+       so there is no way to tell them apart and the menu opened and closed
+       again on the same tap. The delay it was buying back does not exist on
+       this site anyway — the viewport is width=device-width and the burger
+       carries touch-action:manipulation, so the click arrives on lift. */
+    burger.addEventListener('click',()=>{ isOpen()?close():open(); });
+
+    panel.addEventListener('click',e=>{ if(e.target.closest('a')) close(); });
+    /* overlayClose already returns focus to the opener, which is the burger */
+    addEventListener('keydown',e=>{ if(e.key==='Escape'&&isOpen()) close(); });
+
+    /* A menu open when the layout crosses back to the desktop nav would leave
+       a locked page behind an invisible panel. Close on any width change, and
+       keep the measured offset honest while it is open. */
+    const desk=matchMedia('(min-width:72em)');
+    (desk.addEventListener?desk.addEventListener.bind(desk,'change'):desk.addListener.bind(desk))(()=>close());
+    addEventListener('resize',()=>{ if(isOpen()) place(); },{passive:true});
+    addEventListener('orientationchange',close);
+    /* the header shrinks on scroll; the panel's top edge follows it */
+    addEventListener('scroll',()=>{ if(isOpen()) place(); },{passive:true});
+  })();
 
   /* bag drawer */
   const scrim=document.getElementById('scrim'), drawer=document.getElementById('drawer');
@@ -653,7 +691,13 @@
     const items=[...links.querySelectorAll('a[data-mega]')];   /* The Fragrances only */
     if(!items.length) return;
     let open=false, hideTimer, intentTimer, suppress=false;
+    /* Below the collapse breakpoint the primary links are display:none and the
+       phone menu is a separate panel — but a hidden link can still take focus
+       programmatically, and that is exactly what the old burger handler did.
+       The panel is desktop-only, so say so here as well as in the stylesheet. */
+    const desk=matchMedia('(min-width:72em)');
     const set=v=>{
+      if(v&&!desk.matches) return;
       if(v===open) return;
       open=v; if(v) mega.hidden=false;
       mega.classList.toggle('on',v);

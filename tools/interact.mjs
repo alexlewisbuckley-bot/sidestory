@@ -62,8 +62,15 @@ await m.click('.srow'); await m.waitForTimeout(250);
 ok('sheet row toggles tick', await m.evaluate(()=>document.querySelector('.srow').getAttribute('aria-pressed')==='true'));
 await m.keyboard.press('Escape'); await m.waitForTimeout(400);
 ok('sheet closes on escape', await m.evaluate(()=>document.querySelector('.sheet').hidden));
-await m.click('.burger'); await m.waitForTimeout(300);
-ok('burger opens menu', await m.evaluate(()=>document.querySelector('.links').classList.contains('open')));
+/* the phone menu is #menupanel now, not the desktop .links re-flowed —
+   tools/menucheck.mjs is the thorough one, this is the smoke test */
+await m.click('.burger'); await m.waitForTimeout(450);
+ok('burger opens menu', await m.evaluate(()=>document.getElementById('menupanel').classList.contains('open')
+  && document.documentElement.classList.contains('overlay-open')));
+await m.click('.burger'); await m.waitForTimeout(500);
+ok('burger closes menu', await m.evaluate(()=>!document.getElementById('menupanel').classList.contains('open')
+  && !document.documentElement.classList.contains('overlay-open')
+  && document.querySelector('.burger').getAttribute('aria-expanded')==='false'));
 
 console.log(out.join('\n'));
 console.log(out.filter(x=>x.startsWith('FAIL')).length?'\n*** FAILURES ***':'\nall interaction checks pass');

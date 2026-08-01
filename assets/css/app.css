@@ -1109,23 +1109,124 @@ html.overlay-open,html.overlay-open body{overflow:hidden}
    than by the device, which is what the note at the top of this file says the
    strategy is. */
 @media (max-width:71.9375em){
-  .links{display:none;order:9;flex-basis:100%;margin-left:0}
-  .links.open{display:flex;position:absolute;top:100%;left:0;right:0;
-    flex-direction:column;gap:0;margin:0;
-    padding:var(--s-2) var(--gutter) var(--s-4);
-    background:var(--ivory);border-bottom:1px solid var(--line);
-    box-shadow:var(--shadow-raised)}
-  .links.open a{padding-block:.9rem;border-bottom:1px solid rgba(43,46,45,.07)}
+  /* The desktop nav is simply not present below this width. It used to be
+     re-flowed into a dropdown, which meant the phone menu inherited the
+     desktop links' data-mega behaviour and opened the shop panel on top of
+     itself, at a higher z-index, with no way to reach either. The phone gets
+     .menupanel instead — its own element, its own scroller. */
+  .links{display:none}
+  .mega,.menu-dim{display:none}
   .burger{display:flex;flex-direction:column;justify-content:center;gap:.3125rem;
-    width:2.75rem;height:2.75rem;padding:0 .6875rem;
+    width:2.75rem;height:2.75rem;padding:0 .6875rem;touch-action:manipulation;
     margin-left:calc(var(--s-3) * -1);margin-right:var(--s-2)}
-  .burger i{display:block;width:100%;height:1px;background:var(--ink)}
+  .burger i{display:block;width:100%;height:1px;background:var(--ink);
+    transform-origin:50% 50%;
+    transition:transform var(--d-quick) var(--settle),opacity var(--d-instant) linear}
+  /* three rules fold into a close mark on the same curve as the panel */
+  .burger[aria-expanded="true"] i:nth-child(1){transform:translateY(.34375rem) rotate(45deg)}
+  .burger[aria-expanded="true"] i:nth-child(2){opacity:0;transform:scaleX(.4)}
+  .burger[aria-expanded="true"] i:nth-child(3){transform:translateY(-.34375rem) rotate(-45deg)}
   /* The burger is first in the DOM but was ordered to the end of a wrapping
      flex row, and the utility group takes the rest of the line with
      margin-left:auto — so it wrapped onto a second row of its own and the
      phone header was two bands tall for one navigation. It sits where it is
      written: before the wordmark, one row. */
   .nav .inner{position:relative;flex-wrap:nowrap}
+}
+
+/* --- the phone menu ------------------------------------------------------
+   Fixed, not absolute: an absolutely-positioned dropdown inside a sticky
+   header takes its height from its content, so a menu taller than the screen
+   simply ran off the bottom with the page behind it scroll-locked — nothing
+   to scroll, nothing to reach. This starts at the bottom edge of the header
+   (JS writes the measured value to --mp-top, because the announcement bar
+   above the header scrolls away and the offset is not a constant) and ends at
+   the bottom of the viewport, so it can never be longer than the screen and
+   always has somewhere to put the overflow.
+
+   Only opacity and transform animate. Nothing here changes display, height or
+   layout, so the open and close are a single composited frame each.
+   ========================================================================= */
+/* display:block deliberately overrides the [hidden] attribute the shared
+   overlay contract sets. Left at display:none, the first tap had to lay out
+   and paint twelve links in a web font inside the same frame as the fade —
+   a ~90ms task on a throttled phone, felt as the menu hesitating once and
+   then never again. Laid out from the start and hidden by visibility, the
+   open is a composited fade with no layout in it at all. Nothing is exposed:
+   visibility:hidden takes it out of the tab order and the accessibility tree
+   just as the attribute does. */
+.menupanel{position:fixed;left:0;right:0;bottom:0;top:var(--mp-top,var(--navh));
+  display:block;z-index:var(--z-sticky);background:var(--ivory);
+  overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;
+  contain:paint;
+  opacity:0;visibility:hidden;transform:translate3d(0,-.5rem,0);
+  transition:opacity var(--d-quick) var(--settle),
+             transform var(--d-quick) var(--settle),
+             visibility var(--d-quick) var(--settle)}
+.menupanel.open{opacity:1;visibility:visible;transform:none}
+@media (min-width:72em){.menupanel{display:none}}
+
+.mpin{padding:var(--s-3) var(--gutter) var(--s-6);
+  /* iOS home-indicator strip, so the last row is never under the gesture bar */
+  padding-bottom:calc(var(--s-6) + env(safe-area-inset-bottom))}
+
+/* Each group arrives a beat after the one above it. Thirty milliseconds is
+   below the threshold where it reads as an animation and above the one where
+   it reads as nothing — the panel appears to settle rather than to appear. */
+/* .mplinks is excluded: its children animate individually, and fading the
+   group as well would put two curves on the same pixels. */
+.menupanel .mpin>:not(.mplinks){opacity:0;transform:translateY(.375rem);
+  transition:opacity var(--d-quick) var(--settle),transform var(--d-quick) var(--settle)}
+.menupanel.open .mpin>:not(.mplinks){opacity:1;transform:none}
+.menupanel.open .mplinks a{animation:mpin var(--d-settled) var(--settle) both}
+.menupanel.open .mplinks a:nth-child(1){animation-delay:20ms}
+.menupanel.open .mplinks a:nth-child(2){animation-delay:50ms}
+.menupanel.open .mplinks a:nth-child(3){animation-delay:80ms}
+.menupanel.open .mplinks a:nth-child(4){animation-delay:110ms}
+.menupanel.open .mplinks a:nth-child(5){animation-delay:140ms}
+.menupanel.open .mplinks a:nth-child(6){animation-delay:170ms}
+.menupanel.open .mpfh{transition-delay:150ms}
+.menupanel.open .mpsizes{transition-delay:180ms}
+.menupanel.open .mputil{transition-delay:210ms}
+@keyframes mpin{from{opacity:0;transform:translateY(.5rem)}to{opacity:1;transform:none}}
+
+.mplinks a{display:flex;align-items:center;min-height:3.375rem;
+  font-family:var(--font-serif);font-size:1.5rem;line-height:1.15;
+  color:var(--txt);border-bottom:1px solid rgba(43,46,45,.08);
+  transition:color var(--d-quick) var(--settle)}
+.mplinks a:first-child{border-top:1px solid rgba(43,46,45,.08)}
+.mplinks a[aria-current="page"]{color:var(--ink)}
+.mplinks a[aria-current="page"]::after{content:"";width:.3125rem;height:.3125rem;
+  margin-left:var(--s-2);border-radius:50%;background:var(--brass-text);flex:none}
+
+.mpfh{margin-top:var(--s-5);margin-bottom:var(--s-3);
+  font-family:var(--font-sans);font-weight:500;font-size:var(--t-xs);
+  letter-spacing:var(--track-label);text-transform:uppercase;color:var(--brass-text)}
+.mpsizes a{display:flex;align-items:center;justify-content:space-between;gap:var(--s-3);
+  min-height:2.875rem;font-family:var(--font-sans);font-size:var(--t-sm);color:var(--txt);
+  border-bottom:1px solid rgba(43,46,45,.06)}
+.mpsizes a span{color:var(--txt-2);font-variant-numeric:tabular-nums}
+
+.mputil{display:flex;flex-wrap:wrap;column-gap:var(--s-4);row-gap:0;margin-top:var(--s-5)}
+/* A tablet, or a phone turned on its side, is wide enough that one column of
+   six links leaves half the panel empty and pushes the sizes below the fold
+   in landscape. Two columns: the destinations on the left, the shop on the
+   right — the same division the desktop mega panel makes. */
+@media (min-width:40em){
+  .mpin{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+    column-gap:var(--s-6);align-items:start;padding-top:var(--s-4)}
+  .mplinks{grid-column:1;grid-row:1 / span 3}
+  .mpfh{grid-column:2;grid-row:1;margin-top:0}
+  .mpsizes{grid-column:2;grid-row:2}
+  .mputil{grid-column:2;grid-row:3}
+}
+.mputil a{display:inline-flex;align-items:center;min-height:2.75rem;
+  font-family:var(--font-sans);font-size:var(--t-xs);letter-spacing:var(--track-label);
+  text-transform:uppercase;color:var(--txt-2)}
+
+@media (prefers-reduced-motion:reduce){
+  .menupanel,.menupanel .mpin>:not(.mplinks){transition-delay:0s !important}
+  .menupanel.open .mplinks a{animation:none}
 }
 
 @media (max-width:47.9375em){
@@ -2404,6 +2505,14 @@ footer .fbot a,footer .legal a,footer .fcopy a,
   .util>a.u-account{display:none}
 }
 
+/* On a 320px screen the wordmark and the two remaining utilities are twelve
+   pixels apart and Search sits against Bag with no gap left in the clamp.
+   Search now has a home in the menu panel, so the header keeps the one
+   utility that has to be reachable from every scroll position. */
+@media (max-width:22.5em){
+  .util>a[href="search.html"]{display:none}
+}
+
 /* ==========================================================================
    The last layer — the things nobody names but everybody feels.
 
@@ -2481,7 +2590,7 @@ a,button,summary,label,input,select,textarea,[role="button"]{
 /* And the page itself, on paper: the navigation, the bag and the decoration
    are not part of the story someone wanted to keep. */
 @media print{
-  .topbar,.ann,.drawer,.sheet,.sheetscrim,.mega,.menu-dim,.enter-veil,
+  .topbar,.ann,.drawer,.sheet,.sheetscrim,.mega,.menu-dim,.menupanel,.enter-veil,
   .shelfbar,.quick,.cue,footer .cols,.news,.skip{display:none!important}
   *{background:#fff!important;color:#000!important;box-shadow:none!important}
   a[href^="http"]::after{content:" (" attr(href) ")";font-size:.85em}
