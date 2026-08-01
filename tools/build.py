@@ -1346,12 +1346,12 @@ def build():
     <div>
       <h2 class="sechead">Orders</h2>
       <div class="scrollx">
-        <table class="table">
-          <thead><tr><th>Order</th><th>Placed</th><th>Contents</th><th>Status</th><th>Total</th></tr></thead>
+        <table class="table" role="table">
+          <thead><tr role="row"><th role="columnheader" scope="col">Order</th><th role="columnheader" scope="col">Placed</th><th role="columnheader" scope="col">Contents</th><th role="columnheader" scope="col">Status</th><th role="columnheader" scope="col">Total</th></tr></thead>
           <tbody>
-            <tr><td>SS-2114</td><td>28 July 2026</td><td>Sunday Service, 100ml &middot; Dedication</td><td>Preparing</td><td>&pound;160</td></tr>
-            <tr><td>SS-1980</td><td>2 May 2026</td><td>The First Lines</td><td>Delivered</td><td>&pound;38</td></tr>
-            <tr><td>SS-1642</td><td>14 February 2026</td><td>Hotel Lobby, 100ml</td><td>Delivered</td><td>&pound;160</td></tr>
+            <tr role="row"><td role="cell" data-label="Order">SS-2114</td><td role="cell" data-label="Placed">28 July 2026</td><td role="cell" data-label="Contents">Sunday Service, 100ml &middot; Dedication</td><td role="cell" data-label="Status">Preparing</td><td role="cell" data-label="Total">&pound;160</td></tr>
+            <tr role="row"><td role="cell" data-label="Order">SS-1980</td><td role="cell" data-label="Placed">2 May 2026</td><td role="cell" data-label="Contents">The First Lines</td><td role="cell" data-label="Status">Delivered</td><td role="cell" data-label="Total">&pound;38</td></tr>
+            <tr role="row"><td role="cell" data-label="Order">SS-1642</td><td role="cell" data-label="Placed">14 February 2026</td><td role="cell" data-label="Contents">Hotel Lobby, 100ml</td><td role="cell" data-label="Status">Delivered</td><td role="cell" data-label="Total">&pound;160</td></tr>
           </tbody>
         </table>
       </div>
@@ -1468,13 +1468,13 @@ def build():
   <div class="phead"><p class="k">The practical</p><h1>Shipping &amp; returns.</h1>
     <p class="lede">Everything ships signed-for and without plastic. If a bottle is not for you, thirty days is plenty of time to say so.</p></div>
   <div class="scrollx">
-    <table class="table">
-      <thead><tr><th>Destination</th><th>Service</th><th>Time</th><th>Cost</th></tr></thead>
+    <table class="table" role="table">
+      <thead><tr role="row"><th role="columnheader" scope="col">Destination</th><th role="columnheader" scope="col">Service</th><th role="columnheader" scope="col">Time</th><th role="columnheader" scope="col">Cost</th></tr></thead>
       <tbody>
-        <tr><td>United Kingdom</td><td>Tracked, signed for</td><td>2&ndash;4 working days</td><td>&pound;5, complimentary over &pound;100</td></tr>
-        <tr><td>Ireland &amp; EU</td><td>Tracked, duties paid</td><td>4&ndash;7 working days</td><td>&pound;12, complimentary over &pound;180</td></tr>
-        <tr><td>United States</td><td>Tracked, duties paid</td><td>5&ndash;8 working days</td><td>&pound;18</td></tr>
-        <tr><td>Rest of world</td><td>Tracked</td><td>7&ndash;14 working days</td><td>From &pound;22</td></tr>
+        <tr role="row"><td role="cell" data-label="Destination">United Kingdom</td><td role="cell" data-label="Service">Tracked, signed for</td><td role="cell" data-label="Time">2&ndash;4 working days</td><td role="cell" data-label="Cost">&pound;5, complimentary over &pound;100</td></tr>
+        <tr role="row"><td role="cell" data-label="Destination">Ireland &amp; EU</td><td role="cell" data-label="Service">Tracked, duties paid</td><td role="cell" data-label="Time">4&ndash;7 working days</td><td role="cell" data-label="Cost">&pound;12, complimentary over &pound;180</td></tr>
+        <tr role="row"><td role="cell" data-label="Destination">United States</td><td role="cell" data-label="Service">Tracked, duties paid</td><td role="cell" data-label="Time">5&ndash;8 working days</td><td role="cell" data-label="Cost">&pound;18</td></tr>
+        <tr role="row"><td role="cell" data-label="Destination">Rest of world</td><td role="cell" data-label="Service">Tracked</td><td role="cell" data-label="Time">7&ndash;14 working days</td><td role="cell" data-label="Cost">From &pound;22</td></tr>
       </tbody>
     </table>
   </div>

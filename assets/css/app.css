@@ -1172,7 +1172,7 @@ html.overlay-open,html.overlay-open body{overflow:hidden}
   min-height:clamp(18rem,40svh,30rem);overflow:hidden;color:var(--ivory)}
 .banner>img,.banner>picture>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:var(--z-art)}
 .banner::after{content:"";position:absolute;inset:0;z-index:var(--z-behind);background:
-  linear-gradient(0deg,rgba(20,17,12,.82) 0%,rgba(20,17,12,.28) 45%,rgba(20,17,12,.06) 100%),
+  linear-gradient(0deg,rgba(20,17,12,.88) 0%,rgba(20,17,12,.60) 46%,rgba(20,17,12,.10) 100%),
   linear-gradient(70deg,rgba(20,17,12,.55) 0%,rgba(20,17,12,0) 65%)}
 .banner .c{max-width:calc(44rem + var(--gutter) * 2);padding:var(--s-7) var(--gutter) var(--s-6)}
 .banner .k{color:var(--ivory);opacity:var(--o-strong)}
@@ -1458,7 +1458,7 @@ html.overlay-open,html.overlay-open body{overflow:hidden}
   display:grid;align-items:end;overflow:hidden}
 .yfeat>img,.yfeat>picture>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:var(--z-art)}
 .yfeat .veil{position:absolute;inset:0;z-index:var(--z-behind);background:
-  linear-gradient(to top,rgba(18,16,12,.72) 0%,rgba(18,16,12,.30) 42%,rgba(18,16,12,0) 74%),
+  linear-gradient(to top,rgba(18,16,12,.80) 0%,rgba(18,16,12,.46) 46%,rgba(18,16,12,0) 78%),
   linear-gradient(to right,rgba(20,18,13,.55) 0%,rgba(20,18,13,0) 62%)}
 .yfeat .inner{padding-block:var(--sec-lg)}
 .yfeat .c{max-width:36rem;color:var(--ivory)}
@@ -1649,7 +1649,7 @@ html.overlay-open,html.overlay-open body{overflow:hidden}
   display:grid;align-items:center;overflow:hidden}
 .shero>img,.shero>picture>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:var(--z-art)}
 .shero .veil{position:absolute;inset:0;z-index:var(--z-behind);background:
-  linear-gradient(to top,rgba(18,16,12,.66) 0%,rgba(18,16,12,.30) 46%,rgba(18,16,12,.08) 100%),
+  linear-gradient(to top,rgba(18,16,12,.82) 0%,rgba(18,16,12,.52) 50%,rgba(18,16,12,.10) 100%),
   linear-gradient(to right,rgba(20,18,13,.62) 0%,rgba(20,18,13,0) 66%)}
 .shero .c{max-width:37.125rem;color:var(--ivory)}
 .shero .k{color:var(--brass-on-dark);letter-spacing:var(--track-kicker);
@@ -1939,6 +1939,26 @@ input:user-invalid,textarea:user-invalid{border-color:var(--text-error)}
   letter-spacing:var(--track-label);text-transform:uppercase;color:var(--txt)}
 .scrollx{overflow-x:auto;-webkit-overflow-scrolling:touch}
 
+/* Both tables on this site sat in a .scrollx, which was the escape hatch for a
+   narrow screen — except the table had no min-width, so instead of scrolling
+   it squeezed. Five columns in 350px turned every order into four lines of
+   two-word fragments. On a phone each row becomes a block of label-and-value
+   pairs, which is what these are: three orders and four shipping bands, not
+   dense data. The roles are set explicitly in the markup so the semantics
+   survive display:block. */
+@media (max-width:47.9375em){
+  .table,.table tbody,.table tr,.table td{display:block;width:100%}
+  .table thead{position:absolute;width:1px;height:1px;overflow:hidden;
+    clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap}
+  .table tr{border-bottom:1px solid var(--line);padding-block:var(--s-4)}
+  .table tr:last-child{border-bottom:0}
+  .table td{display:flex;align-items:baseline;justify-content:space-between;
+    gap:var(--s-5);border:0;padding:.3rem 0;text-align:right}
+  .table td::before{content:attr(data-label);flex:0 0 auto;text-align:left;
+    font-family:var(--font-sans);font-weight:500;font-size:var(--t-2xs);
+    letter-spacing:var(--track-micro);text-transform:uppercase;color:var(--txt-2)}
+}
+
 /* ------------------------------------------------------------ search --- */
 .searchbar{display:flex;flex-wrap:wrap;gap:var(--s-2);margin-top:var(--s-4)}
 .searchbar input{flex:1 1 18rem;min-height:3.25rem;padding:0 0 .5rem;background:none;
@@ -2015,7 +2035,32 @@ input:user-invalid,textarea:user-invalid{border-color:var(--text-error)}
 .btn{font-size:var(--t-btn);letter-spacing:var(--track-label)}
 .crumb{font-size:var(--t-2xs);line-height:1.8;margin-top:0;padding-block:var(--s-5) 0}
 .re{font-size:var(--t-2xs);line-height:1.9}
-.hero .k,.banner .k,.campaign .k{color:var(--ivory)}
+/* On a phone the copy block on a photographic band carries its own soft
+   scrim, feathered at the top. The share hero's picture is a close-up of
+   near-white paper, and covering the whole image heavily enough to carry an
+   11px kicker left almost no photograph — the embossed wordmark on the box
+   had gone. A panel behind the words costs the picture nothing above them,
+   and it is the same device on every band so no page is special-cased.
+   Measured, not assumed: the worst sample went 2.4 to 6.9. */
+@media (max-width:47.9375em){
+  .shero .c,.yfeat .c,.banner .c,.storyband .c,.campaign .c{
+    background:linear-gradient(to top,
+      rgba(18,16,12,.42) 0%,rgba(18,16,12,.42) 82%,rgba(18,16,12,0) 100%);
+    padding-top:var(--s-6)}
+  /* two of the five copy blocks are inset by the gutter rather than padded by
+     it, so the panel stopped twenty pixels short of each edge and left a
+     seam of unveiled photograph down both sides */
+  .shero .c,.yfeat .c{margin-inline:calc(var(--gutter) * -1);
+    padding-inline:var(--gutter)}
+}
+
+/* Five kickers sit over photography and they were using two colours: ivory on
+   the hero, the banner and the campaign; brass-on-dark on the share hero and
+   the featured story. "On dark" is the wrong promise over a photograph — the
+   share hero's is a close-up of pale paper, and the brass kicker measured
+   2.6:1 against it. Ivory, everywhere the ground is a picture. Brass stays on
+   the gift band, where the ground is a solid plum and is genuinely dark. */
+.hero .k,.banner .k,.campaign .k,.shero .k,.yfeat .k,.storyband .k{color:var(--ivory)}
 .promo .k{color:var(--brass-on-dark)}
 
 
