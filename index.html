@@ -13,8 +13,7 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="assets/fonts/montserrat-latin-500-normal.woff2">
 <link rel="stylesheet" href="assets/css/fonts.css">
 <link rel="stylesheet" href="assets/css/home.css">
-<script>(function(){function u(){var w=Math.min(document.documentElement.clientWidth||innerWidth,1440);
-document.documentElement.style.setProperty('--u',(w/1440)+'px');}u();addEventListener('resize',u);})();</script>
+<script>(function(){function u(){var w=document.documentElement.clientWidth||innerWidth;var v=w>=1024?Math.min(w,1440)/1440:Math.min(w,560)/390;document.documentElement.style.setProperty('--u',v+'px');}u();addEventListener('resize',u);addEventListener('orientationchange',u);})();</script>
 </head><body>
 
 <div class="topbar">
@@ -184,7 +183,7 @@ document.documentElement.style.setProperty('--u',(w/1440)+'px');}u();addEventLis
 
 <section class="atelier">
   <div class="inner">
-    <div class="rev"><p class="k">In the hand</p><h2 class="d" style="font-size:calc(40 * var(--u));margin-top:calc(12 * var(--u))">Held before smelled.</h2></div>
+    <div class="rev"><p class="k">In the hand</p><h2 class="d sechead">Held before smelled.</h2></div>
     <p class="lead rev">Fragrance is the only luxury bought blind. So the object must speak first — the cold of the stone, the letterpress bite of the label, the weight of a hundred millilitres.</p>
     <div class="row">
       <figure class="rev"><img src="assets/img/stone-shelf.jpg" alt="" loading="lazy">
@@ -208,7 +207,7 @@ document.documentElement.style.setProperty('--u',(w/1440)+'px');}u();addEventLis
 
 <section class="feelings">
   <div class="inner">
-    <div class="rev"><p class="k">The consultation</p><h2 class="d" style="font-size:calc(40 * var(--u));margin-top:calc(12 * var(--u))">Begin with a feeling.</h2></div>
+    <div class="rev"><p class="k">The consultation</p><h2 class="d sechead">Begin with a feeling.</h2></div>
     <p class="sub rev">Not sure which story is yours? Choose what you want more of.</p>
     <div class="feelrow">
       <a class="feel rev" href="product.html?f=hotel-lobby"><span class="chip" style="background:#1C1D1D"></span><h3>Anticipation</h3><p>the hour before — Hotel Lobby</p></a>
@@ -223,7 +222,7 @@ document.documentElement.style.setProperty('--u',(w/1440)+'px');}u();addEventLis
 
 <section class="ways">
   <div class="inner">
-    <div class="rev"><p class="k">For the undecided</p><h2 class="d" style="font-size:calc(40 * var(--u));margin-top:calc(12 * var(--u))">Three ways in.</h2></div>
+    <div class="rev"><p class="k">For the undecided</p><h2 class="d sechead">Three ways in.</h2></div>
     <div class="wayrow">
       <a class="way rev" href="collection.html"><img src="assets/img/set-first-lines.jpg" alt="" loading="lazy">
         <div class="b"><p class="k">The set</p><h3>The First Lines</h3>

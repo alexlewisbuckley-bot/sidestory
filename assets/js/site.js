@@ -39,8 +39,19 @@
     if(!big) return; big.style.opacity=0;
     setTimeout(()=>{big.src=src;big.style.opacity=1;},200);
   };
+  /* the homepage nav uses .links, the other pages .navlinks — accept either */
   const burger=document.querySelector('.burger');
-  burger&&burger.addEventListener('click',()=>document.querySelector('.navlinks').classList.toggle('open'));
+  const navlinks=document.querySelector('.navlinks,.links');
+  if(burger&&navlinks){
+    burger.setAttribute('aria-expanded','false');
+    burger.addEventListener('click',()=>{
+      const open=navlinks.classList.toggle('open');
+      burger.setAttribute('aria-expanded',String(open));
+    });
+    navlinks.addEventListener('click',e=>{
+      if(e.target.tagName==='A'){navlinks.classList.remove('open');burger.setAttribute('aria-expanded','false');}
+    });
+  }
 
   /* scroll reveals */
   const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:.12,rootMargin:'0px 0px -40px'});

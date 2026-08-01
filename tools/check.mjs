@@ -63,7 +63,9 @@ async function checkLinks() {
 
 /* --------------------------------------------------------- spec assertions */
 async function checkSpec(browser, spec) {
-  const page = await browser.newPage({ viewport: { width: 1440, height: 1000 } });
+  const vw = spec.viewport || 1440;
+  const tag = g => (spec.label ? spec.label + '·' : '') + g;
+  const page = await browser.newPage({ viewport: { width: vw, height: 1000 } });
   const consoleErrs = [], netErrs = [];
   page.on('console', m => { if (m.type() === 'error') consoleErrs.push(m.text()); });
   page.on('requestfailed', r => netErrs.push('FAILED ' + r.url() + ' — ' + (r.failure()||{}).errorText));
@@ -84,7 +86,7 @@ async function checkSpec(browser, spec) {
   const loaded = await page.evaluate(() => [...document.fonts].map(f => `${f.family}|${f.style}|${f.weight}|${f.status}`));
   for (const want of spec.fonts) {
     const hit = loaded.find(l => l.startsWith(want + '|'));
-    rec(spec.page, 'fonts', want, !!hit && hit.endsWith('|loaded'), hit || 'NOT DECLARED');
+    rec(spec.page, tag('fonts'), want, !!hit && hit.endsWith('|loaded'), hit || 'NOT DECLARED');
   }
 
   /* --- section geometry vs Figma */
@@ -97,10 +99,10 @@ async function checkSpec(browser, spec) {
   }), spec.sections);
 
   for (const g of geo) {
-    if (!g.found) { rec(spec.page, 'layout', `${g.name} [${g.sel}]`, false, 'selector not found'); continue; }
+    if (!g.found) { rec(spec.page, tag('layout'), `${g.name} [${g.sel}]`, false, 'selector not found'); continue; }
     const dy = g.gy - g.y, dh = g.gh - g.h;
-    rec(spec.page, 'layout', `${g.name} y`, Math.abs(dy) <= tol.y, `figma ${g.y} · built ${g.gy} · Δ${dy > 0 ? '+' : ''}${dy}`);
-    rec(spec.page, 'layout', `${g.name} h`, Math.abs(dh) <= tol.h, `figma ${g.h} · built ${g.gh} · Δ${dh > 0 ? '+' : ''}${dh}`);
+    rec(spec.page, tag('layout'), `${g.name} y`, Math.abs(dy) <= tol.y, `figma ${g.y} · built ${g.gy} · Δ${dy > 0 ? '+' : ''}${dy}`);
+    rec(spec.page, tag('layout'), `${g.name} h`, Math.abs(dh) <= tol.h, `figma ${g.h} · built ${g.gh} · Δ${dh > 0 ? '+' : ''}${dh}`);
   }
 
   /* --- typography vs Figma: family, size, and rendered ink width.
@@ -123,24 +125,27 @@ async function checkSpec(browser, spec) {
 
   for (const t of typ) {
     const label = `"${t.text.slice(0, 34)}"`;
-    if (!t.found) { rec(spec.page, 'type', label, false, `no element starts with this text (${t.cands} candidates)`); continue; }
-    rec(spec.page, 'type', `${label} family`, t.gFam.includes(t.family), `want ${t.family} · got ${t.gFam}`);
-    rec(spec.page, 'type', `${label} size`, Math.abs(t.gSize - t.size) <= tol.fontSize, `figma ${t.size} · built ${t.gSize}`);
+    if (!t.found) { rec(spec.page, tag('type'), label, false, `no element starts with this text (${t.cands} candidates)`); continue; }
+    rec(spec.page, tag('type'), `${label} family`, t.gFam.includes(t.family), `want ${t.family} · got ${t.gFam}`);
+    rec(spec.page, tag('type'), `${label} size`, Math.abs(t.gSize - t.size) <= tol.fontSize, `figma ${t.size} · built ${t.gSize}`);
     if (t.ink) {
       const d = Math.abs(t.gInk - t.ink) / t.ink;
-      rec(spec.page, 'type', `${label} width`, d <= tol.inkPct,
+      rec(spec.page, tag('type'), `${label} width`, d <= tol.inkPct,
         `figma ${t.ink}px · built ${t.gInk}px · Δ${((t.gInk / t.ink - 1) * 100).toFixed(1)}%`);
     }
   }
 
-  rec(spec.page, 'runtime', 'no console errors', consoleErrs.length === 0,
+  rec(spec.page, tag('runtime'), 'no console errors', consoleErrs.length === 0,
     consoleErrs.slice(0, 3).join(' | ') + (netErrs.length ? '  [' + netErrs.slice(0, 3).join(' | ') + ']' : ''));
-  rec(spec.page, 'runtime', 'no failed requests', netErrs.length === 0, netErrs.slice(0, 3).join(' | '));
+  rec(spec.page, tag('runtime'), 'no failed requests', netErrs.length === 0, netErrs.slice(0, 3).join(' | '));
   await page.close();
 }
 
 /* --------------------------------------- per-page checks at every viewport */
-const VIEWPORTS = [{ n: 'desktop', w: 1440, h: 1000 }, { n: 'laptop', w: 1280, h: 900 }, { n: 'tablet', w: 834, h: 1100 }, { n: 'mobile', w: 390, h: 844 }];
+const VIEWPORTS = [{ n: 'desktop', w: 1440, h: 1000 }, { n: 'laptop', w: 1280, h: 900 },
+  { n: 'small-laptop', w: 1024, h: 800 }, { n: 'tablet-wide', w: 900, h: 1100 },
+  { n: 'tablet', w: 834, h: 1100 }, { n: 'phablet', w: 670, h: 900 },
+  { n: 'mobile', w: 390, h: 844 }, { n: 'mobile-sm', w: 360, h: 780 }];
 
 async function checkPage(browser, file) {
   for (const v of VIEWPORTS) {
@@ -160,8 +165,19 @@ async function checkPage(browser, file) {
 
     const o = await page.evaluate(() => {
       const de = document.documentElement;
+      // content inside a deliberate horizontal scroller (the mobile swipe rows)
+      // is not page overflow — only measure elements not inside one
+      const inScroller = e => {
+        for (let n = e.parentElement; n && n !== document.body; n = n.parentElement) {
+          const ox = getComputedStyle(n).overflowX;
+          if (ox === 'auto' || ox === 'scroll') return true;
+        }
+        return false;
+      };
       const over = [...document.querySelectorAll('body *')]
-        .filter(e => { const r = e.getBoundingClientRect(); return r.width > 0 && (r.right > de.clientWidth + 2 || r.left < -2) && getComputedStyle(e).position !== 'fixed'; })
+        .filter(e => { const cs = getComputedStyle(e); if (cs.position === 'fixed' || cs.display === 'none') return false;
+          const r = e.getBoundingClientRect();
+          return r.width > 0 && (r.right > de.clientWidth + 2 || r.left < -2) && !inScroller(e); })
         .slice(0, 5).map(e => e.tagName.toLowerCase() + '.' + (e.className || '').toString().split(' ')[0]);
       const imgs = [...document.images].filter(i => !i.complete || i.naturalWidth === 0).map(i => i.getAttribute('src'));
       const noAlt = [...document.images].filter(i => !i.hasAttribute('alt')).length;
@@ -199,8 +215,8 @@ const server = await serve();
 const browser = await chromium.launch({ executablePath: process.env.CHROMIUM || '/opt/pw-browsers/chromium' });
 
 await checkLinks();
-const spec = JSON.parse(await readFile(join(ROOT, 'spec/homepage.json'), 'utf8'));
-await checkSpec(browser, spec);
+for (const f of ['spec/homepage.json', 'spec/homepage-mobile.json'])
+  await checkSpec(browser, JSON.parse(await readFile(join(ROOT, f), 'utf8')));
 
 const only = process.argv.slice(2).filter(a => !a.startsWith('-'));
 const pages = (await readdir(ROOT)).filter(f => f.endsWith('.html'))

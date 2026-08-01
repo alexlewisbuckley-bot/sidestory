@@ -28,7 +28,7 @@ hand-edited to make a test pass:
   or the word-spacing is wrong even when `font-size` reads correctly
 - that all eight webfont faces actually loaded
 
-**On every page, at 1440 / 1280 / 834 / 390:**
+**On every page, at 1440 / 1280 / 1024 / 900 / 834 / 670 / 390 / 360:**
 
 - no horizontal overflow
 - every image loads and has an `alt`
@@ -38,6 +38,28 @@ hand-edited to make a test pass:
 
 **Statically:** every local `href`/`src` in every page resolves to a file that
 exists.
+
+## The two design regimes
+
+The page is built from two Figma artboards, and `--u` — the design unit every
+value is expressed in — is re-based between them by the inline script in each
+page head:
+
+```
+w >= 1024 :  --u = min(w, 1440) / 390 * (390/1440)   // desktop artboard 83:27, exact at 1440
+w <  1024 :  --u = min(w,  560) /  390               // mobile artboard 86:74, exact at 390
+```
+
+This matters because the first version mixed the two: below 900px the desktop
+unit kept shrinking (0.465px at 670px, so the nav bar collapsed to 41px tall)
+while the mobile rules were written in fixed pixels and stayed full size. The
+result was neither design. Every mobile value now comes from the 390 artboard
+and is expressed in `--u`, so the two regimes never overlap.
+
+`spec/homepage-mobile.json` asserts the mobile side at 390px. It only covers the
+bands where the artboard and the build carry the same content — the build keeps
+several sections and link columns the mobile artboard drops, and those are noted
+in the spec rather than silently skipped.
 
 ## Why the fonts are self-hosted
 

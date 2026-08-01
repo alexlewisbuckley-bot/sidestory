@@ -256,6 +256,15 @@ footer a:hover{opacity:1}
   .hero{min-height:70vh}
   .drawer{width:100%;max-width:100%;right:-100%}
 }
+/* Narrow phones: the nav utility row is the only thing that will not fit at
+   360px, so drop the secondary links and tighten the tracking. */
+@media (max-width:420px){
+  header.nav{gap:14px}
+  .util{gap:12px;min-width:0}
+  .util>a{display:none}
+  .util button,.util a{font-size:9px;letter-spacing:.14em;white-space:nowrap}
+  .brand{width:118px}
+}
 @media (prefers-reduced-motion:reduce){
   *{animation-duration:.01ms !important;transition-duration:.15s !important}
   .hero img.bg{animation:none;transform:none}
