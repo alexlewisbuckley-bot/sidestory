@@ -358,6 +358,7 @@ def head(title, desc, css, body_attr=""):
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<script>document.documentElement.className+=" js"</script>
 <title>{title} · Side Story — Parfums &amp; Oils</title>
 <meta name="description" content="{desc}">
 <meta name="theme-color" content="#2B2E2D">

@@ -75,6 +75,28 @@
     });
   }
 
+  /* A filter that changes the shelf instantly is the one moment on this site
+     where something happens and nothing acknowledges it — cards vanish and
+     appear between two frames, and the eye reads it as a glitch rather than a
+     result. The grid dims for a beat, the change is made behind that, and it
+     comes back. One composited layer, not eight, and it steps aside entirely
+     for anyone who has asked for less motion.
+
+     The state on the control itself — pressed, the count, the rule under the
+     label — is never delayed: the button answers the finger immediately and
+     only the shelf takes the beat. */
+  const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)');
+  function settle(grid, mutate){
+    if(!grid || REDUCED.matches){ mutate(); return; }
+    if(grid.__settling){ clearTimeout(grid.__settling); }
+    grid.classList.add('sorting');
+    grid.__settling = setTimeout(()=>{
+      mutate();
+      grid.__settling = null;
+      requestAnimationFrame(()=>grid.classList.remove('sorting'));
+    }, 130);
+  }
+
   /* Scroll reveals.
 
      The delay used to be the element's index in the document modulo four,
@@ -100,16 +122,19 @@
       if(d) el.style.transitionDelay=d+'ms';
       el.classList.add('in');
       io.unobserve(el);
-      if(!d) return;
       let done=false;
       const clear=()=>{ if(done) return; done=true;
-        el.style.transitionDelay='';
+        el.style.transitionDelay=''; el.classList.add('done');
         el.removeEventListener('transitionend',clear); };
       el.addEventListener('transitionend',clear);
       setTimeout(clear, d+1200);
     });
   },{threshold:.12,rootMargin:'0px 0px -40px'});
   document.querySelectorAll('.rev').forEach(el=>io.observe(el));
+  /* and if the observer never fires — a browser without it, an error earlier
+     in this file, anything — nothing stays hidden */
+  setTimeout(()=>{document.querySelectorAll('.rev:not(.in)').forEach(el=>{
+    el.classList.add('in','done');});},3000);
 
   /* ------------------------------------------------------------ overlays
      One contract for every overlay: move focus in, trap Tab, lock the page
@@ -303,6 +328,7 @@
     const chosen=new Set();
     let opener=null;
 
+
     /* the sheet mirrors the chips, so there is one source of families */
     if(list) list.innerHTML = famBtns.map(b=>
       '<button type="button" class="srow" data-family="'+b.dataset.family+'" aria-pressed="false">'
@@ -311,7 +337,7 @@
 
     function applySize(key){
       grid.dataset.size=key;
-      cards.forEach(card=>{
+      settle(grid, ()=>cards.forEach(card=>{
         const p=CAT[card.dataset.slug]; if(!p||!p.sizes) return;
         const v=p.sizes[key]; if(!v) return;
         const shot=card.querySelector('[data-shot]');
@@ -325,17 +351,21 @@
         card.querySelectorAll('[data-href]').forEach(a=>{
           a.href='product-'+card.dataset.slug+'.html'+(key==='100ml'?'':'?size='+key);
         });
-      });
+      }));
       sizeBtns.forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.size===key)));
     }
 
     function applyScent(){
       let shown=0;
-      cards.forEach(card=>{
+      const next=[...cards].map(card=>{
         const on = !chosen.size || chosen.has(card.dataset.family);
-        card.hidden=!on; if(on) shown++;
+        if(on) shown++;
+        return [card,!on];
       });
-      if(promo) promo.hidden = chosen.size>0;
+      settle(grid, ()=>{
+        next.forEach(([card,hide])=>{ card.hidden=hide; });
+        if(promo) promo.hidden = chosen.size>0;
+      });
       allFam().forEach(b=>b.setAttribute('aria-pressed',String(chosen.has(b.dataset.family))));
       const count=bar.querySelector('[data-count]');
       if(count) count.textContent = !chosen.size ? 'Seven stories'
@@ -453,7 +483,7 @@
 
     function applySize(key){
       grid.dataset.size=key;
-      cards.forEach(card=>{
+      settle(grid, ()=>cards.forEach(card=>{
         const p=CAT[card.dataset.slug]; if(!p||!p.sizes) return;
         const v=p.sizes[key]; if(!v) return;
         const shot=card.querySelector('[data-shot]');
@@ -467,19 +497,23 @@
         card.querySelectorAll('[data-href]').forEach(a=>{
           a.href='product-'+card.dataset.slug+'.html'+(key==='100ml'?'':'?size='+key);
         });
-      });
+      }));
       sizeBtns.forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.size===key)));
     }
 
     function applyScent(){
       let shown=0;
-      cards.forEach(card=>{
+      const next=[...cards].map(card=>{
         const on = !chosen.size || chosen.has(card.dataset.family);
-        card.hidden=!on; if(on) shown++;
+        if(on) shown++;
+        return [card,!on];
       });
-      /* the discovery-set card is not a fragrance, so it only belongs on the
-         unfiltered shelf */
-      if(promo) promo.hidden = chosen.size>0;
+      settle(grid, ()=>{
+        next.forEach(([card,hide])=>{ card.hidden=hide; });
+        /* the discovery-set card is not a fragrance, so it only belongs on the
+           unfiltered shelf */
+        if(promo) promo.hidden = chosen.size>0;
+      });
       famBtns.forEach(b=>b.setAttribute('aria-pressed',String(chosen.has(b.dataset.family))));
       const names=famBtns.filter(b=>chosen.has(b.dataset.family)).map(b=>b.textContent.trim());
       if(labelEl) labelEl.textContent = names.length? names.join(', ') : 'All seven';

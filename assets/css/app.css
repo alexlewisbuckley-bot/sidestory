@@ -553,9 +553,23 @@ button:disabled,[aria-disabled="true"]{cursor:default}
   border-bottom:1px solid currentColor;padding-bottom:.2em}
 
 /* -------------------------------------------------------------- reveal -- */
-.rev{opacity:0;transform:translateY(1.25rem);
+/* The entrance owns opacity and transform for as long as it is happening, and
+   then gets out of the way: `.done` is set when the transition ends, so a
+   component's own transition — the quarter-second opacity fade a card uses
+   when the shelf is filtered — governs from then on. Without that, one
+   duration has to serve both an 800ms arrival and a 250ms filter, and the
+   filter feels broken. */
+/* The reveal hides its element until JavaScript says otherwise, which means
+   that without JavaScript the homepage was a hero and then two thousand
+   pixels of empty ivory — fifty-three of fifty-three revealable elements at
+   opacity zero. The `js` class is set by one line in the head, before any of
+   this is painted, so the hiding only ever happens where something is going
+   to undo it. site.js also reveals anything the observer has not reached
+   after three seconds, in case the observer is the thing that broke. */
+.js .rev:not(.done){opacity:0;transform:translateY(1.25rem);
   transition:opacity var(--d-slow) var(--settle),transform var(--d-slow) var(--settle)}
-.rev.in{opacity:1;transform:none}
+.js .rev.in{opacity:1;transform:none}
+.card{transition:opacity var(--d-quick) var(--settle)}
 
 /* -------------------------------------------------- announcement + nav -- */
 /* The announcement used to sit inside the sticky bar and collapse its
@@ -663,7 +677,10 @@ button:disabled,[aria-disabled="true"]{cursor:default}
 @media (min-width:68em){ .cards{grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--space-9) var(--space-5)} }
 
 .card{position:relative;display:flex;flex-direction:column;transition:opacity var(--d-quick) var(--settle)}
-.cards.sorting .card,.cards.sorting .promo{opacity:.25}
+/* dimming the grid is one composited layer; dimming eight cards was eight,
+   and it was never wired up in the first place */
+.cards{transition:opacity 130ms var(--settle)}
+.cards.sorting{opacity:.3}
 .card .ph{position:relative;width:100%;aspect-ratio:1;overflow:hidden;background:var(--plaster)}
 .card .ph a{display:block;width:100%;height:100%}
 .card .ph img{width:100%;height:100%;object-fit:cover;
@@ -1171,7 +1188,7 @@ html.overlay-open,html.overlay-open body{overflow:hidden}
   *{animation-duration:.01ms !important;animation-iteration-count:1 !important;
     transition-duration:var(--d-instant) !important;scroll-behavior:auto !important}
 .hero>img,.hero>picture>img{animation:none;transform:none}
-  .rev{opacity:1;transform:none}
+  .js .rev{opacity:1;transform:none}
 }
 
 /* ==========================================================================
@@ -2172,7 +2189,11 @@ input:user-invalid,textarea:user-invalid{border-color:var(--text-error)}
    the frame and the image develops very slightly. My zoom-out experiment made
    the panel escape the frame at narrow widths and jump between two crops; it is
    gone. The crops themselves stay — those were a genuine fix. */
-.card{transition:box-shadow var(--d-settled) var(--settle)}
+/* left behind by the card lift that was removed two passes ago: it declared a
+   transition for a shadow the card no longer has, and because it ties with
+   .rev on specificity and comes later in the sheet it was taking the entrance
+   away from every product card on the site — they were appearing instantly
+   while everything around them faded in. */
 .card .ph{position:relative;overflow:hidden}
 .card .ph img{width:100%;height:100%;object-fit:cover;
   transition:transform var(--d-slow) var(--settle)}
