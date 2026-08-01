@@ -15,8 +15,8 @@ import numpy as np
 from PIL import Image, ImageFilter, ImageDraw
 
 IMG = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "assets/img")
-ASPECT = 4 / 5          # portrait, w/h
-SUBJECT_H = 0.66        # subject height as a share of the crop
+ASPECT = 1.0            # square
+SUBJECT_H = 0.86        # subject height as a share of the crop — tight on the bottle
 SUBJECT_TOP_BIAS = 0.46 # subject centre sits slightly above the crop centre
 MIN_SUBJECT = 0.42      # never trust a detection smaller than this share of the frame
 
@@ -43,32 +43,44 @@ def subject_box(im):
                                       en[:, :20].ravel(), en[:, -20:].ravel()]))
     m = colour | (en > max(grain * 2.6, 2.5))
 
+    # Strength of the signal, used to score candidate blobs. Paper grain can
+    # form large connected regions, so the biggest blob is not reliably the
+    # subject — the strongest one is.
+    strength = _blur(np.abs(a - bg).max(axis=2), 5) + en
+
     b = 16
     hh, ww = H // b, W // b
-    blocks = m[:hh * b, :ww * b].reshape(hh, b, ww, b).mean(axis=(1, 3)) > 0.42
+    dens = m[:hh * b, :ww * b].reshape(hh, b, ww, b).mean(axis=(1, 3))
+    power = strength[:hh * b, :ww * b].reshape(hh, b, ww, b).mean(axis=(1, 3))
+    blocks = dens > 0.42
 
     lab = np.zeros_like(blocks, dtype=np.int32)
-    cur, best = 0, (0, None)
+    cur, best = 0, (0.0, None)
     for sy in range(blocks.shape[0]):
         for sx in range(blocks.shape[1]):
             if blocks[sy, sx] and lab[sy, sx] == 0:
                 cur += 1
-                stack, n = [(sy, sx)], 0
+                stack, cells = [(sy, sx)], []
                 lab[sy, sx] = cur
                 while stack:
-                    y, x = stack.pop(); n += 1
+                    y, x = stack.pop(); cells.append((y, x))
                     for dy, dx in ((1, 0), (-1, 0), (0, 1), (0, -1)):
                         ny, nx = y + dy, x + dx
                         if 0 <= ny < blocks.shape[0] and 0 <= nx < blocks.shape[1] \
                            and blocks[ny, nx] and lab[ny, nx] == 0:
                             lab[ny, nx] = cur; stack.append((ny, nx))
-                if n > best[0]:
-                    best = (n, cur)
+                score = sum(power[y, x] for y, x in cells)
+                if score > best[0]:
+                    best = (score, cur)
     if not best[1]:
         return 0.25 * W, 0.25 * H, 0.75 * W, 0.75 * H
     ys, xs = np.where(lab == best[1])
-    x0, y0 = float(xs.min() * b), float(ys.min() * b)
-    x1, y1 = float(min((xs.max() + 1) * b, W)), float(min((ys.max() + 1) * b, H))
+    # Percentile extents, not min/max: a thin connected arm reaching a shadow or
+    # a vignette at the frame edge would otherwise drag the whole crop with it.
+    x0 = float(np.percentile(xs, 2) * b)
+    y0 = float(np.percentile(ys, 2) * b)
+    x1 = float(min((np.percentile(xs, 98) + 1) * b, W))
+    y1 = float(min((np.percentile(ys, 98) + 1) * b, H))
 
     # Detection under-reads pale objects against pale paper. Grow the box about
     # its own centre until it is at least MIN_SUBJECT of the frame, so a missed
@@ -87,7 +99,7 @@ def reframe(path, out):
 
     # crop sized so the subject fills SUBJECT_H of it, wide enough for the subject too
     ch = sh / SUBJECT_H
-    cw = max(ch * ASPECT, sw * 1.22)
+    cw = max(ch * ASPECT, sw * 1.08)
     ch = max(ch, cw / ASPECT)
     cw = ch * ASPECT
 
