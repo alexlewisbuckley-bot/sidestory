@@ -11,12 +11,12 @@
 document.documentElement.style.setProperty('--u',(w/1440)+'px');}u();addEventListener('resize',u);})();</script>
 </head><body>
 
+<div class="topbar">
 <div class="ann"><span>A second story’s sample, complimentary with every bottle</span></div>
-
 <header class="nav">
   <div class="inner">
     <button class="burger" aria-label="Menu"><i></i><i></i><i></i></button>
-    <a class="brand" href="index.html"><b>SIDE STORY</b><i>PARFUMS &amp; OILS</i></a>
+    <a class="brand" href="index.html" aria-label="Side Story Parfums"><img src="assets/img/logo.svg" alt="Side Story — Parfums &amp; Oils"></a>
     <nav class="links">
       <a href="collection.html">The Fragrances</a>
       <a href="stories.html">Your Stories</a>
@@ -31,6 +31,7 @@ document.documentElement.style.setProperty('--u',(w/1440)+'px');}u();addEventLis
     </div>
   </div>
 </header>
+</div>
 
 <section class="hero">
   <img src="assets/img/hero.jpg" alt="Side Story discovery boxes in raking sunlight">
@@ -155,11 +156,11 @@ document.documentElement.style.setProperty('--u',(w/1440)+'px');}u();addEventLis
 
 <section class="show">
   <div class="inner">
-    <img class="big rev" src="assets/img/unboxing.jpg" alt="Hotel Lobby, boxed with its printed story" loading="lazy">
+    <img class="big rev" id="showbig" src="assets/img/unboxing.jpg" alt="Hotel Lobby, boxed with its printed story" loading="lazy">
     <div class="thumbs rev">
-      <img src="assets/img/p-hotel-lobby.jpg" alt="" loading="lazy">
-      <img src="assets/img/spine.jpg" alt="" loading="lazy">
-      <img src="assets/img/plants.jpg" alt="" loading="lazy">
+      <button aria-current="true" onclick="showSwap(this,'assets/img/unboxing.jpg')"><img src="assets/img/unboxing.jpg" alt="Boxed with its printed story" loading="lazy"></button>
+      <button onclick="showSwap(this,'assets/img/p-hotel-lobby.jpg')"><img src="assets/img/p-hotel-lobby.jpg" alt="The bottle" loading="lazy"></button>
+      <button onclick="showSwap(this,'assets/img/spine.jpg')"><img src="assets/img/spine.jpg" alt="The embossed box" loading="lazy"></button>
     </div>
     <div class="copy rev">
       <p class="k">The chapter of the season</p>
@@ -322,7 +323,7 @@ document.documentElement.style.setProperty('--u',(w/1440)+'px');}u();addEventLis
       <div><h4>The Shelf</h4><a href="collection.html">The Fragrances</a><a href="collection.html">The First Lines</a><a href="collection.html">Samples</a><a href="#gifting">Gifting</a></div>
       <div><h4>The House</h4><a href="stories.html">Your Stories</a><a href="share.html">Share Yours</a><a href="#making">The Making</a><a href="#journal">Atelier Journal</a></div>
       <div><h4>The Practical</h4><a href="bag.html">Shipping &amp; Returns</a><a href="bag.html">Stockists</a><a href="share.html">Contact</a><a href="bag.html">FAQ</a></div>
-      <div class="fbrand"><b>SIDE STORY</b><i>PARFUMS &amp; OILS</i></div>
+      <div class="fbrand"><img src="assets/img/logo-ivory.svg" alt="Side Story — Parfums &amp; Oils"></div>
     </div>
     <div class="fbot">
       <div class="pay"><i>VISA</i><i>MC</i><i>AMEX</i><i>&#63743;Pay</i></div>

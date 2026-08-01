@@ -19,7 +19,26 @@
 
   /* nav + announcement */
   const nav=document.querySelector('header.nav'), ann=document.querySelector('.ann');
-  addEventListener('scroll',()=>{const s=scrollY>40; nav&&nav.classList.toggle('shrunk',s); ann&&ann.classList.toggle('hide',s);},{passive:true});
+  // Hysteresis: collapse past 140, restore under 40. The 100px dead band is wider than
+  // the 40px of layout the announcement removes, so collapsing can never re-trigger itself.
+  let collapsed=false, ticking=false;
+  function onScroll(){
+    if(ticking) return; ticking=true;
+    requestAnimationFrame(()=>{
+      const y=window.scrollY||0;
+      if(!collapsed && y>140){collapsed=true;nav&&nav.classList.add('shrunk');ann&&ann.classList.add('hide');}
+      else if(collapsed && y<40){collapsed=false;nav&&nav.classList.remove('shrunk');ann&&ann.classList.remove('hide');}
+      ticking=false;
+    });
+  }
+  addEventListener('scroll',onScroll,{passive:true}); onScroll();
+  window.showSwap=(btn,src)=>{
+    document.querySelectorAll('.show .thumbs button').forEach(b=>b.removeAttribute('aria-current'));
+    btn.setAttribute('aria-current','true');
+    const big=document.getElementById('showbig');
+    if(!big) return; big.style.opacity=0;
+    setTimeout(()=>{big.src=src;big.style.opacity=1;},200);
+  };
   const burger=document.querySelector('.burger');
   burger&&burger.addEventListener('click',()=>document.querySelector('.navlinks').classList.toggle('open'));
 
