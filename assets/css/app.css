@@ -1020,16 +1020,29 @@ footer a:hover{opacity:1}
   width:2.75rem;height:1.625rem;border:1px solid rgba(241,240,232,.28);
   background:rgba(241,240,232,.07);border-radius:var(--radius-hairline);font-style:normal;
   font-family:var(--font-sans);font-weight:600;font-size:var(--t-2xs);letter-spacing:.05em}
-.legal a{display:inline}
-.legal{font-family:var(--font-sans);font-size:var(--t-2xs);letter-spacing:var(--track-micro);
-  text-transform:uppercase;line-height:1.8;opacity:var(--o-strong)}
-/* the country and currency had been separated from the legal links by a
-   non-breaking space, so on a phone they ran into the end of "Cookies" and
-   wrapped mid-statement. It is a separate statement, and it takes its own
-   line wherever there is not room beside them. */
-.legal .locale{margin-left:var(--s-4)}
+/* Privacy, Terms and Cookies were one sentence held together by middots, set
+   at the same size as everything else in the row — three of the least
+   important words on the page taking the same weight as the payment marks.
+   They are three separate links now, each its own item, at the smallest size
+   the site sets, with the country and currency on its own line beneath
+   rather than trailing off the end of "Cookies".
+
+   Smaller in type but not smaller to hit: the padding grows each link's hit
+   area past 24px without contributing to the line box, so nothing moves. */
+.legalwrap{display:flex;flex-wrap:wrap;align-items:baseline;
+  gap:var(--s-2) var(--s-4);min-width:0}
+.legal{display:flex;flex-wrap:wrap;gap:var(--s-3)}
+.legal a{display:inline-block;font-family:var(--font-sans);font-size:var(--t-2xs);
+  letter-spacing:var(--track-micro);text-transform:uppercase;line-height:1.6;
+  opacity:var(--o-mid);padding-block:.5rem;margin-block:-.35rem}
+.legal a:hover,.legal a:focus-visible{opacity:1}
+.locale{font-family:var(--font-sans);font-size:var(--t-2xs);
+  letter-spacing:var(--track-micro);text-transform:uppercase;line-height:1.6;
+  opacity:var(--o-quiet)}
 @media (max-width:47.9375em){
-  .legal .locale{display:block;margin-left:0;margin-top:var(--s-2)}
+  /* the two statements stack: legal links on one line, where you are on the
+     next, so neither wraps mid-phrase */
+  .legalwrap{flex-direction:column;align-items:flex-start;gap:var(--s-2)}
 }
 
 /* ------------------------------------------------------------- drawer --- */
@@ -2729,8 +2742,22 @@ footer .fbot a,footer .legal a,footer .fcopy a,
   footer a,.links a,.util a,.util button,.mega .ml,.acctnav a,.brand,.bagbtn,
   .house .row a,.tagrow a,.snav a,.sv{
     min-height:2.75rem;display:flex;align-items:center}
-  footer .cols a{margin-bottom:0}
-  .fbot a,.legal a,.fcopy a{min-height:0;display:inline;padding-block:.4rem}
+  /* The footer's navigation is the phone menu again, at the other end of the
+     page, and it was set in the display serif at a size that made fourteen
+     links read as fourteen small headlines. It takes the menu's row exactly:
+     the same sans, the same size, the same row height, the same hairline
+     between one destination and the next. Two lists of places to go should
+     not be two designs — and the heading over each column already matches
+     the menu's group label. */
+  footer .cols a{margin-bottom:0;
+    font-family:var(--font-sans);font-size:var(--t-sm);line-height:1.35;
+    min-height:2.875rem;
+    border-bottom:1px solid rgba(241,240,232,.12)}
+  /* no rule above the first link: the menu does not have one either, and the
+     heading is already doing the work of opening the group */
+  footer .fh{margin-bottom:var(--s-2)}
+  .fbot a,.legal a,.fcopy a{min-height:0;display:inline-block;padding-block:.5rem}
+  .legal a{margin-block:-.35rem}
   .ffield input,.ffield textarea,.field input,.field textarea,.news input{
     min-height:2.75rem;padding-block:.5rem}
   .ul,.crumb a,.card .price a,.re a,.rd,.sizes button{
