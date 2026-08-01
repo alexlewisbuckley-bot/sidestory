@@ -679,7 +679,7 @@ button:disabled,[aria-disabled="true"]{cursor:default}
 .card{position:relative;display:flex;flex-direction:column;transition:opacity var(--d-quick) var(--settle)}
 /* dimming the grid is one composited layer; dimming eight cards was eight,
    and it was never wired up in the first place */
-.cards{transition:opacity 130ms var(--settle)}
+.cards{transition:opacity var(--d-instant) var(--settle)}
 .cards.sorting{opacity:.3}
 .card .ph{position:relative;width:100%;aspect-ratio:1;overflow:hidden;background:var(--plaster)}
 .card .ph a{display:block;width:100%;height:100%}

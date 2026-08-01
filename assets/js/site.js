@@ -141,7 +141,7 @@
       mutate();
       grid.__settling = null;
       requestAnimationFrame(()=>grid.classList.remove('sorting'));
-    }, 130);
+    }, 100);   /* --d-instant, the same beat the grid dims over */
   }
 
   /* Scroll reveals.
