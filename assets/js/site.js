@@ -169,7 +169,10 @@
     </div>`).join('')
       : `<div class="empty"><p class="k">Nothing here yet</p>
          <p>Your bag is empty. The shelf is seven stories long.</p>
-         <div class="chips" style="justify-content:center"><a href="collection.html">See the fragrances</a><a href="samples.html">Begin with samples</a></div></div>`;
+         <div class="tagrow"><a href="collection.html">See the fragrances</a><a href="samples.html">Begin with samples</a></div></div>`;
+    /* a dedication belongs to something. With an empty bag the offer sat
+       under the empty state offering to typeset a line onto no flyleaf. */
+    document.querySelectorAll('.cart .tryfirst').forEach(el=>{ el.hidden=!bag.length; });
     const cred=bag.some(i=>i.price===5)?5:0;
     const set=(id,v)=>{const e=document.getElementById(id); if(e) e.textContent=v;};
     set('subtotal',money(total())); set('bagsub',money(total())); set('cosub',money(total()));
@@ -472,27 +475,30 @@
     b.querySelector('i').textContent=a.classList.contains('open')?'—':'+';
   }));
 
-  /* newsletter + story form */
+  /* newsletter + story form.
+     What was here wrote confirmation markup with innerHTML using five class
+     names — .centered .rule .kicker .fine .mut — that exist nowhere in the
+     stylesheet, and set the heading size inline at a raw 30px, so both
+     confirmations rendered as unstyled browser default. The story-form half
+     of it referenced #storyform and #formwrap, neither of which has existed
+     since the share page was rebuilt, so it had also been dead for a while.
+     Both confirmations are now a .formdone block authored in the page and
+     revealed on submit, which needs no JavaScript to look right. */
   const nf=document.getElementById('newsform');
-  nf&&nf.addEventListener('submit',e=>{e.preventDefault();
-    nf.parentElement.innerHTML='<div class="centered"><div class="rule"></div><h2 style="font-size:30px">The first letter is on its way.</h2><p class="fine" style="margin-top:12px">One letter a month. Unsubscribe any time — your address is never shared.</p></div>';});
-  const ta=document.getElementById('moment');
-  ta&&ta.addEventListener('input',()=>{
-    const w=ta.value.trim()?ta.value.trim().split(/\s+/).length:0;
-    document.getElementById('wcount').textContent=w+' / 500 words';
+  nf&&nf.addEventListener('submit',e=>{
+    e.preventDefault();
+    const done=nf.parentElement.querySelector('.formdone');
+    if(!done) return;
+    /* the pitch has done its job — leaving it above the confirmation left the
+       same sentence on the page twice, once as an offer and once as a fact */
+    nf.parentElement.querySelectorAll(':scope>h2,:scope>.s,:scope>#newsform,:scope>.fine')
+      .forEach(el=>{ el.hidden=true; });
+    done.hidden=false; done.setAttribute('tabindex','-1'); done.focus();
   });
-  const sf=document.getElementById('storyform');
-  sf&&sf.addEventListener('submit',e=>{e.preventDefault();
-    document.getElementById('formwrap').innerHTML=
-     '<div class="centered"><div class="rule"></div><p class="kicker">Received</p>'+
-     '<h2 style="font-size:clamp(28px,3.4vw,44px);margin:14px 0 16px">It’s in the postbag.</h2>'+
-     '<p class="mut" style="line-height:1.85">Someone here will read it — a person, not a filter — and you’ll hear from us within the month, whichever way it goes. Thank you for trusting us with it.</p>'+
-     '<p style="margin-top:22px"><a class="btn btn-ink" href="stories.html">Read the seven</a></p></div>';
-    window.scrollTo({top:document.getElementById('formwrap').offsetTop-120,behavior:'smooth'});});
 
-  /* checkout */
-  const co=document.getElementById('checkoutform');
-  co&&co.addEventListener('submit',e=>{e.preventDefault();location.href='confirmation.html';});
+  /* the #checkoutform handler that stood here referenced an id no page has
+     emitted since the checkout was rebuilt — checkout.html carries the
+     navigation on the form itself. Removed rather than left to rot. */
 
   renderBag();
 

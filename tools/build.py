@@ -425,7 +425,7 @@ DRAWER = """<div class="scrim" id="scrim" onclick="closeDrawer()"></div>
   <div class="tbar"><div class="tfill" id="tfill"></div></div>
   <div class="dtot"><span>Subtotal</span><b id="dtotal">&pound;0</b></div>
   <a class="btn btn-ink" href="checkout.html">Checkout</a>
-  <p class="dfine">Tax included &middot; 30-day returns &middot; sample cost redeemed</p>
+  <p class="dfine">Tax included &middot; 30&#8209;day returns &middot; sample cost redeemed</p>
 </aside>
 """
 
@@ -801,7 +801,7 @@ def build():
         <button class="btn btn-ghostink applepay" onclick="addToBag('{p['slug']}',document.querySelector('.pdp .cta .btn-ink').dataset.size||'100ml',this)"><svg class="i-apple" viewBox="0 0 384 512" aria-hidden="true" focusable="false"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.931.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/></svg> Apple Pay</button>
       </div>
       <p class="re"><span data-sizeline>Hand-carved stone lid, and the nine printed pages, in the box.</span></p>
-      <p class="re">Complimentary UK delivery &middot; 30-day returns &middot; sample cost redeemed</p>
+      <p class="re">Complimentary UK delivery &middot; 30&#8209;day returns &middot; sample cost redeemed</p>
 
       <div class="acc">
             <details open><summary>The story</summary><div class="body">{p['name']} began as {p['story']}, commissioned from a novelist and printed on cotton paper before the first accord was weighed. Nine pages arrive with the bottle; the digital edition arrives with your confirmation.</div></details>
@@ -890,7 +890,7 @@ def build():
         <p class="k">Choosing for someone else</p>
         <h2>When you are not sure.</h2>
         <p>Send The First Lines instead. Seven miniatures, seven first pages, &pound;38 &mdash; and the credit transfers to them, not to you, so they choose their own bottle.</p>
-        <div class="chips" style="margin-top:var(--s-4)">
+        <div class="tagrow">
           <a href="samples.html">The First Lines &mdash; &pound;38</a>
           <a href="collection.html">A full bottle &mdash; &pound;160</a>
         </div>
@@ -1219,7 +1219,7 @@ def build():
       <p class="k">Send your story</p>
       <h2>Tell us the moment.</h2>
     </div>
-    <form class="sform" onsubmit="event.preventDefault();this.querySelector('.sent').hidden=false;this.querySelector('button[type=submit]').disabled=true;">
+    <form class="sform" onsubmit="event.preventDefault();this.hidden=true;var d=this.parentNode.querySelector('.formdone');d.hidden=false;d.setAttribute('tabindex','-1');d.focus();">
       <label class="ffield"><span>Your story&rsquo;s title</span>
         <input name="title" placeholder="e.g. The Bakery at Five" required></label>
       <label class="ffield"><span>Where and when</span>
@@ -1236,8 +1236,14 @@ def build():
           <span>I&rsquo;m happy for Side Story to read my story, and to contact me about it. You keep the copyright &mdash; we will ask again, in writing, before anything is published or set to scent.</span></label>
         <button class="btn btn-ink" type="submit">Send your story</button>
       </div>
-      <p class="re sent" hidden>Thank you &mdash; it is with the reading group. You will hear from us either way, within a month.</p>
     </form>
+    <div class="formdone" hidden>
+      <div class="r"></div>
+      <p class="k">Received</p>
+      <h2>It&rsquo;s in the postbag.</h2>
+      <p>Someone here will read it &mdash; a person, not a filter &mdash; and you will hear from us within the month, whichever way it goes. Thank you for trusting us with it.</p>
+      <p><a class="ul" href="stories.html">Read the seven</a></p>
+    </div>
     <aside class="looking">
       <p class="k">What we are looking for</p>
       <p>Air, weather, rooms, hands, hours. The specific over the sweeping &mdash; one Tuesday beats a whole decade.</p>
@@ -1303,7 +1309,7 @@ def build():
       <input type="search" placeholder="A fragrance, a feeling, a stone&hellip;" aria-label="Search">
       <button class="btn btn-ink" type="submit">Search</button>
     </form>
-    <div class="chips">
+    <div class="tagrow">
       <a href="collection.html">All seven</a><a href="samples.html">Samples</a>
       <a href="gifting.html">Gifting</a><a href="stories.html">Stories</a>
       <a href="collection.html">Woods</a><a href="collection.html">Citrus</a><a href="collection.html">Incense</a>
@@ -1351,7 +1357,7 @@ def build():
       </div>
       <h2 class="sechead">Your stories</h2>
       <p class="crumb">Digital editions unlocked by your orders. They stay in your account whatever happens to the paper.</p>
-      <div class="chips">
+      <div class="tagrow">
         <a href="story.html?s=sunday-service">Sunday Service</a>
         <a href="stories.html">Hotel Lobby</a>
         <a href="stories.html">The First Lines &mdash; seven openings</a>
@@ -1371,7 +1377,7 @@ def build():
     <div>
       <div id="baglines"><div class="empty"><p class="k">Nothing here yet</p>
         <p>Your bag is empty. The shelf is seven stories long.</p>
-        <div class="chips" style="justify-content:center"><a href="collection.html">See the fragrances</a><a href="samples.html">Begin with samples</a></div>
+        <div class="tagrow" style="justify-content:center"><a href="collection.html">See the fragrances</a><a href="samples.html">Begin with samples</a></div>
       </div></div>
       <label class="tryfirst"><input type="checkbox" checked>
         <div><b>Add a Dedication &mdash; complimentary</b><span>A line of yours, typeset on the story&rsquo;s flyleaf, and sent again as a digital edition.</span></div></label>
@@ -1383,7 +1389,7 @@ def build():
       <div class="srow"><span>Sample credit</span><span>&minus;&pound;5</span></div>
       <div class="srow total"><span>Total</span><span id="bagtotal">&pound;0</span></div>
       <a class="btn btn-ink" href="checkout.html" style="width:100%;margin-top:var(--s-4)">Proceed to checkout</a>
-      <p class="re">Tax included &middot; 30-day returns &middot; Visa, Mastercard, Amex, Apple Pay</p>
+      <p class="re">Tax included &middot; 30&#8209;day returns &middot; Visa, Mastercard, Amex, Apple Pay</p>
     </div>
   </div>
 </div>
@@ -1507,7 +1513,7 @@ def build():
   {crumbs(("Home", "index.html"), "Contact")}
   <div class="phead"><p class="k">Contact</p><h1>Write to the house.</h1>
     <p class="lede">Two people read this inbox. You will hear back within two working days, from one of them.</p></div>
-  <form class="form" onsubmit="event.preventDefault();this.querySelector('.sent').hidden=false;this.querySelector('.btn').disabled=true;">
+  <form class="form" onsubmit="event.preventDefault();this.hidden=true;var d=this.parentNode.querySelector('.formdone');d.hidden=false;d.setAttribute('tabindex','-1');d.focus();">
     <div>
       <div class="row2">
         <label class="field"><span>Name</span><input required></label>
@@ -1517,7 +1523,6 @@ def build():
         <select><option>An order</option><option>A return</option><option>Gifting</option><option>Stockists &amp; press</option><option>Something else</option></select></label>
       <label class="field"><span>Message</span><textarea required></textarea></label>
       <div class="actions"><button class="btn btn-ink" type="submit">Send</button></div>
-      <p class="re sent" hidden>Thank you &mdash; it has arrived. You will hear from us within two working days.</p>
     </div>
     <div class="aside-card">
       <h2 class="vh">How to reach us</h2>
@@ -1527,6 +1532,13 @@ def build():
       <p>Press and wholesale: press@sidestoryparfums.com</p>
     </div>
   </form>
+  <div class="formdone" hidden>
+    <div class="r"></div>
+    <p class="k">Received</p>
+    <h2>It has arrived.</h2>
+    <p>Two people read this inbox and one of them will write back, within two working days. If it is about an order, quoting the order number will get you a faster answer.</p>
+    <p><a class="ul" href="faq.html">Read the questions we are asked most</a></p>
+  </div>
 </div>
 """)
 

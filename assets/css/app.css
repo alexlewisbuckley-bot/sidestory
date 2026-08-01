@@ -175,13 +175,31 @@
 
   /* Elevation. The file defines no effect styles, so every shadow on the site
      had been invented where it was needed — seven of them, no two related.
-     Three: a hairline for cards that lift, a raised for panels that float, and
-     an overlay for things that sit above the page. */
-  --shadow-hairline:0 1px 2px rgba(30,28,22,.06);
-  --shadow-raised:var(--shadow-raised);
-  --shadow-overlay:0 1.25rem 3.5rem rgba(30,28,22,.22);
 
+     Two now, not three. Nothing on this site should look lifted: the houses
+     this is measured against use no elevation at all on content, only on the
+     panels that genuinely sit above the page. So `raised` is retired — the
+     one gesture that used it, a card lifting on hover, is gone — and the
+     hairline is for the sheet and menu that slide over a scrolling page.
+     `--shadow-raised` was also self-referential, which is guaranteed-invalid
+     at computed-value time: every rule that asked for it silently painted no
+     shadow at all. It stays declared, aliased, so nothing breaks. */
+  --shadow-hairline:0 1px 2px rgba(30,28,22,.06);
+  --shadow-overlay:0 1.25rem 3.5rem rgba(30,28,22,.22);
+  --shadow-panel:0 .75rem 2.5rem rgba(30,28,22,.10);
+  --shadow-raised:var(--shadow-panel);
+
+  /* Motion. One curve, four durations, and the tokens are now actually used —
+     they were declared and referenced zero times, so the sheet had drifted to
+     ten raw values of which four were off any scale. */
   --settle:cubic-bezier(.22,1,.36,1);
+  --d-instant:.1s;   /* a press, a tick — felt, not seen */
+  --d-quick:.25s;    /* state on a control: colour, rule, opacity */
+  --d-settled:.5s;   /* something arriving: a panel, a quick-add */
+  --d-slow:.8s;       /* image and reveal, the only motion meant to be noticed */
+  --d-cinematic:1.2s; /* the arrival veil, once per session */
+  --d-ambient:16s;    /* the hero's slow drift — this was 14s on one page and
+                         18s on another, for the same effect */
 
   /* -- names the existing components already use, mapped onto the tokens
         so this is a token swap and not a component rewrite -------------- */
@@ -254,9 +272,56 @@
   --ctl-px-sm:20px; --ctl-px-pill:16px;
   --buy-col:29rem;
 
-  /* tracking, also measured off the screens */
-  --ls-nav:.24em; --ls-kicker:.28em; --ls-btn:.22em; --ls-price:.16em;
-  --ls-stone:.24em; --ls-badge:.22em; --ls-legal:.20em;
+  /* ---------------------------------------------------------------------
+     Tracking. One ladder, and it follows size rather than the author.
+
+     Uppercase Montserrat was running at sixteen distinct raw values across
+     this sheet — .02 .05 .1 .14 .16 .18 .2 .22 .24 .26 .28 .3 .32 .34 .35 —
+     for what is optically a single element: a tracked micro label. Seven
+     tokens existed alongside them and were used eighteen times in total.
+     Nobody can name the difference between .18em and .2em on a 10px cap, but
+     the eye reads the whole set as imprecision.
+
+     The rule now is the typographic one: the smaller the caps, the more air
+     they need. Four steps, chosen at the centre of mass of what was already
+     there so the house's wide-tracked character is unchanged.
+     --------------------------------------------------------------------- */
+  --track-micro:.24em;   /* --t-2xs — 7.5–8.5px, the smallest labels */
+  --track-label:.20em;   /* --t-xs / --t-btn — 9–11px, nav and most labels */
+  --track-caps:.16em;    /* --t-sm and up — 12px+, prices and larger caps */
+  --track-kicker:.30em;  /* the centred section eyebrows, and only those */
+
+  /* the older names, aliased on so this is a token swap and not a rewrite */
+  --ls-nav:var(--track-label);   --ls-kicker:var(--track-kicker);
+  --ls-btn:var(--track-label);   --ls-price:var(--track-caps);
+  --ls-stone:var(--track-micro); --ls-badge:var(--track-micro);
+  --ls-legal:var(--track-label); --ls-label:var(--track-label);
+
+  /* ---------------------------------------------------------------------
+     Ink strength. The same disease: "quieter than the body text" was written
+     as a bare opacity at each call site — fourteen distinct values from .94
+     down to .5 — while the two tokens that existed for it were used zero
+     times. Three steps. Opacity rather than colour because half these sites
+     sit on ink and half on ivory, and one ladder has to serve both grounds.
+     --------------------------------------------------------------------- */
+  Two mechanisms, because one does not fit both grounds.
+
+     On the ivory grounds — which is most of the site — recession is a COLOUR.
+     Opacity was the wrong tool twice over. It compounds: `.marginnote` at .85
+     holding a `small` at .85 renders at .72, and nobody wrote .72. And on a
+     light ground the arithmetic is unforgiving — charcoal at 70% over ivory
+     measures 3.9:1, under the 4.5 small text needs, so half the site's
+     labels were failing while reading as a deliberate grey. There is exactly
+     one usable step below the primary ink here, so there is one.
+
+     On ink, photography and the stone fields, ivory text has room to fall,
+     and a colour would have to be authored per ground. There, opacity. */
+  --txt-2:#5f6260; /* the one recession step on ivory — 5.4:1, 4.9 on sand */
+  --o-strong:.85;  /* ivory on a dark ground: 9:1 */
+  --o-mid:.7;      /* ivory on a dark ground: 6.7:1 */
+  --o-quiet:.55;   /* ivory on a dark ground: 4.8:1, and non-text anywhere */
+  --opacity-secondary:var(--o-mid);
+  --opacity-tertiary:var(--o-quiet);
 
   /* leading, measured off the screens */
   --lh-body:1.76; --lh-lede:1.76; --lh-small:1.64;
@@ -309,6 +374,12 @@
 }
 
 *{margin:0;padding:0;box-sizing:border-box;min-width:0}
+/* Line breaking. Display type is set to balance, so a heading never leaves
+   one or two words stranded on a second line, and body copy to pretty, which
+   only pulls the last line up. This is the part of typesetting the four
+   houses this is measured against do by hand; the browser will do it here. */
+h1,h2,h3,.sechead,blockquote,figcaption,.k{text-wrap:balance}
+p,li,dd,summary{text-wrap:pretty}
 html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
 body{background:var(--ivory);color:var(--ink);
   font-family:var(--font-serif);font-size:var(--t-md);line-height:var(--lh-body);
@@ -322,6 +393,11 @@ img{display:block;max-width:100%;height:auto}
 /* <picture> is a wrapper, not a box — the layout must not see it */
 picture{display:contents}
 
+/* The hidden attribute has to beat every component display rule, or a
+   `display:flex` two hundred lines later quietly un-hides the thing. This
+   sheet had already grown three one-off `[hidden]{display:none}` patches for
+   exactly that; the newsletter form was the fourth to hit it. */
+[hidden]{display:none!important}
 a{color:inherit;text-decoration:none}
 button{font:inherit;border:0;background:none;cursor:pointer;color:inherit}
 /* Focus. The old ring was brass, which measures 2.73:1 on ivory, 2.62 on sand
@@ -330,7 +406,7 @@ button{font:inherit;border:0;background:none;cursor:pointer;color:inherit}
    with a 2px ivory offset ring reads on every ground the site has, light or
    dark, and on photography. */
 :focus-visible{outline:2px solid var(--ink);outline-offset:2px;
-  box-shadow:0 0 0 4px rgba(241,240,232,.85);border-radius:1px}
+  box-shadow:0 0 0 4px rgba(241,240,232,.85);border-radius:var(--radius-hairline)}
 :where(.hero,.banner,.yfeat,.shero,.splate,footer,.sbecame,.promo,.yset,.ann,.drawer .btn-ink)
   :focus-visible,.btn-ink:focus-visible,.btn-ghost:focus-visible{
   outline-color:var(--ivory);box-shadow:0 0 0 4px rgba(43,46,45,.55)}
@@ -340,7 +416,7 @@ button{font:inherit;border:0;background:none;cursor:pointer;color:inherit}
   background:var(--ink);color:var(--ivory);
   font-family:var(--font-sans);font-weight:600;font-size:var(--t-2xs);
   letter-spacing:var(--ls-btn);text-transform:uppercase;
-  transition:top .25s var(--settle)}
+  transition:top var(--d-quick) var(--settle)}
 .skip:focus{top:var(--space-4)}
 
 /* a name for sections that have one without showing it — the outline was
@@ -359,9 +435,16 @@ h1,h2,.sechead{font-family:var(--font-display);font-weight:400;
 h3{font-family:var(--font-serif);font-weight:400;line-height:1.3}
 p{text-wrap:pretty}
 
-/* the small tracked label used above every section heading */
+/* The small tracked label used above every section heading.
+
+   It is a <p class="k">, so every `X :where(p)` recession rule in this sheet
+   was also matching it — and because :where() carries no specificity, the two
+   tied and the later one won. On the verde promo card that stacked an .85 on
+   top of brass-on-dark and took a kicker to 4.18:1. The recession rules now
+   read :where(p:not(.k)): a kicker is already the recessive voice, and does
+   not need a second helping of it. */
 .k{font-family:var(--font-sans);font-weight:500;font-size:var(--t-xs);
-  letter-spacing:.28em;text-transform:uppercase;color:var(--brass-text);line-height:1.4}
+  letter-spacing:var(--track-kicker);text-transform:uppercase;color:var(--brass-text);line-height:1.4}
 
 /* ---------------------------------------------------------------- shell -- */
 .inner{width:100%;max-width:90rem;margin-inline:auto;padding-inline:var(--gutter)}
@@ -371,6 +454,15 @@ section{position:relative}
 /* the standard section rhythm; bands with full-bleed art opt out */
 .house,.seven,.show,.atelier,.feelings,.ways,.making,.mater,.journal,.creds{
   padding-block:var(--s-7)}
+
+/* A page's opening band is not a gap between two sections, and it was being
+   given the rhythm for one: 96px of section padding on top of the
+   breadcrumb's own 24px put 120px of empty ivory between the nav and an
+   8.5px grey line on every interior page. Air above the first heading is
+   right; an unfilled fifth of the first screen is not. */
+main>:first-child:is(.band,.house,.seven,.show,.atelier,.feelings,
+                     .ways,.making,.mater,.journal,.creds){
+  padding-top:var(--space-7)}
 
 /* section heading block: label, heading, optional link on the right */
 .head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;
@@ -384,26 +476,31 @@ section{position:relative}
   letter-spacing:var(--ls-btn);text-transform:uppercase;
   min-height:var(--ctl-h);padding-inline:var(--ctl-px);padding-block:0;
   border:1px solid transparent;
-  transition:background .25s var(--settle),color .25s var(--settle),border-color .25s var(--settle)}
+  transition:background var(--d-quick) var(--settle),color var(--d-quick) var(--settle),border-color var(--d-quick) var(--settle)}
 .btn-ivory{background:var(--ivory);color:var(--ink)}
-.btn-ivory:hover{background:#fff}
+.btn-ivory:hover{background:var(--surface-raised)}
 .btn-ghost{border-color:rgba(241,240,232,.8);color:var(--ivory)}
 .btn-ghost:hover{background:rgba(241,240,232,.14)}
 .btn-ink{background:var(--ink);color:var(--ivory)}
-.btn-ink:hover{background:#141615}
+.btn-ink:hover{background:var(--charcoal-900)}
 .btn-ghostink{border-color:rgba(43,46,45,.45);color:var(--ink)}
 .btn-ghostink:hover{border-color:var(--ink);background:rgba(43,46,45,.05)}
-.btn-sm{min-height:var(--ctl-h-sm);padding-inline:var(--ctl-px-sm);letter-spacing:.14em}
+.btn-sm{min-height:var(--ctl-h-sm);padding-inline:var(--ctl-px-sm);letter-spacing:var(--track-label)}
 /* Nothing on the site acknowledged a press, and a button that disables itself
    for 1.4s after add-to-bag looked completely live while ignoring taps. On
    touch, where hover never fires, this was the only missing feedback. */
 .btn:active{transform:translateY(1px)}
 .btn[disabled],.btn:disabled{opacity:.55;cursor:default;transform:none}
 .btn[disabled]:hover,.btn:disabled:hover{background:inherit}
-.ul:active,.sv:active,.scard:active{opacity:.7}
+.ul:active,.sv:active,.scard:active{opacity:.6}
 button:disabled,[aria-disabled="true"]{cursor:default}
+/* Press. Borderless text controls acknowledge a tap by dimming, not by
+   painting a grey box behind themselves — a box would reintroduce exactly the
+   chip this pass removed, for 100ms. The sheet row is full-width and keeps
+   its wash, because there a wash is the affordance. */
 .shelfbar .seg button:active,.shelfbar .chips button:active,
-.sizes button:active,.srow:active{background:rgba(43,46,45,.1)}
+.sizes button:active{opacity:.5}
+.srow:active{background:rgba(43,46,45,.06)}
 
 .ul{display:inline-block;font-family:var(--font-sans);font-weight:500;
   font-size:var(--t-xs);letter-spacing:var(--ls-nav);text-transform:uppercase;white-space:nowrap;
@@ -411,7 +508,7 @@ button:disabled,[aria-disabled="true"]{cursor:default}
 
 /* -------------------------------------------------------------- reveal -- */
 .rev{opacity:0;transform:translateY(1.25rem);
-  transition:opacity .8s var(--settle),transform .8s var(--settle)}
+  transition:opacity var(--d-slow) var(--settle),transform var(--d-slow) var(--settle)}
 .rev.in{opacity:1;transform:none}
 
 /* -------------------------------------------------- announcement + nav -- */
@@ -428,7 +525,7 @@ button:disabled,[aria-disabled="true"]{cursor:default}
   padding-block:var(--space-5)}
 .nav.shrunk .inner{padding-block:var(--space-4)}
 
-.brand{flex:0 0 auto;display:block;width:clamp(6.5rem,10vw,9.375rem);color:#33383A;
+.brand{flex:0 0 auto;display:block;width:clamp(6.5rem,10vw,9.375rem);color:var(--ink);
   }
 .brand img,.brand svg{width:100%;height:auto;display:block}
 .nav.shrunk .brand{width:clamp(6rem,8.6vw,8.125rem)}
@@ -437,11 +534,12 @@ button:disabled,[aria-disabled="true"]{cursor:default}
 .links a,.util a,.util button{font-family:var(--font-sans);font-weight:500;
   font-size:var(--t-xs);letter-spacing:var(--ls-nav);text-transform:uppercase;color:var(--txt);
   position:relative;white-space:nowrap;padding-block:.35em}
-.links a::after{content:"";position:absolute;left:0;bottom:0;width:0;height:1px;
-  background:var(--ink);}
-.links a:hover::after,.links a:focus-visible::after{width:100%}
+.links a::after{content:"";position:absolute;left:0;bottom:0;width:100%;height:1px;
+  background:var(--ink);transform:scaleX(0);transform-origin:left;
+  transition:transform var(--d-quick) var(--settle)}
+.links a:hover::after,.links a:focus-visible::after{transform:scaleX(1)}
 .util{margin-left:auto;display:flex;align-items:center;gap:clamp(0.875rem,1.9vw,1.875rem)}
-#bagcount{display:inline-block;transition:transform .25s var(--settle)}
+#bagcount{display:inline-block;transition:transform var(--d-quick) var(--settle)}
 #bagcount.tick{transform:translateY(-.35em)}
 .burger{display:none}
 
@@ -449,7 +547,7 @@ button:disabled,[aria-disabled="true"]{cursor:default}
 .hero{position:relative;display:grid;align-items:end;isolation:isolate;
   min-height:clamp(28rem,72svh,45rem);overflow:hidden}
 .hero>img,.hero>picture>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;
-  transform:scale(1.05);animation:kb 14s var(--settle) forwards}
+  transform:scale(1.05);animation:kb var(--d-ambient) var(--settle) forwards}
 @keyframes kb{to{transform:scale(1)}}
 /* Three layers, so the copy stays legible whatever the plate behind it: the
    prototype's two diagonals, plus a floor that guarantees contrast under the
@@ -461,20 +559,20 @@ button:disabled,[aria-disabled="true"]{cursor:default}
 /* max-width has to carry the gutter too, or the headline wraps early */
 .hero .copy{max-width:calc(44rem + var(--gutter) * 2);color:var(--ivory);
   padding:var(--s-7) var(--gutter) clamp(4.5rem,9vw,5.5rem)}
-.hero .copy>*{opacity:0;transform:translateY(1rem);animation:rise .8s var(--settle) forwards}
+.hero .copy>*{opacity:0;transform:translateY(1rem);animation:rise var(--d-slow) var(--settle) forwards}
 @keyframes rise{to{opacity:1;transform:none}}
-.hero .k{font-size:var(--t-xs);color:var(--ivory);opacity:.9;letter-spacing:.3em;animation-delay:.1s}
+.hero .k{font-size:var(--t-xs);color:var(--ivory);opacity:var(--o-strong);letter-spacing:var(--track-kicker);animation-delay:.1s}
 .hero h1{font-size:var(--t-6);line-height:var(--lh-headline);margin-top:var(--s-4);animation-delay:.25s}
-.hero :where(p){font-size:var(--t-lg);line-height:var(--lh-lede);opacity:.94;max-width:35rem;
+.hero :where(p:not(.k)){font-size:var(--t-lg);line-height:var(--lh-lede);opacity:var(--o-strong);max-width:35rem;
   margin-top:var(--s-4);animation-delay:.5s}
 .hero .cta{display:flex;flex-wrap:wrap;gap:var(--s-3);margin-top:var(--s-5);animation-delay:.5s}
 .hero .cta .btn{min-height:var(--ctl-h-lg);padding-inline:var(--ctl-px-lg)}
 .cue{position:absolute;left:50%;bottom:var(--s-4);translate:-50% 0;text-align:center;
   color:var(--ivory);pointer-events:none}
 .cue s{display:block;width:1px;height:2.125rem;background:var(--ivory);margin:0 auto;
-  transform-origin:top;animation:drip 1.2s var(--settle) infinite}
+  transform-origin:top;animation:drip var(--d-cinematic) var(--settle) infinite}
 .cue em{display:block;margin-top:.5rem;font-style:normal;font-family:var(--font-sans);
-  font-size:var(--t-2xs);letter-spacing:.35em;text-transform:uppercase;opacity:.7}
+  font-size:var(--t-2xs);letter-spacing:var(--track-micro);text-transform:uppercase;opacity:var(--o-mid)}
 @keyframes drip{0%{transform:scaleY(0)}45%{transform:scaleY(1);transform-origin:top}
   55%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
 @media (max-width:47.9375em){ .cue{display:none} }
@@ -489,17 +587,17 @@ button:disabled,[aria-disabled="true"]{cursor:default}
 .sig{display:grid;grid-template-columns:auto minmax(0,1fr);gap:var(--s-3);align-items:center}
 .sig img{width:clamp(3.5rem,7vw,6.5rem);aspect-ratio:1;height:auto;object-fit:cover}
 .sig h3{font-size:var(--t-lg);line-height:1.4;margin-top:.35em;color:var(--ink)}
-.sig :where(p){font-family:var(--font-sans);font-weight:500;font-size:var(--t-xs);
-  letter-spacing:.16em;text-transform:uppercase;color:var(--txt);opacity:.85;margin-top:.45em}
+.sig :where(p:not(.k)){font-family:var(--font-sans);font-weight:500;font-size:var(--t-xs);
+  letter-spacing:var(--track-label);text-transform:uppercase;color:var(--txt-2);margin-top:.45em}
 
 /* ----------------------------------------------------- 03b house intro -- */
 .house{background:var(--ivory);text-align:center}
-.house .k{letter-spacing:.34em}
+.house .k{letter-spacing:var(--track-kicker)}
 .house h2{font-size:var(--t-3);line-height:var(--lh-manifesto);max-width:34ch;margin:var(--s-4) auto 0}
 .house .row{display:flex;flex-wrap:wrap;justify-content:center;
   gap:var(--s-3) var(--s-5);margin-top:var(--s-5)}
 .house .row a{font-family:var(--font-sans);font-weight:500;font-size:var(--t-xs);
-  letter-spacing:.24em;text-transform:uppercase;color:var(--ink);
+  letter-spacing:var(--track-label);text-transform:uppercase;color:var(--ink);
   border-bottom:1px solid var(--ink);padding-bottom:.25em}
 
 /* ------------------------------------------------------- 04 the seven -- */
@@ -509,33 +607,33 @@ button:disabled,[aria-disabled="true"]{cursor:default}
 @media (min-width:40em){ .cards{grid-template-columns:repeat(3,minmax(0,1fr))} }
 @media (min-width:68em){ .cards{grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--space-9) var(--space-5)} }
 
-.card{position:relative;display:flex;flex-direction:column;transition:opacity .25s var(--settle)}
+.card{position:relative;display:flex;flex-direction:column;transition:opacity var(--d-quick) var(--settle)}
 .cards.sorting .card,.cards.sorting .promo{opacity:.25}
 .card .ph{position:relative;width:100%;aspect-ratio:1;overflow:hidden;background:var(--plaster)}
 .card .ph a{display:block;width:100%;height:100%}
 .card .ph img{width:100%;height:100%;object-fit:cover;
-  transition:transform .8s var(--settle),filter .4s var(--settle)}
-.card:hover .ph img{transform:scale(1.035);filter:brightness(1.04)}
+  transition:transform var(--d-slow) var(--settle)}
+.card:hover .ph img{transform:scale(1.03)}
 .badge{position:absolute;top:var(--s-2);left:var(--s-2);background:rgba(241,240,232,.95);
   font-family:var(--font-sans);font-weight:600;font-size:var(--t-2xs);
   letter-spacing:var(--ls-badge);text-transform:uppercase;padding:.45em .75em;line-height:1}
 .quick{position:absolute;left:0;right:0;bottom:0;background:rgba(241,240,232,.97);
-  padding:var(--s-3);transform:translateY(101%);transition:transform .5s var(--settle)}
+  padding:var(--s-3);transform:translateY(101%);transition:transform var(--d-settled) var(--settle)}
 .card:hover .quick,.card:focus-within .quick{transform:none}
 .quick .r{display:flex;flex-wrap:wrap;gap:var(--s-2)}
 .quick small{display:block;margin-top:var(--s-2);font-family:var(--font-sans);
-  font-size:var(--t-2xs);letter-spacing:.16em;text-transform:uppercase;color:var(--txt);opacity:.6}
+  font-size:var(--t-2xs);letter-spacing:var(--track-micro);text-transform:uppercase;color:var(--txt-2)}
 @media (hover:none){ .quick{display:none} }
 
 .card .meta{margin-top:var(--s-3)}
 .chip{display:inline-block;width:.625rem;height:.625rem;border-radius:50%;
   box-shadow:inset 0 0 0 .5px rgba(43,46,45,.25);vertical-align:middle;margin-right:.6em}
 .card .stone{font-family:var(--font-sans);font-weight:500;font-size:var(--t-2xs);
-  letter-spacing:var(--ls-stone);text-transform:uppercase;color:var(--txt);opacity:.75;
+  letter-spacing:var(--ls-stone);text-transform:uppercase;color:var(--txt-2);
   vertical-align:middle;line-height:1}
 .card h3{font-size:var(--t-card);margin-top:var(--s-2);color:var(--ink)}
 .card .notes{font-family:var(--font-script);font-weight:300;font-style:italic;
-  font-size:var(--t-notes);line-height:1.3;color:var(--txt);opacity:.85;margin-top:.3em}
+  font-size:var(--t-notes);line-height:1.3;color:var(--txt-2);margin-top:.3em}
 .card .price{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;
   gap:var(--s-2);margin-top:var(--s-3);
   font-family:var(--font-sans);font-weight:500;font-size:var(--t-xs);
@@ -544,22 +642,22 @@ button:disabled,[aria-disabled="true"]{cursor:default}
 /* the discovery-set card sits in the same grid track and simply fills it */
 .promo{display:flex;flex-direction:column;justify-content:center;gap:var(--s-3);
   background:var(--verde);color:var(--ivory);padding:var(--s-5);height:100%}
-.promo .k{color:var(--brass-on-dark);letter-spacing:.24em}
+.promo .k{color:var(--brass-on-dark);letter-spacing:var(--track-kicker)}
 .promo h3{font-family:var(--font-display);font-size:var(--t-2);line-height:1.2}
-.promo :where(p){font-size:var(--t-sm);line-height:1.6;opacity:.94;max-width:32ch}
+.promo :where(p:not(.k)){font-size:var(--t-sm);line-height:1.6;opacity:var(--o-strong);max-width:32ch}
 .promo .btn{align-self:flex-start}
 
 .seven .foot{text-align:center;margin-top:var(--s-6);font-family:var(--font-sans);
-  font-weight:500;font-size:var(--t-xs);letter-spacing:.18em;text-transform:uppercase;
-  color:var(--txt);opacity:.65;line-height:1.9}
+  font-weight:500;font-size:var(--t-xs);letter-spacing:var(--track-label);text-transform:uppercase;
+  color:var(--txt-2);line-height:1.9}
 
 /* --------------------------------------------------- 05 signature show -- */
 .show{background:var(--plaster)}
 .show .inner{display:grid;gap:var(--s-4);grid-template-columns:minmax(0,1fr)}
-.show .big{width:100%;aspect-ratio:1;object-fit:cover;transition:opacity .25s var(--settle)}
+.show .big{width:100%;aspect-ratio:1;object-fit:cover;transition:opacity var(--d-quick) var(--settle)}
 .show .thumbs{display:flex;gap:var(--s-2)}
-.show .thumbs button{padding:0;border:1.5px solid transparent;line-height:0;opacity:.82;
-  transition:border-color .25s var(--settle),opacity .25s var(--settle)}
+.show .thumbs button{padding:0;border:1px solid transparent;line-height:0;opacity:var(--o-mid);
+  transition:border-color var(--d-quick) var(--settle),opacity var(--d-quick) var(--settle)}
 .show .thumbs button:hover{opacity:1}
 .show .thumbs button[aria-current]{opacity:1;border-color:var(--ink)}
 .show .thumbs img{width:clamp(3.25rem,6vw,7.5rem);aspect-ratio:1;object-fit:cover;display:block}
@@ -577,12 +675,12 @@ button:disabled,[aria-disabled="true"]{cursor:default}
   padding-block:var(--s-2);border-bottom:1px solid rgba(43,46,45,.1);max-width:32rem}
 .spec:first-of-type{margin-top:var(--s-4)}
 .spec b{font-family:var(--font-sans);font-weight:500;font-size:var(--t-xs);
-  letter-spacing:.22em;text-transform:uppercase;color:var(--brass-text);
+  letter-spacing:var(--track-label);text-transform:uppercase;color:var(--brass-text);
   flex:0 0 auto;min-width:4.5rem}
 .spec span{font-family:var(--font-serif);font-size:var(--t-sm);color:var(--ink)}
 .show .cta{display:flex;flex-wrap:wrap;gap:var(--s-3);margin-top:var(--s-5)}
 .show .re{margin-top:var(--s-3);font-family:var(--font-sans);font-size:var(--t-xs);
-  letter-spacing:.14em;text-transform:uppercase;color:var(--txt);opacity:.6;line-height:1.8}
+  letter-spacing:var(--track-label);text-transform:uppercase;color:var(--txt-2);line-height:1.8}
 
 /* --------------------------------------------------------- 05b atelier -- */
 .atelier{background:var(--ivory)}
@@ -599,9 +697,9 @@ button:disabled,[aria-disabled="true"]{cursor:default}
 .atelier figcaption{display:flex;flex-wrap:wrap;gap:.35em var(--s-3);align-items:baseline;
   margin-top:var(--s-3)}
 .atelier figcaption b{font-family:var(--font-sans);font-weight:500;font-size:var(--t-xs);
-  letter-spacing:.24em;text-transform:uppercase;color:var(--ink)}
+  letter-spacing:var(--track-label);text-transform:uppercase;color:var(--ink)}
 .atelier figcaption i{font-family:var(--font-script);font-weight:300;
-  font-size:var(--t-md);color:var(--txt);opacity:.85}
+  font-size:var(--t-md);color:var(--txt-2)}
 
 /* ---------------------------------------------------- 06 campaign band -- */
 .campaign{position:relative;display:grid;align-items:end;isolation:isolate;
@@ -612,28 +710,31 @@ button:disabled,[aria-disabled="true"]{cursor:default}
 .campaign .c{color:var(--ivory);max-width:calc(52rem + var(--gutter) * 2);
   padding:var(--s-7) var(--gutter) var(--s-6)}
 .campaign h2{font-size:var(--t-4);line-height:1.35;max-width:24ch}
-.campaign .k{color:var(--ivory);opacity:.85;letter-spacing:.24em;margin-top:var(--s-4)}
+.campaign .k{color:var(--ivory);opacity:var(--o-strong);letter-spacing:var(--track-kicker);margin-top:var(--s-4)}
 .campaign .k a{border-bottom:1px solid rgba(241,240,232,.5);padding-bottom:.2em}
 
 /* --------------------------------------------------- 06b begin/feeling -- */
 .feelings{background:var(--plaster)}
 .feelings .sub{font-family:var(--font-serif);font-style:italic;font-size:var(--t-md);
-  color:var(--txt);opacity:.85;max-width:var(--measure);margin-top:var(--s-4)}
+  color:var(--txt-2);max-width:var(--measure);margin-top:var(--s-4)}
 .feelrow{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,9.5rem),1fr));
   gap:var(--s-2);margin-top:var(--s-5)}
+/* This card used to lift a quarter of a rem and drop a shadow, and its stone
+   chip grew by 45% under the cursor. Both are gestures from product UI, and
+   neither is a thing any fragrance house does to a piece of editorial. The
+   card now simply warms its ground, which is the same acknowledgement the
+   rest of the site gives — quiet, and on a surface rather than in space. */
 .feel{display:block;background:var(--ivory);padding:var(--s-4);
-  transition:transform .25s var(--settle),box-shadow .35s var(--settle)}
-.feel:hover{transform:translateY(-.25rem);box-shadow:var(--shadow-raised)}
-.feel .chip{display:block;width:.5625rem;height:.5625rem;margin:0;
-  transition:transform .25s var(--settle)}
-.feel:hover .chip{transform:scale(1.45)}
+  transition:background var(--d-quick) var(--settle)}
+.feel:hover,.feel:focus-visible{background:var(--sand)}
+.feel .chip{display:block;width:.5625rem;height:.5625rem;margin:0}
 .feel h3{font-family:var(--font-display);font-size:var(--t-1);
   margin-top:var(--s-5);color:var(--ink)}
-.feel :where(p){font-family:var(--font-script);font-weight:300;font-size:var(--t-sm);
-  line-height:1.4;color:var(--txt);opacity:.8;margin-top:.4em}
+.feel :where(p:not(.k)){font-family:var(--font-script);font-weight:300;font-size:var(--t-sm);
+  line-height:1.4;color:var(--txt-2);margin-top:.4em}
 .feelings .note{margin-top:var(--s-5);font-family:var(--font-sans);font-weight:500;
-  font-size:var(--t-xs);letter-spacing:.2em;text-transform:uppercase;color:var(--txt);
-  opacity:.6;line-height:1.8}
+  font-size:var(--t-xs);letter-spacing:var(--track-label);text-transform:uppercase;color:var(--txt-2);
+  ;line-height:1.8}
 
 /* ---------------------------------------------------------- 07 ways in -- */
 .ways{background:var(--sand)}
@@ -641,22 +742,22 @@ button:disabled,[aria-disabled="true"]{cursor:default}
 .way img{width:100%;aspect-ratio:400/180;object-fit:cover}
 .way .b{display:flex;flex-direction:column;flex:1;padding:var(--s-4)}
 .way h3{font-size:var(--t-1);margin-top:var(--s-2);color:var(--ink)}
-.way :where(p){font-size:var(--t-sm);line-height:1.65;color:var(--txt);opacity:.9;margin-top:var(--s-2)}
+.way :where(p:not(.k)){font-size:var(--t-sm);line-height:1.65;color:var(--txt-2);margin-top:var(--s-2)}
 .way .go{display:inline-block;margin-top:auto;padding-top:var(--s-3);
   font-family:var(--font-sans);font-weight:500;font-size:var(--t-xs);
-  letter-spacing:.2em;text-transform:uppercase;color:var(--ink)}
+  letter-spacing:var(--track-label);text-transform:uppercase;color:var(--ink)}
 
 /* ------------------------------------------------------- 08 the making -- */
 .making{background:var(--ivory)}
 .plates figure{overflow:hidden;min-width:0}
-.plates img{width:100%;aspect-ratio:4/3;object-fit:cover;transition:transform .8s var(--settle)}
-.plates figure:hover img{transform:scale(1.04)}
+.plates img{width:100%;aspect-ratio:4/3;object-fit:cover;transition:transform var(--d-slow) var(--settle)}
+.plates figure:hover img{transform:scale(1.03)}
 .plates figcaption{font-family:var(--font-serif);font-style:italic;font-size:var(--t-sm);
-  line-height:1.6;color:var(--txt);opacity:.9;margin-top:var(--s-3)}
+  line-height:1.6;color:var(--txt-2);margin-top:var(--s-3)}
 .credit{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;
   gap:var(--s-3) var(--s-5);margin-top:var(--s-6);
-  font-family:var(--font-sans);font-size:var(--t-xs);letter-spacing:.16em;
-  text-transform:uppercase;color:var(--txt);opacity:.7;line-height:1.9}
+  font-family:var(--font-sans);font-size:var(--t-xs);letter-spacing:var(--track-label);
+  text-transform:uppercase;color:var(--txt-2);line-height:1.9}
 
 /* ------------------------------------------------------ 09 materiality -- */
 .mater{background:var(--plaster)}
@@ -667,21 +768,21 @@ button:disabled,[aria-disabled="true"]{cursor:default}
   text-align:center;padding:var(--s-3)}
 .mat .sw em{font-family:var(--font-script);font-style:italic;font-size:var(--t-1)}
 .mat b{display:block;margin-top:var(--s-3);font-family:var(--font-sans);font-weight:500;
-  font-size:var(--t-xs);letter-spacing:.22em;text-transform:uppercase;color:var(--ink)}
+  font-size:var(--t-xs);letter-spacing:var(--track-label);text-transform:uppercase;color:var(--ink)}
 .mat i{display:block;margin-top:.3em;font-family:var(--font-script);font-weight:300;
-  font-size:var(--t-sm);line-height:1.4;color:var(--txt);opacity:.85}
+  font-size:var(--t-sm);line-height:1.4;color:var(--txt-2)}
 
 /* ---------------------------------------------------------- 09b journal -- */
 .journal{background:var(--sand)}
 .post{display:flex;flex-direction:column;overflow:hidden;min-width:0}
-.post img{width:100%;aspect-ratio:8/5;object-fit:cover;transition:transform .8s var(--settle)}
-.post:hover img{transform:scale(1.04)}
-.post .k{margin-top:var(--space-4);font-size:var(--t-2xs);letter-spacing:.26em}
+.post img{width:100%;aspect-ratio:8/5;object-fit:cover;transition:transform var(--d-slow) var(--settle)}
+.post:hover img{transform:scale(1.03)}
+.post .k{margin-top:var(--space-4);font-size:var(--t-2xs);letter-spacing:var(--track-kicker)}
 .post h3{font-size:var(--t-1);line-height:1.4;margin-top:var(--s-2);color:var(--ink);
-  transition:color .25s var(--settle)}
+  transition:color var(--d-quick) var(--settle)}
 .post:hover h3,.post:focus-visible h3{color:var(--brass-text)}
-.post :where(p){font-family:var(--font-serif);font-style:italic;font-size:var(--t-sm);
-  line-height:1.6;color:var(--txt);opacity:.8;margin-top:var(--s-2)}
+.post :where(p:not(.k)){font-family:var(--font-serif);font-style:italic;font-size:var(--t-sm);
+  line-height:1.6;color:var(--txt-2);margin-top:var(--s-2)}
 
 /* --------------------------------------------------------- 10 gifting --- */
 .gift{position:relative;display:grid;grid-template-columns:minmax(0,1fr);
@@ -691,7 +792,7 @@ button:disabled,[aria-disabled="true"]{cursor:default}
 .gift .k{color:var(--brass-on-dark)}
 .gift .c{padding:var(--s-6) var(--gutter) var(--s-7);max-width:calc(40rem + var(--gutter) * 2)}
 .gift h2{font-size:var(--t-4);margin-top:var(--s-3);max-width:18ch}
-.gift :where(p){font-size:var(--t-md);line-height:1.8;opacity:.92;max-width:46ch;margin-top:var(--s-4)}
+.gift :where(p:not(.k)){font-size:var(--t-md);line-height:1.8;opacity:var(--o-strong);max-width:46ch;margin-top:var(--s-4)}
 .gift .ded{font-family:var(--font-script);font-style:italic;font-size:var(--t-1);
   background:rgba(241,240,232,.94);color:var(--ink);padding:var(--s-3) var(--s-4);
   margin-top:var(--s-4);max-width:22rem;text-align:center}
@@ -708,17 +809,17 @@ button:disabled,[aria-disabled="true"]{cursor:default}
 .credrow{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,16rem),1fr));
   gap:var(--s-5)}
 .cred{min-width:0}
-.cred :where(p){font-family:var(--font-serif);font-style:italic;font-size:var(--t-md);
+.cred :where(p:not(.k)){font-family:var(--font-serif);font-style:italic;font-size:var(--t-md);
   line-height:1.7;color:var(--ink)}
 .cred b{font-family:var(--font-sans);font-weight:500;font-size:var(--t-xs);
-  letter-spacing:.22em;text-transform:uppercase;color:var(--ink)}
+  letter-spacing:var(--track-label);text-transform:uppercase;color:var(--ink)}
 .cred small{display:block;margin-top:var(--s-2);font-family:var(--font-sans);
-  font-size:var(--t-xs);letter-spacing:.18em;text-transform:uppercase;color:var(--txt);opacity:.65}
+  font-size:var(--t-xs);letter-spacing:var(--track-label);text-transform:uppercase;color:var(--txt-2)}
 
 /* ------------------------------------------------------ 12 newsletter --- */
 .news{background:var(--sand);text-align:center;padding-block:var(--space-7)}
 .news h2{font-size:var(--t-3);max-width:20ch;margin-inline:auto}
-.news .s{font-size:var(--t-md);color:var(--txt);opacity:.85;max-width:46ch;
+.news .s{font-size:var(--t-md);color:var(--txt-2);max-width:46ch;
   margin:var(--s-3) auto 0}
 .news form{display:flex;flex-wrap:wrap;justify-content:center;gap:var(--s-2);
   margin-top:var(--s-4)}
@@ -727,21 +828,21 @@ button:disabled,[aria-disabled="true"]{cursor:default}
   font-family:var(--font-serif);font-size:var(--t-sm)}
 .news input:focus{outline:none;border-color:var(--ink)}
 .news .fine{margin-top:var(--s-4);font-family:var(--font-sans);font-size:var(--t-2xs);
-  color:var(--txt);opacity:.6;line-height:1.8}
+  color:var(--txt-2);line-height:1.8}
 
 /* ---------------------------------------------------------- 13 footer --- */
 footer{background:var(--ink);color:var(--ivory);padding-block:var(--space-9) var(--space-5)}
 footer .cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,9rem),1fr));
   gap:var(--s-5)}
 footer .fh{font-family:var(--font-sans);font-weight:500;font-size:var(--t-xs);
-  letter-spacing:.24em;text-transform:uppercase;color:var(--brass-on-dark);margin-bottom:var(--s-3)}
+  letter-spacing:var(--track-label);text-transform:uppercase;color:var(--brass-on-dark);margin-bottom:var(--s-3)}
 footer a{display:block;font-family:var(--font-serif);font-size:var(--t-sm);
-  line-height:1.45;opacity:.82;margin-bottom:.75em}
+  line-height:1.45;opacity:var(--o-strong);margin-bottom:.75em}
 footer a:hover{opacity:1}
 .fmid{display:flex;flex-wrap:wrap-reverse;justify-content:space-between;align-items:flex-end;
   gap:var(--s-4);margin-top:var(--space-5)}
-.fcopy{font-family:var(--font-sans);font-size:var(--t-2xs);letter-spacing:.18em;
-  text-transform:uppercase;opacity:.55;line-height:1.8}
+.fcopy{font-family:var(--font-sans);font-size:var(--t-2xs);letter-spacing:var(--track-micro);
+  text-transform:uppercase;line-height:1.8;opacity:var(--o-strong)}
 .fbrand{width:clamp(9rem,16vw,13.75rem);color:var(--ivory)}
 .fbrand img{width:100%;height:auto;display:block}
 .fbot{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;
@@ -753,28 +854,28 @@ footer a:hover{opacity:1}
   background:rgba(241,240,232,.07);border-radius:var(--radius-hairline);font-style:normal;
   font-family:var(--font-sans);font-weight:600;font-size:.5rem;letter-spacing:.05em}
 .legal a{display:inline}
-.legal{font-family:var(--font-sans);font-size:var(--t-2xs);letter-spacing:.16em;
-  text-transform:uppercase;opacity:.5;line-height:1.8}
+.legal{font-family:var(--font-sans);font-size:var(--t-2xs);letter-spacing:var(--track-micro);
+  text-transform:uppercase;line-height:1.8;opacity:var(--o-strong)}
 
 /* ------------------------------------------------------------- drawer --- */
 html.overlay-open,html.overlay-open body{overflow:hidden}
 .scrim{position:fixed;inset:0;background:rgba(10,10,9,0);pointer-events:none;
-  transition:background .5s var(--settle);z-index:var(--z-scrim)}
+  transition:background var(--d-settled) var(--settle);z-index:var(--z-scrim)}
 .scrim.on{background:rgba(10,10,9,.55);pointer-events:auto}
 .drawer[hidden]{display:none}
 .drawer{position:fixed;top:0;right:0;z-index:var(--z-overlay);
   width:min(26.25rem,100%);height:100dvh;background:var(--ivory);
   padding:var(--s-5) var(--s-5) var(--s-6);overflow-y:auto;
-  translate:101% 0;transition:translate .5s var(--settle);
+  translate:101% 0;transition:translate var(--d-settled) var(--settle);
   box-shadow:var(--shadow-overlay)}
 .drawer.open{translate:0 0}
 .dhead{display:flex;justify-content:space-between;align-items:center;gap:var(--s-3);
   border-bottom:1px solid var(--line);padding-bottom:var(--s-3);
   font-family:var(--font-sans);font-weight:500;font-size:var(--t-xs);
-  letter-spacing:.22em;text-transform:uppercase}
+  letter-spacing:var(--track-label);text-transform:uppercase}
 .dhead button{display:inline-flex;align-items:center;min-height:2.75rem;padding-inline:.25rem;
   font-family:var(--font-sans);font-weight:500;font-size:var(--t-xs);
-  letter-spacing:.22em;text-transform:uppercase;color:var(--txt)}
+  letter-spacing:var(--track-label);text-transform:uppercase;color:var(--txt)}
 .dhead button:hover{color:var(--ink)}
 .drawer .btn{width:100%;margin-top:var(--s-5)}
 
@@ -782,25 +883,40 @@ html.overlay-open,html.overlay-open body{overflow:hidden}
 .tryfirst{display:grid;grid-template-columns:auto minmax(0,1fr);gap:var(--space-3);
   align-items:start;margin-top:var(--s-5);padding:var(--space-4);background:var(--plaster);
   border-radius:var(--radius-hairline);cursor:pointer}
-.tryfirst input{width:.9375rem;height:.9375rem;flex:none;margin:.1rem 0 0;accent-color:var(--ink)}
+/* One checkbox for the whole site, drawn rather than borrowed. The native
+   control with accent-color painted a solid black square with a white tick —
+   the heaviest single element on the product page, sitting in a quiet sand
+   panel next to italic serif. A hairline square with an ink tick says the
+   same thing at a tenth of the weight, and matches every other 1px rule on
+   the page. Size stays at the native box so nothing reflows. */
+.tryfirst input,.consent input{
+  appearance:none;-webkit-appearance:none;position:relative;
+  width:.9375rem;height:.9375rem;flex:none;border-radius:0;
+  border:1px solid var(--line-mid);background:transparent;
+  transition:border-color var(--d-quick) var(--settle)}
+.tryfirst input:checked,.consent input:checked{border-color:var(--ink)}
+.tryfirst input:checked::after,.consent input:checked::after{
+  content:"";position:absolute;left:27%;top:8%;width:32%;height:60%;
+  border:solid var(--ink);border-width:0 1px 1px 0;transform:rotate(42deg)}
+.tryfirst input{margin:.1rem 0 0}
 .tryfirst b{display:block;font-family:var(--font-sans);font-weight:500;font-size:var(--t-2xs);
-  letter-spacing:.18em;text-transform:uppercase;color:var(--ink);line-height:1.3}
+  letter-spacing:var(--track-micro);text-transform:uppercase;color:var(--ink);line-height:1.3}
 .tryfirst span{display:block;margin-top:var(--space-3);font-family:var(--font-serif);
-  font-style:italic;font-size:var(--t-sm);line-height:1.4;color:var(--ink);opacity:.85}
+  font-style:italic;font-size:var(--t-sm);line-height:1.4;color:var(--txt-2)}
 
 .thresh{margin-top:var(--s-5);font-family:var(--font-sans);font-weight:500;
-  font-size:var(--t-xs);letter-spacing:.2em;text-transform:uppercase;color:var(--brass-text)}
+  font-size:var(--t-xs);letter-spacing:var(--track-label);text-transform:uppercase;color:var(--brass-text)}
 .tbar{height:2px;background:rgba(43,46,45,.14);margin-top:var(--s-2)}
 .tfill{height:100%;background:var(--brass);width:0;}
 
 .dtot{display:flex;justify-content:space-between;align-items:baseline;gap:var(--s-3);
   margin-top:var(--s-5);padding-top:var(--s-4);border-top:1px solid var(--line);
   font-family:var(--font-sans);font-weight:500;font-size:var(--t-xs);
-  letter-spacing:.22em;text-transform:uppercase;color:var(--ink)}
+  letter-spacing:var(--track-label);text-transform:uppercase;color:var(--ink)}
 .dtot b{font-family:var(--font-display);font-weight:400;font-size:var(--t-3);
   letter-spacing:0;text-transform:none}
 .dfine{margin-top:var(--s-4);font-family:var(--font-sans);font-size:var(--t-2xs);
-  letter-spacing:.02em;text-transform:none;color:var(--txt);opacity:.7;line-height:1.7}
+  letter-spacing:.02em;text-transform:none;color:var(--txt);opacity:var(--o-strong);line-height:1.7}
 
 .ditem{display:grid;grid-template-columns:3.5rem minmax(0,1fr) auto;gap:var(--s-3);
   align-items:start;padding-block:var(--s-4);border-bottom:1px solid var(--line)}
@@ -808,11 +924,11 @@ html.overlay-open,html.overlay-open body{overflow:hidden}
 .ditem h3{font-family:var(--font-serif);font-size:var(--t-md);line-height:1.35;
   text-transform:none;letter-spacing:0}
 .ditem .meta{display:block;margin-top:.35em;font-family:var(--font-sans);
-  font-size:var(--t-xs);letter-spacing:.16em;text-transform:uppercase;
-  color:var(--txt);opacity:.75;line-height:1.6}
+  font-size:var(--t-xs);letter-spacing:var(--track-label);text-transform:uppercase;
+  color:var(--txt);opacity:var(--o-strong);line-height:1.6}
 .ditem .ul{margin-top:var(--s-2)}
 .ditem>span:last-child{font-family:var(--font-sans);font-size:var(--t-xs);
-  letter-spacing:.14em;white-space:nowrap;padding-top:.15em}
+  letter-spacing:var(--track-label);white-space:nowrap;padding-top:.15em}
 
 /* =========================================================== breakpoints ==
    Only where the content genuinely needs a different arrangement.
@@ -828,15 +944,26 @@ html.overlay-open,html.overlay-open body{overflow:hidden}
     box-shadow:var(--shadow-raised)}
   .links.open a{padding-block:.9rem;border-bottom:1px solid rgba(43,46,45,.07)}
   .burger{display:flex;flex-direction:column;justify-content:center;gap:.3125rem;
-    order:8;width:2.75rem;height:2.75rem;padding:0 .6875rem;margin-left:var(--s-2);margin-right:calc(var(--s-2) * -1)}
+    width:2.75rem;height:2.75rem;padding:0 .6875rem;
+    margin-left:calc(var(--s-3) * -1);margin-right:var(--s-2)}
   .burger i{display:block;width:100%;height:1px;background:var(--ink)}
-  .nav .inner{position:relative;flex-wrap:wrap}
+  /* The burger is first in the DOM but was ordered to the end of a wrapping
+     flex row, and the utility group takes the rest of the line with
+     margin-left:auto — so it wrapped onto a second row of its own and the
+     phone header was two bands tall for one navigation. It sits where it is
+     written: before the wordmark, one row. */
+  .nav .inner{position:relative;flex-wrap:nowrap}
 }
 
 /* phones: drop the secondary nav links, keep the bag */
 @media (max-width:33.9375em){
   .util>a{display:none}
   .hero .copy{padding-bottom:var(--s-6)}
+  /* stacked, the two hero buttons hugged their own labels and so came out at
+     two different widths, one under the other — the least composed thing on
+     the phone. Stacked buttons match each other. */
+  .hero .cta,.shero .cta{flex-direction:column;align-items:stretch}
+  .hero .cta .btn,.shero .cta .btn{width:100%}
   .promo{padding:var(--s-4)}
   .drawer{padding:var(--s-4)}
   .fbot{flex-direction:column;align-items:flex-start}
@@ -847,7 +974,7 @@ html.overlay-open,html.overlay-open body{overflow:hidden}
 
 @media (prefers-reduced-motion:reduce){
   *{animation-duration:.01ms !important;animation-iteration-count:1 !important;
-    transition-duration:.15s !important;scroll-behavior:auto !important}
+    transition-duration:var(--d-instant) !important;scroll-behavior:auto !important}
 .hero>img,.hero>picture>img{animation:none;transform:none}
   .rev{opacity:1;transform:none}
 }
@@ -859,8 +986,8 @@ html.overlay-open,html.overlay-open body{overflow:hidden}
 
 /* --------------------------------------------------------- page header -- */
 /* the breadcrumb needs air under the nav — flush against it reads as an error */
-.crumb{font-family:var(--font-sans);font-size:var(--t-2xs);letter-spacing:.18em;
-  text-transform:uppercase;color:var(--txt);opacity:.65;line-height:1.8;
+.crumb{font-family:var(--font-sans);font-size:var(--t-2xs);letter-spacing:var(--track-micro);
+  text-transform:uppercase;color:var(--txt-2);line-height:1.8;
   padding-block:var(--s-5) 0}
 .crumb a:hover{opacity:1;text-decoration:underline;text-underline-offset:.25em}
 
@@ -879,9 +1006,9 @@ html.overlay-open,html.overlay-open body{overflow:hidden}
   linear-gradient(0deg,rgba(20,17,12,.82) 0%,rgba(20,17,12,.28) 45%,rgba(20,17,12,.06) 100%),
   linear-gradient(70deg,rgba(20,17,12,.55) 0%,rgba(20,17,12,0) 65%)}
 .banner .c{max-width:calc(44rem + var(--gutter) * 2);padding:var(--s-7) var(--gutter) var(--s-6)}
-.banner .k{color:var(--ivory);opacity:.85}
+.banner .k{color:var(--ivory);opacity:var(--o-strong)}
 .banner h1{font-size:var(--t-4);margin-top:var(--s-3)}
-.banner :where(p){font-size:var(--t-md);line-height:1.8;opacity:.92;max-width:46ch;margin-top:var(--s-3)}
+.banner :where(p:not(.k)){font-size:var(--t-md);line-height:1.8;opacity:var(--o-strong);max-width:46ch;margin-top:var(--s-3)}
 
 /* generic section wrapper for the interior pages */
 .band{padding-block:var(--s-7)}
@@ -889,23 +1016,10 @@ html.overlay-open,html.overlay-open body{overflow:hidden}
 .band.sand{background:var(--sand)}
 .band h2{font-size:var(--t-4);max-width:22ch}
 .band :where(h3){font-size:var(--t-1);margin-top:var(--s-4)}
-.band :where(p){font-size:var(--t-md);line-height:1.8;color:var(--txt);max-width:var(--measure);
+.band :where(p:not(.k)){font-size:var(--t-md);line-height:1.8;color:var(--txt);max-width:var(--measure);
   margin-top:var(--s-3)}
 .band .k+h2{margin-top:var(--s-2)}
 
-/* ------------------------------------------------------------ filters --- */
-.filters{display:flex;flex-wrap:wrap;align-items:center;gap:var(--s-2) var(--s-4);
-  padding-block:var(--s-4);border-block:1px solid var(--line);margin-top:var(--s-4)}
-.filters button{font-family:var(--font-sans);font-weight:500;font-size:var(--t-xs);
-  letter-spacing:.2em;text-transform:uppercase;color:var(--txt);
-  min-height:2.25rem;padding:.35rem .1rem;border-bottom:1px solid transparent}
-.filters button[aria-current]{color:var(--ink);border-bottom-color:var(--ink)}
-.filters.sizerow{margin-top:calc(var(--space-3) * -1);border-top:0;padding-top:0}
-.filters .lbl{font-family:var(--font-sans);font-weight:500;font-size:var(--t-2xs);
-  letter-spacing:var(--ls-stone);text-transform:uppercase;color:var(--txt);opacity:.6;
-  margin-right:var(--space-2)}
-.filters .count{margin-left:auto;font-family:var(--font-sans);font-size:var(--t-xs);
-  letter-spacing:.18em;text-transform:uppercase;color:var(--txt);opacity:.6}
 
 /* ==================================================== the shelf controls ==
    Two controls doing two different jobs, and looking like it. Size changes
@@ -931,26 +1045,52 @@ html.overlay-open,html.overlay-open body{overflow:hidden}
   height:var(--ctl-h-sm)}
 .shelfbar .lbl,.shelfcount{font-family:var(--font-sans);font-weight:500;
   font-size:var(--t-2xs);letter-spacing:var(--ls-stone);text-transform:uppercase;
-  color:var(--txt);opacity:.6;white-space:nowrap;
+  color:var(--txt-2);white-space:nowrap;
   height:var(--ctl-h-sm);display:flex;align-items:center}
 .shelfbar .seg,.shelfbar .chips{display:flex;align-items:center;height:var(--ctl-h-sm)}
-.shelfbar .chips{gap:var(--space-2)}
-.shelfbar .seg button,.shelfbar .chips button,.shelfbar .disclose{
+/* The controls speak the house language now: tracked small caps marked with a
+   hairline, no boxes.
+
+   What was here — five outlined rectangles for scent and a three-part
+   segmented control with the active third filled solid black — is the
+   vocabulary of an admin filter bar, and it was the one place on the site
+   that read as a template rather than a fragrance house. It also put a heavy
+   black block a few hundred pixels above the ADD TO BAG, so the page carried
+   two competing blacks and no clear primary action.
+
+   State is now ink weight plus a 1px rule set just under the text — the same
+   marker the primary nav and the accordion already use, so this joins an
+   existing language rather than inventing a third. The rule is a non-colour
+   indicator, so selection survives 1.4.1 without the fill. Each button keeps
+   its full 34px box for the tap target; only the mark is small. */
+.shelfbar .seg,.shelfbar .chips{gap:var(--space-6)}
+.shelfbar .seg button,.shelfbar .chips button{
+  position:relative;height:var(--ctl-h-sm);padding:0;
+  border:0;background:none;border-radius:0;
+  display:inline-flex;align-items:center;justify-content:center;
+  font-family:var(--font-sans);font-weight:500;font-size:var(--t-2xs);
+  letter-spacing:var(--track-micro);text-transform:uppercase;
+  color:var(--txt-2);white-space:nowrap;
+  transition:color var(--d-quick) var(--settle),opacity var(--d-quick) var(--settle)}
+.shelfbar .seg button::after,.shelfbar .chips button::after{
+  content:"";position:absolute;left:0;right:0;top:calc(50% + .78em);height:1px;
+  background:currentColor;opacity:0;
+  transition:opacity var(--d-quick) var(--settle)}
+.shelfbar .seg button:hover,.shelfbar .chips button:hover{color:var(--ink);opacity:1}
+.shelfbar .seg button[aria-pressed="true"],
+.shelfbar .chips button[aria-pressed="true"]{color:var(--ink);opacity:1;font-weight:600}
+.shelfbar .seg button[aria-pressed="true"]::after,
+.shelfbar .chips button[aria-pressed="true"]::after{opacity:1}
+/* the sheet trigger stays bordered: it is an action, not a state, and it is
+   the one thing in the row that opens something */
+.shelfbar .disclose{
   height:var(--ctl-h-sm);padding:0 var(--space-4);
   display:inline-flex;align-items:center;justify-content:center;
   border:1px solid var(--line-mid);border-radius:0;background:transparent;
   font-family:var(--font-sans);font-weight:500;font-size:var(--t-2xs);
-  letter-spacing:.16em;text-transform:uppercase;color:var(--ink);white-space:nowrap;
-  transition:background .25s var(--settle),border-color .25s var(--settle),
-             color .25s var(--settle)}
-.shelfbar .seg button+button{border-left:0}
-.shelfbar .chips button{color:var(--txt)}
-.shelfbar .seg button:hover,.shelfbar .chips button:hover,.shelfbar .disclose:hover{
-  background:rgba(43,46,45,.05);color:var(--ink)}
-.shelfbar .seg button[aria-pressed="true"],
-.shelfbar .chips button[aria-pressed="true"]{
-  background:var(--ink);border-color:var(--ink);color:var(--ivory)}
-.shelfbar .seg button[aria-pressed="true"]+button{border-left:1px solid var(--line-mid)}
+  letter-spacing:var(--track-micro);text-transform:uppercase;color:var(--ink);
+  white-space:nowrap;transition:border-color var(--d-quick) var(--settle)}
+.shelfbar .disclose:hover{border-color:var(--ink)}
 .shelfbar .seg .short{display:none}
 @media (min-width:52em){
   .shelfbar .ctl.scent{border-left:1px solid var(--line);padding-left:var(--space-6)}
@@ -980,7 +1120,7 @@ html.overlay-open,html.overlay-open body{overflow:hidden}
   .shelfbar .lbl{display:none}
   .shelfbar .seg{width:100%;height:auto}
   .shelfbar .seg button{flex:1 1 0;min-width:0;padding-inline:var(--space-2);
-    height:var(--ctl-h);letter-spacing:.1em}
+    height:var(--ctl-h);letter-spacing:var(--track-label)}
   .shelfbar .seg .long{display:none}
   .shelfbar .seg .short{display:inline}
   .shelfbar .chips{display:none}
@@ -994,12 +1134,12 @@ html.overlay-open,html.overlay-open body{overflow:hidden}
 
   .sheetscrim:not([hidden]){display:block}
   .sheetscrim{position:fixed;inset:0;z-index:var(--z-scrim);
-    background:rgba(10,10,9,0);transition:background .25s var(--settle)}
+    background:rgba(10,10,9,0);transition:background var(--d-quick) var(--settle)}
   .sheetscrim.on{background:rgba(10,10,9,.5)}
   .sheet:not([hidden]){display:flex}
   .sheet{flex-direction:column;position:fixed;left:0;right:0;bottom:0;
     z-index:var(--z-overlay);background:var(--ivory);max-height:80svh;
-    transform:translateY(101%);transition:transform .25s var(--settle);
+    transform:translateY(101%);transition:transform var(--d-quick) var(--settle);
     box-shadow:var(--shadow-hairline)}
   .sheet.on{transform:none}
   .sheethead{display:flex;align-items:center;justify-content:space-between;
@@ -1013,14 +1153,14 @@ html.overlay-open,html.overlay-open body{overflow:hidden}
   .srow{display:flex;align-items:center;justify-content:space-between;width:100%;
     gap:var(--space-4);min-height:3.25rem;padding:0 var(--layout-margin);
     font-family:var(--font-sans);font-weight:500;font-size:var(--t-xs);
-    letter-spacing:.14em;text-transform:uppercase;color:var(--ink);text-align:left}
+    letter-spacing:var(--track-label);text-transform:uppercase;color:var(--ink);text-align:left}
   .srow+.srow{border-top:1px solid var(--line)}
   .srow i{position:relative;width:1.125rem;height:1.125rem;flex:none;
     border:1px solid var(--line-mid)}
-  .srow[aria-pressed="true"] i{background:var(--ink);border-color:var(--ink)}
+  .srow[aria-pressed="true"] i{border-color:var(--ink)}
   .srow[aria-pressed="true"] i::after{content:"";position:absolute;
-    left:32%;top:16%;width:26%;height:52%;
-    border:solid var(--ivory);border-width:0 1.5px 1.5px 0;transform:rotate(42deg)}
+    left:27%;top:8%;width:32%;height:60%;
+    border:solid var(--ink);border-width:0 1px 1px 0;transform:rotate(42deg)}
   .sheetfoot{display:flex;align-items:center;justify-content:space-between;
     gap:var(--space-4);padding:var(--space-5) var(--layout-margin);
     padding-bottom:calc(var(--space-5) + env(safe-area-inset-bottom));
@@ -1054,9 +1194,9 @@ html.overlay-open,html.overlay-open body{overflow:hidden}
 .gal .strip{display:flex;flex-wrap:wrap;gap:var(--space-4);
   padding:0;background:none;border:0;height:auto}
 @media (min-width:64em){ .gal .strip{flex-direction:column;flex-wrap:nowrap} }
-.gal .strip button{padding:0;border:1.5px solid transparent;line-height:0;opacity:.82;
+.gal .strip button{padding:0;border:1px solid transparent;line-height:0;opacity:var(--o-mid);
   border-radius:var(--radius-hairline)}
-.gal .strip button[aria-current]{opacity:1;border-color:rgba(43,46,45,.8)}
+.gal .strip button[aria-current]{opacity:1;border-color:var(--ink)}
 .gal .strip img{width:clamp(3.25rem,7vw,5.5rem);aspect-ratio:1;object-fit:cover;
   border-radius:var(--radius-hairline)}
 @media (min-width:64em){ .gal .strip img{width:5.5rem} }
@@ -1065,11 +1205,11 @@ html.overlay-open,html.overlay-open body{overflow:hidden}
 @media (max-width:63.9375em){ .pdp .info{position:static} }
 
 /* buy column type and rhythm, verbatim from the frame */
-.pdp .info>.k{letter-spacing:.30em}
+.pdp .info>.k{letter-spacing:var(--track-kicker)}
 .pdp h1{font-size:var(--t-5);margin-top:var(--space-3);max-width:14ch}
 .pdp .sub{display:flex;align-items:center;gap:.7em;flex-wrap:wrap;
   font-family:var(--font-sans);font-weight:500;font-size:var(--t-2xs);
-  letter-spacing:.22em;text-transform:uppercase;color:var(--txt);margin-top:var(--space-3)}
+  letter-spacing:var(--track-micro);text-transform:uppercase;color:var(--txt);margin-top:var(--space-3)}
 .pdp .sub .chip{width:.6875rem;height:.6875rem;margin:0;flex:none}
 .pdp blockquote{font-family:var(--font-serif);font-style:italic;
   font-size:var(--t-md);line-height:1.72;color:var(--txt);
@@ -1077,19 +1217,29 @@ html.overlay-open,html.overlay-open body{overflow:hidden}
 
 /* a tracked field label, as above the size row in the design */
 .fieldlabel{margin-top:var(--space-5);font-family:var(--font-sans);font-weight:500;
-  font-size:var(--t-2xs);letter-spacing:.26em;text-transform:uppercase;color:var(--ink)}
+  font-size:var(--t-2xs);letter-spacing:var(--track-micro);text-transform:uppercase;color:var(--ink)}
 .fieldlabel+.sizes{margin-top:var(--space-3)}
 
-/* size options hug their label — they are pills, not thirds of the column */
-.sizes{display:flex;flex-wrap:wrap;gap:10px;margin-top:var(--space-3)}
-.sizes button{flex:0 0 auto;min-height:var(--ctl-h-pill);
-  padding:0 var(--ctl-px-pill);display:inline-flex;align-items:center;
-  border:1px solid rgba(43,46,45,.3);border-radius:var(--radius-hairline);
-  background:transparent;
+/* Size options hug their label — they are marks on a line, not thirds of the
+   column, and not pills. Same reasoning as the shelf bar: an outlined box
+   with a solid black selected state is admin-panel language, and here it sat
+   directly above ADD TO BAG, which is the one thing on the page entitled to
+   be a black block. The selected size is now the inked, ruled one. */
+.sizes{display:flex;flex-wrap:wrap;gap:var(--space-3) var(--space-6);
+  margin-top:var(--space-3)}
+.sizes button{position:relative;flex:0 0 auto;min-height:var(--ctl-h-pill);
+  padding:0;display:inline-flex;align-items:center;
+  border:0;border-radius:0;background:none;
   font-family:var(--font-sans);font-weight:500;font-size:var(--t-2xs);
-  letter-spacing:.16em;text-transform:uppercase;color:var(--ink);white-space:nowrap;
-  transition:border-color .25s var(--settle),background .25s var(--settle)}
-.sizes button[aria-current]{border-color:var(--ink);background:var(--ink);color:var(--ivory)}
+  letter-spacing:var(--track-micro);text-transform:uppercase;
+  color:var(--txt-2);white-space:nowrap;
+  transition:color var(--d-quick) var(--settle),opacity var(--d-quick) var(--settle)}
+.sizes button::after{content:"";position:absolute;left:0;right:0;
+  top:calc(50% + .78em);height:1px;background:currentColor;opacity:0;
+  transition:opacity var(--d-quick) var(--settle)}
+.sizes button:hover{color:var(--ink);opacity:1}
+.sizes button[aria-current]{color:var(--ink);opacity:1;font-weight:600}
+.sizes button[aria-current]::after{opacity:1}
 
 /* the offer block reads the same here as it does in the bag */
 .pdp .tryfirst{margin-top:var(--space-5)}
@@ -1102,8 +1252,8 @@ html.overlay-open,html.overlay-open body{overflow:hidden}
 .i-apple{width:.9em;height:1.2em;fill:currentColor;opacity:.9;
   margin-right:.55em;flex:none;display:inline-block;vertical-align:-.18em}
 .pay .i-apple{margin-right:.15em}
-.pdp .re{margin-top:var(--space-4);font-family:var(--font-sans);font-size:var(--t-2xs);
-  letter-spacing:.16em;text-transform:uppercase;color:var(--txt);opacity:.65;line-height:1.9}
+.pdp .re{margin-top:var(--space-4);text-wrap:pretty;font-family:var(--font-sans);font-size:var(--t-2xs);
+  letter-spacing:var(--track-micro);text-transform:uppercase;color:var(--txt-2);line-height:1.9}
 
 /* accordion — 48px rows on hairlines, label at the nav step */
 .acc{margin-top:var(--space-6);border-top:1px solid var(--line)}
@@ -1114,7 +1264,7 @@ html.overlay-open,html.overlay-open body{overflow:hidden}
   letter-spacing:var(--ls-nav);text-transform:uppercase;color:var(--ink)}
 .acc summary::-webkit-details-marker{display:none}
 .acc summary::after{content:"+";font-family:var(--font-serif);font-size:var(--t-sm);
-  line-height:1;font-weight:400;letter-spacing:0;opacity:.7}
+  line-height:1;font-weight:400;letter-spacing:0;opacity:var(--o-strong)}
 .acc details[open] summary::after{content:"\2013"}
 .acc :where(.body){padding-bottom:var(--space-4);font-family:var(--font-serif);
   font-size:var(--t-sm);line-height:1.66;color:var(--txt);max-width:52ch}
@@ -1126,7 +1276,7 @@ html.overlay-open,html.overlay-open body{overflow:hidden}
 
 /* --- index: header band ------------------------------------------------- */
 .ysintro{background:var(--ivory);padding-block:var(--space-9) var(--space-10)}
-.ysintro .k{letter-spacing:.32em}
+.ysintro .k{letter-spacing:var(--track-kicker)}
 .ysintro h1{font-size:var(--t-5);margin-top:var(--space-3);max-width:30ch}
 .ysintro .lede{font-size:var(--t-md);line-height:var(--lh-body);color:var(--txt);
   max-width:47.5rem;margin-top:var(--space-3)}
@@ -1140,11 +1290,11 @@ html.overlay-open,html.overlay-open body{overflow:hidden}
   linear-gradient(to right,rgba(20,18,13,.55) 0%,rgba(20,18,13,0) 62%)}
 .yfeat .inner{padding-block:var(--space-10)}
 .yfeat .c{max-width:36rem;color:var(--ivory)}
-.yfeat .k{color:var(--brass-on-dark);letter-spacing:.28em;
+.yfeat .k{color:var(--brass-on-dark);letter-spacing:var(--track-kicker);
   text-shadow:0 1px 3px rgba(18,16,12,.55)}
 .yfeat h2{font-size:var(--t-5);margin-top:var(--space-3);color:var(--ivory)}
 .yfeat .q{font-family:var(--font-serif);font-style:italic;font-size:var(--t-lg);
-  line-height:1.5;opacity:.9;margin-top:var(--space-4)}
+  line-height:1.5;opacity:var(--o-strong);margin-top:var(--space-4)}
 .yfeat .ul{margin-top:var(--space-4);color:var(--ivory)}
 
 /* --- index: the six remaining stories ----------------------------------- */
@@ -1156,8 +1306,8 @@ html.overlay-open,html.overlay-open body{overflow:hidden}
 .scard .plate{display:block;width:100%;aspect-ratio:5/3;overflow:hidden;
   background:var(--plaster);border-radius:var(--radius-hairline)}
 .scard .plate img{width:100%;height:100%;object-fit:cover;
-  transition:transform .8s var(--settle),filter .4s var(--settle)}
-.scard:hover .plate img{transform:scale(1.035);filter:brightness(1.04)}
+  transition:transform var(--d-slow) var(--settle)}
+.scard:hover .plate img{transform:scale(1.03)}
 .scard .sm{display:flex;align-items:center;gap:var(--space-2);margin-top:var(--space-5);
   font-family:var(--font-sans);font-weight:500;font-size:var(--t-2xs);
   letter-spacing:var(--ls-stone);text-transform:uppercase;color:var(--brass-text)}
@@ -1166,11 +1316,11 @@ html.overlay-open,html.overlay-open body{overflow:hidden}
   font-size:clamp(19px,calc(19px + 7 * (100vw - 390px) / 1050),26px);
   line-height:1.2;color:var(--ink);margin-top:var(--space-2)}
 .scard>p{font-family:var(--font-serif);font-style:italic;font-size:var(--t-sm);
-  line-height:1.66;color:var(--txt);opacity:.85;margin-top:var(--space-2);
+  line-height:1.66;color:var(--txt-2);margin-top:var(--space-2);
   display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .scard .rd{display:inline-block;margin-top:var(--space-3);
   font-family:var(--font-sans);font-weight:500;font-size:var(--t-2xs);
-  letter-spacing:.22em;text-transform:uppercase;color:var(--ink)}
+  letter-spacing:var(--track-micro);text-transform:uppercase;color:var(--ink)}
 .scard:hover .rd,.scard:focus-visible .rd{color:var(--brass-text)}
 
 /* --- index: the discovery-set band -------------------------------------- */
@@ -1178,8 +1328,8 @@ html.overlay-open,html.overlay-open body{overflow:hidden}
   padding-block:var(--space-7) var(--space-9)}
 .yset h2{font-size:clamp(24px,calc(24px + 8 * (100vw - 390px) / 1050),32px);
   color:var(--ivory);max-width:40ch;margin-inline:auto}
-.yset :where(p){font-size:var(--t-md);opacity:.92;max-width:44ch;
-  margin:var(--space-4) auto 0}
+.yset :where(p:not(.k)){font-size:var(--t-md);max-width:44ch;
+  margin:var(--space-4) auto 0;opacity:var(--o-strong)}
 .yset .btn{margin-top:var(--space-5)}
 
 /* the stone modes, set on the band that carries them */
@@ -1201,11 +1351,11 @@ html.overlay-open,html.overlay-open body{overflow:hidden}
 /* ============================================================ one story == */
 .shead{background:var(--ivory);padding-block:var(--space-5) var(--space-10)}
 .shead .c{text-align:center;max-width:44rem;margin:var(--space-8) auto 0}
-.shead .k{display:inline-flex;align-items:center;gap:var(--space-3);letter-spacing:.30em}
+.shead .k{display:inline-flex;align-items:center;gap:var(--space-3);letter-spacing:var(--track-kicker)}
 .shead .k .chip{width:.6875rem;height:.6875rem;margin:0;flex:none}
 .shead h1{font-size:var(--t-6);margin-top:var(--space-4)}
 .shead .by{font-family:var(--font-script);font-weight:300;font-style:italic;
-  font-size:var(--t-lg);color:var(--txt);opacity:.8;margin-top:var(--space-4)}
+  font-size:var(--t-lg);color:var(--txt-2);margin-top:var(--space-4)}
 
 .splate{position:relative;height:clamp(15rem,43vw,38.75rem);overflow:hidden}
 .splate img{width:100%;height:100%;object-fit:cover}
@@ -1221,22 +1371,22 @@ html.overlay-open,html.overlay-open body{overflow:hidden}
   .sbody .saside{grid-column:3;grid-row:1 / -1;align-self:start;
     justify-self:end;width:14.375rem}
 }
-.sbody .scol :where(p){font-family:var(--font-serif);font-size:var(--t-story);
+.sbody .scol :where(p:not(.k)){font-family:var(--font-serif);font-size:var(--t-story);
   line-height:1.9;color:var(--txt);margin-top:var(--space-5)}
-.sbody .scol :where(p):first-child{margin-top:0}
+.sbody .scol :where(p:not(.k)):first-child{margin-top:0}
 .sbody .dropcap::first-letter{float:left;font-family:var(--font-display);
   font-size:5.05em;line-height:.86;padding:.06em .12em 0 0;color:var(--ink)}
 .saside{display:flex;flex-direction:column;gap:var(--space-11);padding-top:var(--space-2)}
 @media (max-width:67.9375em){ .saside{flex-direction:row;flex-wrap:wrap;gap:var(--space-6);
   margin-top:var(--space-7)} .saside .marginnote{flex:1 1 14rem} }
 .marginnote{font-family:var(--font-script);font-weight:300;font-style:italic;
-  font-size:var(--t-lg);line-height:1.35;color:var(--ink);opacity:.85;
+  font-size:var(--t-lg);line-height:1.35;color:var(--txt-2);
   padding-top:var(--space-3);max-width:14.375rem}
 .marginnote::before{content:"";display:block;width:1.75rem;height:1px;
   background:var(--brass);margin-bottom:var(--space-3)}
 .marginnote small{display:block;margin-top:var(--space-3);
   font-family:var(--font-sans);font-style:normal;font-size:var(--t-2xs);
-  letter-spacing:.22em;text-transform:uppercase;color:var(--brass-text);opacity:.8}
+  letter-spacing:var(--track-micro);text-transform:uppercase;color:var(--brass-text)}
 
 .spull{position:relative;text-align:center;font-family:var(--font-display);
   font-size:var(--t-4);line-height:1.46;color:var(--ink);
@@ -1244,7 +1394,7 @@ html.overlay-open,html.overlay-open body{overflow:hidden}
 .spull::before{content:"";position:absolute;top:0;left:50%;translate:-50% 0;
   width:5rem;height:1px;background:var(--brass)}
 .sbody .sig{font-family:var(--font-script);font-weight:300;font-style:italic;
-  font-size:var(--t-lg);color:var(--txt);opacity:.7;margin-top:var(--space-5)}
+  font-size:var(--t-lg);color:var(--txt);opacity:var(--o-strong);margin-top:var(--space-5)}
 .sfig{margin-top:var(--space-9)}
 .sfig img{width:100%;aspect-ratio:2/1;object-fit:cover;border-radius:var(--radius-hairline);
   background:var(--plaster)}
@@ -1254,9 +1404,9 @@ html.overlay-open,html.overlay-open body{overflow:hidden}
   padding-block:var(--space-10);overflow:hidden}
 .sbecame .inner{position:relative;z-index:1}
 .sbecame .c{max-width:32.5rem}
-.sbecame .k{color:var(--brass-on-dark);letter-spacing:.30em}
+.sbecame .k{color:var(--brass-on-dark);letter-spacing:var(--track-kicker)}
 .sbecame h2{font-size:var(--t-5);color:var(--ivory);margin-top:var(--space-4)}
-.sbecame .lede{font-size:var(--t-md);line-height:var(--lh-body);opacity:.94;
+.sbecame .lede{font-size:var(--t-md);line-height:var(--lh-body);opacity:var(--o-strong);
   margin-top:var(--space-4);max-width:34ch}
 .sbecame .notes{margin-top:var(--space-6);display:grid;gap:var(--space-4)}
 .nrow{display:grid;grid-template-columns:4.75rem minmax(0,1fr);gap:var(--space-5);
@@ -1264,7 +1414,7 @@ html.overlay-open,html.overlay-open body{overflow:hidden}
 .nrow b{font-family:var(--font-sans);font-weight:500;font-size:var(--t-2xs);
   letter-spacing:var(--ls-stone);text-transform:uppercase;color:var(--brass-on-dark)}
 .nrow span{font-family:var(--font-script);font-weight:300;font-style:italic;
-  font-size:var(--t-notes);opacity:.92}
+  font-size:var(--t-notes);opacity:var(--o-strong)}
 .sbecame .actions{display:flex;flex-wrap:wrap;gap:var(--space-3);margin-top:var(--space-7)}
 .sbecame>.plate{position:absolute;top:0;right:0;width:min(39%,35rem);height:100%;
   object-fit:cover;z-index:0;display:block}
@@ -1285,23 +1435,23 @@ html.overlay-open,html.overlay-open body{overflow:hidden}
   font-size:clamp(21px,calc(21px + 7 * (100vw - 390px) / 1050),28px);
   line-height:1.2;color:var(--ink);margin-top:var(--space-2)}
 .snav em{display:block;font-family:var(--font-script);font-weight:300;font-style:italic;
-  font-size:var(--t-notes);color:var(--txt);opacity:.75;margin-top:var(--space-2)}
+  font-size:var(--t-notes);color:var(--txt);opacity:var(--o-strong);margin-top:var(--space-2)}
 .snav a:hover b,.snav a:focus-visible b{color:var(--brass-text)}
 
 /* the shelf of seven, as a spine of stone bars */
 .sseven{background:var(--sand);padding-block:var(--space-8)}
-.sseven .k{letter-spacing:.30em}
+.sseven .k{letter-spacing:var(--track-kicker)}
 .sseven h2{font-size:var(--t-3);margin-top:var(--space-3)}
 .svs{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,8.5rem),1fr));
   gap:var(--space-5) 10px;margin-top:var(--space-7)}
 .sv{display:block;color:inherit}
 .sv i{display:block;height:8px;border-radius:0;box-shadow:inset 0 0 0 .5px rgba(43,46,45,.1)}
 .sv em{display:block;font-family:var(--font-script);font-weight:300;font-style:normal;
-  font-size:var(--t-notes);color:var(--brass-text);opacity:.7;margin-top:var(--space-2)}
+  font-size:var(--t-notes);color:var(--brass-text);margin-top:var(--space-2)}
 .sv b{display:block;font-family:var(--font-serif);font-weight:400;
-  font-size:var(--t-lg);color:var(--ink);opacity:.75;margin-top:var(--space-2)}
+  font-size:var(--t-lg);color:var(--txt-2);margin-top:var(--space-2)}
 .sv small{display:block;margin-top:var(--space-2);font-family:var(--font-sans);
-  font-weight:500;font-size:var(--t-2xs);letter-spacing:.22em;text-transform:uppercase;
+  font-weight:500;font-size:var(--t-2xs);letter-spacing:var(--track-micro);text-transform:uppercase;
   color:var(--brass-text)}
 .sv.on em,.sv.on b{opacity:1}
 .sv:hover b,.sv:focus-visible b{opacity:1;color:var(--brass-text)}
@@ -1316,10 +1466,10 @@ html.overlay-open,html.overlay-open body{overflow:hidden}
   linear-gradient(to top,rgba(18,16,12,.66) 0%,rgba(18,16,12,.30) 46%,rgba(18,16,12,.08) 100%),
   linear-gradient(to right,rgba(20,18,13,.62) 0%,rgba(20,18,13,0) 66%)}
 .shero .c{max-width:37.125rem;color:var(--ivory)}
-.shero .k{color:var(--brass-on-dark);letter-spacing:.32em;
+.shero .k{color:var(--brass-on-dark);letter-spacing:var(--track-kicker);
   text-shadow:0 1px 3px rgba(18,16,12,.55)}
 .shero h1{font-size:var(--t-5);line-height:1.2;margin-top:var(--space-5)}
-.shero .lede{font-size:var(--t-lg);line-height:var(--lh-lede);opacity:.94;
+.shero .lede{font-size:var(--t-lg);line-height:var(--lh-lede);opacity:var(--o-strong);
   margin-top:var(--space-5)}
 .shero .cta{display:flex;flex-wrap:wrap;gap:var(--space-4);margin-top:var(--space-5)}
 
@@ -1345,7 +1495,7 @@ html.overlay-open,html.overlay-open body{overflow:hidden}
   font-style:normal;font-size:var(--t-2);color:var(--brass-text);line-height:1}
 .hstep h3{font-family:var(--font-display);font-weight:400;
   font-size:var(--t-1);color:var(--ink);margin-top:var(--space-3)}
-.hstep :where(p){font-size:var(--t-sm);line-height:1.7;color:var(--txt);margin-top:var(--space-3)}
+.hstep :where(p:not(.k)){font-size:var(--t-sm);line-height:1.7;color:var(--txt);margin-top:var(--space-3)}
 
 /* --- the form ----------------------------------------------------------- */
 .tellus{background:var(--ivory);padding-block:var(--space-9)}
@@ -1361,20 +1511,20 @@ html.overlay-open,html.overlay-open body{overflow:hidden}
   border:1px solid rgba(43,46,45,.28);padding:0.75rem var(--space-4) 0.6875rem}
 .ffield:focus-within{border-color:rgba(43,46,45,.9)}
 .ffield>span{display:block;font-family:var(--font-sans);font-weight:500;
-  font-size:var(--t-2xs);letter-spacing:.22em;text-transform:uppercase;
-  color:var(--txt);opacity:.75}
+  font-size:var(--t-2xs);letter-spacing:var(--track-micro);text-transform:uppercase;
+  color:var(--txt-2)}
 .ffield input,.ffield textarea{display:block;width:100%;margin-top:.55rem;
   border:0;background:none;color:var(--ink);
   font-family:var(--font-sans);font-size:var(--t-sm);line-height:1.5}
 .ffield textarea{font-family:var(--font-serif);font-size:var(--t-md);
   line-height:1.68;min-height:11.5rem;resize:vertical}
 .ffield input:focus,.ffield textarea:focus{outline:none}
-.ffield ::placeholder{color:rgba(64,68,67,.45)}
-.ffield.tall{background:#fff;border-color:rgba(43,46,45,.9);border-width:1.5px}
+.ffield ::placeholder{color:var(--txt-2)}
+.ffield.tall{background:var(--ivory);border-color:var(--ink);border-width:1px}
 .sform .count.over{color:var(--oxblood-500);opacity:1}
 .sform .count{margin-top:calc(var(--space-5) * -1 + var(--space-2));text-align:right;
-  font-family:var(--font-sans);font-size:var(--t-2xs);letter-spacing:.18em;
-  text-transform:uppercase;color:var(--txt);opacity:.5}
+  font-family:var(--font-sans);font-size:var(--t-2xs);letter-spacing:var(--track-micro);
+  text-transform:uppercase;color:var(--txt-2)}
 .frow2{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--space-5)}
 @media (min-width:34em){ .frow2{grid-template-columns:repeat(2,minmax(0,1fr))} }
 .consent{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--space-5);
@@ -1382,8 +1532,7 @@ html.overlay-open,html.overlay-open body{overflow:hidden}
 @media (min-width:52em){ .consent{grid-template-columns:minmax(0,1fr) auto} }
 .consent label{display:grid;grid-template-columns:auto minmax(0,1fr);gap:var(--space-3);
   align-items:start;cursor:pointer}
-.consent input{width:.9375rem;height:.9375rem;margin:.15rem 0 0;flex:none;
-  accent-color:var(--ink)}
+.consent input{margin:.15rem 0 0}
 .consent span{font-family:var(--font-serif);font-size:var(--t-sm);
   line-height:1.68;color:var(--txt)}
 .consent .btn{min-height:3.375rem;min-width:18.75rem}
@@ -1392,7 +1541,7 @@ html.overlay-open,html.overlay-open body{overflow:hidden}
 .looking{background:var(--plaster);border-radius:var(--radius-hairline);
   padding:var(--space-6);align-self:start}
 @media (min-width:68em){ .looking{margin-top:calc(var(--space-6) + var(--space-8))} }
-.looking .k{font-size:var(--t-xs);letter-spacing:.26em}
+.looking .k{font-size:var(--t-xs);letter-spacing:var(--track-kicker)}
 .looking .k+p{font-family:var(--font-serif);font-size:var(--t-sm);
   line-height:1.72;color:var(--txt);margin-top:var(--space-3)}
 .looking p+.k{margin-top:var(--space-5)}
@@ -1402,7 +1551,7 @@ html.overlay-open,html.overlay-open body{overflow:hidden}
 .postbag{background:var(--plaster);padding-block:var(--space-9)}
 .postbag h2{font-size:var(--t-4);margin-top:var(--space-3)}
 .postbag .pintro{font-family:var(--font-serif);font-style:italic;
-  font-size:var(--t-lg);color:var(--txt);opacity:.8;margin-top:var(--space-4)}
+  font-size:var(--t-lg);color:var(--txt-2);margin-top:var(--space-4)}
 .pnotes{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--space-5);
   margin-top:var(--space-7)}
 @media (min-width:40em){ .pnotes{grid-template-columns:repeat(2,minmax(0,1fr))} }
@@ -1410,14 +1559,14 @@ html.overlay-open,html.overlay-open body{overflow:hidden}
 .pnote{background:var(--ivory);border:1px solid rgba(43,46,45,.08);
   border-radius:var(--radius-hairline);padding:var(--space-6)}
 .tag{display:inline-block;font-family:var(--font-sans);font-weight:500;
-  font-size:var(--t-2xs);letter-spacing:.2em;text-transform:uppercase;
+  font-size:var(--t-2xs);letter-spacing:var(--track-micro);text-transform:uppercase;
   color:var(--ivory);padding:.35em .7em;line-height:1}
 .tag.verde{background:var(--verde)}
 .tag.brass{background:var(--brass-text)}
 .pnote h3{font-family:var(--font-display);font-weight:400;
   font-size:var(--t-2);color:var(--ink);margin-top:var(--space-4)}
 .pnote .who{font-family:var(--font-sans);font-size:var(--t-2xs);
-  letter-spacing:.2em;text-transform:uppercase;color:var(--txt);opacity:.6;
+  letter-spacing:var(--track-micro);text-transform:uppercase;color:var(--txt);opacity:var(--o-strong);
   margin-top:var(--space-3)}
 .pnote blockquote{font-family:var(--font-serif);font-style:italic;
   font-size:var(--t-sm);line-height:1.74;color:var(--txt);margin-top:var(--space-3)}
@@ -1432,7 +1581,42 @@ html.overlay-open,html.overlay-open body{overflow:hidden}
 .term{border-top:1px solid rgba(43,46,45,.15);padding-top:var(--space-3)}
 .term h3{font-family:var(--font-serif);font-weight:400;font-size:var(--t-lg);
   color:var(--ink)}
-.term :where(p){font-size:var(--t-sm);line-height:1.68;color:var(--txt);margin-top:var(--space-3)}
+.term :where(p:not(.k)){font-size:var(--t-sm);line-height:1.68;color:var(--txt);margin-top:var(--space-3)}
+
+/* =========================================================== confirmation ==
+   The moment after someone sends something.
+
+   There was no component for this. The share form — where a person has just
+   written out a private memory and handed it over — acknowledged it with one
+   8.5px line of grey uppercase appearing at the bottom of the form they had
+   just filled in. The newsletter did something worse: a JavaScript handler
+   wrote in `.centered`, `.rule`, `.kicker`, `.fine` and `.mut`, none of which
+   exist anywhere in this stylesheet, with the heading size set inline at a
+   raw 30px. So the confirmation rendered as unstyled browser default.
+
+   These are the two moments on the site where the customer has given the most
+   and is owed the most. One component, in the house language: a drawn rule,
+   a kicker, the display face, and one way onward.
+   ========================================================================== */
+.formdone{border-top:1px solid var(--line);padding-top:var(--s-6);
+  animation:rise var(--d-settled) var(--settle) both}
+.formdone .r{width:3rem;height:1px;background:var(--brass)}
+.formdone .k{margin-top:var(--s-5)}
+.formdone h2{font-family:var(--font-display);font-size:var(--t-4);
+  line-height:var(--lh-headline);margin-top:var(--s-3);max-width:18ch}
+.formdone :where(p:not(.k)){font-family:var(--font-serif);font-size:var(--t-md);
+  line-height:var(--lh-body);color:var(--txt);max-width:44ch;margin-top:var(--s-4)}
+.formdone .ul{margin-top:var(--s-5)}
+/* the newsletter sits in a centred band, so its confirmation centres too —
+   half-centred was the worst of both */
+.news .formdone{border-top:0;padding-block:var(--s-5) 0;text-align:center}
+.news .formdone .r{margin-inline:auto}
+.news .formdone h2{max-width:22ch;margin-inline:auto}
+.news .formdone :where(p:not(.k)){margin-inline:auto}
+/* focus is moved here so a screen reader lands on the confirmation rather
+   than on the top of the page; it is a region, not a control, so it does not
+   also need to draw a ring */
+.formdone:focus,.formdone:focus-visible{outline:none;box-shadow:none}
 
 /* ------------------------------------------------------------- forms ------
    One validation language for every form on the site. Nothing appears until
@@ -1455,7 +1639,7 @@ input:user-invalid,textarea:user-invalid{border-color:var(--text-error)}
 .artgrid{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--s-5)}
 @media (min-width:64em){ .artgrid{grid-template-columns:minmax(0,1fr) 16rem;gap:var(--s-6)} }
 .artgrid .col{max-width:34rem}
-.artgrid .col :where(p){font-size:var(--t-lg);line-height:1.85;margin-top:var(--s-4)}
+.artgrid .col :where(p:not(.k)){font-size:var(--t-lg);line-height:1.85;margin-top:var(--s-4)}
 .artgrid .col p:first-child{margin-top:0}
 .dropcap::first-letter{float:left;font-family:var(--font-display);font-size:3.6em;
   line-height:.82;padding:.06em .12em 0 0}
@@ -1463,10 +1647,10 @@ input:user-invalid,textarea:user-invalid{border-color:var(--text-error)}
 @media (min-width:64em){ .artaside{position:sticky;top:7.5rem} }
 .marginnote{border-top:1px solid var(--brass);padding-top:var(--s-2);
   font-family:var(--font-script);font-style:italic;font-size:var(--t-1);
-  line-height:1.4;color:var(--ink);opacity:.9}
+  line-height:1.4;color:var(--txt-2)}
 .marginnote+.marginnote{margin-top:var(--s-5)}
 .marginnote small{display:block;margin-top:var(--s-2);font-family:var(--font-sans);
-  font-style:normal;font-size:var(--t-xs);letter-spacing:.18em;text-transform:uppercase;color:var(--brass-text)}
+  font-style:normal;font-size:var(--t-xs);letter-spacing:var(--track-label);text-transform:uppercase;color:var(--brass-text)}
 .pull{font-family:var(--font-display);font-size:var(--t-3);line-height:1.45;
   text-align:center;max-width:36ch;margin:var(--s-6) auto;color:var(--ink)}
 
@@ -1475,18 +1659,18 @@ input:user-invalid,textarea:user-invalid{border-color:var(--text-error)}
 @media (min-width:64em){ .form{grid-template-columns:minmax(0,1.3fr) minmax(0,.7fr);gap:var(--s-6);align-items:start} }
 .field{display:block;margin-top:var(--s-4)}
 .field>span{display:block;font-family:var(--font-sans);font-weight:500;font-size:var(--t-xs);
-  letter-spacing:.2em;text-transform:uppercase;color:var(--txt);margin-bottom:var(--s-2)}
+  letter-spacing:var(--track-label);text-transform:uppercase;color:var(--txt);margin-bottom:var(--s-2)}
 .field input,.field textarea,.field select{width:100%;min-height:3rem;padding:.75rem var(--s-3);
   background:var(--ivory);border:1px solid rgba(43,46,45,.25);color:var(--ink);
   font-family:var(--font-serif);font-size:var(--t-sm);line-height:1.6}
 .field textarea{min-height:12rem;resize:vertical}
 .field input:focus,.field textarea:focus,.field select:focus{outline:none;border-color:var(--ink)}
-.field small{display:block;margin-top:var(--s-2);font-size:var(--t-xs);color:var(--txt);opacity:.7}
+.field small{display:block;margin-top:var(--s-2);font-size:var(--t-xs);color:var(--txt-2)}
 .row2{display:grid;grid-template-columns:minmax(0,1fr);gap:0 var(--s-3)}
 @media (min-width:34em){ .row2{grid-template-columns:repeat(2,minmax(0,1fr))} }
 .aside-card{background:var(--plaster);padding:var(--s-5)}
 .aside-card h3{font-size:var(--t-1)}
-.aside-card :where(p){font-size:var(--t-sm);line-height:1.75;color:var(--txt);margin-top:var(--s-3)}
+.aside-card :where(p:not(.k)){font-size:var(--t-sm);line-height:1.75;color:var(--txt);margin-top:var(--s-3)}
 
 /* --------------------------------------------------------------- bag --- */
 .cart{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--s-5);padding-block:var(--s-5) var(--s-7)}
@@ -1495,7 +1679,7 @@ input:user-invalid,textarea:user-invalid{border-color:var(--text-error)}
   padding-block:var(--s-4);border-bottom:1px solid var(--line)}
 .line img{width:clamp(4.5rem,12vw,6.5rem);aspect-ratio:1;object-fit:cover;background:var(--plaster)}
 .line h3{font-size:var(--t-1)}
-.line :where(.meta){font-family:var(--font-sans);font-size:var(--t-xs);letter-spacing:.16em;
+.line :where(.meta){font-family:var(--font-sans);font-size:var(--t-xs);letter-spacing:var(--track-label);
   text-transform:uppercase;color:var(--txt);margin-top:var(--s-2)}
 .line .act{display:flex;flex-wrap:wrap;align-items:center;gap:var(--s-3);margin-top:var(--s-3)}
 .qty{display:inline-flex;align-items:center;border:1px solid rgba(43,46,45,.25)}
@@ -1503,19 +1687,22 @@ input:user-invalid,textarea:user-invalid{border-color:var(--text-error)}
 .qty span{min-width:2rem;text-align:center;font-family:var(--font-sans);font-size:var(--t-xs)}
 .summary{background:var(--plaster);padding:var(--s-5)}
 .summary h3{font-family:var(--font-sans);font-weight:500;font-size:var(--t-xs);
-  letter-spacing:.22em;text-transform:uppercase}
+  letter-spacing:var(--track-label);text-transform:uppercase}
 .srow{display:flex;justify-content:space-between;gap:var(--s-3);padding-block:var(--s-2);
-  font-family:var(--font-sans);font-size:var(--t-xs);letter-spacing:.14em;
+  font-family:var(--font-sans);font-size:var(--t-xs);letter-spacing:var(--track-label);
   text-transform:uppercase;color:var(--txt)}
 .srow.total{border-top:1px solid var(--line);margin-top:var(--s-3);padding-top:var(--s-3);
   color:var(--ink);font-weight:600}
-.empty{text-align:center;padding-block:var(--s-6)}
-.empty :where(p){font-size:var(--t-md);color:var(--txt);margin-top:var(--s-3)}
+/* the bag heading is left-aligned and so is everything else on the page; a
+   centred empty state in an 880px column sat nowhere near the sentence it
+   was answering */
+.empty{padding-block:var(--s-6) var(--s-7)}
+.empty :where(p:not(.k)){font-size:var(--t-md);color:var(--txt);margin-top:var(--s-3)}
 
 /* checkout progress */
 .steps{display:flex;flex-wrap:wrap;gap:var(--s-2) var(--s-3);padding-block:var(--s-4);
-  font-family:var(--font-sans);font-size:var(--t-xs);letter-spacing:.18em;
-  text-transform:uppercase;color:var(--txt);opacity:.75}
+  font-family:var(--font-sans);font-size:var(--t-xs);letter-spacing:var(--track-label);
+  text-transform:uppercase;color:var(--txt-2)}
 .steps b{font-weight:500;color:var(--ink)}
 
 /* ------------------------------------------------------------ tables --- */
@@ -1523,7 +1710,7 @@ input:user-invalid,textarea:user-invalid{border-color:var(--text-error)}
 .table th,.table td{text-align:left;padding:var(--s-3) var(--s-3) var(--s-3) 0;
   border-bottom:1px solid var(--line);vertical-align:top}
 .table th{font-family:var(--font-sans);font-weight:500;font-size:var(--t-xs);
-  letter-spacing:.2em;text-transform:uppercase;color:var(--txt)}
+  letter-spacing:var(--track-label);text-transform:uppercase;color:var(--txt)}
 .scrollx{overflow-x:auto;-webkit-overflow-scrolling:touch}
 
 /* ------------------------------------------------------------ search --- */
@@ -1531,24 +1718,34 @@ input:user-invalid,textarea:user-invalid{border-color:var(--text-error)}
 .searchbar input{flex:1 1 18rem;min-height:3.25rem;padding:0 var(--s-4);background:var(--ivory);
   border:1px solid rgba(43,46,45,.25);font-family:var(--font-serif);font-size:var(--t-md)}
 .searchbar input:focus{outline:none;border-color:var(--ink)}
-.chips{display:flex;flex-wrap:wrap;gap:var(--s-2);margin-top:var(--s-4)}
-.chips a{font-family:var(--font-sans);font-size:var(--t-xs);letter-spacing:.18em;
-  text-transform:uppercase;padding:.65rem 1rem;border:1px solid rgba(43,46,45,.22);color:var(--txt)}
-.chips a:hover{border-color:var(--ink);color:var(--ink)}
+/* Renamed off `.chips`, which the shelf bar also used: this rule's
+   margin-top:16px was leaking into the scent group and pushing it eight
+   pixels below the size group it is meant to sit level with. Same class of
+   bug as .veil / .steps / .sub before it. Restyled to match the shelf bar
+   while it was open — these were the last bordered chips on the site. */
+.tagrow{display:flex;flex-wrap:wrap;gap:var(--s-3) var(--s-5);margin-top:var(--s-4)}
+.tagrow a{font-family:var(--font-sans);font-weight:500;font-size:var(--t-xs);
+  letter-spacing:var(--track-label);text-transform:uppercase;color:var(--txt-2);
+  ;border-bottom:1px solid transparent;padding-bottom:.25em;
+  transition:color var(--d-quick) var(--settle),
+             border-color var(--d-quick) var(--settle),
+             opacity var(--d-quick) var(--settle)}
+.tagrow a:hover,.tagrow a:focus-visible{color:var(--ink);opacity:1;
+  border-bottom-color:var(--ink)}
 
 /* ----------------------------------------------------------- account --- */
 .acct{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--s-5);padding-block:var(--s-5) var(--s-7)}
 @media (min-width:52em){ .acct{grid-template-columns:14rem minmax(0,1fr);gap:var(--s-6);align-items:start} }
 .acctnav a{display:block;padding-block:var(--s-3);border-bottom:1px solid var(--line);
   font-family:var(--font-sans);font-weight:500;font-size:var(--t-xs);
-  letter-spacing:.2em;text-transform:uppercase;color:var(--txt)}
+  letter-spacing:var(--track-label);text-transform:uppercase;color:var(--txt)}
 .acctnav a[aria-current]{color:var(--ink)}
 
 /* --------------------------------------------------------------- 404 --- */
 .notfound{display:grid;place-items:center;text-align:center;padding-block:var(--s-7);
   min-height:60svh}
 .notfound h1{font-size:var(--t-5);max-width:16ch}
-.notfound :where(p){font-size:var(--t-md);color:var(--txt);max-width:44ch;margin:var(--s-4) auto 0}
+.notfound :where(p:not(.k)){font-size:var(--t-md);color:var(--txt);max-width:44ch;margin:var(--s-4) auto 0}
 .notfound .cta{display:flex;flex-wrap:wrap;justify-content:center;gap:var(--s-3);margin-top:var(--s-5)}
 
 /* a standalone action row and dedication card, so pages do not have to borrow
@@ -1561,7 +1758,7 @@ input:user-invalid,textarea:user-invalid{border-color:var(--text-error)}
 
 /* ------------------------------------------------------------- misc ---- */
 .note-strip{background:var(--plaster);padding-block:var(--s-5);text-align:center;
-  font-family:var(--font-sans);font-size:var(--t-xs);letter-spacing:.18em;
+  font-family:var(--font-sans);font-size:var(--t-xs);letter-spacing:var(--track-label);
   text-transform:uppercase;color:var(--txt);line-height:2}
 .grid-2{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--s-5);margin-top:var(--s-5)}
 @media (min-width:52em){ .grid-2{grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--s-6)} }
@@ -1570,13 +1767,13 @@ input:user-invalid,textarea:user-invalid{border-color:var(--text-error)}
 .figfull{width:100%;aspect-ratio:16/9;object-fit:cover}
 .tile{background:var(--ivory);padding:var(--s-5);min-width:0}
 .tile h3{font-size:var(--t-1)}
-.tile :where(p){font-size:var(--t-sm);line-height:1.75;color:var(--txt);margin-top:var(--s-3)}
+.tile :where(p:not(.k)){font-size:var(--t-sm);line-height:1.75;color:var(--txt);margin-top:var(--s-3)}
 
 
 /* ==========================================================================
    Utilities, declared last.
 
-   Section rules above are written as `.band :where(p)` so their specificity is
+   Section rules above are written as `.band :where(p:not(.k))` so their specificity is
    the class alone. These utilities then win on source order, whatever context
    they appear in. This is the guard against the bug that kept recurring: a
    descendant rule such as `.band p` silently out-specifying `.k` and rendering
@@ -1601,23 +1798,23 @@ input:user-invalid,textarea:user-invalid{border-color:var(--text-error)}
 /* --- A0 → A1 → A1b · arrival ------------------------------------------- */
 /* entrance-veil: rgba(14,13,10,.92) over everything, lifting to 0 (frame A1) */
 .enter-veil{position:fixed;inset:0;z-index:var(--z-top);background:rgb(14,13,10);opacity:.92;
-  pointer-events:none;animation:veil-lift 1.2s var(--settle) .05s forwards}
+  pointer-events:none;animation:veil-lift var(--d-cinematic) var(--settle) .05s forwards}
 @keyframes veil-lift{to{opacity:0;visibility:hidden}}
 
 /* the hero is a sequence, not a still: two frames cross-fading behind the copy */
 .hero .shots{position:absolute;inset:0;z-index:-2}
 .hero .shots img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
-  opacity:0;transition:opacity 1.2s var(--settle);transform:scale(1.05);
-  animation:kb 18s var(--settle) forwards}
+  opacity:0;transition:opacity var(--d-cinematic) var(--settle);transform:scale(1.05);
+  animation:kb var(--d-ambient) var(--settle) forwards}
 .hero .shots img.on{opacity:1}
 .hero .dots{position:absolute;right:var(--gutter);bottom:var(--s-5);z-index:2;
   display:flex;gap:var(--s-2)}
 .hero .dots button{width:2.25rem;height:2.75rem;padding:1.375rem 0;   /* 1px rule, 44px target */
   background:rgba(241,240,232,.4);background-clip:content-box;
-  transition:background-color .5s var(--settle)}
+  transition:background-color var(--d-settled) var(--settle)}
 .hero .dots button[aria-current]{background-color:rgba(241,240,232,.95)}
 /* copy rises 48px as the veil lifts — frame A0 has it at y522, A1 at y474 */
-.hero .copy>*{animation:rise .8s var(--settle) forwards}
+.hero .copy>*{animation:rise var(--d-slow) var(--settle) forwards}
 @media (prefers-reduced-motion:reduce){
   .enter-veil{display:none}
   .hero .shots img{animation:none;transform:none;transition:none}
@@ -1626,13 +1823,13 @@ input:user-invalid,textarea:user-invalid{border-color:var(--text-error)}
 /* --- A2 · menu open ----------------------------------------------------- */
 /* the prototype dims the page below the nav, not the nav itself (frame A2) */
 .menu-dim{position:fixed;inset:0;z-index:var(--z-sticky);background:rgba(15,15,14,.35);
-  opacity:0;pointer-events:none;transition:opacity .5s var(--settle)}
+  opacity:0;pointer-events:none;transition:opacity var(--d-settled) var(--settle)}
 .menu-dim.on{opacity:1;pointer-events:auto}
 
 .mega{position:absolute;top:100%;left:0;right:0;z-index:var(--z-header);background:var(--ivory);
   border-top:1px solid var(--line);border-bottom:1px solid var(--line);
   opacity:0;visibility:hidden;transform:translateY(-.5rem);
-  transition:opacity .25s var(--settle),transform .35s var(--settle),visibility .35s}
+  transition:opacity var(--d-quick) var(--settle),transform var(--d-quick) var(--settle),visibility var(--d-quick)}
 .mega.on{opacity:1;visibility:visible;transform:none}
 .mega .inner{display:grid;gap:var(--s-5);padding-block:var(--s-5) var(--s-6);
   grid-template-columns:minmax(0,1fr)}
@@ -1641,17 +1838,17 @@ input:user-invalid,textarea:user-invalid{border-color:var(--text-error)}
     gap:var(--s-6);align-items:start}
 }
 .mega .fh{font-family:var(--font-sans);font-weight:500;font-size:var(--t-xs);
-  letter-spacing:.24em;text-transform:uppercase;color:var(--brass-text);margin-bottom:var(--s-4)}
+  letter-spacing:var(--track-label);text-transform:uppercase;color:var(--brass-text);margin-bottom:var(--s-4)}
 .mega a.ml{display:block;font-family:var(--font-serif);font-size:var(--t-md);
   line-height:1.3;color:rgba(43,46,45,.92);padding-block:.45rem;
-  transition:color .25s var(--settle),transform .25s var(--settle)}
+  transition:color var(--d-quick) var(--settle),transform var(--d-quick) var(--settle)}
 .mega a.ml:hover{color:var(--ink);padding-left:.35rem}
-.mega .feature{display:block;min-width:0}
+.mega .feature{display:block;min-width:0;overflow:hidden}
 .mega .feature img{width:100%;aspect-ratio:6/5;object-fit:cover;background:var(--plaster);
-  transition:filter .5s var(--settle)}
-.mega .feature:hover img{filter:brightness(1.05)}
+  transition:transform var(--d-slow) var(--settle)}
+.mega .feature:hover img{transform:scale(1.03)}
 .mega .feature span{display:block;margin-top:var(--s-3);font-family:var(--font-sans);
-  font-size:var(--t-xs);letter-spacing:.18em;text-transform:uppercase;color:rgba(43,46,45,.8)}
+  font-size:var(--t-xs);letter-spacing:var(--track-label);text-transform:uppercase;color:var(--txt-2)}
 .nav .inner{position:relative}
 .links a[aria-expanded="true"]{color:var(--ink)}
 /* the panel belongs to the nav, so the nav must be the containing block */
@@ -1662,20 +1859,20 @@ input:user-invalid,textarea:user-invalid{border-color:var(--text-error)}
    the frame and the image develops very slightly. My zoom-out experiment made
    the panel escape the frame at narrow widths and jump between two crops; it is
    gone. The crops themselves stay — those were a genuine fix. */
-.card{transition:box-shadow .5s var(--settle)}
+.card{transition:box-shadow var(--d-settled) var(--settle)}
 .card .ph{position:relative;overflow:hidden}
 .card .ph img{width:100%;height:100%;object-fit:cover;
-  transition:transform .8s var(--settle),filter .4s var(--settle)}
-.card h3{transition:color .5s var(--settle)}
+  transition:transform var(--d-slow) var(--settle)}
+.card h3{transition:color var(--d-settled) var(--settle)}
 
 /* the panel lives inside the frame and never leaves it */
 .quick{position:absolute;left:0;right:0;bottom:0;z-index:2;max-height:100%;overflow:hidden;
   background:rgba(241,240,232,.97);padding:var(--s-3);
-  transform:translateY(100%);transition:transform .5s var(--settle)}
+  transform:translateY(100%);transition:transform var(--d-settled) var(--settle)}
 .quick .r{display:flex;flex-wrap:wrap;gap:var(--s-2)}
 
 @media (hover:hover) and (pointer:fine){
-  .card:hover .ph img{transform:scale(1.035);filter:brightness(1.03)}
+  .card:hover .ph img{transform:scale(1.03)}
   .card:hover h3{color:var(--brass-text)}
   .card:hover .quick,.card:focus-within .quick{transform:none}
 }
@@ -1685,21 +1882,23 @@ input:user-invalid,textarea:user-invalid{border-color:var(--text-error)}
 @media (max-width:33.9375em){ .quick{display:none} }
 
 /* --- µ2 · SIZE OPTION --------------------------------------------------- */
-/* "hairline inks to 90%, field tints 6% ink. Selection is an instant fill swap." */
-.sizes button{transition:border-color .25s var(--settle),background-color .3s var(--settle)}
-.sizes button:hover{border-color:rgba(43,46,45,.9);background:rgba(43,46,45,.06)}
-/* selection is an instant fill swap, no animation on commitment (µ2) */
-.sizes button[aria-current]{transition:none;border-color:var(--ink);
-  background:var(--ink);color:var(--ivory)}
+/* The original note here read "selection is an instant fill swap", and this
+   block was re-declaring the fill several hundred lines after the size
+   control was defined — so the boxed, solid-black selected state survived
+   the restyling above and came back on the product page alone. The
+   commitment should still be instant; it is the rule that appears, not a
+   fill. */
+.sizes button[aria-current]{transition:none}
+.sizes button[aria-current]::after{transition:none}
 
 /* --- µ3 · BAG ROW ------------------------------------------------------- */
 /* "row warms to sand, REMOVE inks in and underlines — destructive action only
     visible when attended. 300ms." */
-.line,.ditem{transition:background-color .25s var(--settle)}
+.line,.ditem{transition:background-color var(--d-quick) var(--settle)}
 .line{margin-inline:calc(var(--s-3) * -1);padding-inline:var(--s-3)}
 .line:hover,.ditem:hover{background:var(--sand)}
 .line .ul,.ditem .ul{opacity:0;border-bottom-color:transparent;
-  transition:opacity .25s var(--settle),border-bottom-color .3s var(--settle)}
+  transition:opacity var(--d-quick) var(--settle),border-bottom-color var(--d-quick) var(--settle)}
 .line:hover .ul,.ditem:hover .ul,.line:focus-within .ul,.ditem:focus-within .ul{
   opacity:1;border-bottom-color:currentColor}
 @media (hover:none){ .line .ul,.ditem .ul{opacity:1;border-bottom-color:currentColor} }
@@ -1707,17 +1906,17 @@ input:user-invalid,textarea:user-invalid{border-color:var(--text-error)}
 /* --- µ5 · GALLERY ------------------------------------------------------- */
 /* "main image develops (dissolve 400ms) on thumb click; hairline moves to the
     active thumb. No sliding, no zoom theatrics." */
-.gal .main,.show .big{transition:opacity .5s var(--settle)}
-.gal .strip button,.show .thumbs button{position:relative;transition:opacity .25s var(--settle)}
+.gal .main,.show .big{transition:opacity var(--d-settled) var(--settle)}
+.gal .strip button,.show .thumbs button{position:relative;transition:opacity var(--d-quick) var(--settle)}
 .gal .strip button::after,.show .thumbs button::after{content:"";position:absolute;
   left:0;right:0;bottom:-.375rem;height:1px;background:var(--ink);
-  transform:scaleX(0);transform-origin:left;transition:transform .5s var(--settle)}
+  transform:scaleX(0);transform-origin:left;transition:transform var(--d-settled) var(--settle)}
 .gal .strip button[aria-current]::after,.show .thumbs button[aria-current]::after{transform:scaleX(1)}
 .gal .strip button,.show .thumbs button{border-color:transparent!important}
 
 /* --- F1 · footer link hover -------------------------------------------- */
-footer a{transition:opacity .25s var(--settle),transform .25s var(--settle)}
-footer .cols a:hover{opacity:1;transform:translateX(.3rem)}
+footer a{transition:opacity var(--d-quick) var(--settle)}
+footer .cols a:hover,footer .cols a:focus-visible{opacity:1}
 
 
 /* ==========================================================================
@@ -1735,8 +1934,8 @@ footer .cols a:hover{opacity:1;transform:translateX(.3rem)}
   max-width:calc(46rem + var(--gutter) * 2)}
 .storyband blockquote{font-family:var(--font-display);font-size:var(--t-4);
   line-height:1.24;text-wrap:balance}
-.storyband :where(p){margin-top:var(--s-4);font-family:var(--font-sans);font-size:var(--t-xs);
-  letter-spacing:.2em;text-transform:uppercase;opacity:.85}
+.storyband :where(p:not(.k)){margin-top:var(--s-4);font-family:var(--font-sans);font-size:var(--t-xs);
+  letter-spacing:var(--track-label);text-transform:uppercase;opacity:var(--o-strong)}
 .storyband a{border-bottom:1px solid rgba(241,240,232,.5);padding-bottom:.15em}
 
 /* --- the story: chapter numeral, excerpt, overlapping plates ------------ */
@@ -1753,7 +1952,7 @@ footer .cols a:hover{opacity:1;transform:translateX(.3rem)}
   line-height:.8;color:rgba(43,46,45,.05);pointer-events:none;user-select:none}
 .chapter h2{font-size:var(--t-4);margin-top:var(--s-3);max-width:16ch}
 .chapter .byline{font-family:var(--font-script);font-weight:300;font-style:italic;
-  font-size:var(--t-lg);color:rgba(64,68,67,.8);margin-top:var(--s-3)}
+  font-size:var(--t-lg);color:var(--txt-2);margin-top:var(--s-3)}
 .chapter .excerpt{margin-top:var(--s-6);max-width:35rem}
 .chapter .excerpt p{font-size:var(--t-lg);line-height:1.85;color:var(--txt);margin-top:var(--s-4)}
 .chapter .excerpt p:first-child{margin-top:0}
@@ -1767,16 +1966,15 @@ footer .cols a:hover{opacity:1;transform:translateX(.3rem)}
 .chapter .go{display:flex;flex-wrap:wrap;align-items:center;gap:var(--s-3) var(--s-4);
   margin-top:var(--s-5)}
 .chapter .go small{font-family:var(--font-sans);font-size:var(--t-xs);
-  letter-spacing:.16em;text-transform:uppercase;color:rgba(64,68,67,.6)}
+  letter-spacing:var(--track-label);text-transform:uppercase;color:var(--txt-2)}
 /* two plates, the smaller overlapping the larger — as in the prototype */
 .plates2{position:relative;min-width:0}
 .plates2 .big{width:100%;aspect-ratio:4/3;object-fit:cover;background:var(--plaster)}
 .plates2 .small{width:50%;aspect-ratio:4/3;object-fit:cover;background:var(--plaster);
-  border:.5rem solid var(--ivory);margin-top:-18%;margin-left:-4%;position:relative;z-index:1;
-  box-shadow:var(--shadow-raised)}
+  border:.5rem solid var(--ivory);margin-top:-18%;margin-left:-4%;position:relative;z-index:1}
 .plates2 figcaption{margin-top:var(--s-3);text-align:right;
   font-family:var(--font-script);font-weight:300;font-style:italic;
-  font-size:var(--t-sm);color:rgba(64,68,67,.65)}
+  font-size:var(--t-sm);color:var(--txt-2)}
 @media (max-width:47.9375em){
   .plates2 .small{width:58%;margin-top:-14%}
   .plates2 figcaption{text-align:left}
@@ -1791,11 +1989,11 @@ footer .cols a:hover{opacity:1;transform:translateX(.3rem)}
 .pyramid div::before{content:"";position:absolute;top:0;left:0;width:1.875rem;height:1px;
   background:var(--brass)}
 .pyramid b{display:block;font-family:var(--font-sans);font-weight:500;font-size:var(--t-xs);
-  letter-spacing:.2em;text-transform:uppercase;color:rgba(64,68,67,.6)}
+  letter-spacing:var(--track-label);text-transform:uppercase;color:var(--txt-2)}
 .pyramid em{display:block;margin-top:var(--s-2);font-family:var(--font-script);
   font-weight:300;font-style:italic;font-size:var(--t-2);line-height:1.25;color:var(--ink)}
 .pyramid i{display:block;margin-top:var(--s-2);font-family:var(--font-serif);
-  font-style:italic;font-size:var(--t-sm);color:rgba(64,68,67,.65)}
+  font-style:italic;font-size:var(--t-sm);color:var(--txt-2)}
 
 /* --- the stone --------------------------------------------------------- */
 .stoneband{background:var(--ivory);padding-block:var(--s-7)}
@@ -1803,7 +2001,7 @@ footer .cols a:hover{opacity:1;transform:translateX(.3rem)}
 @media (min-width:64em){ .stoneband .inner{grid-template-columns:minmax(0,560fr) minmax(0,520fr);gap:var(--s-7)} }
 .stoneband img{width:100%;aspect-ratio:56/34;object-fit:cover;background:var(--plaster)}
 .stoneband h2{font-size:var(--t-3);margin-top:var(--s-3);max-width:14ch}
-.stoneband :where(p){font-size:var(--t-md);line-height:1.8;color:var(--txt);max-width:46ch;margin-top:var(--s-4)}
+.stoneband :where(p:not(.k)){font-size:var(--t-md);line-height:1.8;color:var(--txt);max-width:46ch;margin-top:var(--s-4)}
 .stoneband .ul{margin-top:var(--s-4)}
 
 /* ==========================================================================
@@ -1827,17 +2025,25 @@ footer a,.mega .ml,.acctnav a,.util a,.util button{
    padding grows the box, negative margin keeps the line where it was drawn */
 .ul,.card .price a,.rd{padding-block:.32rem;margin-block:-.32rem}
 input[type=checkbox],input[type=radio]{width:1.25rem;height:1.25rem}
+/* The legal row, the checkout progress and the two links that live inside a
+   sentence were exempted from the floor as "inline" targets. The exemption is
+   allowed, but it is not necessary: padding on an inline box grows the hit
+   area without contributing to the line box, so these reach 24px and not one
+   pixel of type moves. The three that are blockified by a flex parent do grow
+   their row, which those rows had space for. */
 footer .fbot a,footer .legal a,footer .fcopy a{min-height:0;display:inline}
+footer .fbot a,footer .legal a,footer .fcopy a,
+.storyband .c a,.steps a,.re a{padding-block:.42rem}
 
 @media (max-width:47.9375em){
   footer a,.links a,.util a,.util button,.mega .ml,.acctnav a,.brand,.bagbtn,
-  .house .row a,.chips a,.snav a,.sv{
+  .house .row a,.tagrow a,.snav a,.sv{
     min-height:2.75rem;display:flex;align-items:center}
   footer .cols a{margin-bottom:0}
-  .fbot a,.legal a,.fcopy a{min-height:0;display:inline}
+  .fbot a,.legal a,.fcopy a{min-height:0;display:inline;padding-block:.4rem}
   .ffield input,.ffield textarea,.field input,.field textarea,.news input{
     min-height:2.75rem;padding-block:.5rem}
-  .ul,.crumb a,.card .price a,.re a,.rd,.filters button,.sizes button{
+  .ul,.crumb a,.card .price a,.re a,.rd,.sizes button{
     padding-block:.72rem;margin-block:-.72rem}
   input[type=checkbox],input[type=radio],
   .tryfirst input,.consent input{width:1.5rem;height:1.5rem;margin:0;flex:none}
