@@ -255,12 +255,28 @@ async function checkInteractions(browser, file) {
 
   // the bag drawer must open, and the menu must open on a narrow viewport
   if (await page.$('#drawer')) {
-    await page.click('.util button');
+    await page.click('.util .bagbtn');
     await page.waitForTimeout(300);
     rec(file, 'ui', 'bag drawer opens',
       await page.$eval('#drawer', e => e.classList.contains('open')));
     await page.keyboard.press('Escape');
   }
+  // P10 · A2 — the mega menu opens, dims the page, and closes on Escape
+  if (await page.$('.menutrigger')) {
+    await page.click('.menutrigger'); await page.waitForTimeout(450);
+    const st = await page.evaluate(() => ({
+      on: document.getElementById('mega').classList.contains('on'),
+      dim: document.getElementById('menudim').classList.contains('on'),
+      links: document.querySelectorAll('#mega a.ml').length,
+      features: document.querySelectorAll('#mega .feature').length }));
+    rec(file, 'ui', 'mega menu opens with both columns and features',
+      st.on && st.dim && st.links >= 9 && st.features === 2, JSON.stringify(st));
+    await page.keyboard.press('Escape'); await page.waitForTimeout(350);
+    rec(file, 'ui', 'mega menu closes on Escape',
+      await page.evaluate(() => !document.getElementById('mega').classList.contains('on')));
+    await page.mouse.move(700, 700);
+  }
+
   await page.setViewportSize({ width: 390, height: 800 });
   await page.waitForTimeout(150);
   if (await page.$('.burger')) {

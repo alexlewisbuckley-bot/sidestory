@@ -13,8 +13,10 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="assets/fonts/libre-caslon-text-latin-400-normal.woff2">
 <link rel="preload" as="font" type="font/woff2" crossorigin href="assets/fonts/montserrat-latin-500-normal.woff2">
 <link rel="stylesheet" href="assets/css/fonts.css?v=226e8a05">
-<link rel="stylesheet" href="assets/css/app.css?v=5d7ef730">
+<link rel="stylesheet" href="assets/css/app.css?v=f8c4301d">
 </head><body>
+<div class="veil" aria-hidden="true"></div>
+<div class="menu-dim" id="menudim"></div>
 <div class="topbar">
 <div class="ann"><span>A second story’s sample, complimentary with every bottle</span></div>
 <header class="nav">
@@ -29,9 +31,35 @@
       <a href="gifting.html">Gifting</a>
       <a href="our-house.html">Our House</a>
     </nav>
+    <div class="mega" id="mega" hidden>
+      <div class="inner">
+        <div>
+          <h4>Shop</h4>
+          <a class="ml" href="collection.html">All seven stories</a>
+          <a class="ml" href="collection.html#by-feeling">By feeling</a>
+          <a class="ml" href="collection.html#by-stone">By stone</a>
+          <a class="ml" href="samples.html">Samples &mdash; &pound;5</a>
+          <a class="ml" href="samples.html">The First Lines &mdash; &pound;38</a>
+        </div>
+        <div>
+          <h4>Read</h4>
+          <a class="ml" href="stories.html">The stories</a>
+          <a class="ml" href="our-house.html#making">The making</a>
+          <a class="ml" href="our-house.html#stones">The stones</a>
+          <a class="ml" href="journal.html">Atelier journal</a>
+        </div>
+        <a class="feature" href="product.html?f=hotel-lobby">
+          <img src="assets/img/p-hotel-lobby-card.jpg?v=db92d641" alt="Hotel Lobby eau de parfum" loading="lazy">
+          <span>Bestseller &mdash; Hotel Lobby, &pound;160</span></a>
+        <a class="feature" href="samples.html">
+          <img src="assets/img/set-first-lines.jpg?v=56fb700f" alt="The First Lines discovery set" loading="lazy">
+          <span>Begin here &mdash; The First Lines, &pound;38</span></a>
+      </div>
+    </div>
     <div class="util">
+      <button class="menutrigger" aria-expanded="false" aria-controls="mega">Menu</button>
       <a href="search.html">Search</a><a href="account.html">Account</a>
-      <button onclick="openDrawer()">Bag (<span id="bagcount">0</span>)</button>
+      <button class="bagbtn" onclick="openDrawer()">Bag (<span id="bagcount">0</span>)</button>
     </div>
   </div>
 </header>
@@ -86,5 +114,5 @@
   <a class="btn btn-ink" href="bag.html">View bag</a>
   <button class="btn btn-ghostink" onclick="closeDrawer()">Keep reading</button>
 </aside>
-<script src="assets/js/site.js?v=8e8fedee"></script>
+<script src="assets/js/site.js?v=3ea0d94a"></script>
 </body></html>

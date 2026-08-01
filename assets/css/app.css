@@ -756,3 +756,130 @@ footer a:hover{opacity:1}
 .re{font-size:var(--t-xs);line-height:1.9}
 .hero .k,.banner .k,.campaign .k{color:var(--ivory)}
 .promo .k{color:#D8C6A4}
+
+
+/* ==========================================================================
+   Prototype P10 — arrival sequence, mega menu, and the µ hover specs.
+   Values taken from the prototype frames, not approximated.
+   ========================================================================== */
+
+/* --- A0 → A1 → A1b · arrival ------------------------------------------- */
+/* entrance-veil: rgba(14,13,10,.92) over everything, lifting to 0 (frame A1) */
+.veil{position:fixed;inset:0;z-index:200;background:rgb(14,13,10);opacity:.92;
+  pointer-events:none;animation:veil-lift 1.1s var(--settle) .05s forwards}
+@keyframes veil-lift{to{opacity:0;visibility:hidden}}
+
+/* the hero is a sequence, not a still: two frames cross-fading behind the copy */
+.hero .shots{position:absolute;inset:0;z-index:-2}
+.hero .shots img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  opacity:0;transition:opacity 1.6s var(--settle);transform:scale(1.05);
+  animation:kb 18s var(--settle) forwards}
+.hero .shots img.on{opacity:1}
+.hero .dots{position:absolute;right:var(--gutter);bottom:var(--s-5);z-index:2;
+  display:flex;gap:var(--s-2)}
+.hero .dots button{width:2.25rem;height:2.75rem;padding:1.375rem 0;   /* 1px rule, 44px target */
+  background:rgba(241,240,232,.4);background-clip:content-box;
+  transition:background-color .4s var(--settle)}
+.hero .dots button[aria-current]{background-color:rgba(241,240,232,.95)}
+/* copy rises 48px as the veil lifts — frame A0 has it at y522, A1 at y474 */
+.hero .copy>*{animation:rise .95s var(--settle) forwards}
+@media (prefers-reduced-motion:reduce){
+  .veil{display:none}
+  .hero .shots img{animation:none;transform:none;transition:none}
+}
+
+/* --- A2 · menu open ----------------------------------------------------- */
+/* the prototype dims the page below the nav, not the nav itself (frame A2) */
+.menu-dim{position:fixed;inset:0;z-index:55;background:rgba(15,15,14,.35);
+  opacity:0;pointer-events:none;transition:opacity .4s var(--settle)}
+.menu-dim.on{opacity:1;pointer-events:auto}
+
+.mega{position:absolute;top:100%;left:0;right:0;z-index:70;background:var(--ivory);
+  border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+  opacity:0;visibility:hidden;transform:translateY(-.5rem);
+  transition:opacity .35s var(--settle),transform .35s var(--settle),visibility .35s}
+.mega.on{opacity:1;visibility:visible;transform:none}
+.mega .inner{display:grid;gap:var(--s-5);padding-block:var(--s-5) var(--s-6);
+  grid-template-columns:minmax(0,1fr)}
+@media (min-width:64em){
+  .mega .inner{grid-template-columns:11.5rem 11.5rem minmax(0,1fr) minmax(0,1fr);
+    gap:var(--s-6);align-items:start}
+}
+.mega h4{font-family:Montserrat,sans-serif;font-weight:500;font-size:var(--t-xs);
+  letter-spacing:.24em;text-transform:uppercase;color:var(--brass);margin-bottom:var(--s-4)}
+.mega a.ml{display:block;font-family:'Libre Caslon Text',serif;font-size:var(--t-md);
+  line-height:1.3;color:rgba(43,46,45,.92);padding-block:.45rem;
+  transition:color .25s var(--settle),padding-left .25s var(--settle)}
+.mega a.ml:hover{color:var(--ink);padding-left:.35rem}
+.mega .feature{display:block;min-width:0}
+.mega .feature img{width:100%;aspect-ratio:6/5;object-fit:cover;background:var(--plaster);
+  transition:filter .5s var(--settle)}
+.mega .feature:hover img{filter:brightness(1.05)}
+.mega .feature span{display:block;margin-top:var(--s-3);font-family:Montserrat,sans-serif;
+  font-size:var(--t-xs);letter-spacing:.18em;text-transform:uppercase;color:rgba(43,46,45,.8)}
+.nav .inner{position:relative}
+.menutrigger[aria-expanded="true"]{color:var(--ink)}
+
+/* --- µ1 · CARD ---------------------------------------------------------- */
+/* At rest the card shows the tight frame — the bottle large and whole. On
+   hover it cross-fades to the wider frame of the same shot, so the bottle
+   appears to pull back inside a fixed crop and opens the lower third; the
+   quick-add panel rises into exactly that space and never covers the product.
+   Two real crops rather than a scaled one, so nothing is guessed or softened.
+   Pointer devices only — on touch the card rests and the price row links. */
+.card{transition:transform .4s var(--settle),box-shadow .4s var(--settle),opacity .3s var(--settle)}
+.card .ph{overflow:hidden}
+.card .ph img{width:100%;height:100%;object-fit:cover;transition:opacity .55s var(--settle)}
+.card .ph img.wide{position:absolute;inset:0;opacity:0}
+.card h3{transition:color .4s var(--settle)}
+
+@media (hover:hover) and (pointer:fine){
+  .card:hover .ph img.tight,.card:focus-within .ph img.tight{opacity:0}
+  .card:hover .ph img.wide,.card:focus-within .ph img.wide{opacity:1}
+  .card:hover{transform:translateY(-.375rem);box-shadow:0 1.25rem 2.75rem rgba(30,28,22,.14)}
+  .card:hover h3{color:var(--brass)}
+  .quick{transition:transform .55s var(--settle),opacity .35s var(--settle);opacity:0}
+  .card:hover .quick,.card:focus-within .quick{transform:none;opacity:1}
+}
+@media (hover:none),(pointer:coarse){ .card .ph img.wide{display:none} }
+
+/* the lift and develop, without the zoom-out, on the editorial cards (G1) */
+.post,.way{transition:transform .4s var(--settle),box-shadow .4s var(--settle)}
+.post img,.way img{transition:transform .4s var(--settle)}
+@media (hover:hover) and (pointer:fine){
+  .post:hover,.way:hover{transform:translateY(-.375rem);box-shadow:0 1.25rem 2.75rem rgba(30,28,22,.14)}
+  .post:hover img,.way:hover img{transform:scale(1.06)}
+}
+
+/* --- µ2 · SIZE OPTION --------------------------------------------------- */
+/* "hairline inks to 90%, field tints 6% ink. Selection is an instant fill swap." */
+.sizes button{transition:border-color .3s var(--settle),background-color .3s var(--settle)}
+.sizes button:hover{border-color:rgba(43,46,45,.9);background:rgba(43,46,45,.06)}
+.sizes button[aria-current]{transition:none;border-color:var(--ink);background:#fff}
+
+/* --- µ3 · BAG ROW ------------------------------------------------------- */
+/* "row warms to sand, REMOVE inks in and underlines — destructive action only
+    visible when attended. 300ms." */
+.line,.ditem{transition:background-color .3s var(--settle)}
+.line{margin-inline:calc(var(--s-3) * -1);padding-inline:var(--s-3)}
+.line:hover,.ditem:hover{background:var(--sand)}
+.line .ul,.ditem .ul{opacity:0;border-bottom-color:transparent;
+  transition:opacity .3s var(--settle),border-bottom-color .3s var(--settle)}
+.line:hover .ul,.ditem:hover .ul,.line:focus-within .ul,.ditem:focus-within .ul{
+  opacity:1;border-bottom-color:currentColor}
+@media (hover:none){ .line .ul,.ditem .ul{opacity:1;border-bottom-color:currentColor} }
+
+/* --- µ5 · GALLERY ------------------------------------------------------- */
+/* "main image develops (dissolve 400ms) on thumb click; hairline moves to the
+    active thumb. No sliding, no zoom theatrics." */
+.gal .main,.show .big{transition:opacity .4s var(--settle)}
+.gal .strip button,.show .thumbs button{position:relative;transition:opacity .3s var(--settle)}
+.gal .strip button::after,.show .thumbs button::after{content:"";position:absolute;
+  left:0;right:0;bottom:-.375rem;height:1px;background:var(--ink);
+  transform:scaleX(0);transform-origin:left;transition:transform .4s var(--settle)}
+.gal .strip button[aria-current]::after,.show .thumbs button[aria-current]::after{transform:scaleX(1)}
+.gal .strip button,.show .thumbs button{border-color:transparent!important}
+
+/* --- F1 · footer link hover -------------------------------------------- */
+footer a{transition:opacity .3s var(--settle),padding-left .3s var(--settle)}
+footer .cols a:hover{opacity:1;padding-left:.3rem}

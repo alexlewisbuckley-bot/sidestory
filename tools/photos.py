@@ -58,11 +58,11 @@ MANUAL = {
     "road-trip-bottle":    (0.443, 0.295, 0.560, 0.640),
 }
 
-TIGHT = dict(subject_h=0.72, pad_x=1.14, top_bias=0.48)
+TIGHT = dict(subject_h=0.58, pad_x=1.30, top_bias=0.50)  # margin enough that an under-read box never clips the cap or base
 LOOSE = dict(subject_h=0.72, pad_x=1.16, top_bias=0.48)
 # Card frames leave the lower third of the image clear, because the quick-add
 # panel slides up over it on hover and must not cover the bottle.
-CARD  = dict(subject_h=0.50, pad_x=2.0,  top_bias=0.36)
+CARD  = dict(subject_h=0.40, pad_x=2.4,  top_bias=0.34)
 MIN_SUBJECT = 0.30
 
 

@@ -118,7 +118,9 @@ def topbar(current):
     items = "\n      ".join(
         '<a href="%s"%s>%s</a>' % (href, cur if href == current else "", label)
         for href, label in NAV_LINKS)
-    return f"""<div class="topbar">
+    return f"""<div class="veil" aria-hidden="true"></div>
+<div class="menu-dim" id="menudim"></div>
+<div class="topbar">
 <div class="ann"><span>A second story’s sample, complimentary with every bottle</span></div>
 <header class="nav">
   <div class="inner">
@@ -127,9 +129,35 @@ def topbar(current):
     <nav class="links" aria-label="Primary">
       {items}
     </nav>
+    <div class="mega" id="mega" hidden>
+      <div class="inner">
+        <div>
+          <h4>Shop</h4>
+          <a class="ml" href="collection.html">All seven stories</a>
+          <a class="ml" href="collection.html#by-feeling">By feeling</a>
+          <a class="ml" href="collection.html#by-stone">By stone</a>
+          <a class="ml" href="samples.html">Samples &mdash; &pound;5</a>
+          <a class="ml" href="samples.html">The First Lines &mdash; &pound;38</a>
+        </div>
+        <div>
+          <h4>Read</h4>
+          <a class="ml" href="stories.html">The stories</a>
+          <a class="ml" href="our-house.html#making">The making</a>
+          <a class="ml" href="our-house.html#stones">The stones</a>
+          <a class="ml" href="journal.html">Atelier journal</a>
+        </div>
+        <a class="feature" href="product.html?f=hotel-lobby">
+          <img src="{fp('assets/img/p-hotel-lobby-card.jpg')}" alt="Hotel Lobby eau de parfum" loading="lazy">
+          <span>Bestseller &mdash; Hotel Lobby, &pound;160</span></a>
+        <a class="feature" href="samples.html">
+          <img src="{fp('assets/img/set-first-lines.jpg')}" alt="The First Lines discovery set" loading="lazy">
+          <span>Begin here &mdash; The First Lines, &pound;38</span></a>
+      </div>
+    </div>
     <div class="util">
+      <button class="menutrigger" aria-expanded="false" aria-controls="mega">Menu</button>
       <a href="search.html">Search</a><a href="account.html">Account</a>
-      <button onclick="openDrawer()">Bag (<span id="bagcount">0</span>)</button>
+      <button class="bagbtn" onclick="openDrawer()">Bag (<span id="bagcount">0</span>)</button>
     </div>
   </div>
 </header>
@@ -195,7 +223,7 @@ def crumbs(*parts):
 def product_card(p, reveal=True):
     badge = f'<span class="badge">{p["badge"]}</span>' if p["badge"] else ""
     return f"""      <article class="card{' rev' if reveal else ''}" data-order="{PRODUCTS.index(p)}" data-feeling="{p['feeling']}" data-stone="{p['stone']}" data-note="{p['notes'].split(',')[0].strip()}">
-        <div class="ph"><a href="product.html?f={p['slug']}"><img src="{fp('assets/img/' + p['img'] + '-card.jpg')}" alt="{p['name']} eau de parfum" loading="lazy"></a>{badge}
+        <div class="ph"><a href="product.html?f={p['slug']}"><img class="tight" src="{fp('assets/img/' + p['img'] + '-1.jpg')}" alt="{p['name']} eau de parfum" loading="lazy"><img class="wide" src="{fp('assets/img/' + p['img'] + '-card.jpg')}" alt="" aria-hidden="true" loading="lazy"></a>{badge}
           <div class="quick"><div class="r">
             <button class="btn btn-ink btn-sm" onclick="addToBag('{p['slug']}','full',this)">100ml &mdash; &pound;160</button>
             <button class="btn btn-ghostink btn-sm" onclick="addToBag('{p['slug']}','sample',this)">Sample &pound;5</button>
