@@ -312,6 +312,28 @@ def _sizes_for(tag):
     return "100vw"
 
 
+def srcsets(path):
+    """The three srcsets a <picture> would be built from, for one image.
+
+    `upgrade_images` builds these when it rewrites the finished page, which is
+    the right place for markup — but an image the shelf swaps at runtime is
+    not in the markup when the page is written. The catalogue carries them so
+    the browser can be given a whole picture, not just a new `src`: setting
+    `src` alone on an <img> inside a <picture> changes nothing, because the
+    <source> above it still wins. That is exactly what had been happening —
+    changing the size on the collection updated the price, the link and the
+    caption, dissolved the plate, and put the same photograph back."""
+    man = _manifest()
+    entry = man.get(path.split("?")[0].split("/")[-1])
+    if not entry:
+        return None
+    out = {}
+    for k in ("avif", "webp", "jpg"):
+        if entry.get(k):
+            out[k] = ", ".join("%s %dw" % (fp("assets/img/" + f), w) for w, f in entry[k])
+    return out or None
+
+
 def upgrade_images(html):
     """Turn every plain <img> into a <picture> with responsive sources.
 
@@ -536,7 +558,9 @@ def catalogue_json():
                             sizes={z["key"]: dict(
                                 label=z["label"], price=z["price"], incl=z["incl"],
                                 img=fp(size_img(p, z["key"])),
-                                main=fp(size_main(p, z["key"])))
+                                main=fp(size_main(p, z["key"])),
+                                set=srcsets(size_img(p, z["key"])),
+                                mainset=srcsets(size_main(p, z["key"])))
                                 for z in SIZES})
             for p in PRODUCTS}
     data["set"] = dict(name="The First Lines", stone="", col="#3E5147",

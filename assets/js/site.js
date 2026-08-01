@@ -41,12 +41,31 @@
     });
   }
   addEventListener('scroll',onScroll,{passive:true}); onScroll();
+  /* A thumbnail already carries the whole picture — the same file at 480, 960
+     and 1600 in all three formats. Copying its sources into the main plate is
+     both correct and free; nothing new has to be emitted for it. */
+  function swapFromThumb(main, btn, src){
+    const from = btn.querySelector('picture');
+    if(from && main.parentElement && main.parentElement.tagName==='PICTURE'){
+      const to = main.parentElement.querySelectorAll('source');
+      const src2 = from.querySelectorAll('source');
+      to.forEach(t=>{
+        const match=[...src2].find(x=>x.type===t.type);
+        if(match) t.srcset=match.srcset; else t.removeAttribute('srcset');
+      });
+      const fimg = from.querySelector('img');
+      if(fimg && fimg.getAttribute('srcset')) main.srcset=fimg.getAttribute('srcset');
+      else main.removeAttribute('srcset');
+    } else { main.removeAttribute('srcset'); }
+    main.src = src;
+  }
+
   window.showSwap=(btn,src)=>{
     document.querySelectorAll('.show .thumbs button').forEach(b=>b.removeAttribute('aria-current'));
     btn.setAttribute('aria-current','true');
     const big=document.getElementById('showbig');
     if(!big) return; big.style.opacity=0;
-    setTimeout(()=>{big.src=src;big.style.opacity=1;},200);
+    setTimeout(()=>{swapFromThumb(big,btn,src);big.style.opacity=1;},200);
   };
   /* the homepage nav uses .links, the other pages .navlinks — accept either */
   const burger=document.querySelector('.burger');
@@ -73,6 +92,34 @@
         burger.focus();
       }
     });
+  }
+
+  /* Swapping an image that lives inside a <picture>.
+
+     Setting `src` on the <img> does nothing when a <source> above it matches —
+     the source wins, every time. Every image on this site was wrapped in a
+     <picture> for AVIF and WebP, and three things swap images at runtime: the
+     shelf when you change size, the product gallery when you tap a thumbnail,
+     and the homepage's signature show. All three had been dissolving politely
+     and then putting the same photograph back. The size filter was the worst
+     of them: it changed the price, the link and the caption, and left the
+     100ml bottle on screen.
+
+     Given the srcsets the page would have been built with, this replaces the
+     whole picture rather than half of it. Given none, it clears the sources so
+     at least the `src` is honoured. */
+  function swapPicture(img, jpg, set){
+    if(!img) return;
+    const pic = img.parentElement;
+    if(pic && pic.tagName === 'PICTURE'){
+      pic.querySelectorAll('source').forEach(sc=>{
+        const kind = (sc.type||'').split('/')[1];
+        if(set && set[kind]) sc.srcset = set[kind];
+        else sc.removeAttribute('srcset');
+      });
+    }
+    if(set && set.jpg) img.srcset = set.jpg; else img.removeAttribute('srcset');
+    img.src = jpg;
   }
 
   /* A filter that changes the shelf instantly is the one moment on this site
@@ -268,7 +315,8 @@
     const main=document.getElementById('pdpmain'); if(!main) return;
     btn.parentElement.querySelectorAll('button').forEach(b=>b.removeAttribute('aria-current'));
     btn.setAttribute('aria-current','true');
-    main.style.opacity=0; setTimeout(()=>{main.src=src;main.style.opacity=1;},180);
+    main.style.opacity=0;
+    setTimeout(()=>{swapFromThumb(main,btn,src);main.style.opacity=1;},180);
   };
   /* One product per fragrance; the variant is chosen by the button, or by the
      ?size= on the link that brought you here, which is how the shop-by-size
@@ -286,7 +334,7 @@
     const main=document.getElementById('pdpmain');
     if(v&&main&&v.main&&main.src.indexOf(v.main)<0){
       main.style.opacity=0;
-      setTimeout(()=>{main.src=v.main;main.style.opacity=1;},180);
+      setTimeout(()=>{swapPicture(main,v.main,v.mainset);main.style.opacity=1;},180);
       document.querySelectorAll('.gal .strip button').forEach(x=>x.removeAttribute('aria-current'));
     }
     const incl=document.querySelector('[data-sizeline]');
@@ -341,7 +389,7 @@
         const p=CAT[card.dataset.slug]; if(!p||!p.sizes) return;
         const v=p.sizes[key]; if(!v) return;
         const shot=card.querySelector('[data-shot]');
-        if(shot&&shot.getAttribute('src')!==v.img) shot.src=v.img;
+        if(shot&&shot.getAttribute('src')!==v.img) swapPicture(shot,v.img,v.set);
         const buy=card.querySelector('[data-buy]');
         if(buy){ buy.dataset.size=key; buy.innerHTML=v.label+' — £'+v.price; }
         const line=card.querySelector('[data-priceline]');
@@ -426,7 +474,8 @@
     const main=document.getElementById('pdpmain'); if(!main) return;
     btn.parentElement.querySelectorAll('button').forEach(b=>b.removeAttribute('aria-current'));
     btn.setAttribute('aria-current','true');
-    main.style.opacity=0; setTimeout(()=>{main.src=src;main.style.opacity=1;},180);
+    main.style.opacity=0;
+    setTimeout(()=>{swapFromThumb(main,btn,src);main.style.opacity=1;},180);
   };
   /* One product per fragrance; the variant is chosen by the button, or by the
      ?size= on the link that brought you here, which is how the shop-by-size
@@ -444,7 +493,7 @@
     const main=document.getElementById('pdpmain');
     if(v&&main&&v.main&&main.src.indexOf(v.main)<0){
       main.style.opacity=0;
-      setTimeout(()=>{main.src=v.main;main.style.opacity=1;},180);
+      setTimeout(()=>{swapPicture(main,v.main,v.mainset);main.style.opacity=1;},180);
       document.querySelectorAll('.gal .strip button').forEach(x=>x.removeAttribute('aria-current'));
     }
     const incl=document.querySelector('[data-sizeline]');
@@ -487,7 +536,7 @@
         const p=CAT[card.dataset.slug]; if(!p||!p.sizes) return;
         const v=p.sizes[key]; if(!v) return;
         const shot=card.querySelector('[data-shot]');
-        if(shot&&shot.getAttribute('src')!==v.img) shot.src=v.img;
+        if(shot&&shot.getAttribute('src')!==v.img) swapPicture(shot,v.img,v.set);
         const buy=card.querySelector('[data-buy]');
         if(buy){ buy.dataset.size=key; buy.innerHTML=v.label+' — £'+v.price; }
         const line=card.querySelector('[data-priceline]');
