@@ -13,7 +13,7 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="assets/fonts/libre-caslon-text-latin-400-normal.woff2">
 <link rel="preload" as="font" type="font/woff2" crossorigin href="assets/fonts/montserrat-latin-500-normal.woff2">
 <link rel="stylesheet" href="assets/css/fonts.css?v=226e8a05">
-<link rel="stylesheet" href="assets/css/app.css?v=cfe6aa76">
+<link rel="stylesheet" href="assets/css/app.css?v=4b317c33">
 </head><body>
 <div class="enter-veil" aria-hidden="true"></div>
 <div class="menu-dim" id="menudim"></div>
@@ -72,20 +72,28 @@
         </div>
         <div class="info">
           <p class="k">Story III &middot; Eau de parfum</p>
-          <h1>Pillow Talk</h1>
-          <p class="sub">Calacatta &middot; musk, powder, warm skin</p>
-          <blockquote>&ldquo;They agreed on almost nothing except the hour, and the hour was always late.&rdquo; &mdash; nine pages of comfort, worn as woods warmed by a polished bar.</blockquote>
-          <div class="sizes">
-            <button aria-current="true">100 ml &mdash; &pound;160</button>
-            <button>50 ml &mdash; &pound;110</button>
-            <button>Sample &mdash; &pound;5</button>
-          </div>
-          <div class="cta">
-            <button class="btn btn-ink" onclick="addToBag('pillow-talk','full',this)">Add to bag &mdash; &pound;160</button>
-            <a class="btn btn-ghostink" href="story.html?s=pillow-talk">Read the story</a>
-          </div>
-          <p class="re">Complimentary UK delivery over &pound;100 &middot; 30-day returns &middot; sample cost redeemed against your first bottle</p>
-          <div class="acc">
+      <h1>Pillow Talk</h1>
+      <p class="sub"><span class="chip" style="background:#E0DCD0"></span>Calacatta &middot; musk, powder, warm skin</p>
+      <blockquote>&ldquo;They agreed on almost nothing except the hour, and t&hellip;&rdquo; &mdash; nine pages of comfort, worn as musk warmed by a polished bar.</blockquote>
+
+      <p class="fieldlabel">Size</p>
+      <div class="sizes">
+        <button aria-current="true" data-price="160">100 ml &mdash; &pound;160</button>
+        <button data-price="110">50 ml &mdash; &pound;110</button>
+        <button data-price="5">Sample &mdash; &pound;5</button>
+      </div>
+
+      <label class="tryfirst"><input type="checkbox" checked>
+        <div><b>Try a second story first &mdash; complimentary</b>
+          <span>A 2ml of Hotel Lobby &mdash; anticipation &mdash; tucked into the parcel.</span></div></label>
+
+      <div class="cta">
+        <button class="btn btn-ink" onclick="addToBag('pillow-talk','full',this)">Add to bag &mdash; &pound;160</button>
+        <button class="btn btn-ghostink applepay" onclick="addToBag('pillow-talk','full',this)">&#63743;&nbsp;Apple Pay</button>
+      </div>
+      <p class="re">Complimentary UK delivery &middot; 30-day returns &middot; sample cost redeemed</p>
+
+      <div class="acc">
             <details open><summary>The story</summary><div class="body">Pillow Talk began as Story III, commissioned from a novelist and printed on cotton paper before the first accord was weighed. Nine pages arrive with the bottle; the digital edition arrives with your confirmation.</div></details>
             <details><summary>Notes</summary><div class="body">Top &mdash; bergamot, pink pepper. Heart &mdash; musk, powder, warm skin. Base &mdash; vetiver, cedar, a little smoke. Composed in Grasse by Jacques Chabert.</div></details>
             <details><summary>The stone</summary><div class="body">Calacatta, hand-cut in Liguria. Veining is decided by the block, so no two lids repeat. The lid lifts free of the glass and keeps its weight in the hand.</div></details>
@@ -232,5 +240,5 @@
   <p class="dfine">Tax included &middot; 30-day returns &middot; sample cost redeemed</p>
 </aside>
 <script>window.SS_CAT={"hotel-lobby": {"name": "Hotel Lobby", "stone": "Nero Marquina", "col": "#1C1D1D", "notes": "woods, spice, green", "price": 160, "img": "assets/img/p-hotel-lobby-card.jpg", "href": "product-hotel-lobby.html"}, "sibling-rivalry": {"name": "Sibling Rivalry", "stone": "Leopard Salome", "col": "#8A6A3F", "notes": "grapefruit, vetiver, smoke", "price": 160, "img": "assets/img/p-sibling-rivalry-card.jpg", "href": "product-sibling-rivalry.html"}, "pillow-talk": {"name": "Pillow Talk", "stone": "Calacatta", "col": "#E0DCD0", "notes": "musk, powder, warm skin", "price": 160, "img": "assets/img/p-pillow-talk-card.jpg", "href": "product-pillow-talk.html"}, "sunday-service": {"name": "Sunday Service", "stone": "Verde Jade", "col": "#3E5147", "notes": "incense, linen, morning air", "price": 160, "img": "assets/img/p-sunday-service-card.jpg", "href": "product-sunday-service.html"}, "third-date": {"name": "Third Date", "stone": "Rosso Levanto", "col": "#7A2E2A", "notes": "plum, tobacco, candlelight", "price": 160, "img": "assets/img/p-third-date-card.jpg", "href": "product-third-date.html"}, "road-trip": {"name": "Road Trip", "stone": "Rosso Francia", "col": "#B5593F", "notes": "amber, leather, warm wind", "price": 160, "img": "assets/img/p-road-trip-card.jpg", "href": "product-road-trip.html"}, "4pm-matinee": {"name": "4pm Matinee", "stone": "Giallo Siena", "col": "#C99A3F", "notes": "citrus, velvet, dark rooms", "price": 160, "img": "assets/img/p-4pm-matinee-card.jpg", "href": "product-4pm-matinee.html"}, "set": {"name": "The First Lines", "stone": "", "col": "#3E5147", "notes": "all seven in miniature", "price": 38, "img": "assets/img/set-first-lines.jpg", "href": "samples.html"}};</script>
-<script src="assets/js/site.js?v=ec3906f9"></script>
+<script src="assets/js/site.js?v=711b8336"></script>
 </body></html>

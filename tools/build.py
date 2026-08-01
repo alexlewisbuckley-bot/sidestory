@@ -418,6 +418,7 @@ def build():
             % (' aria-current="true"' if i == 0 else "", u, u, alts[i] if i < len(alts) else "View %d" % (i + 1))
             for i, u in enumerate(gal))
         ch = CHAPTERS[p["slug"]]
+        second = next(q for q in PRODUCTS if q["slug"] != p["slug"])
         pyramid = "\n".join(
             f"      <div><b>{a}</b><em>{b}</em><i>{c}</i></div>" for a, b, c in ch["margins"])
         paras = "\n".join(f"        <p>{t}</p>" for t in ch["paras"])
@@ -489,20 +490,28 @@ def build():
         </div>
         <div class="info">
           <p class="k">{p['story']} &middot; Eau de parfum</p>
-          <h1>{p['name']}</h1>
-          <p class="sub">{p['stone']} &middot; {p['notes']}</p>
-          <blockquote>&ldquo;{p['line']}&rdquo; &mdash; nine pages of {p['feeling'].lower()}, worn as woods warmed by a polished bar.</blockquote>
-          <div class="sizes">
-            <button aria-current="true">100 ml &mdash; &pound;160</button>
-            <button>50 ml &mdash; &pound;110</button>
-            <button>Sample &mdash; &pound;5</button>
-          </div>
-          <div class="cta">
-            <button class="btn btn-ink" onclick="addToBag('{p['slug']}','full',this)">Add to bag &mdash; &pound;160</button>
-            <a class="btn btn-ghostink" href="story.html?s={p['slug']}">Read the story</a>
-          </div>
-          <p class="re">Complimentary UK delivery over &pound;100 &middot; 30-day returns &middot; sample cost redeemed against your first bottle</p>
-          <div class="acc">
+      <h1>{p['name']}</h1>
+      <p class="sub"><span class="chip" style="background:{p['swatch']}"></span>{p['stone']} &middot; {p['notes']}</p>
+      <blockquote>&ldquo;{p['line'][:52]}&hellip;&rdquo; &mdash; nine pages of {p['feeling'].lower()}, worn as {p['notes'].split(',')[0]} warmed by a polished bar.</blockquote>
+
+      <p class="fieldlabel">Size</p>
+      <div class="sizes">
+        <button aria-current="true" data-price="160">100 ml &mdash; &pound;160</button>
+        <button data-price="110">50 ml &mdash; &pound;110</button>
+        <button data-price="5">Sample &mdash; &pound;5</button>
+      </div>
+
+      <label class="tryfirst"><input type="checkbox" checked>
+        <div><b>Try a second story first &mdash; complimentary</b>
+          <span>A 2ml of {second['name']} &mdash; {second['feeling'].lower()} &mdash; tucked into the parcel.</span></div></label>
+
+      <div class="cta">
+        <button class="btn btn-ink" onclick="addToBag('{p['slug']}','full',this)">Add to bag &mdash; &pound;160</button>
+        <button class="btn btn-ghostink applepay" onclick="addToBag('{p['slug']}','full',this)">&#63743;&nbsp;Apple Pay</button>
+      </div>
+      <p class="re">Complimentary UK delivery &middot; 30-day returns &middot; sample cost redeemed</p>
+
+      <div class="acc">
             <details open><summary>The story</summary><div class="body">{p['name']} began as {p['story']}, commissioned from a novelist and printed on cotton paper before the first accord was weighed. Nine pages arrive with the bottle; the digital edition arrives with your confirmation.</div></details>
             <details><summary>Notes</summary><div class="body">Top &mdash; bergamot, pink pepper. Heart &mdash; {p['notes']}. Base &mdash; vetiver, cedar, a little smoke. Composed in Grasse by Jacques Chabert.</div></details>
             <details><summary>The stone</summary><div class="body">{p['stone']}, hand-cut in Liguria. Veining is decided by the block, so no two lids repeat. The lid lifts free of the glass and keeps its weight in the hand.</div></details>

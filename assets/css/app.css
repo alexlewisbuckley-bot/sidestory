@@ -21,36 +21,174 @@
    ========================================================================== */
 
 :root{
-  /* palette */
-  --ivory:#F1F0E8; --plaster:#E9E5DA; --sand:#EFEBE1;
-  --ink:#2B2E2D;   --txt:#404443;    --brass:#A98E63;
-  --plum:#5A3637;  --verde:#3E5147;
-  --line:rgba(43,46,45,.12);
+  /* ======================================================================
+     Design tokens, taken from the Figma file's variable collections.
+     Primitive names and values are verbatim; nothing here is inferred.
+       01 Primitives   — raw values
+       02 Semantic     — Ivory mode (Nocturne kept for reference below)
+       03 Stone        — per-fragrance accent and field
+       04 Responsive   — Desktop values, re-declared per breakpoint further down
+     ====================================================================== */
+
+  /* -- 01 Primitives · colour ------------------------------------------ */
+  --charcoal-500:#404443; --charcoal-700:#33383a; --charcoal-900:#2b2b2b;
+  --ink-secondary:#6e7271; --ink-tertiary:#9a9c98; --ink-hairline:#d4d4ce;
+  --ink-inverse-secondary:#bcbdb7; --ink-inverse-hairline:#515556;
+  --ivory-300:#f7f6f0; --ivory-500:#f1f0e8; --ivory-700:#e9e7dc;
+  --olive-500:#737b4c; --olive-700:#575e38;
+  --ochre-500:#cba052; --amber-500:#af6d04;
+  --oxblood-500:#8a3b2e; --oxblood-300:#c97a6d;
+
+  /* -- 01 Primitives · stone ------------------------------------------- */
+  --stone-hotel-lobby:#2b2b2b;     --stone-tint-hotel-lobby:#d9d9d1;
+  --stone-sunday-service:#3e5346;  --stone-tint-sunday-service:#dbddd5;
+  --stone-pillow-talk:#d9d6ce;     --stone-tint-pillow-talk:#eeede5;
+  --stone-third-date:#5e3238;      --stone-tint-third-date:#dfd9d3;
+  --stone-road-trip:#9c5a3c;       --stone-tint-road-trip:#e7ded3;
+  --stone-matinee:#c99b4e;         --stone-tint-matinee:#ece6d5;
+  --stone-sibling-rivalry:#a97b44; --stone-tint-sibling-rivalry:#e8e2d4;
+
+  /* -- 01 Primitives · space, radius, border, opacity, duration -------- */
+  --space-1:4px;   --space-2:8px;   --space-3:12px;  --space-4:16px;
+  --space-5:24px;  --space-6:32px;  --space-7:40px;  --space-8:56px;
+  --space-9:72px;  --space-10:96px; --space-11:120px; --space-12:160px;
+  --space-13:200px; --space-14:240px;
+  --radius-none:0; --radius-hairline:2px;
+  --border-hairline:1px;
+  --opacity-wash:.06; --opacity-hairline:.16; --opacity-veil:.32;
+  --opacity-tertiary:.48; --opacity-secondary:.72;
+  --duration-instant:100ms; --duration-quick:250ms; --duration-settled:500ms;
+  --duration-slow:800ms;    --duration-cinematic:1200ms;
+
+  /* -- 02 Semantic · Ivory mode ---------------------------------------- */
+  --surface-primary:var(--ivory-500);
+  --surface-raised:var(--ivory-300);
+  --surface-recessed:var(--ivory-700);
+  --surface-nocturne:var(--charcoal-700);
+  --text-primary:var(--charcoal-500);
+  --text-secondary:var(--ink-secondary);
+  --text-tertiary:var(--ink-tertiary);
+  --text-inverse:var(--ivory-500);
+  --text-error:var(--oxblood-500);
+  --text-success:var(--olive-700);
+  --interactive-default:var(--charcoal-500);
+  --interactive-hover:var(--olive-700);
+  --interactive-active:var(--olive-500);
+  --interactive-disabled:var(--ink-tertiary);
+  --border-hairline-color:var(--ink-hairline);
+  --border-focus:var(--olive-700);
+  --accent-olive:var(--olive-500);
+  --accent-ochre:var(--ochre-500);
+  --accent-amber:var(--amber-500);
+
+  /* -- 03 Stone · default mode (Hotel Lobby) --------------------------- */
+  --accent-stone:var(--stone-hotel-lobby);
+  --accent-field:var(--stone-tint-hotel-lobby);
+
+  /* -- 04 Responsive ----------------------------------------------------
+     The collection holds three modes, authored on the 390 / 768 / 1440
+     artboards. Between those widths the file specifies nothing, so each
+     token interpolates: it is exactly the Figma value at 390, 768 and 1440
+     and continuous in between, so nothing steps on resize. The Tablet →
+     Mobile leg is in the media query below; both legs meet at 768. ------- */
+  --fs-hero:clamp(56px,calc(56px + 16 * (100vw - 768px) / 672),72px);
+  --fs-display:clamp(44px,calc(44px + 12 * (100vw - 768px) / 672),56px);
+  --fs-editorial:clamp(26px,calc(26px + 4 * (100vw - 768px) / 672),30px);
+  --fs-h1:clamp(36px,calc(36px + 8 * (100vw - 768px) / 672),44px);
+  --fs-h2:clamp(30px,calc(30px + 4 * (100vw - 768px) / 672),34px);
+  --fs-h3:clamp(23px,calc(23px + 3 * (100vw - 768px) / 672),26px);
+  --fs-quote:clamp(25px,calc(25px + 3 * (100vw - 768px) / 672),28px);
+  --space-section:clamp(120px,calc(120px + 40 * (100vw - 768px) / 672),160px);
+  --space-section-major:clamp(180px,calc(180px + 60 * (100vw - 768px) / 672),240px);
+  --layout-margin:clamp(24px,calc(24px + 24 * (100vw - 768px) / 672),48px);
+  --layout-gutter:clamp(20px,calc(20px + 4 * (100vw - 768px) / 672),24px);
+  --layout-columns:12;
+
+  /* -- type styles (03 Typography), sizes above, metrics here ---------- */
+  --lh-hero:1.05;  --ls-hero:-.01em;
+  --lh-display:1.08; --ls-display:-.005em;
+  --lh-editorial:1.4; --lh-h1:1.15; --lh-h2:1.2; --lh-h3:1.25; --lh-h4:1.35;
+  --lh-quote:1.45;
+  --fs-h4:21px;
+  --fs-body-serif:18px;  --lh-body-serif:1.65;
+  --fs-body-sans:15px;   --lh-body-sans:1.6;  --ls-body-sans:.01em;
+  --fs-caption:13px;     --lh-caption:1.5;    --ls-caption:.02em;
+  --fs-label:13px;       --lh-label:1.3;      --ls-label:.12em;
+  --fs-label-small:11px; --ls-label-small:.14em;
+  --fs-nav:12px;         --lh-nav:1.2;        --ls-nav:.14em;
+  --fs-product-title:22px; --lh-product-title:1.3;
+  --fs-style-line:15px;  --lh-style-line:1.4;
+  --fs-price:14px;       --lh-price:1.4;      --ls-price:.04em;
+  --fs-button:12px;      --lh-button:1;       --ls-button:.16em;
+
+  /* families — Display for display-scale headings as every designed screen
+     uses it; Text for everything else, per the type styles */
+  --font-display:'Libre Caslon Display',Georgia,serif;
+  --font-serif:'Libre Caslon Text',Georgia,serif;
+  --font-sans:Montserrat,system-ui,sans-serif;
+  --font-script:'Cormorant Garamond',Georgia,serif;
+
   --settle:cubic-bezier(.22,1,.36,1);
 
-  /* type scale — min @390px … max @1440px */
-  --t-xs:  clamp(0.625rem,  0.602rem + 0.095vw, 0.6875rem);  /* 10 → 11  labels   */
-  --t-sm:  clamp(0.8125rem, 0.789rem + 0.095vw, 0.875rem);   /* 13 → 14  captions */
-  --t-md:  clamp(0.9375rem, 0.891rem + 0.190vw, 1.0625rem);  /* 15 → 17  body     */
-  --t-lg:  clamp(1.0625rem, 1.016rem + 0.190vw, 1.1875rem);  /* 17 → 19           */
-  --t-1:   clamp(1.125rem,  1.032rem + 0.381vw, 1.375rem);   /* 18 → 22  card h3  */
-  --t-2:   clamp(1.25rem,   1.111rem + 0.571vw, 1.625rem);   /* 20 → 26  promo h3 */
-  --t-3:   clamp(1.375rem,  1.189rem + 0.762vw, 1.875rem);   /* 22 → 30  news h2  */
-  --t-4:   clamp(1.75rem,   1.379rem + 1.524vw, 2.75rem);    /* 28 → 44  section  */
-  --t-5:   clamp(2rem,      1.443rem + 2.286vw, 3.5rem);     /* 32 → 56  showcase */
-  --t-6:   clamp(2.5rem,    1.664rem + 3.429vw, 4.75rem);    /* 40 → 76  hero     */
+  /* -- names the existing components already use, mapped onto the tokens
+        so this is a token swap and not a component rewrite -------------- */
+  --ivory:var(--surface-primary);
+  --plaster:var(--surface-recessed);
+  --sand:var(--surface-raised);
+  --ink:var(--surface-nocturne);
+  --txt:var(--text-secondary);
+  --brass:var(--accent-ochre);
+  --plum:var(--stone-third-date);
+  --verde:var(--stone-sunday-service);
+  --line:var(--border-hairline-color);
 
-  /* space scale */
-  --s-1: clamp(0.375rem, 0.329rem + 0.190vw, 0.5rem);        /*  6 → 8  */
-  --s-2: clamp(0.5rem,   0.407rem + 0.381vw, 0.75rem);       /*  8 → 12 */
-  --s-3: clamp(0.75rem,  0.611rem + 0.571vw, 1.125rem);      /* 12 → 18 */
-  --s-4: clamp(1rem,     0.721rem + 1.143vw, 1.75rem);       /* 16 → 28 */
-  --s-5: clamp(1.5rem,   1.036rem + 1.905vw, 2.75rem);       /* 24 → 44 */
-  --s-6: clamp(2rem,     1.257rem + 3.048vw, 4rem);          /* 32 → 64 */
-  --s-7: clamp(3rem,     1.886rem + 4.571vw, 6rem);          /* 48 → 96  section  */
+  --gutter:var(--layout-margin);
+  --measure:40rem;
 
-  --gutter: clamp(1.25rem, 0.135rem + 4.571vw, 6rem);        /* 20 → 96  */
-  --measure: 40rem;                                          /* readable line */
+  /* the space scale the components use, mapped to the primitive steps */
+  --s-1:var(--space-1); --s-2:var(--space-2); --s-3:var(--space-3);
+  --s-4:var(--space-4); --s-5:var(--space-5); --s-6:var(--space-6);
+  --s-7:var(--space-10);
+
+  /* the type scale the components use, mapped to the named styles */
+  --t-xs:var(--fs-label-small);
+  --t-sm:var(--fs-caption);
+  --t-md:var(--fs-body-sans);
+  --t-lg:var(--fs-body-serif);
+  --t-1:var(--fs-h4);
+  --t-2:var(--fs-product-title);
+  --t-3:var(--fs-h3);
+  --t-4:var(--fs-h2);
+  --t-5:var(--fs-display);
+  --t-6:var(--fs-hero);
+}
+
+/* 04 Responsive · Tablet — the collection's second mode.
+   Sizes are already correct here from the clamp floors above; only the
+   column count and the section rhythm alias change at this mode. */
+@media (max-width:1023px){
+  :root{ --layout-columns:8; --s-7:var(--space-9); }
+}
+
+/* 04 Responsive · Mobile — the collection's third mode.
+   Exact Figma values at 390px, interpolating up to the Tablet values at
+   768px so the two legs meet without a step. */
+@media (max-width:767px){
+  :root{
+    --fs-hero:clamp(40px,calc(40px + 16 * (100vw - 390px) / 378),56px);
+    --fs-display:clamp(34px,calc(34px + 10 * (100vw - 390px) / 378),44px);
+    --fs-editorial:clamp(23px,calc(23px + 3 * (100vw - 390px) / 378),26px);
+    --fs-h1:clamp(30px,calc(30px + 6 * (100vw - 390px) / 378),36px);
+    --fs-h2:clamp(26px,calc(26px + 4 * (100vw - 390px) / 378),30px);
+    --fs-h3:clamp(21px,calc(21px + 2 * (100vw - 390px) / 378),23px);
+    --fs-quote:clamp(22px,calc(22px + 3 * (100vw - 390px) / 378),25px);
+    --space-section:clamp(96px,calc(96px + 24 * (100vw - 390px) / 378),120px);
+    --space-section-major:clamp(120px,calc(120px + 60 * (100vw - 390px) / 378),180px);
+    --layout-margin:clamp(20px,calc(20px + 4 * (100vw - 390px) / 378),24px);
+    --layout-gutter:clamp(16px,calc(16px + 4 * (100vw - 390px) / 378),20px);
+    --layout-columns:4;
+    --s-7:var(--space-8);
+  }
 }
 
 *{margin:0;padding:0;box-sizing:border-box;min-width:0}
@@ -618,17 +756,33 @@ footer a:hover{opacity:1}
 .pdp .info{position:sticky;top:calc(var(--s-6) + 3rem)}
 @media (max-width:59.9375em){ .pdp .info{position:static} }
 .pdp h1{font-size:var(--t-5);margin-top:var(--s-2);max-width:14ch}
-.pdp .sub{font-family:Montserrat,sans-serif;font-size:var(--t-xs);letter-spacing:.2em;
-  text-transform:uppercase;color:var(--txt);margin-top:var(--s-3)}
+.pdp .sub{display:flex;align-items:center;gap:.7em;flex-wrap:wrap;
+  font-family:Montserrat,sans-serif;font-weight:500;font-size:var(--t-xs);letter-spacing:.2em;
+  text-transform:uppercase;color:var(--txt);margin-top:var(--s-4)}
+.pdp .sub .chip{width:.9rem;height:.9rem;margin:0;flex:none}
+.pdp blockquote{font-size:var(--t-lg)}
+
+/* a tracked field label, as above the size row in the prototype */
+.fieldlabel{margin-top:var(--s-5);font-family:Montserrat,sans-serif;font-weight:500;
+  font-size:var(--t-xs);letter-spacing:.22em;text-transform:uppercase;color:var(--txt)}
+.fieldlabel+.sizes{margin-top:var(--s-3)}
+
+/* the buy actions stack full width, primary then Apple Pay */
+.pdp .cta{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--s-2);margin-top:var(--s-5)}
+.pdp .cta .btn{width:100%;min-height:3.5rem}
+.applepay{letter-spacing:.2em}
+
+/* the offer block reads the same here as it does in the bag */
+.pdp .tryfirst{margin-top:var(--s-5)}
 .pdp blockquote{font-family:'Libre Caslon Text',serif;font-style:italic;font-size:var(--t-md);
   line-height:1.8;color:var(--txt);margin-top:var(--s-4);max-width:44ch}
 .sizes{display:flex;flex-wrap:wrap;gap:var(--s-2);margin-top:var(--s-4)}
-.sizes button{flex:1 1 8rem;min-height:3.25rem;padding:.5rem var(--s-3);
+.sizes button{flex:1 1 8rem;min-height:3.5rem;padding:.5rem var(--s-3);
   border:1px solid rgba(43,46,45,.28);background:var(--ivory);
   font-family:Montserrat,sans-serif;font-weight:500;font-size:var(--t-xs);
   letter-spacing:.16em;text-transform:uppercase;color:var(--ink);
   transition:border-color .25s var(--settle),background .25s var(--settle)}
-.sizes button[aria-current]{border-color:var(--ink);background:#fff}
+.sizes button[aria-current]{border-color:var(--ink);background:var(--ink);color:var(--ivory)}
 .pdp .cta{display:flex;flex-wrap:wrap;gap:var(--s-2);margin-top:var(--s-4)}
 .pdp .cta .btn{flex:1 1 12rem}
 .pdp .re{margin-top:var(--s-3);font-family:Montserrat,sans-serif;font-size:var(--t-xs);
@@ -644,8 +798,8 @@ footer a:hover{opacity:1}
 .acc summary::-webkit-details-marker{display:none}
 .acc summary::after{content:"+";font-size:var(--t-1);line-height:1;font-weight:400;opacity:.6}
 .acc details[open] summary::after{content:"–"}
-.acc :where(.body){padding-bottom:var(--s-4);font-size:var(--t-sm);line-height:1.8;color:var(--txt);
-  max-width:52ch}
+.acc :where(.body){padding-bottom:var(--s-4);font-family:'Libre Caslon Text',serif;
+  font-size:var(--t-md);line-height:1.8;color:var(--txt);max-width:52ch}
 
 /* ---------------------------------------------------------- editorial --- */
 .article{padding-block:var(--s-6) var(--s-7)}
@@ -885,7 +1039,9 @@ footer a:hover{opacity:1}
 /* "hairline inks to 90%, field tints 6% ink. Selection is an instant fill swap." */
 .sizes button{transition:border-color .3s var(--settle),background-color .3s var(--settle)}
 .sizes button:hover{border-color:rgba(43,46,45,.9);background:rgba(43,46,45,.06)}
-.sizes button[aria-current]{transition:none;border-color:var(--ink);background:#fff}
+/* selection is an instant fill swap, no animation on commitment (µ2) */
+.sizes button[aria-current]{transition:none;border-color:var(--ink);
+  background:var(--ink);color:var(--ivory)}
 
 /* --- µ3 · BAG ROW ------------------------------------------------------- */
 /* "row warms to sand, REMOVE inks in and underlines — destructive action only

@@ -126,7 +126,7 @@
       const b=e.target.closest('button'); if(!b) return;
       row.querySelectorAll('button').forEach(x=>x.removeAttribute('aria-current'));
       b.setAttribute('aria-current','true');
-      const price=(b.textContent.match(/£(\d+)/)||[])[1];
+      const price=b.dataset.price||(b.textContent.match(/£(\d+)/)||[])[1];
       const add=document.querySelector('.pdp .cta .btn-ink');
       if(add&&price) add.textContent='Add to bag — £'+price;
     });
