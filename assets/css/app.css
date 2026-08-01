@@ -822,7 +822,9 @@ footer a:hover{opacity:1}
 .mega .feature span{display:block;margin-top:var(--s-3);font-family:Montserrat,sans-serif;
   font-size:var(--t-xs);letter-spacing:.18em;text-transform:uppercase;color:rgba(43,46,45,.8)}
 .nav .inner{position:relative}
-.menutrigger[aria-expanded="true"]{color:var(--ink)}
+.links a[aria-expanded="true"]{color:var(--ink)}
+/* the panel belongs to the nav, so the nav must be the containing block */
+.nav{position:relative}
 
 /* --- µ1 · CARD ---------------------------------------------------------- */
 /* One image, one crop rule for every product, so the seven cards read as a set.

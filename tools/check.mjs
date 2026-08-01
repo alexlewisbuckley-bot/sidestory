@@ -262,8 +262,8 @@ async function checkInteractions(browser, file) {
     await page.keyboard.press('Escape');
   }
   // P10 · A2 — the mega menu opens, dims the page, and closes on Escape
-  if (await page.$('.menutrigger')) {
-    await page.click('.menutrigger'); await page.waitForTimeout(450);
+  if (await page.$('.links a')) {
+    await page.hover('.links a'); await page.waitForTimeout(500);
     const st = await page.evaluate(() => ({
       on: document.getElementById('mega').classList.contains('on'),
       dim: document.getElementById('menudim').classList.contains('on'),
@@ -271,7 +271,7 @@ async function checkInteractions(browser, file) {
       features: document.querySelectorAll('#mega .feature').length }));
     rec(file, 'ui', 'mega menu opens with both columns and features',
       st.on && st.dim && st.links >= 9 && st.features === 2, JSON.stringify(st));
-    await page.keyboard.press('Escape'); await page.waitForTimeout(350);
+    await page.keyboard.press('Escape'); await page.waitForTimeout(450);
     rec(file, 'ui', 'mega menu closes on Escape',
       await page.evaluate(() => !document.getElementById('mega').classList.contains('on')));
     await page.mouse.move(700, 700);

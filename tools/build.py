@@ -175,7 +175,6 @@ def topbar(current):
       </div>
     </div>
     <div class="util">
-      <button class="menutrigger" aria-expanded="false" aria-controls="mega">Menu</button>
       <a href="search.html">Search</a><a href="account.html">Account</a>
       <button class="bagbtn" onclick="openDrawer()">Bag (<span id="bagcount">0</span>)</button>
     </div>

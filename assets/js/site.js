@@ -206,38 +206,49 @@
   renderBag();
 
   /* ---- P10 · A2 mega menu -------------------------------------------
-     Hover opens it transiently; a click pins it open. Without the pin, the
-     pointer arriving to click would open it on mouseenter and the click would
-     immediately toggle it shut again. */
+     Frame A2 opens the panel from the primary navigation itself — there is no
+     separate menu button in the prototype's nav, and adding one put the control
+     somewhere nobody would look for it. Hovering or focusing any primary link
+     opens the shared Shop/Read panel; leaving the header closes it. Clicking a
+     link still navigates, so the panel is an enrichment, not a gate. */
   (function(){
-    const trigger=document.querySelector('.menutrigger');
+    const nav=document.querySelector('.nav');
+    const links=document.querySelector('.links');
     const mega=document.getElementById('mega');
     const dim=document.getElementById('menudim');
-    if(!trigger||!mega) return;
-    let open=false, pinned=false, hideTimer, intentTimer;
+    if(!nav||!links||!mega) return;
+    const items=[...links.querySelectorAll('a')];
+    if(!items.length) return;
+    let open=false, hideTimer, intentTimer, suppress=false;
     const set=v=>{
       if(v===open) return;
       open=v; if(v) mega.hidden=false;
       mega.classList.toggle('on',v);
       dim&&dim.classList.toggle('on',v);
-      trigger.setAttribute('aria-expanded',String(v));
+      items.forEach(a=>a.setAttribute('aria-expanded',String(v)));
       clearTimeout(hideTimer);
-      if(!v){ pinned=false; hideTimer=setTimeout(()=>{ if(!open) mega.hidden=true; },400); }
+      if(!v) hideTimer=setTimeout(()=>{ if(!open) mega.hidden=true; },400);
     };
-    trigger.addEventListener('click',e=>{
-      e.preventDefault();
-      if(open&&pinned){ set(false); } else { set(true); pinned=true; }
+    const wantOpen=()=>{ clearTimeout(intentTimer); intentTimer=setTimeout(()=>set(true),140); };
+    const wantClose=()=>{ clearTimeout(intentTimer); set(false); };
+    items.forEach(a=>{
+      a.setAttribute('aria-controls','mega');
+      a.setAttribute('aria-expanded','false');
+      a.addEventListener('mouseenter',wantOpen);
+      a.addEventListener('focus',()=>{ if(!suppress) set(true); });
     });
-    /* hover opens on intent, not on a pointer merely crossing the bar */
-    trigger.addEventListener('mouseenter',()=>{
-      clearTimeout(intentTimer); intentTimer=setTimeout(()=>set(true),160);
+    links.addEventListener('mouseleave',()=>clearTimeout(intentTimer));
+    nav.addEventListener('mouseleave',wantClose);
+    mega.addEventListener('mouseenter',()=>clearTimeout(intentTimer));
+    mega.addEventListener('mouseleave',wantClose);
+    dim&&dim.addEventListener('click',wantClose);
+    /* Escape closes and returns focus to the nav — briefly suppressing the
+       focus-opens rule, or the panel would reopen the instant focus lands. */
+    addEventListener('keydown',e=>{
+      if(e.key!=='Escape'||!open) return;
+      suppress=true; wantClose(); items[0].focus();
+      setTimeout(()=>{suppress=false;},250);
     });
-    trigger.addEventListener('mouseleave',()=>clearTimeout(intentTimer));
-    const region=trigger.closest('.nav');
-    region.addEventListener('mouseleave',()=>{ clearTimeout(intentTimer); if(!pinned) set(false); });
-    mega.addEventListener('mouseleave',()=>{ if(!pinned) set(false); });
-    dim&&dim.addEventListener('click',()=>set(false));
-    addEventListener('keydown',e=>{ if(e.key==='Escape'&&open){ set(false); trigger.focus(); } });
   })();
 
   /* ---- P10 · A0→A1b arrival: the hero is a sequence ------------------ */
