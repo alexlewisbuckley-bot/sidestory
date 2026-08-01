@@ -171,7 +171,8 @@
       .filter(x=>x.offsetParent!==null||getComputedStyle(x).position==='fixed');
     if(!f.length)return;
     const first=f[0], last=f[f.length-1];
-    if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}
+    if(e.shiftKey&&(document.activeElement===first||document.activeElement===top.el)){
+      e.preventDefault();last.focus();}
     else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}
   }
   function overlayOpen(el,opts){
@@ -183,8 +184,24 @@
     el.hidden=false;
     requestAnimationFrame(()=>el.classList.add('open','on'));
     document.documentElement.classList.add('overlay-open');
-    const f=el.querySelector('a[href],button:not([disabled]),input,textarea');
-    if(f) setTimeout(()=>f.focus(),60);
+    /* Focus the panel, not the first control inside it.
+
+       Focusing the first control is the obvious reading of "move focus into
+       the dialog", and it is what this did — but Safari matches
+       :focus-visible on a programmatically focused control even when the
+       user arrived by touch, so opening the scent filters with a thumb drew
+       a two-pixel keyboard ring around Woods & Green. Chromium does not, so
+       this only ever showed on a phone.
+
+       Focusing the container is the ARIA authoring practice anyway: a
+       screen reader reads the dialog's label on arrival rather than
+       starting halfway down its contents, and a keyboard user's first Tab
+       lands on the first control with a ring it has earned. The container
+       carries tabindex="-1", so it is unreachable by Tab and its own
+       outline can be suppressed without hiding anything a user could
+       otherwise reach. */
+    if(!el.hasAttribute('tabindex')) el.setAttribute('tabindex','-1');
+    setTimeout(()=>{ try{ el.focus({preventScroll:true}); }catch(_){ el.focus(); } },60);
   }
   function overlayClose(el){
     const i=OPEN.findIndex(o=>o.el===el); if(i<0)return;
@@ -470,7 +487,11 @@
       scrim.hidden=false; sheet.hidden=false;
       requestAnimationFrame(()=>{scrim.classList.add('on');sheet.classList.add('on');});
       document.documentElement.classList.add('sheet-open');
-      const first=sheet.querySelector('.srow'); if(first) first.focus();
+      /* the dialog, not the first row — see the note in overlayOpen. This
+         sheet has its own controller rather than the shared contract, so the
+         same correction has to be made twice. */
+      if(!sheet.hasAttribute('tabindex')) sheet.setAttribute('tabindex','-1');
+      setTimeout(()=>{ try{ sheet.focus({preventScroll:true}); }catch(_){ sheet.focus(); } },60);
     }
     function closeSheet(){
       if(!sheet||sheet.hidden) return;
@@ -499,7 +520,8 @@
       const f=[...sheet.querySelectorAll('button')].filter(b=>!b.hidden);
       if(!f.length) return;
       const first=f[0], last=f[f.length-1];
-      if(e.shiftKey && document.activeElement===first){ e.preventDefault(); last.focus(); }
+      if(e.shiftKey && (document.activeElement===first||document.activeElement===sheet)){
+        e.preventDefault(); last.focus(); }
       else if(!e.shiftKey && document.activeElement===last){ e.preventDefault(); first.focus(); }
     });
 

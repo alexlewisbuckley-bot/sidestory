@@ -465,6 +465,14 @@ button{font:inherit;border:0;background:none;cursor:pointer;color:inherit}
 :where(.hero,.banner,.yfeat,.shero,.splate,footer,.sbecame,.promo,.yset,.ann,.drawer .btn-ink)
   :focus-visible,.btn-ink:focus-visible,.btn-ghost:focus-visible{
   outline-color:var(--ivory);box-shadow:0 0 0 4px rgba(43,46,45,.55)}
+/* Containers that are only ever focused by script — the bag drawer, the
+   scent sheet, the phone menu, the main landmark after a dialog closes.
+   Nothing here is reachable by Tab (tabindex is -1), so suppressing the ring
+   hides no affordance a keyboard user could have found; and the ring on a
+   full-screen panel was never information, only a two-pixel box drawn round
+   the edge of the screen. Safari paints it on a touch open, Chromium does
+   not, which is why it only ever showed on a phone. */
+[tabindex="-1"]:focus,[tabindex="-1"]:focus-visible{outline:none;box-shadow:none}
 /* skip link — first thing in the tab order on every page */
 /* the last transition on a layout property: it moved `top`, which is a
    reflow per frame for the one element a keyboard user meets first */
