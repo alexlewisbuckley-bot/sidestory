@@ -166,8 +166,6 @@ button{font:inherit;border:0;background:none;cursor:pointer;color:inherit}
 .atelier figure{position:relative}
 .atelier figure>img,.atelier figure>.swatch{width:calc(400*var(--u));height:calc(430*var(--u));object-fit:cover;display:block}
 .atelier .swatch{background:linear-gradient(150deg,#D4A65C,#8C6128)}
-.dir{position:absolute;left:calc(10*var(--u));bottom:calc(10*var(--u));width:calc(320*var(--u));background:rgba(15,15,14,.5);
- color:var(--ivory);padding:calc(9*var(--u)) calc(10*var(--u));font-family:Montserrat,sans-serif;font-size:calc(8*var(--u));line-height:1.55;letter-spacing:.02em}
 .atelier figcaption{margin-top:calc(18*var(--u));display:flex;gap:calc(14*var(--u));align-items:baseline}
 .atelier figcaption b{font-family:Montserrat,sans-serif;font-weight:500;font-size:calc(9.5*var(--u));letter-spacing:.28em;text-transform:uppercase;color:var(--ink)}
 .atelier figcaption i{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:calc(15*var(--u));color:var(--txt);opacity:.85}
@@ -179,8 +177,7 @@ button{font:inherit;border:0;background:none;cursor:pointer;color:inherit}
 .campaign .c{position:absolute;left:var(--gut);bottom:calc(78*var(--u));color:var(--ivory);width:calc(820*var(--u))}
 .campaign h2{font-family:'Libre Caslon Display',serif;font-weight:400;font-size:calc(42*var(--u));line-height:1.4;white-space:nowrap}
 .campaign .k{color:var(--ivory);opacity:.85;font-size:calc(9.5*var(--u));letter-spacing:.28em;margin-top:calc(30*var(--u))}
-.campaign .dir{left:auto;right:calc(24*var(--u));top:calc(24*var(--u));bottom:auto;width:calc(354*var(--u));font-size:calc(8.5*var(--u))}
-
+.campaign 
 /* 06b feelings */
 .feelings{background:var(--plaster);padding:calc(76*var(--u)) 0}
 .feelings .sub{font-family:'Libre Caslon Text',serif;font-style:italic;font-size:calc(15*var(--u));color:var(--txt);opacity:.85;margin-top:calc(31*var(--u))}
@@ -346,8 +343,7 @@ footer a:hover{opacity:1}
   .show blockquote,.spec{width:auto}
   .atelier .row,.plates,.posts,.wayrow,.matrow,.feelrow,.credrow{grid-template-columns:1fr;gap:20px}
   .atelier figure>img,.atelier .swatch,.plates img,.post img,.way img{width:100%;height:auto;aspect-ratio:4/3}
-  .dir{width:auto;right:calc(10*var(--u))}
-  .campaign{height:auto;min-height:56vh;padding:44px 0}
+    .campaign{height:auto;min-height:56vh;padding:44px 0}
   .campaign .c{position:relative;left:0;bottom:auto;width:auto;padding:26vh 20px 0}
   .campaign h2{font-size:20px;white-space:normal}
   .feel{height:auto}
