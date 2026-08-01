@@ -48,22 +48,25 @@ EDITORIAL = [
     ("sunday-service-open", "plants.jpg",     1200, None),
 ]
 
-# Explicit subject boxes, normalised (x0, y0, x1, y1), for masters where the
-# detector misreads — a bright fold in the backdrop next to a pale bottle. Three
-# out of eighteen; measuring them by eye once is more honest than tuning a
-# heuristic until it happens to agree.
-MANUAL = {
-    "pillow-talk-bottle":  (0.437, 0.330, 0.567, 0.690),
-    "third-date-bottle":   (0.437, 0.325, 0.567, 0.685),
-    "road-trip-bottle":    (0.443, 0.295, 0.560, 0.640),
-}
+# The bottle masters are one consistent studio setup: same lens, same distance,
+# the bottle standing in the middle of frame. Measured across all seven, every
+# bottle occupies the same rectangle to within a percent — so they share one
+# box rather than seven separate detections. This is why the cards read as a
+# set; a per-image detector, however tuned, cannot guarantee that.
+BOTTLE_BOX = (0.449, 0.365, 0.551, 0.645)
 
-TIGHT = dict(subject_h=0.58, pad_x=1.30, top_bias=0.50)  # margin enough that an under-read box never clips the cap or base
+# Packshots (open box, outer carton) vary in composition and keep the detector.
+MANUAL = {}
+
+TIGHT = dict(subject_h=0.62, pad_x=1.25, top_bias=0.50)
 LOOSE = dict(subject_h=0.72, pad_x=1.16, top_bias=0.48)
 # Card frames leave the lower third of the image clear, because the quick-add
 # panel slides up over it on hover and must not cover the bottle.
-CARD  = dict(subject_h=0.40, pad_x=2.4,  top_bias=0.34)
-MIN_SUBJECT = 0.30
+CARD  = dict(subject_h=0.46, pad_x=2.1,  top_bias=0.38)
+# The subject boxes are reliable now, so the old width floor is not only
+# unnecessary but harmful: it inflated the crop for the narrow-bottle masters
+# and made those cards read smaller than the rest.
+MIN_SUBJECT = 0.0
 
 
 def _blur(arr, r):
@@ -99,7 +102,7 @@ def subject_box(im):
     # the search to the central band and away from the top edge stops a bright
     # patch of wall from being mistaken for it — the one failure mode left.
     band = np.zeros_like(mask)
-    band[int(H * 0.10):int(H * 0.94), int(W * 0.22):int(W * 0.78)] = True
+    band[int(H * 0.12):int(H * 0.95), int(W * 0.38):int(W * 0.62)] = True
     mask &= band
 
     ys, xs = np.nonzero(mask)
@@ -121,11 +124,16 @@ def square_crop(path, out, mode="tight", size=1000):
     im = Image.open(path).convert("RGB")
     W, H = im.size
     key = os.path.splitext(os.path.basename(path))[0]
-    if key in MANUAL:
+    if key.endswith("-bottle"):
+        a, b, c, d = BOTTLE_BOX
+    elif key in MANUAL:
         a, b, c, d = MANUAL[key]
-        x0, y0, x1, y1 = a * W, b * H, c * W, d * H
     else:
+        a = b = c = d = None
+    if a is None:
         x0, y0, x1, y1 = subject_box(im)
+    else:
+        x0, y0, x1, y1 = a * W, b * H, c * W, d * H
     sw, sh = x1 - x0, y1 - y0
     cx, cy = (x0 + x1) / 2, (y0 + y1) / 2
 

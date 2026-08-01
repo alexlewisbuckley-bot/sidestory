@@ -156,9 +156,13 @@ section{position:relative}
 .hero>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;
   transform:scale(1.05);animation:kb 14s var(--settle) forwards}
 @keyframes kb{to{transform:scale(1)}}
+/* Three layers, so the copy stays legible whatever the plate behind it: the
+   prototype's two diagonals, plus a floor that guarantees contrast under the
+   headline and buttons on a bright flat-lay. */
 .hero .veil{position:absolute;inset:0;z-index:-1;background:
-  linear-gradient(63deg,rgba(20,18,13,.68) -6%,rgba(20,18,13,0) 112%),
-  linear-gradient(to right,rgba(20,18,13,.74) 0%,rgba(20,18,13,0) 160%)}
+  linear-gradient(to top,rgba(18,16,12,.72) 0%,rgba(18,16,12,.28) 34%,rgba(18,16,12,0) 62%),
+  linear-gradient(63deg,rgba(20,18,13,.62) -6%,rgba(20,18,13,0) 100%),
+  linear-gradient(to right,rgba(20,18,13,.66) 0%,rgba(20,18,13,0) 150%)}
 /* max-width has to carry the gutter too, or the headline wraps early */
 .hero .copy{max-width:calc(44rem + var(--gutter) * 2);color:var(--ivory);
   padding:var(--s-7) var(--gutter) clamp(4.5rem,9vw,5.5rem)}
@@ -765,7 +769,7 @@ footer a:hover{opacity:1}
 
 /* --- A0 → A1 → A1b · arrival ------------------------------------------- */
 /* entrance-veil: rgba(14,13,10,.92) over everything, lifting to 0 (frame A1) */
-.veil{position:fixed;inset:0;z-index:200;background:rgb(14,13,10);opacity:.92;
+.enter-veil{position:fixed;inset:0;z-index:200;background:rgb(14,13,10);opacity:.92;
   pointer-events:none;animation:veil-lift 1.1s var(--settle) .05s forwards}
 @keyframes veil-lift{to{opacity:0;visibility:hidden}}
 
@@ -784,7 +788,7 @@ footer a:hover{opacity:1}
 /* copy rises 48px as the veil lifts — frame A0 has it at y522, A1 at y474 */
 .hero .copy>*{animation:rise .95s var(--settle) forwards}
 @media (prefers-reduced-motion:reduce){
-  .veil{display:none}
+  .enter-veil{display:none}
   .hero .shots img{animation:none;transform:none;transition:none}
 }
 
@@ -821,27 +825,27 @@ footer a:hover{opacity:1}
 .menutrigger[aria-expanded="true"]{color:var(--ink)}
 
 /* --- µ1 · CARD ---------------------------------------------------------- */
-/* At rest the card shows the tight frame — the bottle large and whole. On
-   hover it cross-fades to the wider frame of the same shot, so the bottle
-   appears to pull back inside a fixed crop and opens the lower third; the
-   quick-add panel rises into exactly that space and never covers the product.
-   Two real crops rather than a scaled one, so nothing is guessed or softened.
-   Pointer devices only — on touch the card rests and the price row links. */
-.card{transition:transform .4s var(--settle),box-shadow .4s var(--settle),opacity .3s var(--settle)}
-.card .ph{overflow:hidden}
-.card .ph img{width:100%;height:100%;object-fit:cover;transition:opacity .55s var(--settle)}
-.card .ph img.wide{position:absolute;inset:0;opacity:0}
+/* One image, one crop rule for every product, so the seven cards read as a set.
+   The frame holds the bottle in its upper half; the quick-add panel rises into
+   the lower third, which is empty backdrop by construction, so the buy controls
+   never cover the product. The image develops +6% inside the fixed crop and the
+   card lifts on shadow, per the µ1 note. 400ms. Pointer devices only. */
+.card{transition:transform .4s var(--settle),box-shadow .4s var(--settle)}
+.card .ph{position:relative;overflow:hidden;isolation:isolate}
+.card .ph img{width:100%;height:100%;object-fit:cover;
+  transition:transform .4s var(--settle);will-change:transform}
 .card h3{transition:color .4s var(--settle)}
+.quick{position:absolute;left:0;right:0;bottom:0;z-index:2;
+  background:rgba(241,240,232,.97);padding:var(--s-3) var(--s-4) var(--s-4);
+  transform:translateY(101%);transition:transform .4s var(--settle)}
 
 @media (hover:hover) and (pointer:fine){
-  .card:hover .ph img.tight,.card:focus-within .ph img.tight{opacity:0}
-  .card:hover .ph img.wide,.card:focus-within .ph img.wide{opacity:1}
+  .card:hover .ph img,.card:focus-within .ph img{transform:scale(1.06)}
   .card:hover{transform:translateY(-.375rem);box-shadow:0 1.25rem 2.75rem rgba(30,28,22,.14)}
   .card:hover h3{color:var(--brass)}
-  .quick{transition:transform .55s var(--settle),opacity .35s var(--settle);opacity:0}
-  .card:hover .quick,.card:focus-within .quick{transform:none;opacity:1}
+  .card:hover .quick,.card:focus-within .quick{transform:none}
 }
-@media (hover:none),(pointer:coarse){ .card .ph img.wide{display:none} }
+@media (hover:none),(pointer:coarse){ .quick{display:none} }
 
 /* the lift and develop, without the zoom-out, on the editorial cards (G1) */
 .post,.way{transition:transform .4s var(--settle),box-shadow .4s var(--settle)}
@@ -883,3 +887,90 @@ footer a:hover{opacity:1}
 /* --- F1 · footer link hover -------------------------------------------- */
 footer a{transition:opacity .3s var(--settle),padding-left .3s var(--settle)}
 footer .cols a:hover{opacity:1;padding-left:.3rem}
+
+
+/* ==========================================================================
+   PDP story bands — P10 frames `pdp · story band`, `· the story`,
+   `· the margins`, `· the stone`. The brand's whole argument lives here.
+   ========================================================================== */
+
+/* --- story band: a quote held over the chapter's own photograph --------- */
+.storyband{position:relative;display:grid;align-items:end;isolation:isolate;
+  min-height:clamp(20rem,42svh,30rem);overflow:hidden;color:var(--ivory)}
+.storyband>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2}
+.storyband::after{content:"";position:absolute;inset:0;z-index:-1;
+  background:linear-gradient(8deg,rgba(20,17,12,.78),rgba(20,17,12,.10) 72%)}
+.storyband .c{padding:var(--s-7) var(--gutter) var(--s-6);
+  max-width:calc(46rem + var(--gutter) * 2)}
+.storyband blockquote{font-family:'Libre Caslon Display',serif;font-size:var(--t-4);
+  line-height:1.24;text-wrap:balance}
+.storyband p{margin-top:var(--s-4);font-family:Montserrat,sans-serif;font-size:var(--t-xs);
+  letter-spacing:.2em;text-transform:uppercase;opacity:.85}
+.storyband a{border-bottom:1px solid rgba(241,240,232,.5);padding-bottom:.15em}
+
+/* --- the story: chapter numeral, excerpt, overlapping plates ------------ */
+.chapter{position:relative;background:var(--ivory);padding-block:var(--s-7);overflow:hidden}
+.chapter .inner{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--s-6);
+  position:relative;z-index:1}
+@media (min-width:64em){
+  .chapter .inner{grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+    gap:var(--s-7);align-items:center}
+}
+/* the numeral is a watermark, not a heading — 5% ink, behind everything */
+.chapter .numeral{position:absolute;top:50%;left:50%;translate:-50% -50%;z-index:0;
+  font-family:'Libre Caslon Display',serif;font-size:clamp(14rem,26vw,26rem);
+  line-height:.8;color:rgba(43,46,45,.05);pointer-events:none;user-select:none}
+.chapter h2{font-size:var(--t-4);margin-top:var(--s-3);max-width:16ch}
+.chapter .byline{font-family:'Cormorant Garamond',serif;font-weight:300;font-style:italic;
+  font-size:var(--t-lg);color:rgba(64,68,67,.8);margin-top:var(--s-3)}
+.chapter .excerpt{margin-top:var(--s-6);max-width:35rem}
+.chapter .excerpt p{font-size:var(--t-lg);line-height:1.85;color:var(--txt);margin-top:var(--s-4)}
+.chapter .excerpt p:first-child{margin-top:0}
+.chapter .scent{margin-top:var(--s-5);padding-top:var(--s-3);
+  border-top:1px solid var(--brass);border-top-width:1px;max-width:26rem;
+  font-family:'Cormorant Garamond',serif;font-weight:300;font-style:italic;
+  font-size:var(--t-1);color:rgba(43,46,45,.85)}
+.chapter .scent{border-top:0;position:relative}
+.chapter .scent::before{content:"";position:absolute;top:0;left:0;width:1.875rem;height:1px;
+  background:var(--brass)}
+.chapter .go{display:flex;flex-wrap:wrap;align-items:center;gap:var(--s-3) var(--s-4);
+  margin-top:var(--s-5)}
+.chapter .go small{font-family:Montserrat,sans-serif;font-size:var(--t-xs);
+  letter-spacing:.16em;text-transform:uppercase;color:rgba(64,68,67,.6)}
+/* two plates, the smaller overlapping the larger — as in the prototype */
+.plates2{position:relative;min-width:0}
+.plates2 .big{width:100%;aspect-ratio:4/3;object-fit:cover;background:var(--plaster)}
+.plates2 .small{width:50%;aspect-ratio:4/3;object-fit:cover;background:var(--plaster);
+  border:.5rem solid var(--ivory);margin-top:-18%;margin-left:-4%;position:relative;z-index:1;
+  box-shadow:0 1rem 2.5rem rgba(30,28,22,.14)}
+.plates2 figcaption{margin-top:var(--s-3);text-align:right;
+  font-family:'Cormorant Garamond',serif;font-weight:300;font-style:italic;
+  font-size:var(--t-sm);color:rgba(64,68,67,.65)}
+@media (max-width:47.9375em){
+  .plates2 .small{width:58%;margin-top:-14%}
+  .plates2 figcaption{text-align:left}
+}
+
+/* --- the margins: the pyramid read as three marginal notes -------------- */
+.margins{background:var(--plaster);padding-block:var(--s-7)}
+.margins h2{font-size:var(--t-4);margin-top:var(--s-2);max-width:18ch}
+.pyramid{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--s-5);margin-top:var(--s-6)}
+@media (min-width:52em){ .pyramid{grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--s-6)} }
+.pyramid div{position:relative;padding-top:var(--s-4);min-width:0}
+.pyramid div::before{content:"";position:absolute;top:0;left:0;width:1.875rem;height:1px;
+  background:var(--brass)}
+.pyramid b{display:block;font-family:Montserrat,sans-serif;font-weight:500;font-size:var(--t-xs);
+  letter-spacing:.2em;text-transform:uppercase;color:rgba(64,68,67,.6)}
+.pyramid em{display:block;margin-top:var(--s-2);font-family:'Cormorant Garamond',serif;
+  font-weight:300;font-style:italic;font-size:var(--t-2);line-height:1.25;color:var(--ink)}
+.pyramid i{display:block;margin-top:var(--s-2);font-family:'Libre Caslon Text',serif;
+  font-style:italic;font-size:var(--t-sm);color:rgba(64,68,67,.65)}
+
+/* --- the stone --------------------------------------------------------- */
+.stoneband{background:var(--ivory);padding-block:var(--s-7)}
+.stoneband .inner{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--s-5);align-items:center}
+@media (min-width:60em){ .stoneband .inner{grid-template-columns:minmax(0,560fr) minmax(0,520fr);gap:var(--s-7)} }
+.stoneband img{width:100%;aspect-ratio:56/34;object-fit:cover;background:var(--plaster)}
+.stoneband h2{font-size:var(--t-3);margin-top:var(--s-3);max-width:14ch}
+.stoneband p{font-size:var(--t-md);line-height:1.8;color:var(--txt);max-width:46ch;margin-top:var(--s-4)}
+.stoneband .ul{margin-top:var(--s-4)}

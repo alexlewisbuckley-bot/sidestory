@@ -59,6 +59,26 @@ PRODUCTS = [
 ]
 BY_SLUG = {p["slug"]: p for p in PRODUCTS}
 
+# The PDP story bands. Written per fragrance so the chapter, the margins and the
+# stone all speak about the same bottle rather than sharing generic copy.
+CHAPTERS = {
+  "hotel-lobby": dict(
+    pull="Eight o\u2019clock passed without appearing to.",
+    pullref="From Hotel Lobby, Chapter II",
+    numeral="I", chapter="Chapter I of IX",
+    title="The lobby at ten to eight.",
+    author="Morgan Childs",
+    paras=["It was ten minutes before eight when she arrived, and the lobby had already decided the evening for her. The revolving door gave its slow, museum turn; the marble took her heels and made them sound deliberate. At the bar, the wood had been polished so long it had opinions.",
+           "She asked for nothing yet. The barman, who understood waiting the way sommeliers understand rain, set down a glass of ice and let it speak."],
+    scent="antique bergamot, poured over ice \u2014 the scent begins where the chapter does",
+    caption="the chapter, photographed as it was written \u2014 box, liner, and the bar\u2019s low light",
+    margins=[("Opening","antique bergamot, poured over ice","\u2014 as she crosses the marble"),
+             ("Heart","polished cedar \u2014 the bar\u2019s opinion","\u2014 the hand rests on the counter"),
+             ("Base","sandalwood, faint incense, warm amber","\u2014 eight o\u2019clock passes unnoticed")],
+    stone_title="Nero Marquina, cut once.",
+    stone_body="Quarried at Markina-Xemein, its veining decided by nature alone \u2014 your lid\u2019s pattern exists on no other bottle, and will not be cut again."),
+}
+
 JOURNAL = [
     dict(slug="ten-to-eight", kicker="Campaign · 5 min read", img="p-third-date-1.jpg",
          title="Ten to Eight — the autumn story, on film",
@@ -118,7 +138,7 @@ def topbar(current):
     items = "\n      ".join(
         '<a href="%s"%s>%s</a>' % (href, cur if href == current else "", label)
         for href, label in NAV_LINKS)
-    return f"""<div class="veil" aria-hidden="true"></div>
+    return f"""<div class="enter-veil" aria-hidden="true"></div>
 <div class="menu-dim" id="menudim"></div>
 <div class="topbar">
 <div class="ann"><span>A second story’s sample, complimentary with every bottle</span></div>
@@ -223,7 +243,7 @@ def crumbs(*parts):
 def product_card(p, reveal=True):
     badge = f'<span class="badge">{p["badge"]}</span>' if p["badge"] else ""
     return f"""      <article class="card{' rev' if reveal else ''}" data-order="{PRODUCTS.index(p)}" data-feeling="{p['feeling']}" data-stone="{p['stone']}" data-note="{p['notes'].split(',')[0].strip()}">
-        <div class="ph"><a href="product.html?f={p['slug']}"><img class="tight" src="{fp('assets/img/' + p['img'] + '-1.jpg')}" alt="{p['name']} eau de parfum" loading="lazy"><img class="wide" src="{fp('assets/img/' + p['img'] + '-card.jpg')}" alt="" aria-hidden="true" loading="lazy"></a>{badge}
+        <div class="ph"><a href="product.html?f={p['slug']}"><img src="{fp('assets/img/' + p['img'] + '-card.jpg')}" alt="{p['name']} eau de parfum" loading="lazy"></a>{badge}
           <div class="quick"><div class="r">
             <button class="btn btn-ink btn-sm" onclick="addToBag('{p['slug']}','full',this)">100ml &mdash; &pound;160</button>
             <button class="btn btn-ghostink btn-sm" onclick="addToBag('{p['slug']}','sample',this)">Sample &pound;5</button>
@@ -288,6 +308,65 @@ def build():
         '<button%s onclick="pdpSwap(this,\'%s\')"><img src="%s" alt="%s" loading="lazy"></button>'
         % (' aria-current="true"' if i == 0 else "", u, u, alts[i] if i < len(alts) else "View %d" % (i + 1))
         for i, u in enumerate(gal))
+    ch = CHAPTERS[p["slug"]]
+    pyramid = "\n".join(
+        f"      <div><b>{a}</b><em>{b}</em><i>{c}</i></div>" for a, b, c in ch["margins"])
+    paras = "\n".join(f"        <p>{t}</p>" for t in ch["paras"])
+    bands = f"""
+<section class="storyband">
+  <img src="{fp('assets/img/' + p['img'] + '-2.jpg') if len(gal) > 1 else fp('assets/img/unboxing.jpg')}" alt="">
+  <div class="c">
+    <blockquote>&ldquo;{ch['pull']}&rdquo;</blockquote>
+    <p>{ch['pullref']} &middot; <a href="story.html?s={p['slug']}">Read the full story</a></p>
+  </div>
+</section>
+
+<section class="chapter">
+  <span class="numeral" aria-hidden="true">{ch['numeral']}</span>
+  <div class="inner">
+    <div>
+      <p class="k">The story &middot; {ch['chapter']}</p>
+      <h2>{ch['title']}</h2>
+      <p class="byline">written by {ch['author']} &mdash; nine pages, printed and boxed with this bottle</p>
+      <div class="excerpt">
+{paras}
+      </div>
+      <p class="scent">{ch['scent']}</p>
+      <div class="go">
+        <a class="btn btn-ghostink" href="story.html?s={p['slug']}">Read chapter one</a>
+        <small>The full story ships in the box</small>
+      </div>
+    </div>
+    <figure class="plates2">
+      <img class="big" src="{gal[1] if len(gal) > 1 else fp('assets/img/unboxing.jpg')}" alt="{p['name']}, as the chapter was written" loading="lazy">
+      <img class="small" src="{gal[2] if len(gal) > 2 else fp('assets/img/spine.jpg')}" alt="" loading="lazy">
+      <figcaption>{ch['caption']}</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="margins">
+  <div class="inner">
+    <p class="k">Notes &amp; composition</p>
+    <h2>The pyramid, read as margins.</h2>
+    <div class="pyramid">
+{pyramid}
+    </div>
+  </div>
+</section>
+
+<section class="stoneband">
+  <div class="inner">
+    <img src="{fp('assets/img/stone-shelf.jpg')}" alt="{p['stone']}, hand-cut in Liguria" loading="lazy">
+    <div>
+      <p class="k">The stone</p>
+      <h2>{ch['stone_title']}</h2>
+      <p>{ch['stone_body']}</p>
+      <a class="ul" href="our-house.html#stones">More on the stones</a>
+    </div>
+  </div>
+</section>
+"""
     others = [q for q in PRODUCTS if q["slug"] != p["slug"]][:4]
     rel = "\n".join(product_card(q, reveal=False) for q in others)
     written["product"] = page("product", p["name"],
@@ -324,20 +403,7 @@ def build():
   </div>
 </div>
 
-<section class="band tint">
-  <div class="inner">
-    <p class="k">The story behind it</p>
-    <h2>Nine pages, before a single note.</h2>
-    <div class="grid-2">
-      <div>
-        <p>&ldquo;{p['line']}&rdquo;</p>
-        <p>Every fragrance in the house is written first. A novelist is commissioned, paid, and left alone; only when the pages are finished does the brief go to Grasse. The perfumer works to the writing, not to a mood board.</p>
-        <p><a class="ul" href="story.html?s={p['slug']}">Read {p['name']} in full</a></p>
-      </div>
-      <img class="figfull" src="{fp('assets/img/unboxing.jpg')}" alt="The printed story, boxed with the bottle" loading="lazy">
-    </div>
-  </div>
-</section>
+{bands}
 
 <section class="seven">
   <div class="inner">
