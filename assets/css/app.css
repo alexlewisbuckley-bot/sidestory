@@ -932,6 +932,14 @@ footer a:hover{opacity:1}
 .legal a{display:inline}
 .legal{font-family:var(--font-sans);font-size:var(--t-2xs);letter-spacing:var(--track-micro);
   text-transform:uppercase;line-height:1.8;opacity:var(--o-strong)}
+/* the country and currency had been separated from the legal links by a
+   non-breaking space, so on a phone they ran into the end of "Cookies" and
+   wrapped mid-statement. It is a separate statement, and it takes its own
+   line wherever there is not room beside them. */
+.legal .locale{margin-left:var(--s-4)}
+@media (max-width:47.9375em){
+  .legal .locale{display:block;margin-left:0;margin-top:var(--s-2)}
+}
 
 /* ------------------------------------------------------------- drawer --- */
 html.overlay-open,html.overlay-open body{overflow:hidden}
@@ -2014,7 +2022,16 @@ input:user-invalid,textarea:user-invalid{border-color:var(--text-error)}
 .grid-3{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--s-4);margin-top:var(--s-5)}
 @media (min-width:48em){ .grid-3{grid-template-columns:repeat(3,minmax(0,1fr))} }
 .figfull{width:100%;aspect-ratio:16/9;object-fit:cover}
+/* The tile's ground is ivory and so is the section behind it on both pages
+   that use it, so the card is invisible and its 24px padding read as text
+   indented past the page margin — the only content on those pages not on the
+   gutter. Stacked on a phone it takes its separation from a hairline, which
+   is what the rest of the site uses, and its left edge from the page. */
 .tile{background:var(--ivory);padding:var(--s-5);min-width:0}
+@media (max-width:47.9375em){
+  .tile{padding-inline:0;padding-block:var(--s-5) 0}
+  .tile+.tile{border-top:1px solid var(--line);padding-top:var(--s-5)}
+}
 .tile h3{font-size:var(--t-1)}
 .tile :where(p:not(.k)){font-size:var(--t-sm);line-height:1.75;color:var(--txt);margin-top:var(--s-3)}
 
