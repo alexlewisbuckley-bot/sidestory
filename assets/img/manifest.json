@@ -1,0 +1,1743 @@
+{
+"founders.jpg": {
+"avif": [
+[
+480,
+"founders-480.avif"
+],
+[
+960,
+"founders-960.avif"
+],
+[
+1600,
+"founders-1600.avif"
+]
+],
+"h": 828,
+"jpg": [
+[
+480,
+"founders-480.jpg"
+],
+[
+960,
+"founders-960.jpg"
+],
+[
+1600,
+"founders-1600.jpg"
+]
+],
+"w": 1600,
+"webp": [
+[
+480,
+"founders-480.webp"
+],
+[
+960,
+"founders-960.webp"
+],
+[
+1600,
+"founders-1600.webp"
+]
+]
+},
+"hero.jpg": {
+"avif": [
+[
+480,
+"hero-480.avif"
+],
+[
+960,
+"hero-960.avif"
+],
+[
+1600,
+"hero-1600.avif"
+]
+],
+"h": 1124,
+"jpg": [
+[
+480,
+"hero-480.jpg"
+],
+[
+960,
+"hero-960.jpg"
+],
+[
+1600,
+"hero-1600.jpg"
+]
+],
+"w": 1800,
+"webp": [
+[
+480,
+"hero-480.webp"
+],
+[
+960,
+"hero-960.webp"
+],
+[
+1600,
+"hero-1600.webp"
+]
+]
+},
+"p-4pm-matinee-1.jpg": {
+"avif": [],
+"h": 453,
+"jpg": [],
+"w": 453,
+"webp": []
+},
+"p-4pm-matinee-75-card.jpg": {
+"avif": [
+[
+480,
+"p-4pm-matinee-75-card-480.avif"
+]
+],
+"h": 682,
+"jpg": [
+[
+480,
+"p-4pm-matinee-75-card-480.jpg"
+]
+],
+"w": 681,
+"webp": [
+[
+480,
+"p-4pm-matinee-75-card-480.webp"
+]
+]
+},
+"p-4pm-matinee-75.jpg": {
+"avif": [
+[
+480,
+"p-4pm-matinee-75-480.avif"
+]
+],
+"h": 923,
+"jpg": [
+[
+480,
+"p-4pm-matinee-75-480.jpg"
+]
+],
+"w": 922,
+"webp": [
+[
+480,
+"p-4pm-matinee-75-480.webp"
+]
+]
+},
+"p-4pm-matinee-card.jpg": {
+"avif": [
+[
+480,
+"p-4pm-matinee-card-480.avif"
+]
+],
+"h": 611,
+"jpg": [
+[
+480,
+"p-4pm-matinee-card-480.jpg"
+]
+],
+"w": 611,
+"webp": [
+[
+480,
+"p-4pm-matinee-card-480.webp"
+]
+]
+},
+"p-4pm-matinee-hero.jpg": {
+"avif": [
+[
+480,
+"p-4pm-matinee-hero-480.avif"
+]
+],
+"h": 611,
+"jpg": [
+[
+480,
+"p-4pm-matinee-hero-480.jpg"
+]
+],
+"w": 611,
+"webp": [
+[
+480,
+"p-4pm-matinee-hero-480.webp"
+]
+]
+},
+"p-hotel-lobby-1.jpg": {
+"avif": [
+[
+480,
+"p-hotel-lobby-1-480.avif"
+]
+],
+"h": 648,
+"jpg": [
+[
+480,
+"p-hotel-lobby-1-480.jpg"
+]
+],
+"w": 649,
+"webp": [
+[
+480,
+"p-hotel-lobby-1-480.webp"
+]
+]
+},
+"p-hotel-lobby-2.jpg": {
+"avif": [
+[
+480,
+"p-hotel-lobby-2-480.avif"
+]
+],
+"h": 834,
+"jpg": [
+[
+480,
+"p-hotel-lobby-2-480.jpg"
+]
+],
+"w": 835,
+"webp": [
+[
+480,
+"p-hotel-lobby-2-480.webp"
+]
+]
+},
+"p-hotel-lobby-3.jpg": {
+"avif": [
+[
+480,
+"p-hotel-lobby-3-480.avif"
+]
+],
+"h": 778,
+"jpg": [
+[
+480,
+"p-hotel-lobby-3-480.jpg"
+]
+],
+"w": 779,
+"webp": [
+[
+480,
+"p-hotel-lobby-3-480.webp"
+]
+]
+},
+"p-hotel-lobby-4.jpg": {
+"avif": [
+[
+480,
+"p-hotel-lobby-4-480.avif"
+],
+[
+960,
+"p-hotel-lobby-4-960.avif"
+]
+],
+"h": 953,
+"jpg": [
+[
+480,
+"p-hotel-lobby-4-480.jpg"
+],
+[
+960,
+"p-hotel-lobby-4-960.jpg"
+]
+],
+"w": 953,
+"webp": [
+[
+480,
+"p-hotel-lobby-4-480.webp"
+],
+[
+960,
+"p-hotel-lobby-4-960.webp"
+]
+]
+},
+"p-hotel-lobby-75-card.jpg": {
+"avif": [
+[
+480,
+"p-hotel-lobby-75-card-480.avif"
+]
+],
+"h": 682,
+"jpg": [
+[
+480,
+"p-hotel-lobby-75-card-480.jpg"
+]
+],
+"w": 681,
+"webp": [
+[
+480,
+"p-hotel-lobby-75-card-480.webp"
+]
+]
+},
+"p-hotel-lobby-75.jpg": {
+"avif": [
+[
+480,
+"p-hotel-lobby-75-480.avif"
+]
+],
+"h": 923,
+"jpg": [
+[
+480,
+"p-hotel-lobby-75-480.jpg"
+]
+],
+"w": 922,
+"webp": [
+[
+480,
+"p-hotel-lobby-75-480.webp"
+]
+]
+},
+"p-hotel-lobby-card.jpg": {
+"avif": [
+[
+480,
+"p-hotel-lobby-card-480.avif"
+]
+],
+"h": 874,
+"jpg": [
+[
+480,
+"p-hotel-lobby-card-480.jpg"
+]
+],
+"w": 873,
+"webp": [
+[
+480,
+"p-hotel-lobby-card-480.webp"
+]
+]
+},
+"p-hotel-lobby-hero.jpg": {
+"avif": [
+[
+480,
+"p-hotel-lobby-hero-480.avif"
+]
+],
+"h": 874,
+"jpg": [
+[
+480,
+"p-hotel-lobby-hero-480.jpg"
+]
+],
+"w": 873,
+"webp": [
+[
+480,
+"p-hotel-lobby-hero-480.webp"
+]
+]
+},
+"p-hotel-lobby-sample-card.jpg": {
+"avif": [
+[
+480,
+"p-hotel-lobby-sample-card-480.avif"
+]
+],
+"h": 900,
+"jpg": [
+[
+480,
+"p-hotel-lobby-sample-card-480.jpg"
+]
+],
+"w": 900,
+"webp": [
+[
+480,
+"p-hotel-lobby-sample-card-480.webp"
+]
+]
+},
+"p-hotel-lobby-sample.jpg": {
+"avif": [
+[
+480,
+"p-hotel-lobby-sample-480.avif"
+],
+[
+960,
+"p-hotel-lobby-sample-960.avif"
+]
+],
+"h": 1200,
+"jpg": [
+[
+480,
+"p-hotel-lobby-sample-480.jpg"
+],
+[
+960,
+"p-hotel-lobby-sample-960.jpg"
+]
+],
+"w": 1200,
+"webp": [
+[
+480,
+"p-hotel-lobby-sample-480.webp"
+],
+[
+960,
+"p-hotel-lobby-sample-960.webp"
+]
+]
+},
+"p-pillow-talk-1.jpg": {
+"avif": [
+[
+480,
+"p-pillow-talk-1-480.avif"
+]
+],
+"h": 485,
+"jpg": [
+[
+480,
+"p-pillow-talk-1-480.jpg"
+]
+],
+"w": 485,
+"webp": [
+[
+480,
+"p-pillow-talk-1-480.webp"
+]
+]
+},
+"p-pillow-talk-75-card.jpg": {
+"avif": [
+[
+480,
+"p-pillow-talk-75-card-480.avif"
+]
+],
+"h": 682,
+"jpg": [
+[
+480,
+"p-pillow-talk-75-card-480.jpg"
+]
+],
+"w": 681,
+"webp": [
+[
+480,
+"p-pillow-talk-75-card-480.webp"
+]
+]
+},
+"p-pillow-talk-75.jpg": {
+"avif": [
+[
+480,
+"p-pillow-talk-75-480.avif"
+]
+],
+"h": 923,
+"jpg": [
+[
+480,
+"p-pillow-talk-75-480.jpg"
+]
+],
+"w": 922,
+"webp": [
+[
+480,
+"p-pillow-talk-75-480.webp"
+]
+]
+},
+"p-pillow-talk-card.jpg": {
+"avif": [
+[
+480,
+"p-pillow-talk-card-480.avif"
+]
+],
+"h": 654,
+"jpg": [
+[
+480,
+"p-pillow-talk-card-480.jpg"
+]
+],
+"w": 655,
+"webp": [
+[
+480,
+"p-pillow-talk-card-480.webp"
+]
+]
+},
+"p-pillow-talk-hero.jpg": {
+"avif": [
+[
+480,
+"p-pillow-talk-hero-480.avif"
+]
+],
+"h": 655,
+"jpg": [
+[
+480,
+"p-pillow-talk-hero-480.jpg"
+]
+],
+"w": 655,
+"webp": [
+[
+480,
+"p-pillow-talk-hero-480.webp"
+]
+]
+},
+"p-pillow-talk-sample-card.jpg": {
+"avif": [
+[
+480,
+"p-pillow-talk-sample-card-480.avif"
+]
+],
+"h": 900,
+"jpg": [
+[
+480,
+"p-pillow-talk-sample-card-480.jpg"
+]
+],
+"w": 900,
+"webp": [
+[
+480,
+"p-pillow-talk-sample-card-480.webp"
+]
+]
+},
+"p-pillow-talk-sample.jpg": {
+"avif": [
+[
+480,
+"p-pillow-talk-sample-480.avif"
+],
+[
+960,
+"p-pillow-talk-sample-960.avif"
+]
+],
+"h": 1200,
+"jpg": [
+[
+480,
+"p-pillow-talk-sample-480.jpg"
+],
+[
+960,
+"p-pillow-talk-sample-960.jpg"
+]
+],
+"w": 1200,
+"webp": [
+[
+480,
+"p-pillow-talk-sample-480.webp"
+],
+[
+960,
+"p-pillow-talk-sample-960.webp"
+]
+]
+},
+"p-road-trip-1.jpg": {
+"avif": [
+[
+480,
+"p-road-trip-1-480.avif"
+]
+],
+"h": 617,
+"jpg": [
+[
+480,
+"p-road-trip-1-480.jpg"
+]
+],
+"w": 617,
+"webp": [
+[
+480,
+"p-road-trip-1-480.webp"
+]
+]
+},
+"p-road-trip-2.jpg": {
+"avif": [
+[
+480,
+"p-road-trip-2-480.avif"
+]
+],
+"h": 836,
+"jpg": [
+[
+480,
+"p-road-trip-2-480.jpg"
+]
+],
+"w": 837,
+"webp": [
+[
+480,
+"p-road-trip-2-480.webp"
+]
+]
+},
+"p-road-trip-3.jpg": {
+"avif": [
+[
+480,
+"p-road-trip-3-480.avif"
+]
+],
+"h": 807,
+"jpg": [
+[
+480,
+"p-road-trip-3-480.jpg"
+]
+],
+"w": 806,
+"webp": [
+[
+480,
+"p-road-trip-3-480.webp"
+]
+]
+},
+"p-road-trip-4.jpg": {
+"avif": [
+[
+480,
+"p-road-trip-4-480.avif"
+],
+[
+960,
+"p-road-trip-4-960.avif"
+]
+],
+"h": 1400,
+"jpg": [
+[
+480,
+"p-road-trip-4-480.jpg"
+],
+[
+960,
+"p-road-trip-4-960.jpg"
+]
+],
+"w": 1400,
+"webp": [
+[
+480,
+"p-road-trip-4-480.webp"
+],
+[
+960,
+"p-road-trip-4-960.webp"
+]
+]
+},
+"p-road-trip-75-card.jpg": {
+"avif": [
+[
+480,
+"p-road-trip-75-card-480.avif"
+]
+],
+"h": 682,
+"jpg": [
+[
+480,
+"p-road-trip-75-card-480.jpg"
+]
+],
+"w": 681,
+"webp": [
+[
+480,
+"p-road-trip-75-card-480.webp"
+]
+]
+},
+"p-road-trip-75.jpg": {
+"avif": [
+[
+480,
+"p-road-trip-75-480.avif"
+]
+],
+"h": 923,
+"jpg": [
+[
+480,
+"p-road-trip-75-480.jpg"
+]
+],
+"w": 922,
+"webp": [
+[
+480,
+"p-road-trip-75-480.webp"
+]
+]
+},
+"p-road-trip-card.jpg": {
+"avif": [
+[
+480,
+"p-road-trip-card-480.avif"
+]
+],
+"h": 833,
+"jpg": [
+[
+480,
+"p-road-trip-card-480.jpg"
+]
+],
+"w": 833,
+"webp": [
+[
+480,
+"p-road-trip-card-480.webp"
+]
+]
+},
+"p-road-trip-hero.jpg": {
+"avif": [
+[
+480,
+"p-road-trip-hero-480.avif"
+]
+],
+"h": 833,
+"jpg": [
+[
+480,
+"p-road-trip-hero-480.jpg"
+]
+],
+"w": 833,
+"webp": [
+[
+480,
+"p-road-trip-hero-480.webp"
+]
+]
+},
+"p-road-trip-sample-card.jpg": {
+"avif": [
+[
+480,
+"p-road-trip-sample-card-480.avif"
+]
+],
+"h": 900,
+"jpg": [
+[
+480,
+"p-road-trip-sample-card-480.jpg"
+]
+],
+"w": 900,
+"webp": [
+[
+480,
+"p-road-trip-sample-card-480.webp"
+]
+]
+},
+"p-road-trip-sample.jpg": {
+"avif": [
+[
+480,
+"p-road-trip-sample-480.avif"
+],
+[
+960,
+"p-road-trip-sample-960.avif"
+]
+],
+"h": 1200,
+"jpg": [
+[
+480,
+"p-road-trip-sample-480.jpg"
+],
+[
+960,
+"p-road-trip-sample-960.jpg"
+]
+],
+"w": 1200,
+"webp": [
+[
+480,
+"p-road-trip-sample-480.webp"
+],
+[
+960,
+"p-road-trip-sample-960.webp"
+]
+]
+},
+"p-sibling-rivalry-1.jpg": {
+"avif": [
+[
+480,
+"p-sibling-rivalry-1-480.avif"
+]
+],
+"h": 648,
+"jpg": [
+[
+480,
+"p-sibling-rivalry-1-480.jpg"
+]
+],
+"w": 648,
+"webp": [
+[
+480,
+"p-sibling-rivalry-1-480.webp"
+]
+]
+},
+"p-sibling-rivalry-card.jpg": {
+"avif": [
+[
+480,
+"p-sibling-rivalry-card-480.avif"
+]
+],
+"h": 874,
+"jpg": [
+[
+480,
+"p-sibling-rivalry-card-480.jpg"
+]
+],
+"w": 874,
+"webp": [
+[
+480,
+"p-sibling-rivalry-card-480.webp"
+]
+]
+},
+"p-sibling-rivalry-hero.jpg": {
+"avif": [
+[
+480,
+"p-sibling-rivalry-hero-480.avif"
+]
+],
+"h": 874,
+"jpg": [
+[
+480,
+"p-sibling-rivalry-hero-480.jpg"
+]
+],
+"w": 874,
+"webp": [
+[
+480,
+"p-sibling-rivalry-hero-480.webp"
+]
+]
+},
+"p-sunday-service-1.jpg": {
+"avif": [
+[
+480,
+"p-sunday-service-1-480.avif"
+]
+],
+"h": 657,
+"jpg": [
+[
+480,
+"p-sunday-service-1-480.jpg"
+]
+],
+"w": 656,
+"webp": [
+[
+480,
+"p-sunday-service-1-480.webp"
+]
+]
+},
+"p-sunday-service-2.jpg": {
+"avif": [
+[
+480,
+"p-sunday-service-2-480.avif"
+]
+],
+"h": 867,
+"jpg": [
+[
+480,
+"p-sunday-service-2-480.jpg"
+]
+],
+"w": 866,
+"webp": [
+[
+480,
+"p-sunday-service-2-480.webp"
+]
+]
+},
+"p-sunday-service-3.jpg": {
+"avif": [
+[
+480,
+"p-sunday-service-3-480.avif"
+]
+],
+"h": 839,
+"jpg": [
+[
+480,
+"p-sunday-service-3-480.jpg"
+]
+],
+"w": 839,
+"webp": [
+[
+480,
+"p-sunday-service-3-480.webp"
+]
+]
+},
+"p-sunday-service-75-card.jpg": {
+"avif": [
+[
+480,
+"p-sunday-service-75-card-480.avif"
+]
+],
+"h": 682,
+"jpg": [
+[
+480,
+"p-sunday-service-75-card-480.jpg"
+]
+],
+"w": 681,
+"webp": [
+[
+480,
+"p-sunday-service-75-card-480.webp"
+]
+]
+},
+"p-sunday-service-75.jpg": {
+"avif": [
+[
+480,
+"p-sunday-service-75-480.avif"
+]
+],
+"h": 923,
+"jpg": [
+[
+480,
+"p-sunday-service-75-480.jpg"
+]
+],
+"w": 922,
+"webp": [
+[
+480,
+"p-sunday-service-75-480.webp"
+]
+]
+},
+"p-sunday-service-card.jpg": {
+"avif": [
+[
+480,
+"p-sunday-service-card-480.avif"
+]
+],
+"h": 885,
+"jpg": [
+[
+480,
+"p-sunday-service-card-480.jpg"
+]
+],
+"w": 884,
+"webp": [
+[
+480,
+"p-sunday-service-card-480.webp"
+]
+]
+},
+"p-sunday-service-hero.jpg": {
+"avif": [
+[
+480,
+"p-sunday-service-hero-480.avif"
+]
+],
+"h": 885,
+"jpg": [
+[
+480,
+"p-sunday-service-hero-480.jpg"
+]
+],
+"w": 884,
+"webp": [
+[
+480,
+"p-sunday-service-hero-480.webp"
+]
+]
+},
+"p-sunday-service-sample-card.jpg": {
+"avif": [
+[
+480,
+"p-sunday-service-sample-card-480.avif"
+]
+],
+"h": 900,
+"jpg": [
+[
+480,
+"p-sunday-service-sample-card-480.jpg"
+]
+],
+"w": 900,
+"webp": [
+[
+480,
+"p-sunday-service-sample-card-480.webp"
+]
+]
+},
+"p-sunday-service-sample.jpg": {
+"avif": [
+[
+480,
+"p-sunday-service-sample-480.avif"
+],
+[
+960,
+"p-sunday-service-sample-960.avif"
+]
+],
+"h": 1200,
+"jpg": [
+[
+480,
+"p-sunday-service-sample-480.jpg"
+],
+[
+960,
+"p-sunday-service-sample-960.jpg"
+]
+],
+"w": 1200,
+"webp": [
+[
+480,
+"p-sunday-service-sample-480.webp"
+],
+[
+960,
+"p-sunday-service-sample-960.webp"
+]
+]
+},
+"p-third-date-1.jpg": {
+"avif": [
+[
+480,
+"p-third-date-1-480.avif"
+]
+],
+"h": 480,
+"jpg": [
+[
+480,
+"p-third-date-1-480.jpg"
+]
+],
+"w": 481,
+"webp": [
+[
+480,
+"p-third-date-1-480.webp"
+]
+]
+},
+"p-third-date-75-card.jpg": {
+"avif": [
+[
+480,
+"p-third-date-75-card-480.avif"
+]
+],
+"h": 682,
+"jpg": [
+[
+480,
+"p-third-date-75-card-480.jpg"
+]
+],
+"w": 681,
+"webp": [
+[
+480,
+"p-third-date-75-card-480.webp"
+]
+]
+},
+"p-third-date-75.jpg": {
+"avif": [
+[
+480,
+"p-third-date-75-480.avif"
+]
+],
+"h": 923,
+"jpg": [
+[
+480,
+"p-third-date-75-480.jpg"
+]
+],
+"w": 922,
+"webp": [
+[
+480,
+"p-third-date-75-480.webp"
+]
+]
+},
+"p-third-date-card.jpg": {
+"avif": [
+[
+480,
+"p-third-date-card-480.avif"
+]
+],
+"h": 648,
+"jpg": [
+[
+480,
+"p-third-date-card-480.jpg"
+]
+],
+"w": 647,
+"webp": [
+[
+480,
+"p-third-date-card-480.webp"
+]
+]
+},
+"p-third-date-hero.jpg": {
+"avif": [
+[
+480,
+"p-third-date-hero-480.avif"
+]
+],
+"h": 648,
+"jpg": [
+[
+480,
+"p-third-date-hero-480.jpg"
+]
+],
+"w": 647,
+"webp": [
+[
+480,
+"p-third-date-hero-480.webp"
+]
+]
+},
+"p-third-date-sample-card.jpg": {
+"avif": [
+[
+480,
+"p-third-date-sample-card-480.avif"
+]
+],
+"h": 900,
+"jpg": [
+[
+480,
+"p-third-date-sample-card-480.jpg"
+]
+],
+"w": 900,
+"webp": [
+[
+480,
+"p-third-date-sample-card-480.webp"
+]
+]
+},
+"p-third-date-sample.jpg": {
+"avif": [
+[
+480,
+"p-third-date-sample-480.avif"
+],
+[
+960,
+"p-third-date-sample-960.avif"
+]
+],
+"h": 1200,
+"jpg": [
+[
+480,
+"p-third-date-sample-480.jpg"
+],
+[
+960,
+"p-third-date-sample-960.jpg"
+]
+],
+"w": 1200,
+"webp": [
+[
+480,
+"p-third-date-sample-480.webp"
+],
+[
+960,
+"p-third-date-sample-960.webp"
+]
+]
+},
+"plants.jpg": {
+"avif": [
+[
+480,
+"plants-480.avif"
+],
+[
+960,
+"plants-960.avif"
+]
+],
+"h": 800,
+"jpg": [
+[
+480,
+"plants-480.jpg"
+],
+[
+960,
+"plants-960.jpg"
+]
+],
+"w": 1200,
+"webp": [
+[
+480,
+"plants-480.webp"
+],
+[
+960,
+"plants-960.webp"
+]
+]
+},
+"set-first-lines.jpg": {
+"avif": [
+[
+480,
+"set-first-lines-480.avif"
+],
+[
+960,
+"set-first-lines-960.avif"
+]
+],
+"h": 800,
+"jpg": [
+[
+480,
+"set-first-lines-480.jpg"
+],
+[
+960,
+"set-first-lines-960.jpg"
+]
+],
+"w": 1200,
+"webp": [
+[
+480,
+"set-first-lines-480.webp"
+],
+[
+960,
+"set-first-lines-960.webp"
+]
+]
+},
+"spine.jpg": {
+"avif": [
+[
+480,
+"spine-480.avif"
+],
+[
+960,
+"spine-960.avif"
+]
+],
+"h": 800,
+"jpg": [
+[
+480,
+"spine-480.jpg"
+],
+[
+960,
+"spine-960.jpg"
+]
+],
+"w": 1200,
+"webp": [
+[
+480,
+"spine-480.webp"
+],
+[
+960,
+"spine-960.webp"
+]
+]
+},
+"stone-shelf.jpg": {
+"avif": [
+[
+480,
+"stone-shelf-480.avif"
+],
+[
+960,
+"stone-shelf-960.avif"
+],
+[
+1600,
+"stone-shelf-1600.avif"
+]
+],
+"h": 1200,
+"jpg": [
+[
+480,
+"stone-shelf-480.jpg"
+],
+[
+960,
+"stone-shelf-960.jpg"
+],
+[
+1600,
+"stone-shelf-1600.jpg"
+]
+],
+"w": 1800,
+"webp": [
+[
+480,
+"stone-shelf-480.webp"
+],
+[
+960,
+"stone-shelf-960.webp"
+],
+[
+1600,
+"stone-shelf-1600.webp"
+]
+]
+},
+"story-4pm-matinee.jpg": {
+"avif": [
+[
+480,
+"story-4pm-matinee-480.avif"
+],
+[
+960,
+"story-4pm-matinee-960.avif"
+],
+[
+1600,
+"story-4pm-matinee-1600.avif"
+]
+],
+"h": 960,
+"jpg": [
+[
+480,
+"story-4pm-matinee-480.jpg"
+],
+[
+960,
+"story-4pm-matinee-960.jpg"
+],
+[
+1600,
+"story-4pm-matinee-1600.jpg"
+]
+],
+"w": 1800,
+"webp": [
+[
+480,
+"story-4pm-matinee-480.webp"
+],
+[
+960,
+"story-4pm-matinee-960.webp"
+],
+[
+1600,
+"story-4pm-matinee-1600.webp"
+]
+]
+},
+"story-hotel-lobby.jpg": {
+"avif": [
+[
+480,
+"story-hotel-lobby-480.avif"
+],
+[
+960,
+"story-hotel-lobby-960.avif"
+],
+[
+1600,
+"story-hotel-lobby-1600.avif"
+]
+],
+"h": 960,
+"jpg": [
+[
+480,
+"story-hotel-lobby-480.jpg"
+],
+[
+960,
+"story-hotel-lobby-960.jpg"
+],
+[
+1600,
+"story-hotel-lobby-1600.jpg"
+]
+],
+"w": 1800,
+"webp": [
+[
+480,
+"story-hotel-lobby-480.webp"
+],
+[
+960,
+"story-hotel-lobby-960.webp"
+],
+[
+1600,
+"story-hotel-lobby-1600.webp"
+]
+]
+},
+"story-pillow-talk.jpg": {
+"avif": [
+[
+480,
+"story-pillow-talk-480.avif"
+],
+[
+960,
+"story-pillow-talk-960.avif"
+],
+[
+1600,
+"story-pillow-talk-1600.avif"
+]
+],
+"h": 960,
+"jpg": [
+[
+480,
+"story-pillow-talk-480.jpg"
+],
+[
+960,
+"story-pillow-talk-960.jpg"
+],
+[
+1600,
+"story-pillow-talk-1600.jpg"
+]
+],
+"w": 1800,
+"webp": [
+[
+480,
+"story-pillow-talk-480.webp"
+],
+[
+960,
+"story-pillow-talk-960.webp"
+],
+[
+1600,
+"story-pillow-talk-1600.webp"
+]
+]
+},
+"story-road-trip.jpg": {
+"avif": [
+[
+480,
+"story-road-trip-480.avif"
+],
+[
+960,
+"story-road-trip-960.avif"
+],
+[
+1600,
+"story-road-trip-1600.avif"
+]
+],
+"h": 960,
+"jpg": [
+[
+480,
+"story-road-trip-480.jpg"
+],
+[
+960,
+"story-road-trip-960.jpg"
+],
+[
+1600,
+"story-road-trip-1600.jpg"
+]
+],
+"w": 1800,
+"webp": [
+[
+480,
+"story-road-trip-480.webp"
+],
+[
+960,
+"story-road-trip-960.webp"
+],
+[
+1600,
+"story-road-trip-1600.webp"
+]
+]
+},
+"story-sunday-service.jpg": {
+"avif": [
+[
+480,
+"story-sunday-service-480.avif"
+],
+[
+960,
+"story-sunday-service-960.avif"
+],
+[
+1600,
+"story-sunday-service-1600.avif"
+]
+],
+"h": 960,
+"jpg": [
+[
+480,
+"story-sunday-service-480.jpg"
+],
+[
+960,
+"story-sunday-service-960.jpg"
+],
+[
+1600,
+"story-sunday-service-1600.jpg"
+]
+],
+"w": 1800,
+"webp": [
+[
+480,
+"story-sunday-service-480.webp"
+],
+[
+960,
+"story-sunday-service-960.webp"
+],
+[
+1600,
+"story-sunday-service-1600.webp"
+]
+]
+},
+"story-third-date.jpg": {
+"avif": [
+[
+480,
+"story-third-date-480.avif"
+],
+[
+960,
+"story-third-date-960.avif"
+],
+[
+1600,
+"story-third-date-1600.avif"
+]
+],
+"h": 960,
+"jpg": [
+[
+480,
+"story-third-date-480.jpg"
+],
+[
+960,
+"story-third-date-960.jpg"
+],
+[
+1600,
+"story-third-date-1600.jpg"
+]
+],
+"w": 1800,
+"webp": [
+[
+480,
+"story-third-date-480.webp"
+],
+[
+960,
+"story-third-date-960.webp"
+],
+[
+1600,
+"story-third-date-1600.webp"
+]
+]
+},
+"unboxing.jpg": {
+"avif": [
+[
+480,
+"unboxing-480.avif"
+],
+[
+960,
+"unboxing-960.avif"
+]
+],
+"h": 933,
+"jpg": [
+[
+480,
+"unboxing-480.jpg"
+],
+[
+960,
+"unboxing-960.jpg"
+]
+],
+"w": 1400,
+"webp": [
+[
+480,
+"unboxing-480.webp"
+],
+[
+960,
+"unboxing-960.webp"
+]
+]
+}
+}

@@ -16,7 +16,38 @@ point in those, not the bottle alone.
 """
 import os, sys
 import numpy as np
+try:
+    import pillow_avif  # noqa: F401  — registers the AVIF encoder with Pillow
+except ImportError:
+    pillow_avif = None
 from PIL import Image, ImageFilter
+
+# Responsive derivatives. Every raster the site shows is emitted at three widths
+# in AVIF and WebP alongside the JPEG, so a phone is never sent a 1800px plate.
+# The JPEG stays as the last fallback; <picture> picks the rest.
+WIDTHS = (480, 960, 1600)
+
+
+def derivatives(path):
+    """Write width variants of `path` in avif/webp beside it. Returns a manifest."""
+    im = Image.open(path).convert("RGB")
+    base, _ = os.path.splitext(path)
+    out = {"w": im.size[0], "h": im.size[1], "avif": [], "webp": [], "jpg": []}
+    for w in WIDTHS:
+        if w > im.size[0] * 1.02:      # never upscale
+            continue
+        r = im if w == im.size[0] else im.resize(
+            (w, round(w * im.size[1] / im.size[0])), Image.LANCZOS)
+        for fmt, q in (("avif", 52), ("webp", 74), ("jpg", 82)):
+            if fmt == "avif" and pillow_avif is None:
+                continue
+            f = "%s-%d.%s" % (base, w, fmt)
+            if fmt == "jpg":
+                r.save(f, quality=q, optimize=True, progressive=True)
+            else:
+                r.save(f, quality=q)
+            out[fmt].append((w, os.path.basename(f)))
+    return out
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SRC = os.path.join(ROOT, "assets/photos-src")
@@ -295,6 +326,23 @@ if __name__ == "__main__":
         size = wide(p, os.path.join(OUT, name), w)
         print(f"  {name:30}{size[0]}x{size[1]}  "
               f"{round(os.path.getsize(os.path.join(OUT, name))/1024)}KB   <- {src}.jpg")
+    # ---- responsive derivatives + a manifest the builder can read ----------
+    import json
+    man = {}
+    for f in sorted(os.listdir(OUT)):
+        if not f.lower().endswith((".jpg", ".jpeg")):
+            continue
+        if any(("-%d." % w) in f for w in WIDTHS):
+            continue                              # already a derivative
+        d = derivatives(os.path.join(OUT, f))
+        man[f] = d
+    with open(os.path.join(ROOT, "assets/img/manifest.json"), "w") as fh:
+        json.dump(man, fh, indent=0, sort_keys=True)
+    n_av = sum(len(v["avif"]) for v in man.values())
+    n_wb = sum(len(v["webp"]) for v in man.values())
+    print("  %d masters -> %d avif + %d webp + %d jpg derivatives"
+          % (len(man), n_av, n_wb, sum(len(v["jpg"]) for v in man.values())))
+
     if debug and tiles:
         cols = 6
         rows = (len(tiles) + cols - 1) // cols

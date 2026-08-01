@@ -239,6 +239,78 @@ FOOTER_COLS = [
 ]
 
 
+# ---------------------------------------------------------------- images ----
+_MANIFEST = None
+
+
+def _manifest():
+    global _MANIFEST
+    if _MANIFEST is None:
+        import json
+        path = os.path.join(ROOT, "assets/img/manifest.json")
+        _MANIFEST = json.load(open(path)) if os.path.exists(path) else {}
+    return _MANIFEST
+
+
+SIZES_FOR = (
+    # most specific first; matched against the tag's class attribute
+    ("gal .strip", "88px"),
+    ("thumb",      "88px"),
+    ("main",       "(min-width:60em) 600px, 92vw"),
+    ("plate",      "(min-width:68em) 400px, (min-width:40em) 46vw, 92vw"),
+    ("chip",       "16px"),
+    ("card",       "(min-width:68em) 300px, (min-width:40em) 46vw, 92vw"),
+)
+
+
+def _sizes_for(tag):
+    cls = re.search(r'class="([^"]*)"', tag)
+    cls = cls.group(1) if cls else ""
+    for key, val in SIZES_FOR:
+        if key in cls or key in tag:
+            return val
+    return "100vw"
+
+
+def upgrade_images(html):
+    """Turn every plain <img> into a <picture> with responsive sources.
+
+    Applied once over the assembled page rather than at 56 call sites, so no
+    template has to know about formats. Every raster went out as a single
+    full-size JPEG — the 1800px hero delivered intact to a 390px phone — and
+    none declared its dimensions, so every page reflowed as it decoded."""
+    man = _manifest()
+
+    def one(m):
+        tag = m.group(0)
+        if "<picture" in tag:
+            return tag
+        src = re.search(r'src="([^"]+)"', tag)
+        if not src:
+            return tag
+        raw = src.group(1).split("?")[0]
+        name = raw.split("/")[-1]
+        entry = man.get(name)
+        attrs = tag[4:-1].strip()
+        if "decoding=" not in attrs:
+            attrs += ' decoding="async"'
+        if not entry:
+            return "<img " + attrs + ">"
+        if "width=" not in attrs:
+            attrs += ' width="%d" height="%d"' % (entry["w"], entry["h"])
+        sizes = _sizes_for(tag)
+        if "srcset=" not in attrs and entry.get("jpg"):
+            attrs += ' srcset="%s" sizes="%s"' % (
+                ", ".join("%s %dw" % (fp("assets/img/" + f), w) for w, f in entry["jpg"]), sizes)
+        sources = "".join(
+            '<source type="image/%s" srcset="%s" sizes="%s">'
+            % (k, ", ".join("%s %dw" % (fp("assets/img/" + f), w) for w, f in entry[k]), sizes)
+            for k in ("avif", "webp") if entry.get(k))
+        return "<picture>" + sources + "<img " + attrs + "></picture>"
+
+    return re.sub(r"<img\b[^>]*>", one, html)
+
+
 def head(title, desc, css, body_attr=""):
     links = "\n".join(f'<link rel="stylesheet" href="{fp(c)}">' for c in css)
     return f"""<!doctype html>
@@ -257,6 +329,7 @@ def head(title, desc, css, body_attr=""):
 <link rel="preload" as="font" type="font/woff2" crossorigin href="assets/fonts/montserrat-latin-500-normal.woff2">
 {links}
 </head><body{body_attr}>
+<a class="skip" href="#main">Skip to content</a>
 """
 
 
@@ -272,22 +345,22 @@ def topbar(current):
 <div class="ann"><span>A second story’s sample, complimentary with every bottle</span></div>
 <header class="nav">
   <div class="inner">
-    <button class="burger" aria-label="Menu" aria-expanded="false"><i></i><i></i><i></i></button>
+    <button class="burger" aria-label="Menu" aria-expanded="false" aria-controls="primary-nav"><i></i><i></i><i></i></button>
     <a class="brand" href="index.html" aria-label="Side Story — Parfums &amp; Oils"><img src="{fp('assets/img/logo.svg')}" alt="Side Story — Parfums &amp; Oils"></a>
-    <nav class="links" aria-label="Primary">
+    <nav class="links" id="primary-nav" aria-label="Primary">
       {items}
     </nav>
     <div class="mega" id="mega" hidden>
       <div class="inner">
         <div>
-          <h4>Shop by size</h4>
+          <p class="fh">Shop by size</p>
           <a class="ml" href="collection-100ml.html">100 ml &mdash; &pound;160</a>
           <a class="ml" href="collection-7-5ml.html">7.5 ml &mdash; &pound;40</a>
           <a class="ml" href="collection-samples.html">Samples &mdash; &pound;5</a>
           <a class="ml" href="samples.html">The First Lines &mdash; &pound;38</a>
         </div>
         <div>
-          <h4>Shop</h4>
+          <p class="fh">Shop</p>
           <a class="ml" href="collection.html">All seven stories</a>
           <a class="ml" href="collection.html#by-feeling">By feeling</a>
           <a class="ml" href="collection.html#by-stone">By stone</a>
@@ -295,7 +368,7 @@ def topbar(current):
           <a class="ml" href="samples.html">The First Lines &mdash; &pound;38</a>
         </div>
         <div>
-          <h4>Read</h4>
+          <p class="fh">Read</p>
           <a class="ml" href="stories.html">The stories</a>
           <a class="ml" href="our-house.html#making">The making</a>
           <a class="ml" href="our-house.html#stones">The stones</a>
@@ -321,7 +394,7 @@ def topbar(current):
 
 def footer():
     cols = "\n      ".join(
-        "<div><h4>%s</h4>%s</div>" % (h, "".join(f'<a href="{u}">{t}</a>' for u, t in ls))
+        '<div><p class="fh">%s</p>%s</div>' % (h, "".join(f'<a href="{u}">{t}</a>' for u, t in ls))
         for h, ls in FOOTER_COLS)
     return f"""<footer>
   <div class="inner">
@@ -342,8 +415,9 @@ def footer():
 
 
 DRAWER = """<div class="scrim" id="scrim" onclick="closeDrawer()"></div>
-<aside class="drawer" id="drawer" aria-label="Your bag">
-  <div class="dhead"><span>Your bag &mdash; <span data-bagcount>0</span></span><button onclick="closeDrawer()">Close</button></div>
+<aside class="drawer" id="drawer" role="dialog" aria-modal="true"
+       aria-labelledby="drawer-title" hidden>
+  <div class="dhead"><span id="drawer-title">Your bag &mdash; <span data-bagcount>0</span></span><button onclick="closeDrawer()">Close</button></div>
   <div id="ditems"></div>
   <label class="tryfirst"><input type="checkbox" checked>
     <div><b>Try a second story first</b><span>A complimentary 2ml of another story &mdash; its argument &mdash; tucked into the parcel.</span></div></label>
@@ -470,7 +544,8 @@ def plate(q, n):
 
 
 def page(slug, title, desc, body, current=None, css=("assets/css/fonts.css", "assets/css/app.css"), body_attr=""):
-    out = head(title, desc, css, body_attr) + topbar(current or (slug + ".html")) + body.strip() + "\n" \
+    out = head(title, desc, css, body_attr) + topbar(current or (slug + ".html")) \
+        + '<main id="main">\n' + upgrade_images(body.strip()) + "\n</main>\n" \
         + footer() + DRAWER \
         + f'<script>window.SS_CAT={catalogue_json()};</script>\n' \
         + f'<script src="{fp("assets/js/site.js")}"></script>\n</body></html>\n'

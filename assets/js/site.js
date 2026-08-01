@@ -39,11 +39,24 @@
   if(burger&&navlinks){
     burger.setAttribute('aria-expanded','false');
     burger.addEventListener('click',()=>{
-      const open=navlinks.classList.toggle('open');
+      const open=!navlinks.classList.contains('open');
+      navlinks.classList.toggle('open',open);
       burger.setAttribute('aria-expanded',String(open));
+      document.documentElement.classList.toggle('overlay-open',open);
+      if(open){ const f=navlinks.querySelector('a'); if(f) setTimeout(()=>f.focus(),60); }
     });
     navlinks.addEventListener('click',e=>{
-      if(e.target.tagName==='A'){navlinks.classList.remove('open');burger.setAttribute('aria-expanded','false');}
+      if(e.target.tagName==='A'){navlinks.classList.remove('open');
+        burger.setAttribute('aria-expanded','false');
+        document.documentElement.classList.remove('overlay-open');}
+    });
+    addEventListener('keydown',e=>{
+      if(e.key==='Escape'&&navlinks.classList.contains('open')){
+        navlinks.classList.remove('open');
+        burger.setAttribute('aria-expanded','false');
+        document.documentElement.classList.remove('overlay-open');
+        burger.focus();
+      }
     });
   }
 
@@ -51,12 +64,58 @@
   const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:.12,rootMargin:'0px 0px -40px'});
   document.querySelectorAll('.rev').forEach((el,i)=>{el.style.transitionDelay=(i%4*70)+'ms';io.observe(el);});
 
+  /* ------------------------------------------------------------ overlays
+     One contract for every overlay: move focus in, trap Tab, lock the page
+     behind, close on Escape and on the scrim, and put focus back where it
+     came from. The scent sheet already worked this way; the bag drawer and
+     the mobile menu did not, so a keyboard user opening the bag was left
+     reading a page they could no longer see. */
+  const OPEN=[];
+  function trap(e){
+    const top=OPEN[OPEN.length-1]; if(!top||e.key!=='Tab')return;
+    const f=[...top.el.querySelectorAll('a[href],button:not([disabled]),input,select,textarea,[tabindex]:not([tabindex="-1"])')]
+      .filter(x=>x.offsetParent!==null||getComputedStyle(x).position==='fixed');
+    if(!f.length)return;
+    const first=f[0], last=f[f.length-1];
+    if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}
+    else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}
+  }
+  function overlayOpen(el,opts){
+    if(!el||OPEN.some(o=>o.el===el))return;
+    opts=opts||{};
+    OPEN.push({el,opener:document.activeElement,opts});
+    if(opts.scrim){ opts.scrim.hidden=false;
+      requestAnimationFrame(()=>opts.scrim.classList.add('on')); }
+    el.hidden=false;
+    requestAnimationFrame(()=>el.classList.add('open','on'));
+    document.documentElement.classList.add('overlay-open');
+    const f=el.querySelector('a[href],button:not([disabled]),input,textarea');
+    if(f) setTimeout(()=>f.focus(),60);
+  }
+  function overlayClose(el){
+    const i=OPEN.findIndex(o=>o.el===el); if(i<0)return;
+    const rec=OPEN.splice(i,1)[0];
+    if(rec.opts&&rec.opts.scrim) rec.opts.scrim.classList.remove('on');
+    el.classList.remove('open','on');
+    if(!OPEN.length) document.documentElement.classList.remove('overlay-open');
+    setTimeout(()=>{ if(!el.classList.contains('open')&&!el.classList.contains('on')) el.hidden=true; },420);
+    /* the opener is often the add-to-bag button, which disables itself for
+       1.4s after the click — focusing a disabled control silently drops focus
+       to <body>, so fall back to the main landmark and keep the user placed */
+    const back=rec.opener;
+    if(back&&back.focus&&!back.disabled&&back.isConnected) back.focus();
+    else { const m=document.getElementById('main');
+      if(m){ m.setAttribute('tabindex','-1'); m.focus(); } }
+  }
+  addEventListener('keydown',trap);
+  addEventListener('keydown',e=>{ if(e.key==='Escape'&&OPEN.length) overlayClose(OPEN[OPEN.length-1].el); });
+  window.SSoverlay={open:overlayOpen,close:overlayClose};
+
   /* bag drawer */
   const scrim=document.getElementById('scrim'), drawer=document.getElementById('drawer');
-  window.openDrawer=()=>{drawer&&drawer.classList.add('open');scrim&&scrim.classList.add('on');};
-  window.closeDrawer=()=>{drawer&&drawer.classList.remove('open');scrim&&scrim.classList.remove('on');};
+  window.openDrawer=()=>{ if(drawer) overlayOpen(drawer,{scrim}); };
+  window.closeDrawer=()=>{ if(drawer) overlayClose(drawer); };
   scrim&&scrim.addEventListener('click',closeDrawer);
-  addEventListener('keydown',e=>{if(e.key==='Escape')closeDrawer();});
 
   function renderBag(){
     const c=document.getElementById('bagcount'); if(c){c.textContent=bag.length;}

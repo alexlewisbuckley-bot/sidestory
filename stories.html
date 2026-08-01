@@ -13,17 +13,18 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="assets/fonts/libre-caslon-text-latin-400-normal.woff2">
 <link rel="preload" as="font" type="font/woff2" crossorigin href="assets/fonts/montserrat-latin-500-normal.woff2">
 <link rel="stylesheet" href="assets/css/fonts.css?v=226e8a05">
-<link rel="stylesheet" href="assets/css/app.css?v=c299f5dc">
+<link rel="stylesheet" href="assets/css/app.css?v=d24b261d">
 </head><body>
+<a class="skip" href="#main">Skip to content</a>
 <div class="enter-veil" aria-hidden="true"></div>
 <div class="menu-dim" id="menudim"></div>
 <div class="topbar">
 <div class="ann"><span>A second story’s sample, complimentary with every bottle</span></div>
 <header class="nav">
   <div class="inner">
-    <button class="burger" aria-label="Menu" aria-expanded="false"><i></i><i></i><i></i></button>
+    <button class="burger" aria-label="Menu" aria-expanded="false" aria-controls="primary-nav"><i></i><i></i><i></i></button>
     <a class="brand" href="index.html" aria-label="Side Story — Parfums &amp; Oils"><img src="assets/img/logo.svg?v=dd5e3f44" alt="Side Story — Parfums &amp; Oils"></a>
-    <nav class="links" aria-label="Primary">
+    <nav class="links" id="primary-nav" aria-label="Primary">
       <a href="collection.html" data-mega="1">The Fragrances</a>
       <a href="stories.html" aria-current="page">Your Stories</a>
       <a href="share.html">Share Yours</a>
@@ -34,14 +35,14 @@
     <div class="mega" id="mega" hidden>
       <div class="inner">
         <div>
-          <h4>Shop by size</h4>
+          <p class="fh">Shop by size</p>
           <a class="ml" href="collection-100ml.html">100 ml &mdash; &pound;160</a>
           <a class="ml" href="collection-7-5ml.html">7.5 ml &mdash; &pound;40</a>
           <a class="ml" href="collection-samples.html">Samples &mdash; &pound;5</a>
           <a class="ml" href="samples.html">The First Lines &mdash; &pound;38</a>
         </div>
         <div>
-          <h4>Shop</h4>
+          <p class="fh">Shop</p>
           <a class="ml" href="collection.html">All seven stories</a>
           <a class="ml" href="collection.html#by-feeling">By feeling</a>
           <a class="ml" href="collection.html#by-stone">By stone</a>
@@ -49,7 +50,7 @@
           <a class="ml" href="samples.html">The First Lines &mdash; &pound;38</a>
         </div>
         <div>
-          <h4>Read</h4>
+          <p class="fh">Read</p>
           <a class="ml" href="stories.html">The stories</a>
           <a class="ml" href="our-house.html#making">The making</a>
           <a class="ml" href="our-house.html#stones">The stones</a>
@@ -70,6 +71,7 @@
   </div>
 </header>
 </div>
+<main id="main">
 <section class="ysintro">
   <div class="inner">
     <p class="k">Your stories</p>
@@ -79,7 +81,7 @@
 </section>
 
 <section class="yfeat">
-  <img src="assets/img/story-sunday-service.jpg?v=e54ff355" alt="Sunday Service">
+  <picture><source type="image/avif" srcset="assets/img/story-sunday-service-480.avif?v=51281ad1 480w, assets/img/story-sunday-service-960.avif?v=487c38e2 960w, assets/img/story-sunday-service-1600.avif?v=446b9be5 1600w" sizes="100vw"><source type="image/webp" srcset="assets/img/story-sunday-service-480.webp?v=84cf0ee3 480w, assets/img/story-sunday-service-960.webp?v=ad728779 960w, assets/img/story-sunday-service-1600.webp?v=486a6b03 1600w" sizes="100vw"><img src="assets/img/story-sunday-service.jpg?v=e54ff355" alt="Sunday Service" decoding="async" width="1800" height="960" srcset="assets/img/story-sunday-service-480.jpg?v=88e9e29d 480w, assets/img/story-sunday-service-960.jpg?v=d238a161 960w, assets/img/story-sunday-service-1600.jpg?v=1a864965 1600w" sizes="100vw"></picture>
   <span class="veil" aria-hidden="true"></span>
   <div class="inner">
     <div class="c rev">
@@ -95,37 +97,37 @@
   <div class="inner">
     <div class="scards">
       <a class="scard rev" href="story-hotel-lobby.html">
-        <span class="plate"><img src="assets/img/story-hotel-lobby.jpg?v=aaaed56b" alt="Hotel Lobby" loading="lazy"></span>
+        <span class="plate"><picture><source type="image/avif" srcset="assets/img/story-hotel-lobby-480.avif?v=e8114d70 480w, assets/img/story-hotel-lobby-960.avif?v=87eee02d 960w, assets/img/story-hotel-lobby-1600.avif?v=c7365e82 1600w" sizes="100vw"><source type="image/webp" srcset="assets/img/story-hotel-lobby-480.webp?v=a036f057 480w, assets/img/story-hotel-lobby-960.webp?v=a84c6d4e 960w, assets/img/story-hotel-lobby-1600.webp?v=1d3d9a0a 1600w" sizes="100vw"><img src="assets/img/story-hotel-lobby.jpg?v=aaaed56b" alt="Hotel Lobby" loading="lazy" decoding="async" width="1800" height="960" srcset="assets/img/story-hotel-lobby-480.jpg?v=5f70bb62 480w, assets/img/story-hotel-lobby-960.jpg?v=345b727e 960w, assets/img/story-hotel-lobby-1600.jpg?v=4a1ab030 1600w" sizes="100vw"></picture></span>
         <span class="sm"><i class="chip" style="background:#1C1D1D"></i>Story I &middot; 5 min read</span>
         <h3>Hotel Lobby</h3>
         <p>It was a ten minutes before 8pm when he arrived, and its resplendence never failed to catch him off guard.</p>
         <span class="rd">Read &rarr;</span></a>
       <a class="scard rev" href="story-sibling-rivalry.html">
-        <span class="plate"><img src="assets/img/p-sibling-rivalry-1.jpg?v=35469bd0" alt="Sibling Rivalry" loading="lazy"></span>
+        <span class="plate"><picture><source type="image/avif" srcset="assets/img/p-sibling-rivalry-1-480.avif?v=4774d0ba 480w" sizes="100vw"><source type="image/webp" srcset="assets/img/p-sibling-rivalry-1-480.webp?v=4d3a02a7 480w" sizes="100vw"><img src="assets/img/p-sibling-rivalry-1.jpg?v=35469bd0" alt="Sibling Rivalry" loading="lazy" decoding="async" width="648" height="648" srcset="assets/img/p-sibling-rivalry-1-480.jpg?v=2709789c 480w" sizes="100vw"></picture></span>
         <span class="sm"><i class="chip" style="background:#8A6A3F"></i>Story II &middot; 6 min read</span>
         <h3>Sibling Rivalry</h3>
         <p>There is a particular silence that only a brother can make, and she had been listening to it for thirty years.</p>
         <span class="rd">Read &rarr;</span></a>
       <a class="scard rev" href="story-pillow-talk.html">
-        <span class="plate"><img src="assets/img/story-pillow-talk.jpg?v=02bf7195" alt="Pillow Talk" loading="lazy"></span>
+        <span class="plate"><picture><source type="image/avif" srcset="assets/img/story-pillow-talk-480.avif?v=05ebfee2 480w, assets/img/story-pillow-talk-960.avif?v=311be78e 960w, assets/img/story-pillow-talk-1600.avif?v=0acbd00f 1600w" sizes="100vw"><source type="image/webp" srcset="assets/img/story-pillow-talk-480.webp?v=0c16421b 480w, assets/img/story-pillow-talk-960.webp?v=e411d998 960w, assets/img/story-pillow-talk-1600.webp?v=95aeef4f 1600w" sizes="100vw"><img src="assets/img/story-pillow-talk.jpg?v=02bf7195" alt="Pillow Talk" loading="lazy" decoding="async" width="1800" height="960" srcset="assets/img/story-pillow-talk-480.jpg?v=c834188f 480w, assets/img/story-pillow-talk-960.jpg?v=96a23a20 960w, assets/img/story-pillow-talk-1600.jpg?v=16ff23f1 1600w" sizes="100vw"></picture></span>
         <span class="sm"><i class="chip" style="background:#E0DCD0"></i>Story III &middot; 4 min read</span>
         <h3>Pillow Talk</h3>
         <p>They had been awake for hours, unspooling the sweet trivialities of their personal histories in sleepy whispers.</p>
         <span class="rd">Read &rarr;</span></a>
       <a class="scard rev" href="story-third-date.html">
-        <span class="plate"><img src="assets/img/story-third-date.jpg?v=0bd3923a" alt="Third Date" loading="lazy"></span>
+        <span class="plate"><picture><source type="image/avif" srcset="assets/img/story-third-date-480.avif?v=f0338ac2 480w, assets/img/story-third-date-960.avif?v=8624dcc1 960w, assets/img/story-third-date-1600.avif?v=c818e79f 1600w" sizes="100vw"><source type="image/webp" srcset="assets/img/story-third-date-480.webp?v=d88bc46a 480w, assets/img/story-third-date-960.webp?v=84b9a8ba 960w, assets/img/story-third-date-1600.webp?v=047d357d 1600w" sizes="100vw"><img src="assets/img/story-third-date.jpg?v=0bd3923a" alt="Third Date" loading="lazy" decoding="async" width="1800" height="960" srcset="assets/img/story-third-date-480.jpg?v=3b638ff7 480w, assets/img/story-third-date-960.jpg?v=5d544428 960w, assets/img/story-third-date-1600.jpg?v=bc4b292e 1600w" sizes="100vw"></picture></span>
         <span class="sm"><i class="chip" style="background:#7A2E2A"></i>Story V &middot; 5 min read</span>
         <h3>Third Date</h3>
         <p>She hardly knew him, of course—tonight was only the third date. But there was such familiarity between them.</p>
         <span class="rd">Read &rarr;</span></a>
       <a class="scard rev" href="story-road-trip.html">
-        <span class="plate"><img src="assets/img/story-road-trip.jpg?v=3a092aaa" alt="Road Trip" loading="lazy"></span>
+        <span class="plate"><picture><source type="image/avif" srcset="assets/img/story-road-trip-480.avif?v=112950e1 480w, assets/img/story-road-trip-960.avif?v=202a61b2 960w, assets/img/story-road-trip-1600.avif?v=f615ad1b 1600w" sizes="100vw"><source type="image/webp" srcset="assets/img/story-road-trip-480.webp?v=a61785ac 480w, assets/img/story-road-trip-960.webp?v=c1cd9852 960w, assets/img/story-road-trip-1600.webp?v=6b3eddbd 1600w" sizes="100vw"><img src="assets/img/story-road-trip.jpg?v=3a092aaa" alt="Road Trip" loading="lazy" decoding="async" width="1800" height="960" srcset="assets/img/story-road-trip-480.jpg?v=50e1ef44 480w, assets/img/story-road-trip-960.jpg?v=937c4e62 960w, assets/img/story-road-trip-1600.jpg?v=5abfa396 1600w" sizes="100vw"></picture></span>
         <span class="sm"><i class="chip" style="background:#B5593F"></i>Story VI &middot; 6 min read</span>
         <h3>Road Trip</h3>
         <p>They knew where they were going, but neither seemed to mind the impromptu detour along the way.</p>
         <span class="rd">Read &rarr;</span></a>
       <a class="scard rev" href="story-4pm-matinee.html">
-        <span class="plate"><img src="assets/img/story-4pm-matinee.jpg?v=b30c5bfb" alt="4pm Matinee" loading="lazy"></span>
+        <span class="plate"><picture><source type="image/avif" srcset="assets/img/story-4pm-matinee-480.avif?v=be1045e7 480w, assets/img/story-4pm-matinee-960.avif?v=257789db 960w, assets/img/story-4pm-matinee-1600.avif?v=d37c8fde 1600w" sizes="100vw"><source type="image/webp" srcset="assets/img/story-4pm-matinee-480.webp?v=80e71bde 480w, assets/img/story-4pm-matinee-960.webp?v=4024cf9d 960w, assets/img/story-4pm-matinee-1600.webp?v=c565a541 1600w" sizes="100vw"><img src="assets/img/story-4pm-matinee.jpg?v=b30c5bfb" alt="4pm Matinee" loading="lazy" decoding="async" width="1800" height="960" srcset="assets/img/story-4pm-matinee-480.jpg?v=dc204074 480w, assets/img/story-4pm-matinee-960.jpg?v=ef7b8aef 960w, assets/img/story-4pm-matinee-1600.jpg?v=c03ee966 1600w" sizes="100vw"></picture></span>
         <span class="sm"><i class="chip" style="background:#C99A3F"></i>Story VII &middot; 5 min read</span>
         <h3>4pm Matinee</h3>
         <p>She came to the afternoon matinee alone. She liked the rush of independence when the ticket seller looked around for a date.</p>
@@ -141,12 +143,13 @@
     <a class="btn btn-ivory" href="samples.html">Begin the set</a>
   </div>
 </section>
+</main>
 <footer>
   <div class="inner">
     <div class="cols">
-      <div><h4>The Shelf</h4><a href="collection.html">The Fragrances</a><a href="samples.html">The First Lines</a><a href="samples.html">Samples</a><a href="gifting.html">Gifting</a></div>
-      <div><h4>The House</h4><a href="our-house.html">Our Story</a><a href="our-house.html#making">The Making</a><a href="our-house.html#stones">The Stones</a><a href="journal.html">Atelier Journal</a></div>
-      <div><h4>The Practical</h4><a href="shipping.html">Shipping &amp; Returns</a><a href="stockists.html">Stockists</a><a href="contact.html">Contact</a><a href="faq.html">FAQ</a></div>
+      <div><p class="fh">The Shelf</p><a href="collection.html">The Fragrances</a><a href="samples.html">The First Lines</a><a href="samples.html">Samples</a><a href="gifting.html">Gifting</a></div>
+      <div><p class="fh">The House</p><a href="our-house.html">Our Story</a><a href="our-house.html#making">The Making</a><a href="our-house.html#stones">The Stones</a><a href="journal.html">Atelier Journal</a></div>
+      <div><p class="fh">The Practical</p><a href="shipping.html">Shipping &amp; Returns</a><a href="stockists.html">Stockists</a><a href="contact.html">Contact</a><a href="faq.html">FAQ</a></div>
     </div>
     <div class="fmid">
       <p class="fcopy">&copy; Side Story Parfums MMXXVI &middot; Made in Grasse</p>
@@ -159,8 +162,9 @@
   </div>
 </footer>
 <div class="scrim" id="scrim" onclick="closeDrawer()"></div>
-<aside class="drawer" id="drawer" aria-label="Your bag">
-  <div class="dhead"><span>Your bag &mdash; <span data-bagcount>0</span></span><button onclick="closeDrawer()">Close</button></div>
+<aside class="drawer" id="drawer" role="dialog" aria-modal="true"
+       aria-labelledby="drawer-title" hidden>
+  <div class="dhead"><span id="drawer-title">Your bag &mdash; <span data-bagcount>0</span></span><button onclick="closeDrawer()">Close</button></div>
   <div id="ditems"></div>
   <label class="tryfirst"><input type="checkbox" checked>
     <div><b>Try a second story first</b><span>A complimentary 2ml of another story &mdash; its argument &mdash; tucked into the parcel.</span></div></label>
@@ -171,5 +175,5 @@
   <p class="dfine">Tax included &middot; 30-day returns &middot; sample cost redeemed</p>
 </aside>
 <script>window.SS_CAT={"hotel-lobby": {"name": "Hotel Lobby", "stone": "Nero Marquina", "col": "#1C1D1D", "notes": "woods, spice, green", "price": 160, "img": "assets/img/p-hotel-lobby-card.jpg", "href": "product-hotel-lobby.html", "sizes": {"100ml": {"label": "100 ml", "price": 160, "incl": "The printed story is in the box", "img": "assets/img/p-hotel-lobby-card.jpg?v=8eb4a7ea", "main": "assets/img/p-hotel-lobby-hero.jpg?v=23a4c464"}, "7-5ml": {"label": "7.5 ml", "price": 40, "incl": "Printed sleeve, no story", "img": "assets/img/p-hotel-lobby-75-card.jpg?v=1a36373a", "main": "assets/img/p-hotel-lobby-75.jpg?v=f885b32c"}, "sample": {"label": "Sample", "price": 5, "incl": "2ml, and its opening page", "img": "assets/img/p-hotel-lobby-sample-card.jpg?v=52d7c22f", "main": "assets/img/p-hotel-lobby-sample.jpg?v=cf605fe3"}}}, "sibling-rivalry": {"name": "Sibling Rivalry", "stone": "Leopard Salome", "col": "#8A6A3F", "notes": "grapefruit, vetiver, smoke", "price": 160, "img": "assets/img/p-sibling-rivalry-card.jpg", "href": "product-sibling-rivalry.html", "sizes": {"100ml": {"label": "100 ml", "price": 160, "incl": "The printed story is in the box", "img": "assets/img/p-sibling-rivalry-card.jpg?v=9cfa79c8", "main": "assets/img/p-sibling-rivalry-hero.jpg?v=8d5962db"}, "7-5ml": {"label": "7.5 ml", "price": 40, "incl": "Printed sleeve, no story", "img": "assets/img/p-sibling-rivalry-card.jpg?v=9cfa79c8", "main": "assets/img/p-sibling-rivalry-hero.jpg?v=8d5962db"}, "sample": {"label": "Sample", "price": 5, "incl": "2ml, and its opening page", "img": "assets/img/p-sibling-rivalry-card.jpg?v=9cfa79c8", "main": "assets/img/p-sibling-rivalry-hero.jpg?v=8d5962db"}}}, "pillow-talk": {"name": "Pillow Talk", "stone": "Calacatta", "col": "#E0DCD0", "notes": "musk, powder, warm skin", "price": 160, "img": "assets/img/p-pillow-talk-card.jpg", "href": "product-pillow-talk.html", "sizes": {"100ml": {"label": "100 ml", "price": 160, "incl": "The printed story is in the box", "img": "assets/img/p-pillow-talk-card.jpg?v=f6c5d3bf", "main": "assets/img/p-pillow-talk-hero.jpg?v=e721df40"}, "7-5ml": {"label": "7.5 ml", "price": 40, "incl": "Printed sleeve, no story", "img": "assets/img/p-pillow-talk-75-card.jpg?v=83fbf9d7", "main": "assets/img/p-pillow-talk-75.jpg?v=9279e8c6"}, "sample": {"label": "Sample", "price": 5, "incl": "2ml, and its opening page", "img": "assets/img/p-pillow-talk-sample-card.jpg?v=9838858d", "main": "assets/img/p-pillow-talk-sample.jpg?v=419787db"}}}, "sunday-service": {"name": "Sunday Service", "stone": "Verde Jade", "col": "#3E5147", "notes": "incense, linen, morning air", "price": 160, "img": "assets/img/p-sunday-service-card.jpg", "href": "product-sunday-service.html", "sizes": {"100ml": {"label": "100 ml", "price": 160, "incl": "The printed story is in the box", "img": "assets/img/p-sunday-service-card.jpg?v=99ca55e8", "main": "assets/img/p-sunday-service-hero.jpg?v=4aa4d48d"}, "7-5ml": {"label": "7.5 ml", "price": 40, "incl": "Printed sleeve, no story", "img": "assets/img/p-sunday-service-75-card.jpg?v=1da57f20", "main": "assets/img/p-sunday-service-75.jpg?v=2b5ecf5e"}, "sample": {"label": "Sample", "price": 5, "incl": "2ml, and its opening page", "img": "assets/img/p-sunday-service-sample-card.jpg?v=a78ca151", "main": "assets/img/p-sunday-service-sample.jpg?v=eff7ca07"}}}, "third-date": {"name": "Third Date", "stone": "Rosso Levanto", "col": "#7A2E2A", "notes": "plum, tobacco, candlelight", "price": 160, "img": "assets/img/p-third-date-card.jpg", "href": "product-third-date.html", "sizes": {"100ml": {"label": "100 ml", "price": 160, "incl": "The printed story is in the box", "img": "assets/img/p-third-date-card.jpg?v=c8f7af1f", "main": "assets/img/p-third-date-hero.jpg?v=a5d7012f"}, "7-5ml": {"label": "7.5 ml", "price": 40, "incl": "Printed sleeve, no story", "img": "assets/img/p-third-date-75-card.jpg?v=31275378", "main": "assets/img/p-third-date-75.jpg?v=203867d3"}, "sample": {"label": "Sample", "price": 5, "incl": "2ml, and its opening page", "img": "assets/img/p-third-date-sample-card.jpg?v=acf0e9a1", "main": "assets/img/p-third-date-sample.jpg?v=c8ce68c4"}}}, "road-trip": {"name": "Road Trip", "stone": "Rosso Francia", "col": "#B5593F", "notes": "amber, leather, warm wind", "price": 160, "img": "assets/img/p-road-trip-card.jpg", "href": "product-road-trip.html", "sizes": {"100ml": {"label": "100 ml", "price": 160, "incl": "The printed story is in the box", "img": "assets/img/p-road-trip-card.jpg?v=a257a32a", "main": "assets/img/p-road-trip-hero.jpg?v=125b813d"}, "7-5ml": {"label": "7.5 ml", "price": 40, "incl": "Printed sleeve, no story", "img": "assets/img/p-road-trip-75-card.jpg?v=2633f1da", "main": "assets/img/p-road-trip-75.jpg?v=879ddd32"}, "sample": {"label": "Sample", "price": 5, "incl": "2ml, and its opening page", "img": "assets/img/p-road-trip-sample-card.jpg?v=a32cdf96", "main": "assets/img/p-road-trip-sample.jpg?v=758b0d68"}}}, "4pm-matinee": {"name": "4pm Matinee", "stone": "Giallo Siena", "col": "#C99A3F", "notes": "citrus, velvet, dark rooms", "price": 160, "img": "assets/img/p-4pm-matinee-card.jpg", "href": "product-4pm-matinee.html", "sizes": {"100ml": {"label": "100 ml", "price": 160, "incl": "The printed story is in the box", "img": "assets/img/p-4pm-matinee-card.jpg?v=51f3b37a", "main": "assets/img/p-4pm-matinee-hero.jpg?v=01d24a57"}, "7-5ml": {"label": "7.5 ml", "price": 40, "incl": "Printed sleeve, no story", "img": "assets/img/p-4pm-matinee-75-card.jpg?v=612fbb9d", "main": "assets/img/p-4pm-matinee-75.jpg?v=de12ecae"}, "sample": {"label": "Sample", "price": 5, "incl": "2ml, and its opening page", "img": "assets/img/p-4pm-matinee-card.jpg?v=51f3b37a", "main": "assets/img/p-4pm-matinee-hero.jpg?v=01d24a57"}}}, "set": {"name": "The First Lines", "stone": "", "col": "#3E5147", "notes": "all seven in miniature", "price": 38, "img": "assets/img/set-first-lines.jpg", "href": "samples.html"}};</script>
-<script src="assets/js/site.js?v=4e66356a"></script>
+<script src="assets/js/site.js?v=6d0cb95b"></script>
 </body></html>
