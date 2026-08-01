@@ -291,3 +291,44 @@ providers.
 **Nothing here is a rewrite.** The system is sound; it has drifted, and it never
 took on the accessibility work. Items 1 and 3 alone would change how the site feels
 more than any new feature could.
+
+---
+
+# Resolution — what changed
+
+Measured after the work, with the same instruments.
+
+| | before | after |
+|---|---|---|
+| Focus ring contrast on ivory | 2.73 : 1 | **12 : 1** |
+| Failing text nodes, sitewide | 392 | **2** *(both text over veiled photography, where the walker reads the ground as ivory — visually correct)* |
+| Pages with `<main>` and a skip link | 0 of 37 | **37 of 37** |
+| Heading-order skips | 23 | **0** |
+| Overlays meeting the dialog contract | 1 of 3 | **3 of 3** |
+| `:disabled` / `:active` rules | 0 | present on every control |
+| Homepage weight, mobile | 2 420 KB | **632 KB** |
+| Homepage images, mobile | 2 085 KB | **270 KB** |
+| Images without dimensions | 253 | **0** |
+| Layout shift on load | unmeasured | **≈ 0** |
+| Breakpoint units | px and em mixed | **em only** |
+| Distinct transition durations | 22 | **6**, all on the token scale |
+| Transitions animating layout | 6 | **0** |
+| Inline `font-family` declarations | 143 | **0** |
+| Distinct shadows | 7 invented | **3 tokens** |
+| Hardcoded brass values | 7 | **3 tokens** (accent, text, inverse) |
+| `z-index` literals | 13 arbitrary | **6 named layers** |
+| Form validation | native bubbles only | inline, announced, cleared on fix |
+| Tap targets under 24 px | 1 243 desktop / 799 mobile | **18** |
+
+**Deliberately not done.** The 8.5 px type floor stands — it is faithful to the
+artboards and it is a large part of why the site reads as expensive. The inline
+event handlers stand until a Content-Security-Policy is actually required. No
+redesign: every composition is where it was.
+
+**One judgement call taken under standing authority.** Brass on ivory could not
+reach 4.5 : 1 without moving. It is now three tokens rather than one: the drawn
+brass `#a98e63` for rules, chips and marks, a darkened `#6f5a2f` wherever brass
+is used as a colour for words, and `#d9c7a3` for brass on dark grounds — which
+also absorbed the seven near-duplicate values that had been hand-rolled around
+the site. The identity is unchanged at a glance; it is legible at reading size
+for the first time.

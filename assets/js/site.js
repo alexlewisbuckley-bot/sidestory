@@ -576,3 +576,59 @@
   ta.addEventListener('input', tick);
   tick();
 })();
+
+/* ---------------------------------------------------------------- forms ----
+   Validation was left entirely to the browser: a system-styled bubble in the
+   wrong typeface that disappears on the next click, at the exact moment a
+   customer is most invested. This replaces it with the site's own voice —
+   inline, persistent, announced, and cleared as soon as the field is fixed.
+   Native constraints still do the checking; only the presentation changes. */
+(function(){
+  const MSG={valueMissing:'This one is needed.',
+             typeMismatch:'That does not look like an email address.',
+             tooShort:'A little more, please.',
+             patternMismatch:'That format is not quite right.'};
+  function reason(el){
+    const v=el.validity;
+    for(const k of Object.keys(MSG)) if(v[k]) return MSG[k];
+    return el.validationMessage||'Please check this.';
+  }
+  function field(el){ return el.closest('.ffield,.field,label')||el.parentElement; }
+  function clear(el){
+    const f=field(el); if(!f)return;
+    f.classList.remove('invalid'); el.removeAttribute('aria-invalid');
+    const m=f.querySelector('.err'); if(m) m.remove();
+  }
+  function mark(el){
+    const f=field(el); if(!f)return;
+    f.classList.add('invalid'); el.setAttribute('aria-invalid','true');
+    let m=f.querySelector('.err');
+    if(!m){ m=document.createElement('span'); m.className='err';
+      m.id=(el.name||'f')+'-err-'+Math.random().toString(36).slice(2,7);
+      f.appendChild(m); el.setAttribute('aria-describedby',m.id); }
+    m.textContent=reason(el);
+  }
+  document.querySelectorAll('form').forEach(form=>{
+    if(!form.querySelector('[required],[type=email],[pattern]'))return;
+    form.setAttribute('novalidate','');
+    let live=form.querySelector('.formlive');
+    if(!live){ live=document.createElement('p'); live.className='formlive';
+      live.setAttribute('role','status'); live.setAttribute('aria-live','polite');
+      form.prepend(live); }
+    form.addEventListener('submit',e=>{
+      const bad=[...form.elements].filter(el=>el.willValidate&&!el.checkValidity());
+      [...form.elements].forEach(el=>{ if(el.willValidate&&el.checkValidity()) clear(el); });
+      if(bad.length){
+        e.preventDefault(); e.stopImmediatePropagation();
+        bad.forEach(mark);
+        live.textContent = bad.length===1 ? 'One field needs your attention.'
+          : bad.length+' fields need your attention.';
+        bad[0].focus();
+        return false;
+      }
+      live.textContent='';
+    },true);
+    form.addEventListener('input',e=>{ if(e.target.willValidate&&e.target.checkValidity()) clear(e.target); });
+    form.addEventListener('blur',e=>{ if(e.target.willValidate&&!e.target.checkValidity()&&e.target.value) mark(e.target); },true);
+  });
+})();

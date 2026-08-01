@@ -346,7 +346,7 @@ def topbar(current):
 <header class="nav">
   <div class="inner">
     <button class="burger" aria-label="Menu" aria-expanded="false" aria-controls="primary-nav"><i></i><i></i><i></i></button>
-    <a class="brand" href="index.html" aria-label="Side Story — Parfums &amp; Oils"><img src="{fp('assets/img/logo.svg')}" alt="Side Story — Parfums &amp; Oils"></a>
+    <a class="brand" href="index.html" aria-label="Side Story — Parfums &amp; Oils"><img src="{fp('assets/img/logo.svg')}" alt="Side Story — Parfums &amp; Oils" width="300" height="68"></a>
     <nav class="links" id="primary-nav" aria-label="Primary">
       {items}
     </nav>
@@ -403,7 +403,7 @@ def footer():
     </div>
     <div class="fmid">
       <p class="fcopy">&copy; Side Story Parfums MMXXVI &middot; Made in Grasse</p>
-      <div class="fbrand"><img src="{fp('assets/img/logo-ivory.svg')}" alt="Side Story &mdash; Parfums &amp; Oils"></div>
+      <div class="fbrand"><img src="{fp('assets/img/logo-ivory.svg')}" alt="Side Story &mdash; Parfums &amp; Oils" width="300" height="68"></div>
     </div>
     <div class="fbot">
       <div class="pay"><i>VISA</i><i>MC</i><i>AMEX</i><i><svg class="i-apple" viewBox="0 0 384 512" aria-hidden="true" focusable="false"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.931.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/></svg>Pay</i></div>
@@ -545,10 +545,13 @@ def plate(q, n):
 
 def page(slug, title, desc, body, current=None, css=("assets/css/fonts.css", "assets/css/app.css"), body_attr=""):
     out = head(title, desc, css, body_attr) + topbar(current or (slug + ".html")) \
-        + '<main id="main">\n' + upgrade_images(body.strip()) + "\n</main>\n" \
+        + '<main id="main">\n' + body.strip() + "\n</main>\n" \
         + footer() + DRAWER \
         + f'<script>window.SS_CAT={catalogue_json()};</script>\n' \
         + f'<script src="{fp("assets/js/site.js")}"></script>\n</body></html>\n'
+    # one pass over the finished page, so the footer wordmark and the drawer
+    # are covered too — they are appended after the body and were escaping it
+    out = upgrade_images(out)
     with open(os.path.join(ROOT, slug + ".html"), "w") as f:
         f.write(out)
     return len(out)
@@ -1280,6 +1283,7 @@ def build():
       <h1>Notes from the house.</h1>
       <p class="lede">What we are reading, shooting and cutting. Published when there is something worth saying, which is not often.</p>
     </div>
+    <h2 class="vh">Journal</h2>
     <div class="posts">
 {posts}
     </div>
@@ -1310,6 +1314,7 @@ def build():
 <section class="band">
   <div class="inner">
     <p class="k">Popular this week</p>
+    <h2 class="vh">Fragrances</h2>
     <div class="cards">
 {chr(10).join(product_card(x, reveal=False) for x in PRODUCTS[:4])}
     </div>
@@ -1372,7 +1377,7 @@ def build():
         <div><b>Add a Dedication &mdash; complimentary</b><span>A line of yours, typeset on the story&rsquo;s flyleaf, and sent again as a digital edition.</span></div></label>
     </div>
     <div class="summary">
-      <h3>Summary</h3>
+      <h2 class="vh">Order summary</h2><h3>Summary</h3>
       <div class="srow"><span>Subtotal</span><span id="bagsub">&pound;0</span></div>
       <div class="srow"><span>Delivery</span><span>Complimentary</span></div>
       <div class="srow"><span>Sample credit</span><span>&minus;&pound;5</span></div>
@@ -1440,6 +1445,7 @@ def build():
     </div>
     <p class="crumb" style="text-align:center">A confirmation letter is on its way &middot; arrives Thursday, signed for</p>
     <div class="grid-3">
+      <h2 class="vh">What happens next</h2>
       <div class="tile"><h3>Read while you wait</h3><p>The digital edition of your story is already in your account.</p><p><a class="ul" href="stories.html">Read the stories</a></p></div>
       <div class="tile"><h3>Track the parcel</h3><p>We will write again the moment it leaves the bindery.</p><p><a class="ul" href="account.html">See the order</a></p></div>
       <div class="tile"><h3>Your Dedication</h3><p>Typeset and proofed by hand before the story goes to press.</p><p><a class="ul" href="account.html">Review the line</a></p></div>
@@ -1482,7 +1488,8 @@ def build():
   <div class="phead"><p class="k">In person</p><h1>Where to smell them first.</h1>
     <p class="lede">A short list, kept short on purpose. Every stockist below carries the full seven and the printed editions.</p></div>
   <div class="grid-3">
-    <div class="tile"><h3>Liberty London</h3><p>Regent Street, W1B 5AH<br>Beauty Hall, ground floor<br>&amp; liberty.co.uk</p></div>
+    <h2 class="vh">Where to find us</h2>
+      <div class="tile"><h3>Liberty London</h3><p>Regent Street, W1B 5AH<br>Beauty Hall, ground floor<br>&amp; liberty.co.uk</p></div>
     <div class="tile"><h3>Le Bon March&eacute;</h3><p>24 Rue de S&egrave;vres, Paris 75007<br>Parfums rares, first floor</p></div>
     <div class="tile"><h3>The Shop, Grasse</h3><p>12 Rue Marcel Journet<br>By appointment, Tuesdays and Thursdays</p></div>
   </div>
@@ -1513,6 +1520,7 @@ def build():
       <p class="re sent" hidden>Thank you &mdash; it has arrived. You will hear from us within two working days.</p>
     </div>
     <div class="aside-card">
+      <h2 class="vh">How to reach us</h2>
       <h3>Directly</h3>
       <p>contact@sidestoryparfums.com<br>+44 20 7946 0114<br>Monday to Friday, 9&ndash;5 UK</p>
       <p>Side Story Parfums<br>Unit 4, The Bindery<br>London E2 8HD</p>

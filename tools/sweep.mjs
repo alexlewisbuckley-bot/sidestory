@@ -23,6 +23,7 @@ for(const w of [320,390,768,1024,1440,1920]){
     for(const el of document.querySelectorAll('h1,h2,h3,h4,p,a,button,span,li,small,b,em,input')){
       const c=getComputedStyle(el);
       if(c.display==='none'||c.visibility==='hidden'||!el.offsetParent&&c.position!=='fixed')continue;
+      if(el.classList.contains('vh'))continue;   // visually hidden by design
       if(el.scrollWidth>el.clientWidth+2&&c.overflow!=='visible')clip.push(el.tagName+':'+el.textContent.trim().slice(0,20));
       const fs=parseFloat(c.fontSize);
       if(el.textContent.trim()&&fs<6.5)tiny.push(el.tagName+' '+fs+'px:'+el.textContent.trim().slice(0,18));
