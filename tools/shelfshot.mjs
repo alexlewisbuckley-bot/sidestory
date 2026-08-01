@@ -1,0 +1,30 @@
+import { chromium } from 'playwright';
+const b = await chromium.launch({ executablePath:'/opt/pw-browsers/chromium' });
+// phone: bar, then sheet, then applied
+let ctx = await b.newContext({ viewport:{width:390,height:844}, deviceScaleFactor:2, hasTouch:true, isMobile:true });
+let p = await ctx.newPage();
+await p.goto('http://localhost:8802/collection.html',{waitUntil:'networkidle'});
+await p.evaluate(()=>document.querySelector('.shelfbar').scrollIntoView({block:'start'}));
+await p.waitForTimeout(400);
+await p.screenshot({ path:'/tmp/shelf-390-bar.png' });
+await p.click('.filterbtn'); await p.waitForTimeout(600);
+await p.screenshot({ path:'/tmp/shelf-390-sheet.png' });
+await p.click('.sheet [data-filter="family"][data-value="citrus"]');
+await p.click('.sheet [data-filter="family"][data-value="incense"]');
+await p.waitForTimeout(400);
+await p.screenshot({ path:'/tmp/shelf-390-sheet2.png' });
+await p.click('.sheetfoot .btn'); await p.waitForTimeout(700);
+await p.evaluate(()=>document.querySelector('.shelfbar').scrollIntoView({block:'start'}));
+await p.waitForTimeout(400);
+await p.screenshot({ path:'/tmp/shelf-390-applied.png' });
+await ctx.close();
+// desktop
+ctx = await b.newContext({ viewport:{width:1440,height:900}, deviceScaleFactor:2 });
+p = await ctx.newPage();
+await p.goto('http://localhost:8802/collection.html',{waitUntil:'networkidle'});
+await p.click('.finline [data-filter="family"][data-value="citrus"]');
+await p.waitForTimeout(500);
+await p.evaluate(()=>document.querySelector('.shelfbar').scrollIntoView({block:'center'}));
+await p.waitForTimeout(300);
+await p.screenshot({ path:'/tmp/shelf-1440.png' });
+await b.close(); console.log('ok');

@@ -641,22 +641,43 @@
     const scope=bar.parentElement;
     const cards=[...grid.querySelectorAll('.card[data-slug]')];
     const promo=grid.querySelector('.promo');
-    const famBtns=[...bar.querySelectorAll('[data-family]')];
-    const sizeBtns=[...bar.querySelectorAll('[data-size]')];
     const sheet=scope.querySelector('[data-scent-sheet]');
     const scrim=scope.querySelector('[data-scent-scrim]');
-    const list=scope.querySelector('[data-scent-list]');
-    const chosen=new Set();
-    let opener=null;
+    const applied=scope.querySelector('[data-applied]');
+    const chipbox=scope.querySelector('[data-applied-chips]');
 
+    /* The controller names no filter. It reads the groups out of the markup,
+       which the build wrote from one declaration, so adding an axis — feeling,
+       price, in stock — is an entry in that list and nothing here changes.
 
-    /* the sheet mirrors the chips, so there is one source of families */
-    if(list) list.innerHTML = famBtns.map(b=>
-      '<button type="button" class="srow" data-family="'+b.dataset.family+'" aria-pressed="false">'
-      + '<span>'+b.innerHTML+'</span><i aria-hidden="true"></i></button>').join('');
-    const allFam=()=>[...scope.querySelectorAll('[data-family]')];
+       Two kinds of group, and the distinction is the whole point. A `one`
+       group is a choice: exactly one value is always active, radio semantics,
+       and it never hides a card. A `many` group is a filter: none active by
+       default, checkbox semantics, and a card survives only if it matches
+       something in every group that has a selection. Size and scent used to be
+       drawn identically and behave differently, which is exactly what made the
+       size control feel broken — you pressed a filter and nothing filtered. */
+    const groups = new Map();
+    scope.querySelectorAll('[data-filter]').forEach(btn=>{
+      const k = btn.dataset.filter;
+      if(!groups.has(k)) groups.set(k, {
+        key:k, mode: btn.hasAttribute('role') && btn.getAttribute('role')==='radio' ? 'one' : 'many',
+        btns:[], chosen:new Set()
+      });
+      const g = groups.get(k);
+      g.btns.push(btn);
+      if(g.mode==='one' && btn.getAttribute('aria-checked')==='true') g.chosen.add(btn.dataset.value);
+    });
+    if(!groups.size) return;
+    /* the shelf's card markup carries data-family, data-feeling, … — the
+       group key is the attribute name, so no mapping table is needed */
+    const cardVal = (card,key) => card.dataset[key] || '';
+    const label = btn => (btn.querySelector('.long,.slab')||btn).textContent.trim();
 
-    function applySize(key){
+    /* size is a `one` group and the only one that restyles the cards */
+    function applyOne(g){
+      if(g.key!=='size') return;
+      const key=[...g.chosen][0]; if(!key) return;
       grid.dataset.size=key;
       settle(grid, ()=>cards.forEach(card=>{
         const p=CAT[card.dataset.slug]; if(!p||!p.sizes) return;
@@ -673,78 +694,134 @@
           a.href='product-'+card.dataset.slug+'.html'+(key==='100ml'?'':'?size='+key);
         });
       }));
-      sizeBtns.forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.size===key)));
     }
 
-    function applyScent(){
+    function paint(){
+      /* every control that represents this value, in the row and in the
+         sheet, moves together — there is one state, drawn twice */
+      groups.forEach(g=>g.btns.forEach(b=>{
+        const on = g.chosen.has(b.dataset.value);
+        if(g.mode==='one'){ b.setAttribute('aria-checked',String(on)); b.tabIndex = on?0:-1; }
+        else b.setAttribute('aria-pressed',String(on));
+      }));
+
       let shown=0;
-      const next=[...cards].map(card=>{
-        const on = !chosen.size || chosen.has(card.dataset.family);
+      const next=cards.map(card=>{
+        let on=true;
+        groups.forEach(g=>{
+          if(g.mode!=='many'||!g.chosen.size) return;
+          if(!g.chosen.has(cardVal(card,g.key))) on=false;
+        });
         if(on) shown++;
         return [card,!on];
       });
+      const narrowing=[...groups.values()].filter(g=>g.mode==='many'&&g.chosen.size);
       settle(grid, ()=>{
         next.forEach(([card,hide])=>{ card.hidden=hide; });
-        if(promo) promo.hidden = chosen.size>0;
+        /* the discovery-set card is not a fragrance, so it only belongs on an
+           unfiltered shelf */
+        if(promo) promo.hidden = narrowing.length>0;
       });
-      allFam().forEach(b=>b.setAttribute('aria-pressed',String(chosen.has(b.dataset.family))));
-      const count=bar.querySelector('[data-count]');
-      if(count) count.textContent = !chosen.size ? 'Seven stories'
-        : shown+(shown===1?' story':' stories');
-      scope.querySelectorAll('[data-clear]').forEach(c=>{c.hidden=chosen.size===0;});
-      const tally=bar.querySelector('[data-tally]');
-      if(tally){ tally.hidden=chosen.size===0; tally.textContent=chosen.size; }
+
+      const n = narrowing.reduce((s,g)=>s+g.chosen.size,0);
+      const count = shown===7 ? 'Seven stories' : shown+(shown===1?' story':' stories');
+      bar.querySelectorAll('[data-count]').forEach(c=>c.textContent=count);
       const sc=scope.querySelector('[data-sheetcount]');
       if(sc) sc.textContent = shown+(shown===1?' story':' stories');
-      bar.classList.toggle('on', chosen.size>0);
+      const tally=bar.querySelector('[data-tally]');
+      if(tally){ tally.hidden = n===0; tally.textContent=n; }
+      bar.classList.toggle('on', n>0);
+
+      /* What is applied, in the open, each one its own undo. Before this the
+         only record of a choice made inside the sheet was a number on the
+         button that opened it. */
+      if(chipbox){
+        let html='';
+        groups.forEach(g=>{
+          if(g.mode!=='many') return;
+          g.btns.forEach(b=>{ if(!g.chosen.has(b.dataset.value)) return;
+            if(html.indexOf('data-value="'+b.dataset.value+'"')>-1) return;
+            html += '<button type="button" class="achip" data-remove data-filter="'+g.key
+                 +'" data-value="'+b.dataset.value+'">'+label(b)
+                 +'<span aria-hidden="true">×</span>'
+                 +'<span class="vh">— remove this filter</span></button>';
+          });
+        });
+        chipbox.innerHTML=html;
+      }
+      if(applied) applied.hidden = n===0;
     }
 
+    function toggle(key,value){
+      const g=groups.get(key); if(!g) return;
+      if(g.mode==='one'){
+        if(g.chosen.has(value)) return;
+        g.chosen.clear(); g.chosen.add(value); paint(); applyOne(g);
+      } else {
+        g.chosen.has(value) ? g.chosen.delete(value) : g.chosen.add(value);
+        paint();
+      }
+    }
+    function clearAll(){
+      let touched=false;
+      groups.forEach(g=>{ if(g.mode==='many'&&g.chosen.size){ g.chosen.clear(); touched=true; } });
+      if(touched) paint();
+    }
+
+    /* ---- the sheet, on the shared overlay contract -------------------- */
     function openSheet(from){
       if(!sheet) return;
-      opener=from||null;
-      scrim.hidden=false; sheet.hidden=false;
-      requestAnimationFrame(()=>{scrim.classList.add('on');sheet.classList.add('on');});
-      document.documentElement.classList.add('sheet-open');
-      /* the dialog, not the first row — see the note in overlayOpen. This
-         sheet has its own controller rather than the shared contract, so the
-         same correction has to be made twice. */
-      if(!sheet.hasAttribute('tabindex')) sheet.setAttribute('tabindex','-1');
-      setTimeout(()=>{ try{ sheet.focus({preventScroll:true}); }catch(_){ sheet.focus(); } },60);
+      bar.querySelectorAll('[data-open-filters]').forEach(b=>b.setAttribute('aria-expanded','true'));
+      SSoverlay.open(sheet,{scrim});
     }
     function closeSheet(){
       if(!sheet||sheet.hidden) return;
-      scrim.classList.remove('on'); sheet.classList.remove('on');
-      document.documentElement.classList.remove('sheet-open');
-      setTimeout(()=>{scrim.hidden=true;sheet.hidden=true;},320);
-      if(opener) opener.focus();
+      bar.querySelectorAll('[data-open-filters]').forEach(b=>b.setAttribute('aria-expanded','false'));
+      SSoverlay.close(sheet);
     }
+
     scope.addEventListener('click',e=>{
-      if(e.target.closest('[data-open-scent]')){ openSheet(e.target.closest('[data-open-scent]')); return; }
+      if(e.target.closest('[data-open-filters]')){ openSheet(); return; }
       if(e.target.closest('[data-close-scent]')||e.target.closest('[data-scent-scrim]')){ closeSheet(); return; }
-      const sz=e.target.closest('[data-size]');
-      if(sz){ applySize(sz.dataset.size); return; }
-      const fam=e.target.closest('[data-family]');
-      if(fam){
-        const k=fam.dataset.family;
-        chosen.has(k)? chosen.delete(k) : chosen.add(k);
-        applyScent(); return;
-      }
-      if(e.target.closest('[data-clear]')){ chosen.clear(); applyScent(); return; }
-    });
-    document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeSheet(); });
-    /* keep focus inside the sheet while it is open */
-    scope.addEventListener('keydown',e=>{
-      if(e.key!=='Tab'||!sheet||sheet.hidden) return;
-      const f=[...sheet.querySelectorAll('button')].filter(b=>!b.hidden);
-      if(!f.length) return;
-      const first=f[0], last=f[f.length-1];
-      if(e.shiftKey && (document.activeElement===first||document.activeElement===sheet)){
-        e.preventDefault(); last.focus(); }
-      else if(!e.shiftKey && document.activeElement===last){ e.preventDefault(); first.focus(); }
+      if(e.target.closest('[data-clear]')){ clearAll(); return; }
+      const rm=e.target.closest('[data-remove]');
+      if(rm){ toggle(rm.dataset.filter, rm.dataset.value);
+        /* the chip removed itself; put focus somewhere that still exists */
+        const nxt=chipbox&&chipbox.querySelector('.achip');
+        (nxt||bar.querySelector('[data-open-filters]')||bar).focus&&(nxt||bar.querySelector('[data-open-filters]')||bar).focus();
+        return; }
+      const f=e.target.closest('[data-filter]');
+      if(f){ toggle(f.dataset.filter, f.dataset.value); }
     });
 
-    applySize(grid.dataset.size||'100ml');
-    applyScent();
+    /* Arrow keys inside a radio group, which is what a `one` group is: one
+       tab stop for the whole group and the arrows move between the options.
+       Tabbing through three sizes to reach the scent filters was three stops
+       where the standard says one. */
+    scope.addEventListener('keydown',e=>{
+      if(!/^Arrow(Left|Right|Up|Down)$/.test(e.key)) return;
+      const btn=e.target.closest('[data-filter]'); if(!btn) return;
+      const g=groups.get(btn.dataset.filter); if(!g||g.mode!=='one') return;
+      const sibs=g.btns.filter(b=>b.offsetParent!==null); if(sibs.length<2) return;
+      const at=sibs.indexOf(btn); if(at<0) return;
+      const fwd=e.key==='ArrowRight'||e.key==='ArrowDown';
+      const to=sibs[(at + (fwd?1:-1) + sibs.length) % sibs.length];
+      e.preventDefault();
+      toggle(to.dataset.filter,to.dataset.value);
+      to.focus();
+    });
+
+    /* the shared contract owns Escape and closes the sheet without telling
+       the button that opened it — read the state back rather than keeping a
+       second copy of it here */
+    addEventListener('keydown',e=>{
+      if(e.key!=='Escape'||!sheet) return;
+      setTimeout(()=>{ bar.querySelectorAll('[data-open-filters]').forEach(b=>
+        b.setAttribute('aria-expanded', String(sheet.classList.contains('open')))); },0);
+    });
+
+    paint();
+    groups.forEach(g=>{ if(g.mode==='one') applyOne(g); });
   });
 
   /* PDP gallery + size selector (rebuilt markup) */
@@ -785,90 +862,12 @@
       if(b) pickSize(row,b);
     }
   });
-  /* ------------------------------------------------------------------ shelf
-     Seven fragrances fit on one screen, so a filter is only worth having if
-     each option returns a real, small set. Stone was dropped as a control:
-     there are seven stones and seven fragrances, so every option returned
-     exactly one card — a menu of the products under another name, not a
-     filter. Scent family is the one axis a shopper arrives with a preference
-     on, and each family holds one or two, so choosing more widens.
-
-     Size is a different kind of control and looks like one: it changes what
-     you are buying, not what you can see, so it never hides a card. */
-  document.querySelectorAll('[data-shelf-for]').forEach(bar=>{
-    const grid=document.querySelector(bar.dataset.shelfFor); if(!grid) return;
-    const cards=[...grid.querySelectorAll('.card[data-slug]')];
-    const promo=grid.querySelector('.promo');
-    const famBtns=[...bar.querySelectorAll('[data-family]')];
-    const sizeBtns=[...bar.querySelectorAll('[data-size]')];
-    const countEl=bar.querySelector('[data-count]');
-    const clearEl=bar.querySelector('[data-clear]');
-    const labelEl=bar.querySelector('[data-scentlabel]');
-    const disclose=bar.querySelector('[data-disclose]');
-    const chips=bar.querySelector('#scentchips');
-    const chosen=new Set();
-
-    function applySize(key){
-      grid.dataset.size=key;
-      settle(grid, ()=>cards.forEach(card=>{
-        const p=CAT[card.dataset.slug]; if(!p||!p.sizes) return;
-        const v=p.sizes[key]; if(!v) return;
-        const shot=card.querySelector('[data-shot]');
-        if(shot&&shot.getAttribute('src')!==v.img) swapPicture(shot,v.img,v.set);
-        const buy=card.querySelector('[data-buy]');
-        if(buy){ buy.dataset.size=key; buy.innerHTML=v.label+' — £'+v.price; }
-        const line=card.querySelector('[data-priceline]');
-        if(line) line.innerHTML='£'+v.price+' · '+v.label;
-        const incl=card.querySelector('[data-incl]');
-        if(incl) incl.textContent=v.incl;
-        card.querySelectorAll('[data-href]').forEach(a=>{
-          a.href='product-'+card.dataset.slug+'.html'+(key==='100ml'?'':'?size='+key);
-        });
-      }));
-      sizeBtns.forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.size===key)));
-    }
-
-    function applyScent(){
-      let shown=0;
-      const next=[...cards].map(card=>{
-        const on = !chosen.size || chosen.has(card.dataset.family);
-        if(on) shown++;
-        return [card,!on];
-      });
-      settle(grid, ()=>{
-        next.forEach(([card,hide])=>{ card.hidden=hide; });
-        /* the discovery-set card is not a fragrance, so it only belongs on the
-           unfiltered shelf */
-        if(promo) promo.hidden = chosen.size>0;
-      });
-      famBtns.forEach(b=>b.setAttribute('aria-pressed',String(chosen.has(b.dataset.family))));
-      const names=famBtns.filter(b=>chosen.has(b.dataset.family)).map(b=>b.textContent.trim());
-      if(labelEl) labelEl.textContent = names.length? names.join(', ') : 'All seven';
-      if(countEl) countEl.textContent = !chosen.size ? 'Seven stories'
-        : shown+(shown===1?' story':' stories');
-      if(clearEl) clearEl.hidden = chosen.size===0;
-      bar.classList.toggle('on', chosen.size>0);
-    }
-
-    bar.addEventListener('click',e=>{
-      const sz=e.target.closest('[data-size]');
-      if(sz){ applySize(sz.dataset.size); return; }
-      const fam=e.target.closest('[data-family]');
-      if(fam){
-        const k=fam.dataset.family;
-        chosen.has(k)? chosen.delete(k) : chosen.add(k);
-        applyScent(); return;
-      }
-      if(e.target.closest('[data-clear]')){ chosen.clear(); applyScent(); return; }
-      if(e.target.closest('[data-disclose]')){
-        const open=disclose.getAttribute('aria-expanded')==='true';
-        disclose.setAttribute('aria-expanded',String(!open));
-        if(chips) chips.classList.toggle('open',!open);
-      }
-    });
-    applySize(grid.dataset.size||'100ml');
-    applyScent();
-  });
+  /* The shelf controller that used to stand here was a second, older copy of
+     the one above: same selector, same handlers, both bound. Every size tap
+     and every scent tap ran twice, and settle() — which dims the grid, waits
+     100ms, mutates and restores — ran twice with it, which is most of why the
+     size control felt sluggish. Deleted, not merged: the one above is the
+     live one and now reads its groups from the markup. */
 
 
   /* PDP */

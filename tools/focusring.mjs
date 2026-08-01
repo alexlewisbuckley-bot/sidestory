@@ -6,7 +6,7 @@ const ctx = await b.newContext({ viewport:{width:390,height:844}, hasTouch:true,
 // scent sheet, opened by touch
 const p = await ctx.newPage();
 await p.goto('http://localhost:8802/collection-7-5ml.html',{waitUntil:'networkidle'});
-await p.locator('.shelfbar .disclose').tap(); await p.waitForTimeout(500);
+await p.locator('.filterbtn').tap(); await p.waitForTimeout(500);
 let s = await p.evaluate(()=>{ const a=document.activeElement, cs=getComputedStyle(a);
   return { cls:a.className||a.tagName, isSheet:a.matches('.sheet'), ring:cs.outlineStyle!=='none'||cs.boxShadow!=='none',
     labelled:!!a.getAttribute('aria-labelledby') };});
@@ -22,7 +22,7 @@ console.log('  after Tab ' + JSON.stringify(s));
 ok('Tab moves into the sheet with a visible ring', s.fv && s.ring);
 // shift-tab from the container wraps to the last control rather than escaping
 await p.keyboard.press('Escape'); await p.waitForTimeout(450);
-await p.locator('.shelfbar .disclose').tap(); await p.waitForTimeout(500);
+await p.locator('.filterbtn').tap(); await p.waitForTimeout(500);
 await p.keyboard.press('Shift+Tab'); await p.waitForTimeout(120);
 ok('Shift+Tab from the dialog stays inside it',
   await p.evaluate(()=>document.querySelector('.sheet').contains(document.activeElement)));

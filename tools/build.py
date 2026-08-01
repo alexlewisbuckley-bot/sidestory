@@ -552,6 +552,97 @@ SIZES = [
 BY_SIZE = {z["key"]: z for z in SIZES}
 
 
+# ------------------------------------------------------------- filters ----
+# One declaration, three renderings: the inline row on a wide screen, the
+# sheet on a phone, and the applied-filter summary under both. Adding an axis
+# — feeling, price, in-stock — is one entry in this list and nothing else;
+# nothing downstream names a specific filter.
+#
+# `mode` is the whole reason the old bar felt wrong. Size and scent were drawn
+# identically and behaved differently: choosing 7.5 ml never removed a card,
+# because all seven exist in all three sizes — it changes what you are buying,
+# not what you can see. Size is `one` (a choice, exactly one always active,
+# radio semantics); scent is `many` (a filter, none active by default,
+# checkbox semantics). The two now look as different as they behave.
+FILTERS = [
+    dict(key="size", attr="size", label="Size", mode="one",
+         note="All seven come in every size. This changes the price and the pack, not the shelf.",
+         options=[dict(v=z["key"], label=z["label"], short=z["short"],
+                       hint="&pound;%d &middot; %s" % (z["price"], z["incl"])) for z in SIZES]),
+    dict(key="family", attr="family", label="Scent", mode="many",
+         note="Choose as many as you like. More families, more stories.",
+         options=[dict(v=f["key"], label=f["label"], short=f["label"], hint="") for f in FAMILIES]),
+]
+
+
+def filter_title():
+    """"Size & scent" today. Written from the list rather than typed, so a
+    third axis renames the button and the sheet without anyone remembering
+    to — a label that goes stale is how a control starts lying."""
+    names = [g["label"] for g in FILTERS]
+    names = [names[0]] + [n[0].lower() + n[1:] for n in names[1:]]
+    if len(names) == 1:
+        return names[0]
+    return ", ".join(names[:-1]) + " &amp; " + names[-1]
+
+
+def filter_inline(active_size):
+    """The row a wide screen gets: every group laid out in the open."""
+    out = []
+    for g in FILTERS:
+        opts = []
+        for o in g["options"]:
+            if g["mode"] == "one":
+                on = "true" if o["v"] == active_size else "false"
+                opts.append(
+                    '            <button type="button" role="radio" aria-checked="%s"'
+                    ' tabindex="%s" data-filter="%s" data-value="%s">'
+                    '<span class="long">%s</span><span class="short">%s</span></button>'
+                    % (on, "0" if on == "true" else "-1", g["key"], o["v"], o["label"], o["short"]))
+            else:
+                opts.append(
+                    '            <button type="button" aria-pressed="false"'
+                    ' data-filter="%s" data-value="%s">%s</button>'
+                    % (g["key"], o["v"], o["label"]))
+        role = 'role="radiogroup"' if g["mode"] == "one" else 'role="group"'
+        out.append(
+            '        <div class="fgroup fgroup-%s">\n'
+            '          <span class="lbl" id="lbl-%s">%s</span>\n'
+            '          <div class="opts" %s aria-labelledby="lbl-%s">\n%s\n          </div>\n'
+            '        </div>' % (g["mode"], g["key"], g["label"], role, g["key"], "\n".join(opts)))
+    return "\n".join(out)
+
+
+def filter_sheet(active_size):
+    """The same groups as full-width rows, for a thumb."""
+    out = []
+    for g in FILTERS:
+        rows = []
+        for o in g["options"]:
+            hint = ('<span class="shint">%s</span>' % o["hint"]) if o["hint"] else ""
+            if g["mode"] == "one":
+                on = "true" if o["v"] == active_size else "false"
+                rows.append(
+                    '          <button type="button" class="srow srow-one" role="radio"'
+                    ' aria-checked="%s" tabindex="%s" data-filter="%s" data-value="%s">'
+                    '<span class="slab">%s%s</span><i aria-hidden="true"></i></button>'
+                    % (on, "0" if on == "true" else "-1", g["key"], o["v"], o["label"], hint))
+            else:
+                rows.append(
+                    '          <button type="button" class="srow" aria-pressed="false"'
+                    ' data-filter="%s" data-value="%s">'
+                    '<span class="slab">%s</span><i aria-hidden="true"></i></button>'
+                    % (g["key"], o["v"], o["label"]))
+        role = 'role="radiogroup"' if g["mode"] == "one" else 'role="group"'
+        out.append(
+            '      <section class="sgroup">\n'
+            '        <h3 class="sgh" id="sh-%s">%s</h3>\n'
+            '        <p class="sgn">%s</p>\n'
+            '        <div class="sgrows" %s aria-labelledby="sh-%s">\n%s\n        </div>\n'
+            '      </section>' % (g["key"], g["label"], g["note"], role, g["key"], "\n".join(rows)))
+    return "\n".join(out)
+
+
 def size_img(p, key):
     """Card image for a fragrance at a given size.
 
@@ -654,7 +745,9 @@ def search_index():
 
     def add(t, s, k, h, *words):
         blob = " ".join([t, s] + [w for w in words if w]).lower()
-        for ch in ",.;:·—–…!?()’'\"":
+        # the full stop stays: it is inside "7.5 ml", which is a thing people
+        # type. £ goes, so "160" is a word rather than the tail of one.
+        for ch in ",;:·—–…!?()’'\"£&":
             blob = blob.replace(ch, " ")
         rows.append(dict(t=t, s=s, k=k, h=h, x=" " + " ".join(blob.split()) + " "))
 
@@ -666,14 +759,21 @@ def search_index():
         add(f'{p["name"]} — the story', f'{p["story"]} · {p["feeling"]} · {p["read"]}', "Stories",
             f'story-{p["slug"]}.html', p["line"], "short story fiction read")
 
+    # Sizes are how a lot of people arrive — "100ml", "7.5", "travel size",
+    # "2ml" — and none of those match "100 ml" on their own, because the space
+    # in the label is a typographic decision and nobody types it. Each size
+    # carries every way it gets written.
     add("The Fragrances", "All seven, filtered by feeling, stone or note", "Shop",
-        "collection.html", "collection shop everything browse")
+        "collection.html", "collection shop everything browse all sizes")
     add("100 ml", "The full bottle, carved stone lid, printed story — £160", "Shop",
-        "collection-100ml.html", "large full size bottle price")
+        "collection-100ml.html",
+        "100ml 100 ml 100 large full size big bottle full-size price 160")
     add("7.5 ml", "Travel size in a printed sleeve — £40", "Shop",
-        "collection-7-5ml.html", "small travel purse mini size price")
+        "collection-7-5ml.html",
+        "7.5ml 7.5 ml 75ml 7ml 7 5 small travel purse handbag mini miniature size price 40")
     add("Samples", "2 ml of any story — £5, redeemed against your first bottle", "Shop",
-        "collection-samples.html", "try tester discovery 2ml decant")
+        "collection-samples.html",
+        "2ml 2 ml sample samples try tester trial discovery decant vial smallest size price 5")
     add("The First Lines", "All seven in miniature — £38", "Shop",
         "samples.html", "discovery set sampler starter gift bundle")
     add("Gifting", "Dedications, wrapping, and what to choose for whom", "Shop",
@@ -853,15 +953,9 @@ def build():
         cards = "\n".join(product_card(p) for p in PRODUCTS)
         if key in (None, "sample"):
             cards += "\n" + PROMO_CARD
-        sizerow = "\n".join(
-            '          <button type="button" data-size="%s" aria-pressed="%s">'
-            '<span class="long">%s</span><span class="short">%s</span></button>'
-            % (z["key"], "true" if z["key"] == (key or "100ml") else "false",
-               z["label"], z["short"])
-            for z in SIZES)
-        famrow = "\n".join(
-            '          <button type="button" data-family="%s" aria-pressed="false">%s</button>'
-            % (f["key"], f["label"]) for f in FAMILIES)
+        inline = filter_inline(key or "100ml")
+        sheetgroups = filter_sheet(key or "100ml")
+        ftitle = filter_title()
         written[slug] = page(slug, title,
             "Seven stories, worn as scent. Eau de parfum &mdash; 100ml &pound;160, 7.5ml &pound;40, samples &pound;5.", f"""
 <section class="seven">
@@ -873,33 +967,30 @@ def build():
       <p class="lede">{lede}</p>
     </div>
     <div class="shelfbar" data-shelf-for=".cards">
-      <div class="ctl size">
-        <span class="lbl" id="lbl-size">Size</span>
-        <div class="seg" role="group" aria-labelledby="lbl-size">
-{sizerow}
-        </div>
+      <button class="filterbtn" type="button" data-open-filters aria-haspopup="dialog"
+              aria-expanded="false"><span>{ftitle}</span><span class="tally" data-tally hidden>0</span></button>
+      <div class="finline">
+{inline}
       </div>
-      <div class="ctl scent">
-        <span class="lbl" id="lbl-scent">Scent</span>
-        <button class="disclose" type="button" data-open-scent aria-haspopup="dialog">
-          <span>Scent</span><span class="tally" data-tally hidden>0</span></button>
-        <div class="chips" id="scentchips" role="group" aria-labelledby="lbl-scent">
-{famrow}
-        </div>
-      </div>
-      <p class="shelfcount"><span data-count>Seven stories</span>
-        <button type="button" class="clear" data-clear hidden>Clear</button></p>
+      <p class="shelfcount"><span data-count>Seven stories</span></p>
+    </div>
+    <div class="applied" data-applied hidden>
+      <span class="alab">Showing</span>
+      <span class="achips" data-applied-chips></span>
+      <button type="button" class="clear" data-clear>Clear all</button>
     </div>
     <div class="sheetscrim" data-scent-scrim hidden></div>
     <div class="sheet" data-scent-sheet role="dialog" aria-modal="true"
          aria-labelledby="sheet-title" hidden>
       <div class="sheethead">
-        <h2 id="sheet-title">Scent</h2>
+        <h2 id="sheet-title">{ftitle}</h2>
         <button type="button" class="x" data-close-scent aria-label="Close">Close</button>
       </div>
-      <div class="sheetlist" data-scent-list></div>
+      <div class="sheetlist">
+{sheetgroups}
+      </div>
       <div class="sheetfoot">
-        <button type="button" class="clear" data-clear>Clear</button>
+        <button type="button" class="clear" data-clear>Clear all</button>
         <button type="button" class="btn btn-ink" data-close-scent>
           <span>Show <span data-sheetcount>7 stories</span></span></button>
       </div>

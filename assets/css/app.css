@@ -564,8 +564,7 @@ button:disabled,[aria-disabled="true"]{cursor:default}
    painting a grey box behind themselves — a box would reintroduce exactly the
    chip this pass removed, for 100ms. The sheet row is full-width and keeps
    its wash, because there a wash is the affordance. */
-.shelfbar .seg button:active,.shelfbar .chips button:active,
-.sizes button:active{opacity:.5}
+.shelfbar .opts button:active,.sizes button:active{opacity:.5}
 .srow:active{background:rgba(43,46,45,.06)}
 
 .ul{display:inline-block;font-family:var(--font-sans);font-weight:500;
@@ -1383,104 +1382,134 @@ html.overlay-open,html.overlay-open body{overflow:hidden}
    optical line. Centring alone did not do it — a bordered group and a
    bordered button are different heights.
    ========================================================================= */
+/* Two kinds of control, drawn as two kinds of control.
+
+   Size and scent used to share a stylesheet and a shape: three words with a
+   hairline under the active one, then five words with hairlines under the
+   active ones. They do not do the same thing. All seven fragrances exist in
+   all three sizes, so choosing 7.5 ml has never removed a card — it changes
+   the price, the pack shot and the link. Choosing a scent family removes
+   cards. Pressing something that looks exactly like a filter and watching
+   nothing filter is why the size control read as broken.
+
+   Size is a choice: one value always active, radio semantics, one tab stop
+   with arrow keys inside, and its label says so. Scent is a filter: none
+   active by default, checkbox semantics, and whatever is on appears in the
+   applied row underneath with its own undo.
+
+   Both are generated from one declaration in the build, so a third axis is a
+   list entry — nothing here names a filter.
+   ========================================================================= */
 .shelfbar{display:flex;flex-wrap:wrap;align-items:center;
   gap:var(--space-4) var(--space-6);
   margin-top:var(--space-6);padding-block:var(--space-5);
   border-block:1px solid var(--line)}
 .shelfbar>*{align-self:center}
-.shelfbar .ctl{display:flex;align-items:center;gap:var(--space-3);min-width:0;
+.finline{display:flex;flex-wrap:wrap;align-items:center;gap:var(--space-4) var(--space-6);
+  min-width:0}
+.shelfbar .fgroup{display:flex;align-items:center;gap:var(--space-3);min-width:0;
   height:var(--ctl-h-sm)}
+/* the rule between the choice and the filters, so the eye reads two things */
+.finline .fgroup+.fgroup{border-left:1px solid var(--line);padding-left:var(--space-6)}
 .shelfbar .lbl,.shelfcount{font-family:var(--font-sans);font-weight:500;
   font-size:var(--t-2xs);letter-spacing:var(--track-micro);text-transform:uppercase;
   color:var(--txt-2);white-space:nowrap;
   height:var(--ctl-h-sm);display:flex;align-items:center}
-.shelfbar .seg,.shelfbar .chips{display:flex;align-items:center;height:var(--ctl-h-sm)}
-/* The controls speak the house language now: tracked small caps marked with a
-   hairline, no boxes.
-
-   What was here — five outlined rectangles for scent and a three-part
-   segmented control with the active third filled solid black — is the
-   vocabulary of an admin filter bar, and it was the one place on the site
-   that read as a template rather than a fragrance house. It also put a heavy
-   black block a few hundred pixels above the ADD TO BAG, so the page carried
-   two competing blacks and no clear primary action.
-
-   State is now ink weight plus a 1px rule set just under the text — the same
-   marker the primary nav and the accordion already use, so this joins an
-   existing language rather than inventing a third. The rule is a non-colour
-   indicator, so selection survives 1.4.1 without the fill. Each button keeps
-   its full 34px box for the tap target; only the mark is small. */
-.shelfbar .seg,.shelfbar .chips{gap:var(--space-6)}
-.shelfbar .seg button,.shelfbar .chips button{
+.shelfbar .opts{display:flex;align-items:center;height:var(--ctl-h-sm);gap:var(--space-6)}
+.shelfbar .opts button{
   position:relative;height:var(--ctl-h-sm);padding:0;
   border:0;background:none;border-radius:0;
   display:inline-flex;align-items:center;justify-content:center;
   font-family:var(--font-sans);font-weight:500;font-size:var(--t-2xs);
   letter-spacing:var(--track-micro);text-transform:uppercase;
   color:var(--txt-2);white-space:nowrap;
-  transition:color var(--d-quick) var(--settle),opacity var(--d-quick) var(--settle)}
-.shelfbar .seg button::after,.shelfbar .chips button::after{
+  transition:color var(--d-quick) var(--settle)}
+.shelfbar .opts button:hover{color:var(--ink)}
+.shelfbar .opts button[aria-checked="true"],
+.shelfbar .opts button[aria-pressed="true"]{color:var(--ink);font-weight:600}
+/* the choice is marked with a rule under the word; the filters with a small
+   mark before it, so a glance tells you which kind of control you are in */
+.shelfbar .fgroup-one button::after{
   content:"";position:absolute;left:0;right:0;top:calc(50% + .78em);height:1px;
   background:currentColor;opacity:0;
   transition:opacity var(--d-quick) var(--settle)}
-.shelfbar .seg button:hover,.shelfbar .chips button:hover{color:var(--ink);opacity:1}
-.shelfbar .seg button[aria-pressed="true"],
-.shelfbar .chips button[aria-pressed="true"]{color:var(--ink);opacity:1;font-weight:600}
-.shelfbar .seg button[aria-pressed="true"]::after,
-.shelfbar .chips button[aria-pressed="true"]::after{opacity:1}
-/* the sheet trigger stays bordered: it is an action, not a state, and it is
-   the one thing in the row that opens something */
-.shelfbar .disclose{
-  height:var(--ctl-h-sm);padding:0 var(--space-4);
-  display:inline-flex;align-items:center;justify-content:center;
-  border:1px solid var(--line-mid);border-radius:0;background:transparent;
+.shelfbar .fgroup-one button[aria-checked="true"]::after{opacity:1}
+.shelfbar .fgroup-many button{gap:.5em}
+.shelfbar .fgroup-many button::before{
+  content:"";width:.5rem;height:.5rem;flex:none;
+  border:1px solid var(--line-mid);background:transparent;
+  transition:background var(--d-quick) var(--settle),border-color var(--d-quick) var(--settle)}
+.shelfbar .fgroup-many button:hover::before{border-color:var(--ink)}
+.shelfbar .fgroup-many button[aria-pressed="true"]::before{
+  background:var(--ink);border-color:var(--ink)}
+.shelfbar .opts button:active{opacity:.5}
+.shelfbar .opts .short{display:none}
+.filterbtn{display:none}
+.shelfcount{margin-left:auto}
+
+/* ---- what is applied, in the open --------------------------------------
+   A choice made inside a sheet used to leave no trace but a number on the
+   button that opened it. Each active filter is a chip here with its own
+   undo, at both sizes, so the state of the shelf is legible without opening
+   anything. Nothing lists filters by name: the row is built from whatever is
+   on. */
+.applied{display:flex;flex-wrap:wrap;align-items:center;gap:var(--space-3) var(--space-4);
+  padding-block:var(--space-4);border-bottom:1px solid var(--line)}
+.applied[hidden]{display:none}
+.applied .alab{font-family:var(--font-sans);font-weight:500;font-size:var(--t-2xs);
+  letter-spacing:var(--track-micro);text-transform:uppercase;color:var(--txt-2)}
+.achips{display:flex;flex-wrap:wrap;gap:var(--space-3)}
+.achip{display:inline-flex;align-items:center;gap:.55em;min-height:2rem;
+  padding:0 0 .15em;background:none;border:0;
+  border-bottom:1px solid var(--line-mid);
   font-family:var(--font-sans);font-weight:500;font-size:var(--t-2xs);
   letter-spacing:var(--track-micro);text-transform:uppercase;color:var(--ink);
-  white-space:nowrap;transition:border-color var(--d-quick) var(--settle)}
-.shelfbar .disclose:hover{border-color:var(--ink)}
-.shelfbar .seg .short{display:none}
-@media (min-width:52em){
-  .shelfbar .ctl.scent{border-left:1px solid var(--line);padding-left:var(--space-6)}
-}
-.shelfbar .disclose{display:none}
-.shelfcount{margin-left:auto;gap:var(--space-4)}
-.shelfbar .clear{font:inherit;letter-spacing:inherit;text-transform:inherit;
-  color:var(--ink);opacity:1;border:0;border-bottom:1px solid currentColor;
-  padding:0 0 .15em;height:auto;background:none}
+  transition:border-color var(--d-quick) var(--settle)}
+.achip span[aria-hidden]{font-size:1.15em;line-height:1;color:var(--txt-2);
+  transition:color var(--d-quick) var(--settle)}
+.achip:hover{border-color:var(--ink)}
+.achip:hover span[aria-hidden]{color:var(--ink)}
+.applied .clear{font-family:var(--font-sans);font-weight:500;font-size:var(--t-2xs);
+  letter-spacing:var(--track-micro);text-transform:uppercase;
+  color:var(--ink);background:none;border:0;border-bottom:1px solid currentColor;
+  padding:0 0 .15em;margin-left:auto;min-height:2rem}
 .cards .card[hidden],.cards .promo[hidden]{display:none}
 .sheet,.sheetscrim{display:none}
 
 /* ---- phone --------------------------------------------------------------
-   The bar was taking a third of the first screen and then scrolling away, so
-   you met the controls instead of the products and could not reach them
-   again without scrolling back. It is now one compact sticky row — size out
-   in the open because it is a purchase decision, scent behind a button that
-   carries a count — and scent opens a sheet where five full-width rows have
-   room to be read and tapped.
+   Everything goes behind one button.
+
+   The bar used to keep the three sizes out in the open as three bare words
+   spread across the row, with a bordered SCENT box at the end — so the one
+   control that looked like a control was the one that only opened something,
+   and the three that looked like nothing were the choice. A phone has room
+   for one control and a count, and the sheet has room to explain both groups
+   properly. It also means a third filter costs nothing here: it is another
+   section in the sheet, and this row does not change.
    ------------------------------------------------------------------------ */
 @media (max-width:51.9375em){
   .shelfbar{background:var(--ivory);
-    margin-top:var(--space-5);gap:var(--space-3);padding-block:var(--space-3);
+    margin-top:var(--space-5);gap:var(--space-4);padding-block:var(--space-3);
     flex-wrap:nowrap;align-items:center}
-  .shelfbar .ctl{height:auto;flex:1 1 auto;min-width:0}
-  .shelfbar .ctl.scent{flex:0 0 auto}
-  .shelfbar .lbl{display:none}
-  .shelfbar .seg{width:100%;height:auto;justify-content:space-between}
-  /* the buttons used to stretch to equal thirds, so the 1px rule that marks
-     the selected size was three times wider than the word it marked. They hug
-     their label and the row spaces them instead. */
-  .shelfbar .seg button{flex:0 0 auto;min-width:0;padding-inline:0;
-    height:var(--ctl-h);letter-spacing:var(--track-label)}
-  .shelfbar .seg .long{display:none}
-  .shelfbar .seg .short{display:inline}
-  .shelfbar .chips{display:none}
-  .shelfbar .disclose{display:inline-flex;gap:var(--space-2);height:var(--ctl-h);
-    padding-inline:var(--space-4)}
-  .shelfbar .disclose .tally[hidden]{display:none}
-  .shelfbar .disclose .tally{display:inline-flex;align-items:center;justify-content:center;
+  .finline{display:none}
+  .shelfcount{display:flex;margin-left:auto;min-width:0;
+    letter-spacing:var(--track-label)}
+  .filterbtn{display:inline-flex;align-items:center;gap:var(--space-2);
+    flex:0 0 auto;min-height:var(--ctl-h);padding:0 var(--space-4);
+    border:1px solid var(--line-mid);border-radius:0;background:transparent;
+    font-family:var(--font-sans);font-weight:500;font-size:var(--t-2xs);
+    letter-spacing:var(--track-micro);text-transform:uppercase;color:var(--ink);
+    white-space:nowrap;touch-action:manipulation;
+    transition:border-color var(--d-quick) var(--settle)}
+  .filterbtn:hover{border-color:var(--ink)}
+  .shelfbar.on .filterbtn{border-color:var(--ink)}
+  .filterbtn .tally[hidden]{display:none}
+  .filterbtn .tally{display:inline-flex;align-items:center;justify-content:center;
     min-width:1.125rem;height:1.125rem;background:var(--ink);color:var(--ivory);
     font-size:var(--t-2xs);letter-spacing:0;line-height:1}
-  .shelfcount{display:none}
+  .applied{padding-block:var(--space-3);gap:var(--space-3)}
+  .applied .alab{display:none}
+  .applied .clear{margin-left:auto}
 
   .sheetscrim:not([hidden]){display:block}
   .sheetscrim{position:fixed;inset:0;z-index:var(--z-scrim);
@@ -1496,30 +1525,70 @@ html.overlay-open,html.overlay-open body{overflow:hidden}
     gap:var(--space-4);padding:var(--space-5) var(--layout-margin);
     border-bottom:1px solid var(--line)}
   .sheethead h2{font-size:var(--t-2)}
-  .sheethead .x{font-family:var(--font-sans);font-weight:500;font-size:var(--t-2xs);
-    letter-spacing:var(--track-micro);text-transform:uppercase;color:var(--txt)}
+  /* Both of these were the size of their own text — 46×18 and 78×20 — which
+     is under the 24px floor everything else on this site clears. They are
+     also the two controls a thumb reaches for when it has changed its mind. */
+  .sheethead .x{display:inline-flex;align-items:center;min-height:2.75rem;
+    padding-inline:var(--space-3);margin-right:calc(var(--space-3) * -1);
+    font-family:var(--font-sans);font-weight:500;font-size:var(--t-2xs);
+    letter-spacing:var(--track-micro);text-transform:uppercase;color:var(--txt);
+    touch-action:manipulation}
   .sheetlist{overflow:auto;-webkit-overflow-scrolling:touch;
-    padding:var(--space-2) 0}
+    overscroll-behavior:contain;padding-bottom:var(--space-2)}
+
+  /* One section per group, each named and each saying what it does. A row of
+     five checkboxes under no heading told you what the options were and
+     nothing about what pressing one would do; the two lines here are the
+     difference between a control and a guess. */
+  .sgroup{padding-top:var(--space-5)}
+  .sgroup+.sgroup{border-top:1px solid var(--line)}
+  .sgh{padding:0 var(--layout-margin);
+    font-family:var(--font-sans);font-weight:500;font-size:var(--t-2xs);
+    letter-spacing:var(--track-label);text-transform:uppercase;color:var(--brass-text)}
+  .sgn{padding:var(--space-2) var(--layout-margin) var(--space-3);
+    font-family:var(--font-sans);font-size:var(--t-xs);line-height:1.5;
+    color:var(--txt-2);max-width:32em;text-transform:none;letter-spacing:normal}
+
   .srow{display:flex;align-items:center;justify-content:space-between;width:100%;
-    gap:var(--space-4);min-height:3.25rem;padding:0 var(--layout-margin);
+    gap:var(--space-4);min-height:3.25rem;padding:var(--space-2) var(--layout-margin);
     font-family:var(--font-sans);font-weight:500;font-size:var(--t-xs);
     letter-spacing:var(--track-label);text-transform:uppercase;color:var(--ink);text-align:left}
   .srow+.srow{border-top:1px solid var(--line)}
+  .slab{display:flex;flex-direction:column;gap:.2rem;min-width:0}
+  /* the price and what is in the box, under the size — the sheet is where
+     there is room to say it, and it is the thing that decides the choice */
+  /* sentence case, so it takes sentence tracking — the row's caps spacing
+     was inherited straight through and set the prose like a label */
+  .shint{font-weight:400;font-size:var(--t-2xs);letter-spacing:normal;
+    text-transform:none;color:var(--txt-2)}
   .srow i{position:relative;width:1.125rem;height:1.125rem;flex:none;
-    border:1px solid var(--line-mid)}
-  .srow[aria-pressed="true"] i{border-color:var(--ink)}
+    border:1px solid var(--line-mid);
+    transition:border-color var(--d-quick) var(--settle)}
+  /* A square is a checkbox and a circle is a radio, everywhere, and this sheet
+     holds both kinds at once — drawing them the same made the size rows look
+     like four scent families you could combine. */
+  .srow-one i{border-radius:50%}
+  .srow[aria-pressed="true"] i,.srow[aria-checked="true"] i{border-color:var(--ink)}
   .srow[aria-pressed="true"] i::after{content:"";position:absolute;
     left:27%;top:8%;width:32%;height:60%;
     border:solid var(--ink);border-width:0 1px 1px 0;transform:rotate(42deg)}
+  .srow-one[aria-checked="true"] i::after{content:"";position:absolute;
+    inset:3px;border-radius:50%;background:var(--ink);
+    border:0;transform:none;width:auto;height:auto}
   .sheetfoot{display:flex;align-items:center;justify-content:space-between;
     gap:var(--space-4);padding:var(--space-5) var(--layout-margin);
     padding-bottom:calc(var(--space-5) + env(safe-area-inset-bottom));
     border-top:1px solid var(--line)}
-  .sheetfoot .clear{font-family:var(--font-sans);font-weight:500;
+  .sheetfoot .clear{display:inline-flex;align-items:center;min-height:2.75rem;
+    font-family:var(--font-sans);font-weight:500;
     font-size:var(--t-2xs);letter-spacing:var(--track-micro);text-transform:uppercase;
-    color:var(--ink)}
+    color:var(--ink);background:none;border:0;padding:0;touch-action:manipulation;
+    position:relative}
+  /* the rule belongs under the word, not under the tap target — the same
+     pseudo-element the shelf row uses to mark a choice */
+  .sheetfoot .clear::after{content:"";position:absolute;left:0;right:0;
+    top:calc(50% + .78em);height:1px;background:currentColor}
   .sheetfoot .btn{flex:1 1 auto;max-width:16rem}
-  html.sheet-open,html.sheet-open body{overflow:hidden}
 }
 
 /* --------------------------------------------------------------- PDP ---- */
@@ -2199,7 +2268,11 @@ input:user-invalid,textarea:user-invalid{border-color:var(--text-error)}
   transition:color var(--d-quick) var(--settle)}
 .srchclear:hover,.srchclose:hover,
 .srchclear:focus-visible,.srchclose:focus-visible{color:var(--ink)}
-.srchclose{margin-right:calc(var(--s-2) * -1)}
+/* Both are the last thing on their row and both must end on the same
+   vertical. The padding that gives each its tap target was being counted
+   twice on one of them, so Clear sat eight pixels inside Close — close
+   enough to read as a mistake rather than as an offset. */
+.srchclose,.srchclear{margin-right:calc(var(--s-2) * -1)}
 
 .srchbody{margin-top:var(--s-2)}
 /* Stacked, not two columns. A result's second line is a note list — "incense,
@@ -2702,14 +2775,16 @@ a,button,summary,label,input,select,textarea,[role="button"]{
    checkbox all become invisible — every one of them is marked with a painted
    rule or a drawn tick. These keep their state in a system colour. */
 @media (forced-colors:active){
-  .shelfbar .seg button[aria-pressed="true"]::after,
-  .shelfbar .chips button[aria-pressed="true"]::after,
+  .shelfbar .opts button[aria-checked="true"]::after,
+  .shelfbar .opts button[aria-pressed="true"]::before,
   .sizes button[aria-current]::after,
   .gal .strip button[aria-current]::after,
   .show .thumbs button[aria-current]::after{
     background:Highlight;forced-color-adjust:none}
   .tryfirst input:checked::after,.consent input:checked::after,
   .srow[aria-pressed="true"] i::after{border-color:Highlight;forced-color-adjust:none}
+  .srow-one[aria-checked="true"] i::after{background:Highlight;forced-color-adjust:none}
+  .achip{forced-color-adjust:none;outline:1px solid CanvasText}
   .chip{forced-color-adjust:none;outline:1px solid CanvasText}
   .btn{border:1px solid ButtonBorder}
 }
