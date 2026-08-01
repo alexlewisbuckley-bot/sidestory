@@ -163,6 +163,159 @@
   /* ------------------------------------------------------------------ shelf
      Seven fragrances fit on one screen, so a filter is only worth having if
      each option returns a real, small set. Stone was dropped as a control:
+     seven stones, seven fragrances, so every option returned exactly one
+     card — a menu of the products under another name. Scent family is the
+     one axis a shopper arrives with a preference on, and each family holds
+     one or two, so choosing more widens.
+
+     Size is a different kind of control and behaves like one: it changes
+     what you are buying, not what you can see, so it never hides a card.
+
+     On a phone the bar is compact and sticky, and scent opens a sheet: five
+     full-width rows beat five cramped chips, the shelf is never pushed off
+     the first screen, and the controls stay reachable once you have scrolled
+     into the products. */
+  document.querySelectorAll('[data-shelf-for]').forEach(bar=>{
+    const grid=document.querySelector(bar.dataset.shelfFor); if(!grid) return;
+    const scope=bar.parentElement;
+    const cards=[...grid.querySelectorAll('.card[data-slug]')];
+    const promo=grid.querySelector('.promo');
+    const famBtns=[...bar.querySelectorAll('[data-family]')];
+    const sizeBtns=[...bar.querySelectorAll('[data-size]')];
+    const sheet=scope.querySelector('[data-scent-sheet]');
+    const scrim=scope.querySelector('[data-scent-scrim]');
+    const list=scope.querySelector('[data-scent-list]');
+    const chosen=new Set();
+    let opener=null;
+
+    /* the sheet mirrors the chips, so there is one source of families */
+    if(list) list.innerHTML = famBtns.map(b=>
+      '<button type="button" class="srow" data-family="'+b.dataset.family+'" aria-pressed="false">'
+      + '<span>'+b.innerHTML+'</span><i aria-hidden="true"></i></button>').join('');
+    const allFam=()=>[...scope.querySelectorAll('[data-family]')];
+
+    function applySize(key){
+      grid.dataset.size=key;
+      cards.forEach(card=>{
+        const p=CAT[card.dataset.slug]; if(!p||!p.sizes) return;
+        const v=p.sizes[key]; if(!v) return;
+        const shot=card.querySelector('[data-shot]');
+        if(shot&&shot.getAttribute('src')!==v.img) shot.src=v.img;
+        const buy=card.querySelector('[data-buy]');
+        if(buy){ buy.dataset.size=key; buy.innerHTML=v.label+' — £'+v.price; }
+        const line=card.querySelector('[data-priceline]');
+        if(line) line.innerHTML='£'+v.price+' · '+v.label;
+        const incl=card.querySelector('[data-incl]');
+        if(incl) incl.textContent=v.incl;
+        card.querySelectorAll('[data-href]').forEach(a=>{
+          a.href='product-'+card.dataset.slug+'.html'+(key==='100ml'?'':'?size='+key);
+        });
+      });
+      sizeBtns.forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.size===key)));
+    }
+
+    function applyScent(){
+      let shown=0;
+      cards.forEach(card=>{
+        const on = !chosen.size || chosen.has(card.dataset.family);
+        card.hidden=!on; if(on) shown++;
+      });
+      if(promo) promo.hidden = chosen.size>0;
+      allFam().forEach(b=>b.setAttribute('aria-pressed',String(chosen.has(b.dataset.family))));
+      const count=bar.querySelector('[data-count]');
+      if(count) count.textContent = !chosen.size ? 'Seven stories'
+        : shown+(shown===1?' story':' stories');
+      scope.querySelectorAll('[data-clear]').forEach(c=>{c.hidden=chosen.size===0;});
+      const tally=bar.querySelector('[data-tally]');
+      if(tally){ tally.hidden=chosen.size===0; tally.textContent=chosen.size; }
+      const sc=scope.querySelector('[data-sheetcount]');
+      if(sc) sc.textContent = shown+(shown===1?' story':' stories');
+      bar.classList.toggle('on', chosen.size>0);
+    }
+
+    function openSheet(from){
+      if(!sheet) return;
+      opener=from||null;
+      scrim.hidden=false; sheet.hidden=false;
+      requestAnimationFrame(()=>{scrim.classList.add('on');sheet.classList.add('on');});
+      document.documentElement.classList.add('sheet-open');
+      const first=sheet.querySelector('.srow'); if(first) first.focus();
+    }
+    function closeSheet(){
+      if(!sheet||sheet.hidden) return;
+      scrim.classList.remove('on'); sheet.classList.remove('on');
+      document.documentElement.classList.remove('sheet-open');
+      setTimeout(()=>{scrim.hidden=true;sheet.hidden=true;},320);
+      if(opener) opener.focus();
+    }
+    scope.addEventListener('click',e=>{
+      if(e.target.closest('[data-open-scent]')){ openSheet(e.target.closest('[data-open-scent]')); return; }
+      if(e.target.closest('[data-close-scent]')||e.target.closest('[data-scent-scrim]')){ closeSheet(); return; }
+      const sz=e.target.closest('[data-size]');
+      if(sz){ applySize(sz.dataset.size); return; }
+      const fam=e.target.closest('[data-family]');
+      if(fam){
+        const k=fam.dataset.family;
+        chosen.has(k)? chosen.delete(k) : chosen.add(k);
+        applyScent(); return;
+      }
+      if(e.target.closest('[data-clear]')){ chosen.clear(); applyScent(); return; }
+    });
+    document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeSheet(); });
+    /* keep focus inside the sheet while it is open */
+    scope.addEventListener('keydown',e=>{
+      if(e.key!=='Tab'||!sheet||sheet.hidden) return;
+      const f=[...sheet.querySelectorAll('button')].filter(b=>!b.hidden);
+      if(!f.length) return;
+      const first=f[0], last=f[f.length-1];
+      if(e.shiftKey && document.activeElement===first){ e.preventDefault(); last.focus(); }
+      else if(!e.shiftKey && document.activeElement===last){ e.preventDefault(); first.focus(); }
+    });
+
+    applySize(grid.dataset.size||'100ml');
+    applyScent();
+  });
+
+  /* PDP gallery + size selector (rebuilt markup) */
+  window.pdpSwap=(btn,src)=>{
+    const main=document.getElementById('pdpmain'); if(!main) return;
+    btn.parentElement.querySelectorAll('button').forEach(b=>b.removeAttribute('aria-current'));
+    btn.setAttribute('aria-current','true');
+    main.style.opacity=0; setTimeout(()=>{main.src=src;main.style.opacity=1;},180);
+  };
+  /* One product per fragrance; the variant is chosen by the button, or by the
+     ?size= on the link that brought you here, which is how the shop-by-size
+     collections open on the right one. */
+  function pickSize(row,b,scroll){
+    if(!b) return;
+    row.querySelectorAll('button').forEach(x=>x.removeAttribute('aria-current'));
+    b.setAttribute('aria-current','true');
+    const key=b.dataset.size||'100ml';
+    const price=b.dataset.price||(b.textContent.match(/£(\d+)/)||[])[1];
+    const add=document.querySelector('.pdp .cta .btn-ink');
+    if(add&&price){ add.textContent='Add to bag — £'+price; add.dataset.size=key; }
+    const slug=document.body.dataset.slug;
+    const v=slug && CAT[slug] && CAT[slug].sizes && CAT[slug].sizes[key];
+    const main=document.getElementById('pdpmain');
+    if(v&&main&&v.main&&main.src.indexOf(v.main)<0){
+      main.style.opacity=0;
+      setTimeout(()=>{main.src=v.main;main.style.opacity=1;},180);
+      document.querySelectorAll('.gal .strip button').forEach(x=>x.removeAttribute('aria-current'));
+    }
+    const incl=document.querySelector('[data-sizeline]');
+    if(v&&incl) incl.textContent=v.incl;
+  }
+  document.querySelectorAll('.sizes').forEach(row=>{
+    row.addEventListener('click',e=>pickSize(row,e.target.closest('button')));
+    const want=new URLSearchParams(location.search).get('size');
+    if(want){
+      const b=row.querySelector('button[data-size="'+want.replace(/[^a-z0-9-]/gi,'')+'"]');
+      if(b) pickSize(row,b);
+    }
+  });
+  /* ------------------------------------------------------------------ shelf
+     Seven fragrances fit on one screen, so a filter is only worth having if
+     each option returns a real, small set. Stone was dropped as a control:
      there are seven stones and seven fragrances, so every option returned
      exactly one card — a menu of the products under another name, not a
      filter. Scent family is the one axis a shopper arrives with a preference

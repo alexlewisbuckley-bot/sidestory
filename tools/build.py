@@ -373,13 +373,13 @@ FAMILIES = [
 ]
 
 SIZES = [
-    dict(key="100ml",  label="100 ml", price=160,
+    dict(key="100ml",  label="100 ml", short="100ml", price=160,
          incl="The printed story is in the box",
          line="Hand-carved stone lid, and the nine printed pages, in the box."),
-    dict(key="7-5ml",  label="7.5 ml", price=40,
+    dict(key="7-5ml",  label="7.5 ml", short="7.5ml", price=40,
          incl="Printed sleeve, no story",
          line="The same eau de parfum in a 7.5ml spray, in a printed sleeve."),
-    dict(key="sample", label="Sample", price=5,
+    dict(key="sample", label="Sample", short="2ml", price=5,
          incl="2ml, and its opening page",
          line="2ml of the eau de parfum — the cost comes off your first bottle."),
 ]
@@ -559,8 +559,10 @@ def build():
         if key in (None, "sample"):
             cards += "\n" + PROMO_CARD
         sizerow = "\n".join(
-            '          <button type="button" data-size="%s" aria-pressed="%s">%s</button>'
-            % (z["key"], "true" if z["key"] == (key or "100ml") else "false", z["label"])
+            '          <button type="button" data-size="%s" aria-pressed="%s">'
+            '<span class="long">%s</span><span class="short">%s</span></button>'
+            % (z["key"], "true" if z["key"] == (key or "100ml") else "false",
+               z["label"], z["short"])
             for z in SIZES)
         famrow = "\n".join(
             '          <button type="button" data-family="%s" aria-pressed="false">%s</button>'
@@ -584,14 +586,28 @@ def build():
       </div>
       <div class="ctl scent">
         <span class="lbl" id="lbl-scent">Scent</span>
-        <button class="disclose" type="button" data-disclose aria-expanded="false" aria-controls="scentchips">
-          <span data-scentlabel>All seven</span></button>
+        <button class="disclose" type="button" data-open-scent aria-haspopup="dialog">
+          <span>Scent</span><span class="tally" data-tally hidden>0</span></button>
         <div class="chips" id="scentchips" role="group" aria-labelledby="lbl-scent">
 {famrow}
         </div>
       </div>
       <p class="shelfcount"><span data-count>Seven stories</span>
         <button type="button" class="clear" data-clear hidden>Clear</button></p>
+    </div>
+    <div class="sheetscrim" data-scent-scrim hidden></div>
+    <div class="sheet" data-scent-sheet role="dialog" aria-modal="true"
+         aria-labelledby="sheet-title" hidden>
+      <div class="sheethead">
+        <h2 id="sheet-title">Scent</h2>
+        <button type="button" class="x" data-close-scent aria-label="Close">Close</button>
+      </div>
+      <div class="sheetlist" data-scent-list></div>
+      <div class="sheetfoot">
+        <button type="button" class="clear" data-clear>Clear</button>
+        <button type="button" class="btn btn-ink" data-close-scent>
+          <span>Show <span data-sheetcount>7 stories</span></span></button>
+      </div>
     </div>
     <div class="cards" data-size="{key or '100ml'}">
 {cards}
