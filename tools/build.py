@@ -28,31 +28,31 @@ def fp(path):
 # ---------------------------------------------------------------- data ----
 
 PRODUCTS = [
-    dict(slug="hotel-lobby",    name="Hotel Lobby",    stone="Nero Marquina",  swatch="#1C1D1D",
+    dict(slug="hotel-lobby",    name="Hotel Lobby",    stone="Nero Marquina",  swatch="var(--stone-hotel-lobby)",
          notes="woods, spice, green",        story="Story I",   feeling="Anticipation",
          line="It was a ten minutes before 8pm when he arrived, and its resplendence never failed to catch him off guard.",
          img="p-hotel-lobby", badge="Bestseller", read="5 min", family="woods", wear="woods warmed by a polished bar"),
-    dict(slug="sibling-rivalry", name="Sibling Rivalry", stone="Leopard Salome", swatch="#8A6A3F",
+    dict(slug="sibling-rivalry", name="Sibling Rivalry", stone="Leopard Salome", swatch="var(--stone-sibling-rivalry)",
          notes="grapefruit, vetiver, smoke", story="Story II",  feeling="Mischief",
          line="There is a particular silence that only a brother can make, and she had been listening to it for thirty years.",
          img="p-sibling-rivalry", badge="", read="6 min", family="citrus", wear="grapefruit cut with woodsmoke"),
-    dict(slug="pillow-talk",    name="Pillow Talk",    stone="Calacatta",      swatch="#E0DCD0",
+    dict(slug="pillow-talk",    name="Pillow Talk",    stone="Calacatta",      swatch="var(--stone-pillow-talk)",
          notes="musk, powder, warm skin",    story="Story III", feeling="Comfort",
          line="They had been awake for hours, unspooling the sweet trivialities of their personal histories in sleepy whispers.",
          img="p-pillow-talk", badge="", read="4 min", family="powder", wear="warm skin under cool linen"),
-    dict(slug="sunday-service", name="Sunday Service", stone="Verde Jade",     swatch="#3E5147",
+    dict(slug="sunday-service", name="Sunday Service", stone="Verde Jade",     swatch="var(--stone-sunday-service)",
          notes="incense, linen, morning air", story="Story IV", feeling="Devotion",
          line="The drive from the city to the country always felt like rolling back time.",
          img="p-sunday-service", badge="", read="7 min", family="incense", wear="cold air held in church oak"),
-    dict(slug="third-date",     name="Third Date",     stone="Rosso Levanto",  swatch="#7A2E2A",
+    dict(slug="third-date",     name="Third Date",     stone="Rosso Levanto",  swatch="var(--stone-third-date)",
          notes="plum, tobacco, candlelight",  story="Story V",  feeling="Attraction",
          line="She hardly knew him, of course—tonight was only the third date. But there was such familiarity between them.",
          img="p-third-date", badge="", read="5 min", family="amber", wear="orange blossom over well-worn leather"),
-    dict(slug="road-trip",      name="Road Trip",      stone="Rosso Francia",  swatch="#B5593F",
+    dict(slug="road-trip",      name="Road Trip",      stone="Rosso Francia",  swatch="var(--stone-road-trip)",
          notes="amber, leather, warm wind",   story="Story VI", feeling="Escape",
          line="They knew where they were going, but neither seemed to mind the impromptu detour along the way.",
          img="p-road-trip", badge="New story", read="6 min", family="amber", wear="warm leather and wind off an open window"),
-    dict(slug="4pm-matinee",    name="4pm Matinee",    stone="Giallo Siena",   swatch="#C99A3F",
+    dict(slug="4pm-matinee",    name="4pm Matinee",    stone="Giallo Siena",   swatch="var(--stone-4pm-matinee)",
          notes="citrus, velvet, dark rooms",  story="Story VII", feeling="Solitude",
          line="She came to the afternoon matinee alone. She liked the rush of independence when the ticket seller looked around for a date.",
          img="p-4pm-matinee", badge="", read="5 min", family="citrus", wear="soft velvet in a darkened theatre"),
@@ -939,9 +939,9 @@ def build():
     <p class="k">The making</p>
     <h2>Begun in Grasse. Finished by hand.</h2>
     <div class="grid-3">
-      <figure><img class="figfull" src="{fp('assets/img/plants.jpg')}" alt="Jasmine outside Mougins" loading="lazy"><figcaption class="crumb" style="margin-top:var(--s-3)">jasmine outside Mougins, first light</figcaption></figure>
-      <figure><img class="figfull" src="{fp('assets/img/founders.jpg')}" alt="The two of us, working" loading="lazy"><figcaption class="crumb" style="margin-top:var(--s-3)">the two of us, arguing a story into its final line</figcaption></figure>
-      <figure><img class="figfull" src="{fp('assets/img/spine.jpg')}" alt="Stone meeting glass" loading="lazy"><figcaption class="crumb" style="margin-top:var(--s-3)">stone meets glass &mdash; recycled, refillable</figcaption></figure>
+      <figure><img class="figfull" src="{fp('assets/img/plants.jpg')}" alt="Jasmine outside Mougins" loading="lazy"><figcaption class="hint">jasmine outside Mougins, first light</figcaption></figure>
+      <figure><img class="figfull" src="{fp('assets/img/founders.jpg')}" alt="The two of us, working" loading="lazy"><figcaption class="hint">the two of us, arguing a story into its final line</figcaption></figure>
+      <figure><img class="figfull" src="{fp('assets/img/spine.jpg')}" alt="Stone meeting glass" loading="lazy"><figcaption class="hint">stone meets glass &mdash; recycled, refillable</figcaption></figure>
     </div>
     <p>Composed by Jacques Chabert with the house in Grasse &middot; written by seven commissioned novelists &middot; stone cut in Liguria &middot; bottled and bound in the United Kingdom.</p>
   </div>
@@ -952,11 +952,11 @@ def build():
     <p class="k">The stones</p>
     <h2>No two lids repeat.</h2>
     <p>Each lid is cut from a block chosen for its seam, not its evenness. We do not select for consistency and we do not correct the veining, which means the lid on your bottle is the only one of its kind. It lifts free of the glass and is heavy on purpose.</p>
-    <div class="matrow" style="margin-top:var(--s-5)">
-      <div class="mat"><div class="sw" style="background:linear-gradient(150deg,#2B2E2D,#111312);color:#F1F0E8"><em>nero marquina</em></div><b>Nero Marquina</b><i>raking light, wet-polished vein</i></div>
-      <div class="mat"><div class="sw" style="background:linear-gradient(150deg,#EDE7DA,#C9BEA6);color:#2B2E2D"><em>calacatta</em></div><b>Calacatta</b><i>a single grey seam, off-centre</i></div>
-      <div class="mat"><div class="sw" style="background:linear-gradient(150deg,#3E5147,#26332C);color:#F1F0E8"><em>verde jade</em></div><b>Verde Jade</b><i>green under the polish, almost black</i></div>
-      <div class="mat"><div class="sw" style="background:linear-gradient(150deg,#B5593F,#7A2E2A);color:#F1F0E8"><em>rosso francia</em></div><b>Rosso Francia</b><i>warm, veined like an old map</i></div>
+    <div class="matrow spaced">
+      <div class="mat"><div class="sw sw-nero"><em>nero marquina</em></div><b>Nero Marquina</b><i>raking light, wet-polished vein</i></div>
+      <div class="mat"><div class="sw sw-pale"><em>calacatta</em></div><b>Calacatta</b><i>a single grey seam, off-centre</i></div>
+      <div class="mat"><div class="sw sw-verde"><em>verde jade</em></div><b>Verde Jade</b><i>green under the polish, almost black</i></div>
+      <div class="mat"><div class="sw sw-rosso"><em>rosso francia</em></div><b>Rosso Francia</b><i>warm, veined like an old map</i></div>
     </div>
   </div>
 </section>
@@ -1356,7 +1356,7 @@ def build():
         </table>
       </div>
       <h2 class="sechead">Your stories</h2>
-      <p class="crumb">Digital editions unlocked by your orders. They stay in your account whatever happens to the paper.</p>
+      <p class="hint">Digital editions unlocked by your orders. They stay in your account whatever happens to the paper.</p>
       <div class="tagrow">
         <a href="story.html?s=sunday-service">Sunday Service</a>
         <a href="stories.html">Hotel Lobby</a>
@@ -1377,7 +1377,7 @@ def build():
     <div>
       <div id="baglines"><div class="empty"><p class="k">Nothing here yet</p>
         <p>Your bag is empty. The shelf is seven stories long.</p>
-        <div class="tagrow" style="justify-content:center"><a href="collection.html">See the fragrances</a><a href="samples.html">Begin with samples</a></div>
+        <div class="tagrow"><a href="collection.html">See the fragrances</a><a href="samples.html">Begin with samples</a></div>
       </div></div>
       <label class="tryfirst"><input type="checkbox" checked>
         <div><b>Add a Dedication &mdash; complimentary</b><span>A line of yours, typeset on the story&rsquo;s flyleaf, and sent again as a digital edition.</span></div></label>
@@ -1388,7 +1388,7 @@ def build():
       <div class="srow"><span>Delivery</span><span>Complimentary</span></div>
       <div class="srow"><span>Sample credit</span><span>&minus;&pound;5</span></div>
       <div class="srow total"><span>Total</span><span id="bagtotal">&pound;0</span></div>
-      <a class="btn btn-ink" href="checkout.html" style="width:100%;margin-top:var(--s-4)">Proceed to checkout</a>
+      <a class="btn btn-ink cta-wide" href="checkout.html">Proceed to checkout</a>
       <p class="re">Tax included &middot; 30&#8209;day returns &middot; Visa, Mastercard, Amex, Apple Pay</p>
     </div>
   </div>
@@ -1449,7 +1449,7 @@ def build():
       <h1>Your story is bound.</h1>
       <p class="lede">Your fragrance is being prepared: the story at full size, the parcel without plastic &mdash; and your stone, its veining decided by nature alone, is about to meet its glass.</p>
     </div>
-    <p class="crumb" style="text-align:center">A confirmation letter is on its way &middot; arrives Thursday, signed for</p>
+    <p class="hint center">A confirmation letter is on its way &middot; arrives Thursday, signed for</p>
     <div class="grid-3">
       <h2 class="vh">What happens next</h2>
       <div class="tile"><h3>Read while you wait</h3><p>The digital edition of your story is already in your account.</p><p><a class="ul" href="stories.html">Read the stories</a></p></div>
@@ -1547,7 +1547,7 @@ def build():
 <div class="inner">
   {crumbs(("Home", "index.html"), "FAQ")}
   <div class="phead"><p class="k">The practical</p><h1>The questions we are actually asked.</h1></div>
-  <div class="acc" style="max-width:52rem">
+  <div class="acc narrow qa">
     <details open><summary>Is the story really written first?</summary><div class="body">Yes, and it is the whole point. A novelist is commissioned and paid before any brief goes to Grasse. The perfumer works to the finished pages &mdash; the hour of day in them, the room, the weather &mdash; not to a mood board.</div></details>
     <details><summary>What arrives in the box?</summary><div class="body">A 100ml arrives under its hand-carved stone lid, with the story printed on cotton paper in an edition matched to the run, and a 2ml sample of a second story. The 7.5ml and the samples arrive in a printed sleeve &mdash; no carved lid and no booklet at those sizes. No plastic anywhere in the parcel.</div></details>
     <details><summary>Are the lids really all different?</summary><div class="body">Every lid is cut from a block chosen for its seam. We do not select for consistency or correct the veining, so no two repeat. We do not engrave or mark them.</div></details>

@@ -54,13 +54,23 @@
   --oxblood-500:#8a3b2e; --oxblood-300:#c97a6d;
 
   /* -- 01 Primitives · stone ------------------------------------------- */
-  --stone-hotel-lobby:#2b2b2b;     --stone-tint-hotel-lobby:#d9d9d1;
+  /* The seven stones were recorded twice and disagreed on five of them: these
+     tokens held the variable panel's values while the generator carried the
+     drawn ones on each product, and it is the generator's that paint the dot
+     on every card. So the site showed Rosso Levanto at #7A2E2A on a card and
+     used #5a3637 for the same stone on the gifting band. Same call as the
+     type scale, the page margin and the rest of the palette: the artboards
+     win, and these are now the drawn values. The generator emits
+     var(--stone-<slug>) rather than a hex, so there is one record. */
+  --stone-hotel-lobby:#1c1d1d;     --stone-tint-hotel-lobby:#d9d9d1;
   --stone-sunday-service:#3e5147;  --stone-tint-sunday-service:#dbddd5;
-  --stone-pillow-talk:#d9d6ce;     --stone-tint-pillow-talk:#eeede5;
-  --stone-third-date:#5a3637;      --stone-tint-third-date:#dfd9d3;
-  --stone-road-trip:#9c5a3c;       --stone-tint-road-trip:#e7ded3;
-  --stone-matinee:#c99b4e;         --stone-tint-matinee:#ece6d5;
-  --stone-sibling-rivalry:#a97b44; --stone-tint-sibling-rivalry:#e8e2d4;
+  --stone-pillow-talk:#e0dcd0;     --stone-tint-pillow-talk:#eeede5;
+  --stone-third-date:#7a2e2a;      --stone-tint-third-date:#dfd9d3;
+  --stone-road-trip:#b5593f;       --stone-tint-road-trip:#e7ded3;
+  --stone-4pm-matinee:#c99a3f;     --stone-tint-4pm-matinee:#ece6d5;
+  --stone-sibling-rivalry:#8a6a3f; --stone-tint-sibling-rivalry:#e8e2d4;
+  --stone-matinee:var(--stone-4pm-matinee);
+  --stone-tint-matinee:var(--stone-tint-4pm-matinee);
 
   /* -- 01 Primitives · space, radius, border, opacity, duration -------- */
   --space-1:4px;   --space-2:8px;   --space-3:12px;  --space-4:16px;
@@ -69,7 +79,7 @@
   --space-13:200px; --space-14:240px;
   --radius-none:0; --radius-hairline:2px;
   /* Layers, in the order they stack. Previously thirteen arbitrary values. */
-  --z-behind:-1; --z-base:1; --z-sticky:40; --z-header:60;
+  --z-art:-2; --z-behind:-1; --z-base:1; --z-raised:2; --z-sticky:40; --z-header:60;
   --z-scrim:90; --z-overlay:95; --z-top:200;
   --border-hairline:1px;
   --opacity-wash:.06; --opacity-hairline:.16; --opacity-veil:.32;
@@ -291,31 +301,26 @@
   --track-caps:.16em;    /* --t-sm and up — 12px+, prices and larger caps */
   --track-kicker:.30em;  /* the centred section eyebrows, and only those */
 
-  /* the older names, aliased on so this is a token swap and not a rewrite */
-  --ls-nav:var(--track-label);   --ls-kicker:var(--track-kicker);
-  --ls-btn:var(--track-label);   --ls-price:var(--track-caps);
-  --ls-stone:var(--track-micro); --ls-badge:var(--track-micro);
-  --ls-legal:var(--track-label); --ls-label:var(--track-label);
 
   /* ---------------------------------------------------------------------
-     Ink strength. The same disease: "quieter than the body text" was written
-     as a bare opacity at each call site — fourteen distinct values from .94
-     down to .5 — while the two tokens that existed for it were used zero
-     times. Three steps. Opacity rather than colour because half these sites
-     sit on ink and half on ivory, and one ladder has to serve both grounds.
-     --------------------------------------------------------------------- */
-  Two mechanisms, because one does not fit both grounds.
+     Ink strength. "Quieter than the body text" had been written as a bare
+     opacity at each call site — fourteen distinct values from .94 down to .5
+     — while the two tokens that existed for it were used zero times.
 
-     On the ivory grounds — which is most of the site — recession is a COLOUR.
+     Two mechanisms now, because one does not fit both grounds.
+
+     On the ivory grounds, which is most of the site, recession is a COLOUR.
      Opacity was the wrong tool twice over. It compounds: `.marginnote` at .85
      holding a `small` at .85 renders at .72, and nobody wrote .72. And on a
      light ground the arithmetic is unforgiving — charcoal at 70% over ivory
-     measures 3.9:1, under the 4.5 small text needs, so half the site's
-     labels were failing while reading as a deliberate grey. There is exactly
-     one usable step below the primary ink here, so there is one.
+     measures 3.9:1, under the 4.5 that small text needs, so a large part of
+     the site's labelling was failing while reading as a deliberate grey.
+     There is exactly one usable step below the primary ink here, so there
+     is one.
 
-     On ink, photography and the stone fields, ivory text has room to fall,
-     and a colour would have to be authored per ground. There, opacity. */
+     On ink, photography and the stone fields, ivory text has room to fall and
+     a colour would have to be authored per ground. There, opacity.
+     --------------------------------------------------------------------- */
   --txt-2:#5f6260; /* the one recession step on ivory — 5.4:1, 4.9 on sand */
   --o-strong:.85;  /* ivory on a dark ground: 9:1 */
   --o-mid:.7;      /* ivory on a dark ground: 6.7:1 */
@@ -415,7 +420,7 @@ button{font:inherit;border:0;background:none;cursor:pointer;color:inherit}
   padding:0 var(--space-5);height:var(--ctl-h);display:inline-flex;align-items:center;
   background:var(--ink);color:var(--ivory);
   font-family:var(--font-sans);font-weight:600;font-size:var(--t-2xs);
-  letter-spacing:var(--ls-btn);text-transform:uppercase;
+  letter-spacing:var(--track-label);text-transform:uppercase;
   transition:top var(--d-quick) var(--settle)}
 .skip:focus{top:var(--space-4)}
 
@@ -473,7 +478,7 @@ main>:first-child:is(.band,.house,.seven,.show,.atelier,.feelings,
 /* ------------------------------------------------------------- buttons -- */
 .btn{display:inline-flex;align-items:center;justify-content:center;text-align:center;
   font-family:var(--font-sans);font-weight:600;font-size:var(--t-btn);
-  letter-spacing:var(--ls-btn);text-transform:uppercase;
+  letter-spacing:var(--track-label);text-transform:uppercase;
   min-height:var(--ctl-h);padding-inline:var(--ctl-px);padding-block:0;
   border:1px solid transparent;
   transition:background var(--d-quick) var(--settle),color var(--d-quick) var(--settle),border-color var(--d-quick) var(--settle)}
@@ -492,7 +497,7 @@ main>:first-child:is(.band,.house,.seven,.show,.atelier,.feelings,
 .btn:active{transform:translateY(1px)}
 .btn[disabled],.btn:disabled{opacity:.55;cursor:default;transform:none}
 .btn[disabled]:hover,.btn:disabled:hover{background:inherit}
-.ul:active,.sv:active,.scard:active{opacity:.6}
+.ul:active,.sv:active,.scard:active{opacity:.5}
 button:disabled,[aria-disabled="true"]{cursor:default}
 /* Press. Borderless text controls acknowledge a tap by dimming, not by
    painting a grey box behind themselves — a box would reintroduce exactly the
@@ -503,7 +508,7 @@ button:disabled,[aria-disabled="true"]{cursor:default}
 .srow:active{background:rgba(43,46,45,.06)}
 
 .ul{display:inline-block;font-family:var(--font-sans);font-weight:500;
-  font-size:var(--t-xs);letter-spacing:var(--ls-nav);text-transform:uppercase;white-space:nowrap;
+  font-size:var(--t-xs);letter-spacing:var(--track-label);text-transform:uppercase;white-space:nowrap;
   border-bottom:1px solid currentColor;padding-bottom:.2em}
 
 /* -------------------------------------------------------------- reveal -- */
@@ -516,7 +521,7 @@ button:disabled,[aria-disabled="true"]{cursor:default}
 .ann{background:var(--ink);color:var(--ivory);display:flex;align-items:center;justify-content:center;
   text-align:center;padding:var(--space-4) var(--gutter);
   font-family:var(--font-sans);font-size:var(--t-2xs);
-  letter-spacing:var(--ls-legal);text-transform:uppercase;line-height:1.3;
+  letter-spacing:var(--track-label);text-transform:uppercase;line-height:1.3;
   max-height:4rem;overflow:hidden}
 .ann.hide{max-height:0;padding-block:0}
 
@@ -532,7 +537,7 @@ button:disabled,[aria-disabled="true"]{cursor:default}
 
 .links{display:flex;flex-wrap:wrap;gap:clamp(1rem,1.9vw,1.875rem);margin-left:clamp(1rem,3vw,3.5rem)}
 .links a,.util a,.util button{font-family:var(--font-sans);font-weight:500;
-  font-size:var(--t-xs);letter-spacing:var(--ls-nav);text-transform:uppercase;color:var(--txt);
+  font-size:var(--t-xs);letter-spacing:var(--track-label);text-transform:uppercase;color:var(--txt);
   position:relative;white-space:nowrap;padding-block:.35em}
 .links a::after{content:"";position:absolute;left:0;bottom:0;width:100%;height:1px;
   background:var(--ink);transform:scaleX(0);transform-origin:left;
@@ -546,13 +551,13 @@ button:disabled,[aria-disabled="true"]{cursor:default}
 /* ------------------------------------------------------------- 02 hero -- */
 .hero{position:relative;display:grid;align-items:end;isolation:isolate;
   min-height:clamp(28rem,72svh,45rem);overflow:hidden}
-.hero>img,.hero>picture>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;
+.hero>img,.hero>picture>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:var(--z-art);
   transform:scale(1.05);animation:kb var(--d-ambient) var(--settle) forwards}
 @keyframes kb{to{transform:scale(1)}}
 /* Three layers, so the copy stays legible whatever the plate behind it: the
    prototype's two diagonals, plus a floor that guarantees contrast under the
    headline and buttons on a bright flat-lay. */
-.hero .veil{position:absolute;inset:0;z-index:-1;background:
+.hero .veil{position:absolute;inset:0;z-index:var(--z-behind);background:
   linear-gradient(to top,rgba(18,16,12,.72) 0%,rgba(18,16,12,.28) 34%,rgba(18,16,12,0) 62%),
   linear-gradient(63deg,rgba(20,18,13,.62) -6%,rgba(20,18,13,0) 100%),
   linear-gradient(to right,rgba(20,18,13,.66) 0%,rgba(20,18,13,0) 150%)}
@@ -561,11 +566,11 @@ button:disabled,[aria-disabled="true"]{cursor:default}
   padding:var(--s-7) var(--gutter) clamp(4.5rem,9vw,5.5rem)}
 .hero .copy>*{opacity:0;transform:translateY(1rem);animation:rise var(--d-slow) var(--settle) forwards}
 @keyframes rise{to{opacity:1;transform:none}}
-.hero .k{font-size:var(--t-xs);color:var(--ivory);opacity:var(--o-strong);letter-spacing:var(--track-kicker);animation-delay:.1s}
-.hero h1{font-size:var(--t-6);line-height:var(--lh-headline);margin-top:var(--s-4);animation-delay:.25s}
+.hero .k{font-size:var(--t-xs);color:var(--ivory);opacity:var(--o-strong);letter-spacing:var(--track-kicker);animation-delay:var(--d-instant)}
+.hero h1{font-size:var(--t-6);line-height:var(--lh-headline);margin-top:var(--s-4);animation-delay:var(--d-quick)}
 .hero :where(p:not(.k)){font-size:var(--t-lg);line-height:var(--lh-lede);opacity:var(--o-strong);max-width:35rem;
-  margin-top:var(--s-4);animation-delay:.5s}
-.hero .cta{display:flex;flex-wrap:wrap;gap:var(--s-3);margin-top:var(--s-5);animation-delay:.5s}
+  margin-top:var(--s-4);animation-delay:var(--d-settled)}
+.hero .cta{display:flex;flex-wrap:wrap;gap:var(--s-3);margin-top:var(--s-5);animation-delay:var(--d-settled)}
 .hero .cta .btn{min-height:var(--ctl-h-lg);padding-inline:var(--ctl-px-lg)}
 .cue{position:absolute;left:50%;bottom:var(--s-4);translate:-50% 0;text-align:center;
   color:var(--ivory);pointer-events:none}
@@ -616,7 +621,7 @@ button:disabled,[aria-disabled="true"]{cursor:default}
 .card:hover .ph img{transform:scale(1.03)}
 .badge{position:absolute;top:var(--s-2);left:var(--s-2);background:rgba(241,240,232,.95);
   font-family:var(--font-sans);font-weight:600;font-size:var(--t-2xs);
-  letter-spacing:var(--ls-badge);text-transform:uppercase;padding:.45em .75em;line-height:1}
+  letter-spacing:var(--track-micro);text-transform:uppercase;padding:.45em .75em;line-height:1}
 .quick{position:absolute;left:0;right:0;bottom:0;background:rgba(241,240,232,.97);
   padding:var(--s-3);transform:translateY(101%);transition:transform var(--d-settled) var(--settle)}
 .card:hover .quick,.card:focus-within .quick{transform:none}
@@ -629,7 +634,7 @@ button:disabled,[aria-disabled="true"]{cursor:default}
 .chip{display:inline-block;width:.625rem;height:.625rem;border-radius:50%;
   box-shadow:inset 0 0 0 .5px rgba(43,46,45,.25);vertical-align:middle;margin-right:.6em}
 .card .stone{font-family:var(--font-sans);font-weight:500;font-size:var(--t-2xs);
-  letter-spacing:var(--ls-stone);text-transform:uppercase;color:var(--txt-2);
+  letter-spacing:var(--track-micro);text-transform:uppercase;color:var(--txt-2);
   vertical-align:middle;line-height:1}
 .card h3{font-size:var(--t-card);margin-top:var(--s-2);color:var(--ink)}
 .card .notes{font-family:var(--font-script);font-weight:300;font-style:italic;
@@ -637,7 +642,7 @@ button:disabled,[aria-disabled="true"]{cursor:default}
 .card .price{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;
   gap:var(--s-2);margin-top:var(--s-3);
   font-family:var(--font-sans);font-weight:500;font-size:var(--t-xs);
-  letter-spacing:var(--ls-price);text-transform:uppercase;color:var(--ink)}
+  letter-spacing:var(--track-caps);text-transform:uppercase;color:var(--ink)}
 
 /* the discovery-set card sits in the same grid track and simply fills it */
 .promo{display:flex;flex-direction:column;justify-content:center;gap:var(--s-3);
@@ -704,8 +709,8 @@ button:disabled,[aria-disabled="true"]{cursor:default}
 /* ---------------------------------------------------- 06 campaign band -- */
 .campaign{position:relative;display:grid;align-items:end;isolation:isolate;
   min-height:clamp(22rem,48svh,35rem);overflow:hidden}
-.campaign>img,.campaign>picture>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2}
-.campaign .v{position:absolute;inset:0;z-index:-1;
+.campaign>img,.campaign>picture>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:var(--z-art)}
+.campaign .v{position:absolute;inset:0;z-index:var(--z-behind);
   background:linear-gradient(14deg,rgba(23,18,12,.66),rgba(23,18,12,0) 62%)}
 .campaign .c{color:var(--ivory);max-width:calc(52rem + var(--gutter) * 2);
   padding:var(--s-7) var(--gutter) var(--s-6)}
@@ -724,9 +729,9 @@ button:disabled,[aria-disabled="true"]{cursor:default}
    neither is a thing any fragrance house does to a piece of editorial. The
    card now simply warms its ground, which is the same acknowledgement the
    rest of the site gives — quiet, and on a surface rather than in space. */
-.feel{display:block;background:var(--ivory);padding:var(--s-4);
-  transition:background var(--d-quick) var(--settle)}
-.feel:hover,.feel:focus-visible{background:var(--sand)}
+.feel{display:block;background:var(--ivory);padding:var(--s-4)}
+.feel h3{transition:color var(--d-quick) var(--settle)}
+.feel:hover h3,.feel:focus-visible h3{color:var(--brass-text)}
 .feel .chip{display:block;width:.5625rem;height:.5625rem;margin:0}
 .feel h3{font-family:var(--font-display);font-size:var(--t-1);
   margin-top:var(--s-5);color:var(--ink)}
@@ -764,6 +769,28 @@ button:disabled,[aria-disabled="true"]{cursor:default}
 .matrow{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,11rem),1fr));
   gap:var(--s-4)}
 .mat{min-width:0}
+/* The material swatches were four inline gradients repeated across two files,
+   with the ink and ivory in them spelled as hex. A gradient is a design
+   decision, so it lives here. */
+.sw-nero{background:linear-gradient(150deg,var(--charcoal-700),#111312);color:var(--ivory)}
+.sw-verde{background:linear-gradient(150deg,var(--stone-sunday-service),#26332c);color:var(--ivory)}
+.sw-rosso{background:linear-gradient(150deg,var(--stone-road-trip),var(--stone-third-date));color:var(--ivory)}
+.sw-pale{background:linear-gradient(150deg,#ede7da,#c9bea6);color:var(--ink)}
+.sw-paper{background:linear-gradient(150deg,#f2efe7,#d8d2c4);color:var(--ink)}
+.sw-oil{background:linear-gradient(150deg,#d8a94e,#8c6128);color:var(--ivory)}
+.matrow.spaced{margin-top:var(--s-5)}
+.btn.cta-wide{width:100%;margin-top:var(--s-4)}
+.acc.narrow{max-width:52rem}
+/* The accordion label is a label on a product page — "The story", "Notes" —
+   and it is set in tracked caps because that is what labels are here. On the
+   FAQ the same element holds a whole question, and a 45-character sentence in
+   10px uppercase is shouted rather than read. Questions are content, so on
+   that page they are set as content is set. */
+.acc.qa summary{font-family:var(--font-serif);font-size:var(--t-1);
+  font-weight:400;letter-spacing:0;text-transform:none;line-height:1.4;
+  min-height:0;padding-block:var(--s-4);gap:var(--s-5)}
+.acc.qa summary::after{font-size:var(--t-2);opacity:var(--o-strong)}
+.acc.qa :where(.body){font-size:var(--t-md);padding-bottom:var(--s-5)}
 .mat .sw{aspect-ratio:294/200;display:flex;align-items:center;justify-content:center;
   text-align:center;padding:var(--s-3)}
 .mat .sw em{font-family:var(--font-script);font-style:italic;font-size:var(--t-1)}
@@ -823,10 +850,11 @@ button:disabled,[aria-disabled="true"]{cursor:default}
   margin:var(--s-3) auto 0}
 .news form{display:flex;flex-wrap:wrap;justify-content:center;gap:var(--s-2);
   margin-top:var(--s-4)}
-.news input{flex:1 1 15rem;max-width:22rem;min-height:2.875rem;padding:0 var(--s-4);
-  background:var(--ivory);border:1px solid rgba(43,46,45,.25);color:var(--ink);
+.news input{flex:1 1 15rem;max-width:22rem;min-height:2.875rem;padding:0 0 .5rem;
+  background:none;border:0;border-bottom:1px solid var(--txt-2);border-radius:0;
+  color:var(--ink);text-align:center;
   font-family:var(--font-serif);font-size:var(--t-sm)}
-.news input:focus{outline:none;border-color:var(--ink)}
+.news input:focus{outline:none;border-bottom-color:var(--ink);border-bottom-width:2px}
 .news .fine{margin-top:var(--s-4);font-family:var(--font-sans);font-size:var(--t-2xs);
   color:var(--txt-2);line-height:1.8}
 
@@ -1001,8 +1029,8 @@ html.overlay-open,html.overlay-open body{overflow:hidden}
 /* full-bleed editorial banner used at the top of the longer pages */
 .banner{position:relative;display:grid;align-items:end;isolation:isolate;
   min-height:clamp(18rem,40svh,30rem);overflow:hidden;color:var(--ivory)}
-.banner>img,.banner>picture>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2}
-.banner::after{content:"";position:absolute;inset:0;z-index:-1;background:
+.banner>img,.banner>picture>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:var(--z-art)}
+.banner::after{content:"";position:absolute;inset:0;z-index:var(--z-behind);background:
   linear-gradient(0deg,rgba(20,17,12,.82) 0%,rgba(20,17,12,.28) 45%,rgba(20,17,12,.06) 100%),
   linear-gradient(70deg,rgba(20,17,12,.55) 0%,rgba(20,17,12,0) 65%)}
 .banner .c{max-width:calc(44rem + var(--gutter) * 2);padding:var(--s-7) var(--gutter) var(--s-6)}
@@ -1044,7 +1072,7 @@ html.overlay-open,html.overlay-open body{overflow:hidden}
 .shelfbar .ctl{display:flex;align-items:center;gap:var(--space-3);min-width:0;
   height:var(--ctl-h-sm)}
 .shelfbar .lbl,.shelfcount{font-family:var(--font-sans);font-weight:500;
-  font-size:var(--t-2xs);letter-spacing:var(--ls-stone);text-transform:uppercase;
+  font-size:var(--t-2xs);letter-spacing:var(--track-micro);text-transform:uppercase;
   color:var(--txt-2);white-space:nowrap;
   height:var(--ctl-h-sm);display:flex;align-items:center}
 .shelfbar .seg,.shelfbar .chips{display:flex;align-items:center;height:var(--ctl-h-sm)}
@@ -1147,7 +1175,7 @@ html.overlay-open,html.overlay-open body{overflow:hidden}
     border-bottom:1px solid var(--line)}
   .sheethead h2{font-size:var(--t-2)}
   .sheethead .x{font-family:var(--font-sans);font-weight:500;font-size:var(--t-2xs);
-    letter-spacing:var(--ls-stone);text-transform:uppercase;color:var(--txt)}
+    letter-spacing:var(--track-micro);text-transform:uppercase;color:var(--txt)}
   .sheetlist{overflow:auto;-webkit-overflow-scrolling:touch;
     padding:var(--space-2) 0}
   .srow{display:flex;align-items:center;justify-content:space-between;width:100%;
@@ -1166,7 +1194,7 @@ html.overlay-open,html.overlay-open body{overflow:hidden}
     padding-bottom:calc(var(--space-5) + env(safe-area-inset-bottom));
     border-top:1px solid var(--line)}
   .sheetfoot .clear{font-family:var(--font-sans);font-weight:500;
-    font-size:var(--t-2xs);letter-spacing:var(--ls-stone);text-transform:uppercase;
+    font-size:var(--t-2xs);letter-spacing:var(--track-micro);text-transform:uppercase;
     color:var(--ink)}
   .sheetfoot .btn{flex:1 1 auto;max-width:16rem}
   html.sheet-open,html.sheet-open body{overflow:hidden}
@@ -1245,10 +1273,10 @@ html.overlay-open,html.overlay-open body{overflow:hidden}
 .pdp .tryfirst{margin-top:var(--space-5)}
 
 /* the only two full-width controls on the site, and only inside this column */
-.pdp .cta{display:grid;grid-template-columns:minmax(0,1fr);gap:10px;margin-top:var(--space-5)}
+.pdp .cta{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--space-3);margin-top:var(--space-5)}
 .pdp .cta .btn{width:100%;min-height:var(--ctl-h-buy)}
 .pdp .cta .applepay{min-height:var(--ctl-h-pay);font-weight:500;
-  font-size:var(--t-xs);letter-spacing:var(--ls-btn);border-color:rgba(43,46,45,.5)}
+  font-size:var(--t-xs);letter-spacing:var(--track-label);border-color:rgba(43,46,45,.5)}
 .i-apple{width:.9em;height:1.2em;fill:currentColor;opacity:.9;
   margin-right:.55em;flex:none;display:inline-block;vertical-align:-.18em}
 .pay .i-apple{margin-right:.15em}
@@ -1259,9 +1287,9 @@ html.overlay-open,html.overlay-open body{overflow:hidden}
 .acc{margin-top:var(--space-6);border-top:1px solid var(--line)}
 .acc details{border-bottom:1px solid var(--line)}
 .acc summary{display:flex;justify-content:space-between;align-items:center;gap:var(--s-3);
-  min-height:3rem;padding-block:14px;cursor:pointer;list-style:none;
+  min-height:3rem;padding-block:var(--space-3);cursor:pointer;list-style:none;
   font-family:var(--font-sans);font-weight:500;font-size:var(--t-xs);
-  letter-spacing:var(--ls-nav);text-transform:uppercase;color:var(--ink)}
+  letter-spacing:var(--track-label);text-transform:uppercase;color:var(--ink)}
 .acc summary::-webkit-details-marker{display:none}
 .acc summary::after{content:"+";font-family:var(--font-serif);font-size:var(--t-sm);
   line-height:1;font-weight:400;letter-spacing:0;opacity:var(--o-strong)}
@@ -1284,8 +1312,8 @@ html.overlay-open,html.overlay-open body{overflow:hidden}
 /* --- index: the featured story, full bleed ------------------------------ */
 .yfeat{position:relative;isolation:isolate;min-height:clamp(20rem,42vw,32.5rem);
   display:grid;align-items:end;overflow:hidden}
-.yfeat>img,.yfeat>picture>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2}
-.yfeat .veil{position:absolute;inset:0;z-index:-1;background:
+.yfeat>img,.yfeat>picture>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:var(--z-art)}
+.yfeat .veil{position:absolute;inset:0;z-index:var(--z-behind);background:
   linear-gradient(to top,rgba(18,16,12,.72) 0%,rgba(18,16,12,.30) 42%,rgba(18,16,12,0) 74%),
   linear-gradient(to right,rgba(20,18,13,.55) 0%,rgba(20,18,13,0) 62%)}
 .yfeat .inner{padding-block:var(--space-10)}
@@ -1310,7 +1338,7 @@ html.overlay-open,html.overlay-open body{overflow:hidden}
 .scard:hover .plate img{transform:scale(1.03)}
 .scard .sm{display:flex;align-items:center;gap:var(--space-2);margin-top:var(--space-5);
   font-family:var(--font-sans);font-weight:500;font-size:var(--t-2xs);
-  letter-spacing:var(--ls-stone);text-transform:uppercase;color:var(--brass-text)}
+  letter-spacing:var(--track-micro);text-transform:uppercase;color:var(--brass-text)}
 .scard .sm .chip{width:.5625rem;height:.5625rem;margin:0;flex:none}
 .scard h3{font-family:var(--font-display);font-weight:400;
   font-size:clamp(19px,calc(19px + 7 * (100vw - 390px) / 1050),26px);
@@ -1402,7 +1430,7 @@ html.overlay-open,html.overlay-open body{overflow:hidden}
 /* the fragrance the story became */
 .sbecame{position:relative;background:var(--field);color:var(--ivory);
   padding-block:var(--space-10);overflow:hidden}
-.sbecame .inner{position:relative;z-index:1}
+.sbecame .inner{position:relative;z-index:var(--z-base)}
 .sbecame .c{max-width:32.5rem}
 .sbecame .k{color:var(--brass-on-dark);letter-spacing:var(--track-kicker)}
 .sbecame h2{font-size:var(--t-5);color:var(--ivory);margin-top:var(--space-4)}
@@ -1412,7 +1440,7 @@ html.overlay-open,html.overlay-open body{overflow:hidden}
 .nrow{display:grid;grid-template-columns:4.75rem minmax(0,1fr);gap:var(--space-5);
   align-items:baseline}
 .nrow b{font-family:var(--font-sans);font-weight:500;font-size:var(--t-2xs);
-  letter-spacing:var(--ls-stone);text-transform:uppercase;color:var(--brass-on-dark)}
+  letter-spacing:var(--track-micro);text-transform:uppercase;color:var(--brass-on-dark)}
 .nrow span{font-family:var(--font-script);font-weight:300;font-style:italic;
   font-size:var(--t-notes);opacity:var(--o-strong)}
 .sbecame .actions{display:flex;flex-wrap:wrap;gap:var(--space-3);margin-top:var(--space-7)}
@@ -1422,7 +1450,7 @@ html.overlay-open,html.overlay-open body{overflow:hidden}
 /* the plate fades into the field rather than butting against it */
 .sbecame::after{content:"";position:absolute;top:0;height:100%;width:12.5rem;
   right:calc(min(39%,35rem) - 12.5rem);
-  background:linear-gradient(to right,var(--field),transparent);z-index:1;pointer-events:none}
+  background:linear-gradient(to right,var(--field),transparent);z-index:var(--z-base);pointer-events:none}
 @media (max-width:63.9375em){ .sbecame::after{display:none} }
 
 /* previous / next */
@@ -1445,7 +1473,7 @@ html.overlay-open,html.overlay-open body{overflow:hidden}
 .svs{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,8.5rem),1fr));
   gap:var(--space-5) 10px;margin-top:var(--space-7)}
 .sv{display:block;color:inherit}
-.sv i{display:block;height:8px;border-radius:0;box-shadow:inset 0 0 0 .5px rgba(43,46,45,.1)}
+.sv i{display:block;height:8px;border-radius:0;box-shadow:inset 0 0 0 .5px rgba(43,46,45,.25)}
 .sv em{display:block;font-family:var(--font-script);font-weight:300;font-style:normal;
   font-size:var(--t-notes);color:var(--brass-text);margin-top:var(--space-2)}
 .sv b{display:block;font-family:var(--font-serif);font-weight:400;
@@ -1461,8 +1489,8 @@ html.overlay-open,html.overlay-open body{overflow:hidden}
    ========================================================================= */
 .shero{position:relative;isolation:isolate;min-height:clamp(24rem,42vw,37.5rem);
   display:grid;align-items:center;overflow:hidden}
-.shero>img,.shero>picture>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2}
-.shero .veil{position:absolute;inset:0;z-index:-1;background:
+.shero>img,.shero>picture>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:var(--z-art)}
+.shero .veil{position:absolute;inset:0;z-index:var(--z-behind);background:
   linear-gradient(to top,rgba(18,16,12,.66) 0%,rgba(18,16,12,.30) 46%,rgba(18,16,12,.08) 100%),
   linear-gradient(to right,rgba(20,18,13,.62) 0%,rgba(20,18,13,0) 66%)}
 .shero .c{max-width:37.125rem;color:var(--ivory)}
@@ -1485,7 +1513,7 @@ html.overlay-open,html.overlay-open body{overflow:hidden}
 .howworks .ghost{position:absolute;top:0;right:0;font-family:var(--font-display);
   font-size:clamp(7rem,17vw,16.25rem);line-height:1.2;color:rgba(43,46,45,.05);
   pointer-events:none;user-select:none;z-index:0}
-.howworks .inner{position:relative;z-index:1}
+.howworks .inner{position:relative;z-index:var(--z-base)}
 .howworks h2{font-size:var(--t-4);margin-top:var(--space-3)}
 .hsteps{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--space-7) var(--space-7);
   margin-top:var(--space-8)}
@@ -1507,20 +1535,49 @@ html.overlay-open,html.overlay-open body{overflow:hidden}
 }
 .tellus h2{font-size:var(--t-5);margin-top:var(--space-3)}
 .sform{margin-top:var(--space-6);display:grid;gap:var(--space-5)}
-.ffield{display:block;position:relative;background:var(--ivory);
-  border:1px solid rgba(43,46,45,.28);padding:0.75rem var(--space-4) 0.6875rem}
-.ffield:focus-within{border-color:rgba(43,46,45,.9)}
-.ffield>span{display:block;font-family:var(--font-sans);font-weight:500;
+/* ============================================================== the field ==
+   One field, drawn on a rule.
+
+   There were two components doing this job and looking different: `.ffield`
+   on the share page put the label inside a bordered box, `.field` on contact
+   and checkout put it above a bordered input. Same job, two answers, and the
+   boxes were the last remaining boxes on a site that is otherwise built out
+   of hairlines.
+
+   They are one component now, on a rule rather than in a box — which is also
+   what fixes a live failure: the box borders were drawn at rgba(43,46,45,.28),
+   which measures 2.0:1 against ivory, under the 3:1 that 1.4.11 requires to
+   identify a control. The rule is --txt-2 at 5.4:1 resting, ink at 2px on
+   focus, so the state change is unmistakable without an outline.
+   ========================================================================== */
+.ffield,.field{display:block;position:relative;background:none;border:0;padding:0}
+.field{margin-top:var(--s-5)}
+.ffield>span,.field>span{display:block;font-family:var(--font-sans);font-weight:500;
   font-size:var(--t-2xs);letter-spacing:var(--track-micro);text-transform:uppercase;
-  color:var(--txt-2)}
-.ffield input,.ffield textarea{display:block;width:100%;margin-top:.55rem;
-  border:0;background:none;color:var(--ink);
-  font-family:var(--font-sans);font-size:var(--t-sm);line-height:1.5}
-.ffield textarea{font-family:var(--font-serif);font-size:var(--t-md);
-  line-height:1.68;min-height:11.5rem;resize:vertical}
-.ffield input:focus,.ffield textarea:focus{outline:none}
-.ffield ::placeholder{color:var(--txt-2)}
-.ffield.tall{background:var(--ivory);border-color:var(--ink);border-width:1px}
+  color:var(--txt-2);margin-bottom:0}
+.ffield input,.ffield textarea,.field input,.field textarea,.field select{
+  display:block;width:100%;margin-top:.35rem;padding:.55rem 0;
+  border:0;border-bottom:1px solid var(--txt-2);border-radius:0;background:none;
+  color:var(--ink);font-family:var(--font-sans);font-size:var(--t-sm);line-height:1.6;
+  transition:border-color var(--d-quick) var(--settle)}
+.field input,.field textarea,.field select{font-family:var(--font-serif);
+  font-size:var(--t-md)}
+.ffield textarea,.field textarea{font-family:var(--font-serif);font-size:var(--t-md);
+  line-height:1.68;min-height:11.5rem;resize:vertical;padding-top:.35rem}
+.ffield input:focus,.ffield textarea:focus,
+.field input:focus,.field textarea:focus,.field select:focus{
+  outline:none;border-bottom-color:var(--ink);border-bottom-width:2px;
+  padding-bottom:calc(.55rem - 1px)}
+.ffield ::placeholder,.field ::placeholder{color:var(--txt-2)}
+/* Every textarea keeps its box. A rule works under a single line because the
+   line tells you where to write; under two hundred pixels of empty ivory it
+   reads as nothing at all, and you cannot see the size of what you are being
+   asked for. One line, one rule; a paragraph, a boundary. */
+.ffield textarea,.field textarea{background:var(--ivory);padding:var(--space-4);
+  border:1px solid var(--txt-2)}
+.ffield textarea:focus,.field textarea:focus{border-color:var(--ink);
+  border-bottom-width:1px;box-shadow:inset 0 0 0 1px var(--ink);
+  padding-bottom:var(--space-4)}
 .sform .count.over{color:var(--oxblood-500);opacity:1}
 .sform .count{margin-top:calc(var(--space-5) * -1 + var(--space-2));text-align:right;
   font-family:var(--font-sans);font-size:var(--t-2xs);letter-spacing:var(--track-micro);
@@ -1529,13 +1586,16 @@ html.overlay-open,html.overlay-open body{overflow:hidden}
 @media (min-width:34em){ .frow2{grid-template-columns:repeat(2,minmax(0,1fr))} }
 .consent{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--space-5);
   align-items:start;margin-top:var(--space-2)}
-@media (min-width:52em){ .consent{grid-template-columns:minmax(0,1fr) auto} }
+/* the consent line squeezed into a 200px column beside a 300px button and
+   wrapped to eight lines; it only goes side-by-side when the sentence has
+   room to be one */
+@media (min-width:52em){ .consent{grid-template-columns:minmax(22rem,1fr) auto} }
 .consent label{display:grid;grid-template-columns:auto minmax(0,1fr);gap:var(--space-3);
   align-items:start;cursor:pointer}
 .consent input{margin:.15rem 0 0}
 .consent span{font-family:var(--font-serif);font-size:var(--t-sm);
   line-height:1.68;color:var(--txt)}
-.consent .btn{min-height:3.375rem;min-width:18.75rem}
+.consent .btn{min-height:3.375rem;min-width:15rem}
 .tellus .re{margin-top:var(--space-4)}
 
 .looking{background:var(--plaster);border-radius:var(--radius-hairline);
@@ -1625,9 +1685,12 @@ html.overlay-open,html.overlay-open body{overflow:hidden}
    here. */
 .formlive:empty{display:none}
 .formlive{margin-bottom:var(--space-4);font-family:var(--font-sans);font-weight:500;
-  font-size:var(--t-2xs);letter-spacing:var(--ls-stone);text-transform:uppercase;
+  font-size:var(--t-2xs);letter-spacing:var(--track-micro);text-transform:uppercase;
   color:var(--text-error)}
-.ffield.invalid,.field.invalid{border-color:var(--text-error)}
+.ffield.invalid input,.ffield.invalid textarea,
+.field.invalid input,.field.invalid textarea,.field.invalid select{
+  border-bottom-color:var(--text-error);border-bottom-width:2px}
+.ffield.tall.invalid textarea{border-color:var(--text-error)}
 .ffield.invalid>span,.field.invalid>span{color:var(--text-error);opacity:1}
 .err{display:block;margin-top:var(--space-2);font-family:var(--font-serif);
   font-style:italic;font-size:var(--t-sm);line-height:1.4;color:var(--text-error)}
@@ -1657,17 +1720,22 @@ input:user-invalid,textarea:user-invalid{border-color:var(--text-error)}
 /* ------------------------------------------------------------- forms --- */
 .form{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--s-5);padding-block:var(--s-5) var(--s-7)}
 @media (min-width:64em){ .form{grid-template-columns:minmax(0,1.3fr) minmax(0,.7fr);gap:var(--s-6);align-items:start} }
-.field{display:block;margin-top:var(--s-4)}
-.field>span{display:block;font-family:var(--font-sans);font-weight:500;font-size:var(--t-xs);
-  letter-spacing:var(--track-label);text-transform:uppercase;color:var(--txt);margin-bottom:var(--s-2)}
-.field input,.field textarea,.field select{width:100%;min-height:3rem;padding:.75rem var(--s-3);
-  background:var(--ivory);border:1px solid rgba(43,46,45,.25);color:var(--ink);
-  font-family:var(--font-serif);font-size:var(--t-sm);line-height:1.6}
-.field textarea{min-height:12rem;resize:vertical}
-.field input:focus,.field textarea:focus,.field select:focus{outline:none;border-color:var(--ink)}
+.field textarea{min-height:12rem}
+/* the rhythm inside the checkout had inverted: 24px between two fields and
+   8px between a field and the heading of the next section, so the sections
+   read as one long run */
+.form .sechead{margin-top:var(--s-7)}
+.form .sechead:first-child{margin-top:0}
 .field small{display:block;margin-top:var(--s-2);font-size:var(--t-xs);color:var(--txt-2)}
 .row2{display:grid;grid-template-columns:minmax(0,1fr);gap:0 var(--s-3)}
 @media (min-width:34em){ .row2{grid-template-columns:repeat(2,minmax(0,1fr))} }
+/* A short explanatory line under a heading, or under a plate. Five of these
+   were wearing `.crumb` — the breadcrumb's tracked micro caps — so a full
+   sentence was being set in 8.5px uppercase, and the three figure captions
+   using it were the only captions on the site not in italic serif. */
+.hint{font-family:var(--font-serif);font-style:italic;font-size:var(--t-sm);
+  line-height:1.7;color:var(--txt-2);max-width:56ch;margin-top:var(--s-3)}
+.hint.center{margin-inline:auto;text-align:center}
 .aside-card{background:var(--plaster);padding:var(--s-5)}
 .aside-card h3{font-size:var(--t-1)}
 .aside-card :where(p:not(.k)){font-size:var(--t-sm);line-height:1.75;color:var(--txt);margin-top:var(--s-3)}
@@ -1682,7 +1750,7 @@ input:user-invalid,textarea:user-invalid{border-color:var(--text-error)}
 .line :where(.meta){font-family:var(--font-sans);font-size:var(--t-xs);letter-spacing:var(--track-label);
   text-transform:uppercase;color:var(--txt);margin-top:var(--s-2)}
 .line .act{display:flex;flex-wrap:wrap;align-items:center;gap:var(--s-3);margin-top:var(--s-3)}
-.qty{display:inline-flex;align-items:center;border:1px solid rgba(43,46,45,.25)}
+.qty{display:inline-flex;align-items:center;border:1px solid var(--txt-2)}
 .qty button{min-width:2.25rem;min-height:2.25rem}
 .qty span{min-width:2rem;text-align:center;font-family:var(--font-sans);font-size:var(--t-xs)}
 .summary{background:var(--plaster);padding:var(--s-5)}
@@ -1715,9 +1783,10 @@ input:user-invalid,textarea:user-invalid{border-color:var(--text-error)}
 
 /* ------------------------------------------------------------ search --- */
 .searchbar{display:flex;flex-wrap:wrap;gap:var(--s-2);margin-top:var(--s-4)}
-.searchbar input{flex:1 1 18rem;min-height:3.25rem;padding:0 var(--s-4);background:var(--ivory);
-  border:1px solid rgba(43,46,45,.25);font-family:var(--font-serif);font-size:var(--t-md)}
-.searchbar input:focus{outline:none;border-color:var(--ink)}
+.searchbar input{flex:1 1 18rem;min-height:3.25rem;padding:0 0 .5rem;background:none;
+  border:0;border-bottom:1px solid var(--txt-2);border-radius:0;color:var(--ink);
+  font-family:var(--font-serif);font-size:var(--t-md)}
+.searchbar input:focus{outline:none;border-bottom-color:var(--ink);border-bottom-width:2px}
 /* Renamed off `.chips`, which the shelf bar also used: this rule's
    margin-top:16px was leaking into the scent group and pushing it eight
    pixels below the size group it is meant to sit level with. Same class of
@@ -1735,6 +1804,8 @@ input:user-invalid,textarea:user-invalid{border-color:var(--text-error)}
 
 /* ----------------------------------------------------------- account --- */
 .acct{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--s-5);padding-block:var(--s-5) var(--s-7)}
+.acct h2+*{margin-top:var(--s-4)}
+.acct :where(h2)+h2,.acct .table+h2,.acct .tagrow+h2,.acct :where(p)+h2{margin-top:var(--s-7)}
 @media (min-width:52em){ .acct{grid-template-columns:14rem minmax(0,1fr);gap:var(--s-6);align-items:start} }
 .acctnav a{display:block;padding-block:var(--s-3);border-bottom:1px solid var(--line);
   font-family:var(--font-sans);font-weight:500;font-size:var(--t-xs);
@@ -1780,10 +1851,10 @@ input:user-invalid,textarea:user-invalid{border-color:var(--text-error)}
    a 10px tracked label at body size.
    ========================================================================== */
 .k{font-family:var(--font-sans);font-weight:500;font-size:var(--t-xs);
-  line-height:1.4;letter-spacing:var(--ls-kicker);text-transform:uppercase;color:var(--brass-text);
+  line-height:1.4;letter-spacing:var(--track-kicker);text-transform:uppercase;color:var(--brass-text);
   margin-top:0;max-width:none}
-.ul{font-size:var(--t-xs);letter-spacing:var(--ls-nav);line-height:1.4}
-.btn{font-size:var(--t-btn);letter-spacing:var(--ls-btn)}
+.ul{font-size:var(--t-xs);letter-spacing:var(--track-label);line-height:1.4}
+.btn{font-size:var(--t-btn);letter-spacing:var(--track-label)}
 .crumb{font-size:var(--t-2xs);line-height:1.8;margin-top:0;padding-block:var(--s-5) 0}
 .re{font-size:var(--t-2xs);line-height:1.9}
 .hero .k,.banner .k,.campaign .k{color:var(--ivory)}
@@ -1802,12 +1873,12 @@ input:user-invalid,textarea:user-invalid{border-color:var(--text-error)}
 @keyframes veil-lift{to{opacity:0;visibility:hidden}}
 
 /* the hero is a sequence, not a still: two frames cross-fading behind the copy */
-.hero .shots{position:absolute;inset:0;z-index:-2}
+.hero .shots{position:absolute;inset:0;z-index:var(--z-art)}
 .hero .shots img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
   opacity:0;transition:opacity var(--d-cinematic) var(--settle);transform:scale(1.05);
   animation:kb var(--d-ambient) var(--settle) forwards}
 .hero .shots img.on{opacity:1}
-.hero .dots{position:absolute;right:var(--gutter);bottom:var(--s-5);z-index:2;
+.hero .dots{position:absolute;right:var(--gutter);bottom:var(--s-5);z-index:var(--z-raised);
   display:flex;gap:var(--s-2)}
 .hero .dots button{width:2.25rem;height:2.75rem;padding:1.375rem 0;   /* 1px rule, 44px target */
   background:rgba(241,240,232,.4);background-clip:content-box;
@@ -1866,7 +1937,7 @@ input:user-invalid,textarea:user-invalid{border-color:var(--text-error)}
 .card h3{transition:color var(--d-settled) var(--settle)}
 
 /* the panel lives inside the frame and never leaves it */
-.quick{position:absolute;left:0;right:0;bottom:0;z-index:2;max-height:100%;overflow:hidden;
+.quick{position:absolute;left:0;right:0;bottom:0;z-index:var(--z-raised);max-height:100%;overflow:hidden;
   background:rgba(241,240,232,.97);padding:var(--s-3);
   transform:translateY(100%);transition:transform var(--d-settled) var(--settle)}
 .quick .r{display:flex;flex-wrap:wrap;gap:var(--s-2)}
@@ -1927,8 +1998,8 @@ footer .cols a:hover,footer .cols a:focus-visible{opacity:1}
 /* --- story band: a quote held over the chapter's own photograph --------- */
 .storyband{position:relative;display:grid;align-items:end;isolation:isolate;
   min-height:clamp(20rem,42svh,30rem);overflow:hidden;color:var(--ivory)}
-.storyband>img,.storyband>picture>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2}
-.storyband::after{content:"";position:absolute;inset:0;z-index:-1;
+.storyband>img,.storyband>picture>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:var(--z-art)}
+.storyband::after{content:"";position:absolute;inset:0;z-index:var(--z-behind);
   background:linear-gradient(8deg,rgba(20,17,12,.78),rgba(20,17,12,.10) 72%)}
 .storyband .c{padding:var(--s-7) var(--gutter) var(--s-6);
   max-width:calc(46rem + var(--gutter) * 2)}
@@ -1941,7 +2012,7 @@ footer .cols a:hover,footer .cols a:focus-visible{opacity:1}
 /* --- the story: chapter numeral, excerpt, overlapping plates ------------ */
 .chapter{position:relative;background:var(--ivory);padding-block:var(--s-7);overflow:hidden}
 .chapter .inner{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--s-6);
-  position:relative;z-index:1}
+  position:relative;z-index:var(--z-base)}
 @media (min-width:64em){
   .chapter .inner{grid-template-columns:minmax(0,1fr) minmax(0,1fr);
     gap:var(--s-7);align-items:center}
@@ -1971,7 +2042,7 @@ footer .cols a:hover,footer .cols a:focus-visible{opacity:1}
 .plates2{position:relative;min-width:0}
 .plates2 .big{width:100%;aspect-ratio:4/3;object-fit:cover;background:var(--plaster)}
 .plates2 .small{width:50%;aspect-ratio:4/3;object-fit:cover;background:var(--plaster);
-  border:.5rem solid var(--ivory);margin-top:-18%;margin-left:-4%;position:relative;z-index:1}
+  border:.5rem solid var(--ivory);margin-top:-18%;margin-left:-4%;position:relative;z-index:var(--z-base)}
 .plates2 figcaption{margin-top:var(--s-3);text-align:right;
   font-family:var(--font-script);font-weight:300;font-style:italic;
   font-size:var(--t-sm);color:var(--txt-2)}
