@@ -195,6 +195,7 @@
   --t-4:clamp(29.76px,calc(29.76px + 10.24 * (100vw - 768px) / 672),40px);
   --t-5:clamp(36.48px,calc(36.48px + 11.52 * (100vw - 768px) / 672),48px);
   --t-6:clamp(52.96px,calc(52.96px + 23.04 * (100vw - 768px) / 672),76px);
+  --t-story:clamp(16.5px,calc(16.5px + 2.5 * (100vw - 768px) / 672),19px);
 
   /* Controls. The design does not have one button: it has a scale, and every
      button hugs its label rather than stretching. Heights and paddings below
@@ -260,6 +261,7 @@
     --t-4:clamp(24px,calc(24px + 5.76 * (100vw - 390px) / 378),29.76px);
     --t-5:clamp(30px,calc(30px + 6.48 * (100vw - 390px) / 378),36.48px);
     --t-6:clamp(40px,calc(40px + 12.96 * (100vw - 390px) / 378),52.96px);
+    --t-story:clamp(15px,calc(15px + 1.5 * (100vw - 390px) / 378),16.5px);
   }
 }
 
@@ -666,6 +668,7 @@ footer a:hover{opacity:1}
   width:2.75rem;height:1.625rem;border:1px solid rgba(241,240,232,.28);
   background:rgba(241,240,232,.07);border-radius:3px;font-style:normal;
   font-family:Montserrat,sans-serif;font-weight:600;font-size:.5rem;letter-spacing:.05em}
+.legal a{display:inline}
 .legal{font-family:Montserrat,sans-serif;font-size:var(--t-2xs);letter-spacing:.16em;
   text-transform:uppercase;opacity:.5;line-height:1.8}
 
@@ -900,6 +903,176 @@ footer a:hover{opacity:1}
 .acc details[open] summary::after{content:"\2013"}
 .acc :where(.body){padding-bottom:var(--space-4);font-family:'Libre Caslon Text',serif;
   font-size:var(--t-sm);line-height:1.66;color:var(--txt);max-width:52ch}
+
+/* ============================================================ your stories
+   Frames: P15 "Your Stories — index" (167:2473) and "Story — Sunday
+   Service" (167:2596). Sizes, colours and rhythm measured off both.
+   ========================================================================= */
+
+/* --- index: header band ------------------------------------------------- */
+.ysintro{background:var(--ivory);padding-block:var(--space-9) var(--space-10)}
+.ysintro .k{letter-spacing:.32em}
+.ysintro h1{font-size:var(--t-5);margin-top:var(--space-3);max-width:30ch}
+.ysintro .lede{font-size:var(--t-md);line-height:var(--lh-body);color:var(--txt);
+  max-width:47.5rem;margin-top:var(--space-3)}
+
+/* --- index: the featured story, full bleed ------------------------------ */
+.yfeat{position:relative;isolation:isolate;min-height:clamp(20rem,42vw,32.5rem);
+  display:grid;align-items:end;overflow:hidden}
+.yfeat>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2}
+.yfeat .veil{position:absolute;inset:0;z-index:-1;background:
+  linear-gradient(to top,rgba(18,16,12,.72) 0%,rgba(18,16,12,.30) 42%,rgba(18,16,12,0) 74%),
+  linear-gradient(to right,rgba(20,18,13,.55) 0%,rgba(20,18,13,0) 62%)}
+.yfeat .inner{padding-block:var(--space-10)}
+.yfeat .c{max-width:36rem;color:var(--ivory)}
+.yfeat .k{color:#d9c7a3;letter-spacing:.28em}
+.yfeat h2{font-size:var(--t-5);margin-top:var(--space-3);color:var(--ivory)}
+.yfeat .q{font-family:'Libre Caslon Text',serif;font-style:italic;font-size:var(--t-lg);
+  line-height:1.5;opacity:.9;margin-top:var(--space-4)}
+.yfeat .ul{margin-top:var(--space-4);color:var(--ivory)}
+
+/* --- index: the six remaining stories ----------------------------------- */
+.ygrid{background:var(--ivory);padding-block:var(--space-9) var(--space-10)}
+.scards{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--space-7) var(--space-5)}
+@media (min-width:40em){ .scards{grid-template-columns:repeat(2,minmax(0,1fr))} }
+@media (min-width:68em){ .scards{grid-template-columns:repeat(3,minmax(0,1fr))} }
+.scard{display:block;color:inherit}
+.scard .plate{display:block;width:100%;aspect-ratio:5/3;overflow:hidden;
+  background:var(--plaster);border-radius:var(--radius-hairline)}
+.scard .plate img{width:100%;height:100%;object-fit:cover;
+  transition:transform .9s var(--settle),filter .4s var(--settle)}
+.scard:hover .plate img{transform:scale(1.035);filter:brightness(1.04)}
+.scard .sm{display:flex;align-items:center;gap:var(--space-2);margin-top:var(--space-5);
+  font-family:Montserrat,sans-serif;font-weight:500;font-size:var(--t-2xs);
+  letter-spacing:var(--ls-stone);text-transform:uppercase;color:var(--brass)}
+.scard .sm .chip{width:.5625rem;height:.5625rem;margin:0;flex:none}
+.scard h3{font-family:'Libre Caslon Display',Georgia,serif;font-weight:400;
+  font-size:clamp(19px,calc(19px + 7 * (100vw - 390px) / 1050),26px);
+  line-height:1.2;color:var(--ink);margin-top:var(--space-2)}
+.scard>p{font-family:'Libre Caslon Text',serif;font-style:italic;font-size:var(--t-sm);
+  line-height:1.66;color:var(--txt);opacity:.85;margin-top:var(--space-2);
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.scard .rd{display:inline-block;margin-top:var(--space-3);
+  font-family:Montserrat,sans-serif;font-weight:500;font-size:var(--t-2xs);
+  letter-spacing:.22em;text-transform:uppercase;color:var(--ink)}
+.scard:hover .rd{color:var(--brass)}
+
+/* --- index: the discovery-set band -------------------------------------- */
+.yset{background:var(--verde);color:var(--ivory);text-align:center;
+  padding-block:var(--space-7) var(--space-9)}
+.yset h2{font-size:clamp(24px,calc(24px + 8 * (100vw - 390px) / 1050),32px);
+  color:var(--ivory);max-width:40ch;margin-inline:auto}
+.yset p{font-size:var(--t-md);opacity:.92;max-width:44ch;
+  margin:var(--space-4) auto 0}
+.yset .btn{margin-top:var(--space-5)}
+
+/* ============================================================ one story == */
+.shead{background:var(--ivory);padding-block:var(--space-5) var(--space-10)}
+.shead .c{text-align:center;max-width:44rem;margin:var(--space-8) auto 0}
+.shead .k{display:inline-flex;align-items:center;gap:var(--space-3);letter-spacing:.30em}
+.shead .k .chip{width:.6875rem;height:.6875rem;margin:0;flex:none}
+.shead h1{font-size:var(--t-6);margin-top:var(--space-4)}
+.shead .by{font-family:'Cormorant Garamond',serif;font-weight:300;font-style:italic;
+  font-size:var(--t-lg);color:var(--txt);opacity:.8;margin-top:var(--space-4)}
+
+.splate{position:relative;height:clamp(15rem,43vw,38.75rem);overflow:hidden}
+.splate img{width:100%;height:100%;object-fit:cover}
+
+/* the reading column is 600px centred, with the margin notes to its right */
+.sbody{background:var(--ivory);padding-block:var(--space-9) var(--space-10)}
+.sbody .inner{display:grid;grid-template-columns:minmax(0,1fr);
+  column-gap:var(--space-8);justify-content:center}
+@media (min-width:68em){
+  .sbody .inner{grid-template-columns:minmax(0,1fr) minmax(0,37.5rem) minmax(0,1fr);
+    column-gap:0}
+  .sbody .scol,.sbody .spull,.sbody .sfig{grid-column:2;align-self:start}
+  .sbody .saside{grid-column:3;grid-row:1 / -1;align-self:start;
+    justify-self:end;width:14.375rem}
+}
+.sbody .scol :where(p){font-family:'Libre Caslon Text',serif;font-size:var(--t-story);
+  line-height:1.9;color:var(--txt);margin-top:var(--space-5)}
+.sbody .scol :where(p):first-child{margin-top:0}
+.sbody .dropcap::first-letter{float:left;font-family:'Libre Caslon Display',Georgia,serif;
+  font-size:5.05em;line-height:.86;padding:.06em .12em 0 0;color:var(--ink)}
+.saside{display:flex;flex-direction:column;gap:var(--space-11);padding-top:var(--space-2)}
+@media (max-width:67.9375em){ .saside{flex-direction:row;flex-wrap:wrap;gap:var(--space-6);
+  margin-top:var(--space-7)} .saside .marginnote{flex:1 1 14rem} }
+.marginnote{font-family:'Cormorant Garamond',serif;font-weight:300;font-style:italic;
+  font-size:var(--t-lg);line-height:1.35;color:var(--ink);opacity:.85;
+  padding-top:var(--space-3);max-width:14.375rem}
+.marginnote::before{content:"";display:block;width:1.75rem;height:1px;
+  background:var(--brass);margin-bottom:var(--space-3)}
+.marginnote small{display:block;margin-top:var(--space-3);
+  font-family:Montserrat,sans-serif;font-style:normal;font-size:var(--t-2xs);
+  letter-spacing:.22em;text-transform:uppercase;color:var(--brass);opacity:.8}
+
+.spull{position:relative;text-align:center;font-family:'Libre Caslon Display',Georgia,serif;
+  font-size:var(--t-4);line-height:1.46;color:var(--ink);
+  max-width:38ch;margin:var(--space-5) auto var(--space-8);padding-top:var(--space-7)}
+.spull::before{content:"";position:absolute;top:0;left:50%;translate:-50% 0;
+  width:5rem;height:1px;background:var(--brass)}
+.sbody .sig{font-family:'Cormorant Garamond',serif;font-weight:300;font-style:italic;
+  font-size:var(--t-lg);color:var(--txt);opacity:.7;margin-top:var(--space-5)}
+.sfig{margin-top:var(--space-9)}
+.sfig img{width:100%;aspect-ratio:2/1;object-fit:cover;border-radius:var(--radius-hairline);
+  background:var(--plaster)}
+
+/* the fragrance the story became */
+.sbecame{position:relative;background:var(--verde);color:var(--ivory);
+  padding-block:var(--space-10);overflow:hidden}
+.sbecame .inner{position:relative;z-index:1}
+.sbecame .c{max-width:32.5rem}
+.sbecame .k{color:#d4c7a3;letter-spacing:.30em}
+.sbecame h2{font-size:var(--t-5);color:var(--ivory);margin-top:var(--space-4)}
+.sbecame .lede{font-size:var(--t-md);line-height:var(--lh-body);opacity:.94;
+  margin-top:var(--space-4);max-width:34ch}
+.sbecame .notes{margin-top:var(--space-6);display:grid;gap:var(--space-4)}
+.nrow{display:grid;grid-template-columns:4.75rem minmax(0,1fr);gap:var(--space-5);
+  align-items:baseline}
+.nrow b{font-family:Montserrat,sans-serif;font-weight:500;font-size:var(--t-2xs);
+  letter-spacing:var(--ls-stone);text-transform:uppercase;color:#d4c7a3}
+.nrow span{font-family:'Cormorant Garamond',serif;font-weight:300;font-style:italic;
+  font-size:var(--t-notes);opacity:.92}
+.sbecame .actions{display:flex;flex-wrap:wrap;gap:var(--space-3);margin-top:var(--space-7)}
+.sbecame>.plate{position:absolute;top:0;right:0;width:min(39%,35rem);height:100%;
+  object-fit:cover;z-index:0;display:block}
+@media (max-width:60em){ .sbecame>.plate{display:none} }
+/* the plate fades into the field rather than butting against it */
+.sbecame::after{content:"";position:absolute;top:0;height:100%;width:12.5rem;
+  right:calc(min(39%,35rem) - 12.5rem);
+  background:linear-gradient(to right,var(--verde),rgba(62,81,71,0));z-index:1;pointer-events:none}
+@media (max-width:60em){ .sbecame::after{display:none} }
+
+/* previous / next */
+.snav{background:var(--ivory);padding-block:0 var(--space-9)}
+.snav .inner{display:flex;flex-wrap:wrap;gap:var(--space-6);
+  justify-content:space-between;border-top:1px solid var(--line);padding-top:var(--space-8)}
+.snav a{display:block;max-width:22rem}
+.snav .next{text-align:right;margin-left:auto}
+.snav b{display:block;font-family:'Libre Caslon Display',Georgia,serif;font-weight:400;
+  font-size:clamp(21px,calc(21px + 7 * (100vw - 390px) / 1050),28px);
+  line-height:1.2;color:var(--ink);margin-top:var(--space-2)}
+.snav em{display:block;font-family:'Cormorant Garamond',serif;font-weight:300;font-style:italic;
+  font-size:var(--t-notes);color:var(--txt);opacity:.75;margin-top:var(--space-2)}
+.snav a:hover b{color:var(--brass)}
+
+/* the shelf of seven, as a spine of stone bars */
+.sseven{background:var(--sand);padding-block:var(--space-8)}
+.sseven .k{letter-spacing:.30em}
+.sseven h2{font-size:var(--t-3);margin-top:var(--space-3)}
+.svs{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,8.5rem),1fr));
+  gap:var(--space-5) 10px;margin-top:var(--space-7)}
+.sv{display:block;color:inherit}
+.sv i{display:block;height:8px;border-radius:0;box-shadow:inset 0 0 0 .5px rgba(43,46,45,.1)}
+.sv em{display:block;font-family:'Cormorant Garamond',serif;font-weight:300;font-style:normal;
+  font-size:var(--t-notes);color:var(--brass);opacity:.7;margin-top:var(--space-2)}
+.sv b{display:block;font-family:'Libre Caslon Text',serif;font-weight:400;
+  font-size:var(--t-lg);color:var(--ink);opacity:.75;margin-top:var(--space-2)}
+.sv small{display:block;margin-top:var(--space-2);font-family:Montserrat,sans-serif;
+  font-weight:500;font-size:var(--t-2xs);letter-spacing:.22em;text-transform:uppercase;
+  color:var(--brass)}
+.sv.on em,.sv.on b{opacity:1}
+.sv:hover b{opacity:1;color:var(--brass)}
 
 /* ---------------------------------------------------------- editorial --- */
 .article{padding-block:var(--s-6) var(--s-7)}

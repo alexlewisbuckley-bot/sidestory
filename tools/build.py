@@ -316,6 +316,18 @@ def catalogue_json():
     return json.dumps(data, ensure_ascii=False)
 
 
+def plate(q, n):
+    """assets path for shot `n` of a fragrance, falling back to its first.
+
+    Four of the seven have a single master so far. Rather than 404 on a
+    missing second plate, fall back — real photography drops straight in
+    when it arrives and the fallback stops applying on its own."""
+    cand = "assets/img/p-%s-%d.jpg" % (q["slug"], n)
+    if os.path.exists(os.path.join(ROOT, cand)):
+        return cand
+    return "assets/img/p-%s-1.jpg" % q["slug"]
+
+
 def page(slug, title, desc, body, current=None, css=("assets/css/fonts.css", "assets/css/app.css")):
     out = head(title, desc, css) + topbar(current or (slug + ".html")) + body.strip() + "\n" \
         + footer() + DRAWER \
@@ -670,88 +682,178 @@ def build():
 </section>
 """)
 
-    # ---- 07 stories index ------------------------------------------------
-    cards = "\n".join(f"""      <a class="post rev" href="story.html?s={q['slug']}">
-        <img src="{fp('assets/img/' + q['img'] + '-1.jpg')}" alt="{q['name']}" loading="lazy">
-        <p class="k">{q['story']} &middot; {q['read']} read</p><h3>{q['name']}</h3>
-        <p>&ldquo;{q['line'][:96]}&hellip;&rdquo;</p></a>""" for q in PRODUCTS)
+    # ---- 07 stories index --------------------------------------------
+    #   Frame: P15 "Your Stories — index" (167:2473). Sunday Service is the
+    #   featured story; the remaining six run in a three-up grid.
+    FEATURED = "sunday-service"
+    feat = BY_SLUG[FEATURED]
+    fc   = CHAPTERS[FEATURED]
+    scards = "\n".join(f"""      <a class="scard rev" href="story-{q['slug']}.html">
+        <span class="plate"><img src="{fp(plate(q, 1))}" alt="{q['name']}" loading="lazy"></span>
+        <span class="sm"><i class="chip" style="background:{q['swatch']}"></i>{q['story']} &middot; {q['read']} read</span>
+        <h3>{q['name']}</h3>
+        <p>{q['line']}</p>
+        <span class="rd">Read &rarr;</span></a>"""
+        for q in PRODUCTS if q["slug"] != FEATURED)
+
     written["stories"] = page("stories", "Your Stories",
         "Every fragrance began as fiction. Read all seven stories in full — the printed edition arrives in the box.", f"""
-<section class="band">
+<section class="ysintro">
   <div class="inner">
-    {crumbs(("Home", "index.html"), "Your Stories")}
-    <div class="phead">
-      <p class="k">Your stories</p>
-      <h1>Seven stories. Read one on us.</h1>
-      <p class="lede">Every fragrance we make began as fiction, commissioned before a single note was weighed. Read them here in full &mdash; the printed edition arrives in the box.</p>
-    </div>
-    <div class="posts">
-{cards}
+    <p class="k">Your stories</p>
+    <h1>Seven stories. Read one on us.</h1>
+    <p class="lede">Every fragrance we make began as fiction, commissioned before a single note was weighed. Read them here in full &mdash; the printed edition arrives in the box.</p>
+  </div>
+</section>
+
+<section class="yfeat">
+  <img src="{fp(plate(feat, 2))}" alt="{feat['name']}">
+  <span class="veil" aria-hidden="true"></span>
+  <div class="inner">
+    <div class="c rev">
+      <p class="k">{feat['story']} &middot; {feat['read']} read</p>
+      <h2>{feat['name']}</h2>
+      <p class="q">&ldquo;{fc['pull']}&rdquo;</p>
+      <a class="ul" href="story-{FEATURED}.html">Read the story &rarr;</a>
     </div>
   </div>
 </section>
 
-<section class="band tint">
-  <div class="inner" style="text-align:center">
-    <p class="k">An open call</p>
-    <h2 style="margin-inline:auto">The eighth story hasn&rsquo;t been written yet.</h2>
-    <p style="margin-inline:auto">The next fragrance could begin with something that actually happened &mdash; to you.</p>
-    <div class="chips" style="justify-content:center"><a href="share.html">Share your story</a></div>
+<section class="ygrid">
+  <div class="inner">
+    <div class="scards">
+{scards}
+    </div>
+  </div>
+</section>
+
+<section class="yset">
+  <div class="inner">
+    <h2>Undecided? Read three, then choose one.</h2>
+    <p>The First Lines &mdash; all seven in miniature, &pound;38, credited against your first bottle.</p>
+    <a class="btn btn-ivory" href="samples.html">Begin the set</a>
   </div>
 </section>
 """)
 
-    # ---- 08 single story -------------------------------------------------
-    q = BY_SLUG["sunday-service"]
-    written["story"] = page("story", q["name"],
-        f"{q['name']} — the story that became the fragrance. Written by Morgan Childs.", f"""
-<section class="banner">
-  <img src="{fp('assets/img/' + q['img'] + '-1.jpg')}" alt="{q['name']}">
-  <div class="c">
-    <p class="k">Your stories &middot; {q['story']} &middot; {q['stone']}</p>
-    <h1>{q['name']}</h1>
-    <p>Written by Morgan Childs &middot; {q['read']} read &middot; the story that became a fragrance</p>
-  </div>
-</section>
+    # ---- 08 the seven stories ------------------------------------------
+    #   Frame: P15 "Story — Sunday Service" (167:2596). One template, seven
+    #   pages, driven from PRODUCTS + CHAPTERS so new copy and plates drop in.
+    order = [q["slug"] for q in PRODUCTS]
+    for i, q in enumerate(PRODUCTS):
+        c = CHAPTERS[q["slug"]]
+        prev = BY_SLUG[order[i - 1]]
+        nxt  = BY_SLUG[order[(i + 1) % len(order)]]
 
-<section class="article">
+        paras = list(c["paras"])
+        lead_html = '      <p class="dropcap">%s</p>' % paras[0]
+        if len(paras) > 2:
+            lead_html += "\n" + "\n".join("      <p>%s</p>" % t for t in paras[1:-1])
+        tail_html = "\n".join("      <p>%s</p>" % t for t in paras[-1:]) if len(paras) > 1 else ""
+
+        notes_html = "\n".join(
+            '        <p class="marginnote">%s<small>In the margin &mdash; %02d of 09</small></p>'
+            % (note, n * 2 + 1)
+            for n, (_lab, note, _aside) in enumerate(c["margins"]))
+
+        rows_html = "\n".join(
+            '          <div class="nrow"><b>%s</b><span>%s</span></div>' % (lab, note)
+            for lab, note, _aside in c["margins"])
+
+        strip_html = "\n".join(
+            '        <a class="sv%s" href="story-%s.html">'
+            '<i style="background:%s"></i><em>%s</em><b>%s</b>%s</a>'
+            % (" on" if r["slug"] == q["slug"] else "", r["slug"], r["swatch"],
+               CHAPTERS[r["slug"]]["numeral"], r["name"],
+               "<small>You are reading</small>" if r["slug"] == q["slug"] else "")
+            for r in PRODUCTS)
+
+        initials = ".".join(w[0] for w in c["author"].split()) + "."
+
+        story_body = f"""
+<section class="shead">
   <div class="inner">
     {crumbs(("Home", "index.html"), ("Your Stories", "stories.html"), q["name"])}
-    <div class="artgrid">
-      <div class="col">
-        <p class="dropcap">The road home has not been resurfaced in twenty years, and neither has the part of me that drives it. Past the reservoir the trees close over the lane the way they always did, and there &mdash; still standing, still rusted the colour of a wet penny &mdash; is the gate we used to climb.</p>
-        <p>I am late for my niece&rsquo;s christening. I park badly, as everyone does here, and cross the gravel with my collar wrong. Inside, the cool oaky air arrives before the organ does &mdash; polish and cold stone and the ghost of last week&rsquo;s lilies &mdash; and I am eleven again in an itching jumper, and thirty-eight, and neither.</p>
-        <p>My mother is three rows from the front, in the coat. She turns before I have made a sound, which she has done my whole life and has never once explained.</p>
-        <p>The music was the same. The cool, oaky air of the church was the same. Only the child being held over the font was new, and she was furious about it, and everybody laughed, and for a moment the building held all of us at once &mdash; the ones who came back, the ones who never left, and the ones who were only ever here in the smell of the place.</p>
-        <p>Afterwards there are sandwiches in the hall and someone&rsquo;s husband has opinions about the bypass. I stand by the door with a paper cup and let the incense come off my coat in the cold.</p>
-      </div>
-      <div class="artaside">
-        <p class="marginnote">cold water, cut grass, iron on the hands<small>In the margin &mdash; 01 of 09</small></p>
-        <p class="marginnote">linen dried outdoors &mdash; the smell of being fifteen<small>In the margin &mdash; 03 of 09</small></p>
-        <p class="marginnote">church oak, beeswax polish, the last of the lilies<small>In the margin &mdash; 05 of 09</small></p>
-      </div>
+    <div class="c">
+      <p class="k"><i class="chip" style="background:{q['swatch']}"></i>Your stories &middot; {q['story']} &middot; {q['stone']}</p>
+      <h1>{q['name']}</h1>
+      <p class="by">Written by {c['author']} &middot; {q['read']} read &middot; the story that became a fragrance</p>
     </div>
-    <p class="pull">&ldquo;The music was the same. The cool, oaky air of the church was the same.&rdquo;</p>
   </div>
 </section>
 
-<section class="band tint">
+<section class="splate">
+  <img src="{fp(plate(q, 2))}" alt="{q['name']}">
+</section>
+
+<section class="sbody">
   <div class="inner">
-    <div class="grid-2">
-      <div>
-        <p class="k">The fragrance it became</p>
-        <h2>{q['name']}</h2>
-        <p>{q['stone']} lid &middot; {q['notes']}. Composed to the fifth page &mdash; church oak, beeswax, cold air held in linen.</p>
-        <div class="actions">
-          <button class="btn btn-ink" onclick="addToBag('{q['slug']}','full',this)">Add to bag &mdash; &pound;160</button>
-          <a class="btn btn-ghostink" href="product-{q['slug']}.html">See the bottle</a>
-        </div>
+    <div class="scol">
+{lead_html}
+    </div>
+    <aside class="saside">
+{notes_html}
+    </aside>
+    <blockquote class="spull">&ldquo;{c['pull']}&rdquo;</blockquote>
+    <div class="scol">
+{tail_html}
+      <p class="sig">&mdash; {initials}</p>
+    </div>
+    <figure class="sfig">
+      <img src="{fp(plate(q, 1))}" alt="{q['name']} eau de parfum" loading="lazy">
+    </figure>
+  </div>
+</section>
+
+<section class="sbecame">
+  <div class="inner">
+    <div class="c">
+      <p class="k">The scent this became</p>
+      <h2>{q['name']}</h2>
+      <p class="lede">{c['scent'][0].upper() + c['scent'][1:]}, beneath a lid of {q['stone']}.</p>
+      <div class="notes">
+{rows_html}
       </div>
-      <img class="figfull" src="{fp('assets/img/' + q['img'] + '-1.jpg')}" alt="{q['name']} eau de parfum" loading="lazy">
+      <div class="actions">
+        <button class="btn btn-ivory" onclick="addToBag('{q['slug']}','full',this)">Shop {q['name']} &mdash; &pound;160</button>
+        <a class="btn btn-ghost" href="product-{q['slug']}.html">Sample &mdash; &pound;5</a>
+      </div>
+    </div>
+  </div>
+  <img class="plate" src="{fp('assets/img/' + q['img'] + '-hero.jpg')}" alt="" loading="lazy">
+</section>
+
+<section class="snav">
+  <div class="inner">
+    <a class="prev" href="story-{prev['slug']}.html">
+      <span class="k">&larr; Previous story</span>
+      <b>{prev['name']}</b>
+      <em>{prev['notes']}</em></a>
+    <a class="next" href="story-{nxt['slug']}.html">
+      <span class="k">Next story &rarr;</span>
+      <b>{nxt['name']}</b>
+      <em>{nxt['notes']}</em></a>
+  </div>
+</section>
+
+<section class="sseven">
+  <div class="inner">
+    <p class="k">All seven stories</p>
+    <h2>Seven to read. Seven to wear.</h2>
+    <div class="svs">
+{strip_html}
     </div>
   </div>
 </section>
-""", current="stories.html")
+"""
+        written["story-" + q["slug"]] = page(
+            "story-" + q["slug"], q["name"],
+            f"{q['name']} — the story that became the fragrance. Written by {c['author']}.",
+            story_body, current="stories.html")
+        if q["slug"] == FEATURED:
+            written["story"] = page("story", q["name"],
+                f"{q['name']} — the story that became the fragrance. Written by {c['author']}.",
+                story_body, current="stories.html")
 
     # ---- 09 share your story --------------------------------------------
     written["share"] = page("share", "Share Yours",
