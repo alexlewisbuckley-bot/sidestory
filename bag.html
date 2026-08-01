@@ -1,10 +1,11 @@
-<!DOCTYPE html>
-<html lang="en"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Your bag — Side Story Parfums</title>
-<meta name="description" content="">
-<meta name="robots" content="noindex"><!-- demo -->
-
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Your bag · Side Story — Parfums &amp; Oils</title>
+<meta name="description" content="Your bag. Every story ships printed, in the box.">
+<meta name="theme-color" content="#2B2E2D">
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="favicon.ico" sizes="any">
 <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
@@ -12,73 +13,81 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="assets/fonts/libre-caslon-text-latin-400-normal.woff2">
 <link rel="preload" as="font" type="font/woff2" crossorigin href="assets/fonts/montserrat-latin-500-normal.woff2">
 <link rel="stylesheet" href="assets/css/fonts.css?v=226e8a05">
-<link rel="stylesheet" href="assets/css/site.css?v=f43147df">
+<link rel="stylesheet" href="assets/css/app.css?v=8f7073f9">
 </head><body>
-<div class="ann">A second story’s sample, complimentary with every bottle</div>
+<div class="topbar">
+<div class="ann"><span>A second story’s sample, complimentary with every bottle</span></div>
 <header class="nav">
-  <button class="burger" aria-label="Menu"><i></i><i></i><i></i></button>
-  <a class="brand" href="index.html"><b>SIDE STORY</b><span>PARFUMS &amp; OILS</span></a>
-  <nav class="navlinks">
-    <a href="collection.html">The Fragrances</a>
-    <a href="stories.html">Your Stories</a>
-    <a href="share.html">Share Yours</a>
-    <a href="collection.html">Samples</a>
-    <a href="index.html#gifting">Gifting</a>
-    <a href="index.html#making">Our House</a>
-  </nav>
-  <div class="util">
-    <a href="collection.html">Search</a>
-    <a href="bag.html">Account</a>
-    <button onclick="openDrawer()">Bag (<span id="bagcount">0</span>)</button>
+  <div class="inner">
+    <button class="burger" aria-label="Menu" aria-expanded="false"><i></i><i></i><i></i></button>
+    <a class="brand" href="index.html" aria-label="Side Story — Parfums &amp; Oils"><img src="assets/img/logo.svg?v=dd5e3f44" alt="Side Story — Parfums &amp; Oils"></a>
+    <nav class="links" aria-label="Primary">
+      <a href="collection.html">The Fragrances</a>
+      <a href="stories.html">Your Stories</a>
+      <a href="share.html">Share Yours</a>
+      <a href="samples.html">Samples</a>
+      <a href="gifting.html">Gifting</a>
+      <a href="our-house.html">Our House</a>
+    </nav>
+    <div class="util">
+      <a href="search.html">Search</a><a href="account.html">Account</a>
+      <button onclick="openDrawer()">Bag (<span id="bagcount">0</span>)</button>
+    </div>
   </div>
 </header>
-<section>
-  <div class="two">
-    <div class="rev">
-      <h1 class="disp" style="font-size:clamp(28px,3.6vw,40px)">Your bag.</h1>
-      <p class="mut" style="font-style:italic;margin:8px 0 20px">Every story ships printed, in the box.</p>
-      <div id="baglines"></div>
-      <div style="background:var(--plaster);padding:20px;margin-top:24px">
-        <p class="kicker" style="color:var(--ink)">Add a Dedication — complimentary</p>
-        <p class="mut" style="font-size:13.5px;line-height:1.7;margin-top:8px">A line of yours, typeset on the story’s flyleaf, and sent again as a digital edition.</p>
-      </div>
+</div>
+<div class="inner">
+  <p class="crumb"><a href="index.html">Home</a> / Bag</p>
+  <div class="phead"><p class="k">Your bag</p><h1>Every story ships printed, in the box.</h1></div>
+  <div class="cart">
+    <div>
+      <div id="baglines"><div class="empty"><p class="k">Nothing here yet</p>
+        <p>Your bag is empty. The shelf is seven stories long.</p>
+        <div class="chips" style="justify-content:center"><a href="collection.html">See the fragrances</a><a href="samples.html">Begin with samples</a></div>
+      </div></div>
+      <label class="tryfirst"><input type="checkbox" checked>
+        <div><b>Add a Dedication &mdash; complimentary</b><span>A line of yours, typeset on the story&rsquo;s flyleaf, and sent again as a digital edition.</span></div></label>
     </div>
-    <aside class="summary rev">
-      <p class="kicker" style="color:var(--ink)">Summary</p>
-      <div class="srow"><span>Subtotal</span><span id="subtotal">£0</span></div>
+    <div class="summary">
+      <h3>Summary</h3>
+      <div class="srow"><span>Subtotal</span><span id="bagsub">&pound;0</span></div>
       <div class="srow"><span>Delivery</span><span>Complimentary</span></div>
-      <div class="srow" id="creditrow" style="display:none"><span>Sample credit applied</span><span>—£5</span></div>
-      <div class="srow total"><span>Total</span><span id="grandtotal">£0</span></div>
-      <a class="btn btn-ink" href="checkout.html" style="width:100%;margin-top:16px">Proceed to checkout</a>
-      <button class="btn btn-ghost-ink" style="width:100%;margin-top:9px">&#63743; Apple Pay</button>
-      <p class="fine" style="margin-top:14px">Tax included · 30-day returns · Visa · MC · Amex</p>
-      <p class="mut" style="font-style:italic;margin-top:12px">“Your stone is cut. Your story is bound.”</p>
-    </aside>
+      <div class="srow"><span>Sample credit</span><span>&minus;&pound;5</span></div>
+      <div class="srow total"><span>Total</span><span id="bagtotal">&pound;0</span></div>
+      <a class="btn btn-ink" href="checkout.html" style="width:100%;margin-top:var(--s-4)">Proceed to checkout</a>
+      <p class="re">Tax included &middot; 30-day returns &middot; Visa, Mastercard, Amex, Apple Pay</p>
+    </div>
   </div>
-</section>
+</div>
+<div class="note-strip">&ldquo;Your stone is cut. Your story is bound.&rdquo;</div>
 <footer>
-  <div class="cols">
-    <div><h4>The Shelf</h4><a href="collection.html">The Fragrances</a><a href="collection.html">The First Lines</a><a href="collection.html">Samples</a><a href="index.html#gifting">Gifting</a></div>
-    <div><h4>The House</h4><a href="stories.html">Your Stories</a><a href="share.html">Share Yours</a><a href="index.html#making">The Making</a><a href="index.html#journal">Atelier Journal</a></div>
-    <div><h4>The Practical</h4><a href="bag.html">Shipping &amp; Returns</a><a href="bag.html">Stockists</a><a href="share.html">Contact</a><a href="bag.html">FAQ</a></div>
-  </div>
-  <div class="fbot">
-    <div class="pay"><i>VISA</i><i>MC</i><i>AMEX</i><i>&#63743;Pay</i></div>
-    <p class="legal">© Side Story Parfums · Made in Grasse, sealed in stone · United Kingdom (GBP £)</p>
+  <div class="inner">
+    <div class="cols">
+      <div><h4>The Shelf</h4><a href="collection.html">The Fragrances</a><a href="samples.html">The First Lines</a><a href="samples.html">Samples</a><a href="gifting.html">Gifting</a></div>
+      <div><h4>The House</h4><a href="our-house.html">Our Story</a><a href="our-house.html#making">The Making</a><a href="our-house.html#stones">The Stones</a><a href="journal.html">Atelier Journal</a></div>
+      <div><h4>The Practical</h4><a href="shipping.html">Shipping &amp; Returns</a><a href="stockists.html">Stockists</a><a href="contact.html">Contact</a><a href="faq.html">FAQ</a></div>
+    </div>
+    <div class="fmid">
+      <p class="fcopy">&copy; Side Story Parfums MMXXVI &middot; Made in Grasse</p>
+      <div class="fbrand"><img src="assets/img/logo-ivory.svg?v=dded37e6" alt="Side Story &mdash; Parfums &amp; Oils"></div>
+    </div>
+    <div class="fbot">
+      <div class="pay"><i>VISA</i><i>MC</i><i>AMEX</i><i>&#63743;Pay</i></div>
+      <p class="legal"><a href="legal.html">Privacy</a> &middot; <a href="legal.html">Terms</a> &middot; <a href="legal.html">Cookies</a> &nbsp; United Kingdom (GBP &pound;)</p>
+    </div>
   </div>
 </footer>
-<div class="scrim" id="scrim"></div>
+<div class="scrim" id="scrim" onclick="closeDrawer()"></div>
 <aside class="drawer" id="drawer" aria-label="Your bag">
-  <div class="dhead"><span>Your bag — <span data-bagcount>0</span></span><button onclick="closeDrawer()" style="background:none;border:0;cursor:pointer;font:inherit">Close</button></div>
+  <div class="dhead"><span>Your bag &mdash; <span data-bagcount>0</span></span><button onclick="closeDrawer()">Close</button></div>
   <div id="ditems"></div>
   <label class="tryfirst"><input type="checkbox" checked>
     <div><b>Try a second story first</b><span>A complimentary 2ml of another story, tucked into the parcel.</span></div></label>
-  <p class="thresh" id="thresh">Complimentary delivery at £100</p>
+  <p class="thresh" id="thresh">Complimentary delivery at &pound;100</p>
   <div class="tbar"><div class="tfill" id="tfill"></div></div>
-  <div class="dtot"><span>Subtotal</span><span id="dtotal">£0</span></div>
-  <a class="btn btn-ink" href="bag.html">View bag &amp; checkout</a>
-  <button class="btn btn-ghost-ink" onclick="closeDrawer()">Continue reading</button>
-  <p class="fine" style="text-align:center;margin-top:10px">Tax included · 30-day returns · sample cost redeemed</p>
+  <div class="dtot"><span>Subtotal</span><span id="dtotal">&pound;0</span></div>
+  <a class="btn btn-ink" href="bag.html">View bag</a>
+  <button class="btn btn-ghostink" onclick="closeDrawer()">Keep reading</button>
 </aside>
-<script src="assets/js/site.js?v=e7f08f70"></script>
+<script src="assets/js/site.js?v=2163aa10"></script>
 </body></html>

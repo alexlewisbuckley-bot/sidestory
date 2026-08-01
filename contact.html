@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Order confirmed · Side Story — Parfums &amp; Oils</title>
-<meta name="description" content="Your story is bound.">
+<title>Contact · Side Story — Parfums &amp; Oils</title>
+<meta name="description" content="Write to the house. We read everything and reply within two working days.">
 <meta name="theme-color" content="#2B2E2D">
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="favicon.ico" sizes="any">
@@ -36,21 +36,30 @@
   </div>
 </header>
 </div>
-<section class="band">
-  <div class="inner">
-    <div class="phead center">
-      <p class="k">Order SS-2114 &mdash; confirmed</p>
-      <h1>Your story is bound.</h1>
-      <p class="lede">Your fragrance is being prepared: the story at full size, the parcel without plastic &mdash; and your stone, its veining decided by nature alone, is about to meet its glass.</p>
+<div class="inner">
+  <p class="crumb"><a href="index.html">Home</a> / Contact</p>
+  <div class="phead"><p class="k">Contact</p><h1>Write to the house.</h1>
+    <p class="lede">Two people read this inbox. You will hear back within two working days, from one of them.</p></div>
+  <form class="form" onsubmit="event.preventDefault();this.querySelector('.sent').hidden=false;this.querySelector('.btn').disabled=true;">
+    <div>
+      <div class="row2">
+        <label class="field"><span>Name</span><input required></label>
+        <label class="field"><span>Email</span><input type="email" required></label>
+      </div>
+      <label class="field"><span>What is it about?</span>
+        <select><option>An order</option><option>A return</option><option>Gifting</option><option>Stockists &amp; press</option><option>Something else</option></select></label>
+      <label class="field"><span>Message</span><textarea required></textarea></label>
+      <div class="actions"><button class="btn btn-ink" type="submit">Send</button></div>
+      <p class="re sent" hidden>Thank you &mdash; it has arrived. You will hear from us within two working days.</p>
     </div>
-    <p class="crumb" style="text-align:center">A confirmation letter is on its way &middot; arrives Thursday, signed for</p>
-    <div class="grid-3">
-      <div class="tile"><h3>Read while you wait</h3><p>The digital edition of your story is already in your account.</p><p><a class="ul" href="stories.html">Read the stories</a></p></div>
-      <div class="tile"><h3>Track the parcel</h3><p>We will write again the moment it leaves the bindery.</p><p><a class="ul" href="account.html">See the order</a></p></div>
-      <div class="tile"><h3>Your Dedication</h3><p>Typeset and proofed by hand before the story goes to press.</p><p><a class="ul" href="account.html">Review the line</a></p></div>
+    <div class="aside-card">
+      <h3>Directly</h3>
+      <p>contact@sidestoryparfums.com<br>+44 20 7946 0114<br>Monday to Friday, 9&ndash;5 UK</p>
+      <p>Side Story Parfums<br>Unit 4, The Bindery<br>London E2 8HD</p>
+      <p>Press and wholesale: press@sidestoryparfums.com</p>
     </div>
-  </div>
-</section>
+  </form>
+</div>
 <footer>
   <div class="inner">
     <div class="cols">

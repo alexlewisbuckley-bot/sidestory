@@ -70,10 +70,10 @@
     if(items){
       items.innerHTML = bag.length? bag.map((i,ix)=>`<div class="ditem">
         <img src="assets/img/${i.img}" alt="">
-        <div style="flex:1"><h4>${i.label}</h4><p class="dmeta">${i.meta}</p>
-        <button class="dmeta" style="background:none;border:0;text-decoration:underline;cursor:pointer;padding:0" onclick="SSremove(${ix})">Remove</button></div>
-        <span>${money(i.price)}</span></div>`).join('')
-        : '<p class="empty">Empty — every story starts somewhere.</p>';
+        <div><h3>${i.label}</h3><p class="meta">${i.meta}</p>
+          <button class="ul" onclick="SSremove(${ix})">Remove</button></div>
+        <span class="meta">${money(i.price)}</span></div>`).join('')
+        : '<p class="crumb" style="padding-block:var(--s-5)">Empty — every story starts somewhere.</p>';
     }
     const t=document.getElementById('dtotal'); if(t) t.textContent=money(total());
     const pct=Math.min(100,Math.round(total()/100*100));
@@ -101,16 +101,49 @@
     const wrap=document.getElementById('baglines'); if(!wrap) return;
     wrap.innerHTML = bag.length? bag.map((i,ix)=>`<div class="line">
       <img src="assets/img/${i.img}" alt="">
-      <div style="flex:1"><h3 style="font-family:'Libre Caslon Text',serif;font-size:17px">${i.label}</h3>
-      <p class="dmeta">${i.meta}</p>
-      <button class="dmeta" style="background:none;border:0;text-decoration:underline;cursor:pointer;padding:0" onclick="SSremove(${ix})">Remove</button></div>
-      <span style="font-size:16px">${money(i.price)}</span></div>`).join('')
-      : '<p class="empty">Your bag is empty — <a class="link-ul" href="collection.html">begin with the seven</a>.</p>';
-    const sub=document.getElementById('subtotal'); if(sub) sub.textContent=money(total());
+      <div><h3>${i.label}</h3><p class="meta">${i.meta}</p>
+        <div class="act"><span class="meta">${money(i.price)}</span>
+          <button class="ul" onclick="SSremove(${ix})">Remove</button></div></div>
+    </div>`).join('')
+      : `<div class="empty"><p class="k">Nothing here yet</p>
+         <p>Your bag is empty. The shelf is seven stories long.</p>
+         <div class="chips" style="justify-content:center"><a href="collection.html">See the fragrances</a><a href="samples.html">Begin with samples</a></div></div>`;
     const cred=bag.some(i=>i.price===5)?5:0;
-    const tot=document.getElementById('grandtotal'); if(tot) tot.textContent=money(Math.max(0,total()-cred));
+    const set=(id,v)=>{const e=document.getElementById(id); if(e) e.textContent=v;};
+    set('subtotal',money(total())); set('bagsub',money(total())); set('cosub',money(total()));
+    set('grandtotal',money(Math.max(0,total()-cred)));
+    set('bagtotal',money(Math.max(0,total()-cred)));
+    set('cototal',money(Math.max(0,total()-cred)));
     const cr=document.getElementById('creditrow'); if(cr) cr.style.display=cred?'flex':'none';
+    document.querySelectorAll('form [type=submit]').forEach(b=>{
+      if(/^Pay /.test(b.textContent)) b.textContent='Pay '+money(Math.max(0,total()-cred));
+    });
   }
+
+  /* PDP gallery + size selector (rebuilt markup) */
+  window.pdpSwap=(btn,src)=>{
+    const main=document.getElementById('pdpmain'); if(!main) return;
+    btn.parentElement.querySelectorAll('button').forEach(b=>b.removeAttribute('aria-current'));
+    btn.setAttribute('aria-current','true');
+    main.style.opacity=0; setTimeout(()=>{main.src=src;main.style.opacity=1;},180);
+  };
+  document.querySelectorAll('.sizes').forEach(row=>{
+    row.addEventListener('click',e=>{
+      const b=e.target.closest('button'); if(!b) return;
+      row.querySelectorAll('button').forEach(x=>x.removeAttribute('aria-current'));
+      b.setAttribute('aria-current','true');
+      const price=(b.textContent.match(/£(\d+)/)||[])[1];
+      const add=document.querySelector('.pdp .cta .btn-ink');
+      if(add&&price) add.textContent='Add to bag — £'+price;
+    });
+  });
+  document.querySelectorAll('.filters').forEach(row=>{
+    row.addEventListener('click',e=>{
+      const b=e.target.closest('button'); if(!b) return;
+      row.querySelectorAll('button').forEach(x=>x.removeAttribute('aria-current'));
+      b.setAttribute('aria-current','true');
+    });
+  });
 
   /* PDP */
   window.selectSize=(el,price,kind)=>{

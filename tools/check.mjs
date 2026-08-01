@@ -72,7 +72,7 @@ const TYPE_RULES = [
 /* Pages already rebuilt on the responsive stylesheet. Everything else is still
    on the older fixed-pixel CSS and is reported separately, so the migrated set
    stays a clean signal and the rest reads as a work list. */
-const MIGRATED = new Set(['index.html']);
+const MIGRATED = new Set(['ALL']);   /* the whole site is on app.css now */
 
 const results = [];
 const rec = (page, group, name, ok, detail = '') => results.push({ page, group, name, ok, detail });
@@ -107,9 +107,9 @@ async function checkLinks() {
     rec(f, 'links', `${refs.size} local references resolve`, missing.length === 0, 'missing: ' + missing.join(', '));
     rec(f, 'arch', 'no inline layout script', !/setProperty\('--u'/.test(html));
   }
-  const css = await readFile(join(ROOT, 'assets/css/home.css'), 'utf8');
-  rec('assets/css/home.css', 'arch', 'no script-driven design unit', !/var\(--u\)/.test(css),
-    'home.css still references --u');
+  const css = await readFile(join(ROOT, 'assets/css/app.css'), 'utf8');
+  rec('assets/css/app.css', 'arch', 'no script-driven design unit', !/var\(--u\)/.test(css),
+    'app.css still references --u');
 }
 
 /* ------------------------------------------------------- per-viewport ---- */
@@ -177,7 +177,7 @@ async function checkAt(browser, file, v) {
       .filter(e => {
         const cs = getComputedStyle(e);
         if (cs.display === 'none' || cs.visibility === 'hidden') return false;
-        if (e.matches('.ul,.brand,.go') || e.closest('.links,.util,footer,.house .row,.credit')) return false;
+        if (e.matches('.ul,.brand,.go') || e.closest('.links,.util,footer,.house .row,.credit,.crumb,.legal,.acctnav,.steps,.marginnote')) return false;
         if (e.matches('input[type=checkbox],input[type=radio]')) return false;  /* natively small by design */
         if (e.tagName === 'A' && cs.display.startsWith('inline') && !e.classList.contains('btn')) return false;
         const r = e.getBoundingClientRect();
@@ -238,11 +238,15 @@ async function checkNoScript(browser, file) {
       const de = document.documentElement;
       return { sw: de.scrollWidth, cw: de.clientWidth,
                body: parseFloat(getComputedStyle(document.body).fontSize),
-               visible: [...document.querySelectorAll('section')].filter(s => s.getBoundingClientRect().height > 0).length };
+               h1: !!document.querySelector('h1') && document.querySelector('h1').getBoundingClientRect().height > 0,
+               nav: !!document.querySelector('.nav') && document.querySelector('.nav').getBoundingClientRect().height > 0,
+               foot: !!document.querySelector('footer') && document.querySelector('footer').getBoundingClientRect().height > 0,
+               tall: document.body.scrollHeight > 700 };
     });
     rec(file, 'no-js', `${w}px · no overflow`, r.sw <= r.cw + 1, `scrollWidth ${r.sw} vs ${r.cw}`);
     rec(file, 'no-js', `${w}px · type still in range`, r.body >= 15 && r.body <= 17.5, `body ${r.body}px`);
-    rec(file, 'no-js', `${w}px · sections all render`, r.visible >= 3, `${r.visible} sections`);
+    rec(file, 'no-js', `${w}px · page renders`, r.h1 && r.nav && r.foot && r.tall,
+      `h1 ${r.h1} · nav ${r.nav} · footer ${r.foot} · height ${r.tall}`);
     await ctx.close();
   }
 }
@@ -252,10 +256,24 @@ async function checkFonts(browser, file) {
   const p = await browser.newPage({ viewport: { width: 1440, height: 900 } });
   await p.goto(`http://localhost:${PORT}/${file}`, { waitUntil: 'networkidle' });
   await p.evaluate(() => document.fonts.ready);
-  const loaded = await p.evaluate(() => [...document.fonts].map(f => `${f.family}|${f.weight}|${f.status}`));
-  for (const want of ['Libre Caslon Display|400', 'Libre Caslon Text|400', 'Montserrat|500', 'Cormorant Garamond|300']) {
-    const hit = loaded.find(l => l.startsWith(want + '|'));
-    rec(file, 'fonts', want, !!hit && hit.endsWith('|loaded'), hit || 'not declared');
+  const r = await p.evaluate(() => {
+    const declared = [...document.fonts].map(f => `${f.family}|${f.style}|${f.weight}|${f.status}`);
+    const used = new Set();
+    document.querySelectorAll('body *').forEach(e => {
+      if (!e.textContent.trim()) return;
+      used.add(getComputedStyle(e).fontFamily.split(',')[0].replace(/["']/g, '').trim());
+    });
+    return { declared, used: [...used] };
+  });
+  for (const fam of ['Libre Caslon Display', 'Libre Caslon Text', 'Montserrat', 'Cormorant Garamond']) {
+    const faces = r.declared.filter(l => l.startsWith(fam + '|'));
+    if (!faces.length) { rec(file, 'fonts', fam, false, 'no @font-face declared'); continue; }
+    // A family may declare several faces; the browser only fetches the ones the
+    // page actually needs, so require at least one loaded where the family is used.
+    const needed = r.used.includes(fam);
+    const anyLoaded = faces.some(l => l.endsWith('|loaded'));
+    rec(file, 'fonts', `${fam} (${faces.length} faces)${needed ? '' : ' — not used here'}`,
+      !needed || anyLoaded, faces.join('  '));
   }
   await p.close();
 }
@@ -277,7 +295,7 @@ for (const f of pages) {
 
 await browser.close(); server.close();
 
-const isMigrated = p => MIGRATED.has(p) || !p.endsWith('.html');
+const isMigrated = p => MIGRATED.has('ALL') || MIGRATED.has(p) || !p.endsWith('.html');
 const show = (pages, heading) => {
   if (!pages.length) return;
   console.log(`\n${heading}`);

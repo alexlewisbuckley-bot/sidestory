@@ -1,10 +1,11 @@
-<!DOCTYPE html>
-<html lang="en"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Share your story — Side Story Parfums</title>
-<meta name="description" content="The eighth story hasn't been written yet. Send us the moment.">
-<meta name="robots" content="noindex"><!-- demo -->
-
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Share Yours · Side Story — Parfums &amp; Oils</title>
+<meta name="description" content="Send us the moment. The eighth fragrance could begin with something that actually happened to you.">
+<meta name="theme-color" content="#2B2E2D">
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="favicon.ico" sizes="any">
 <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
@@ -12,131 +13,91 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="assets/fonts/libre-caslon-text-latin-400-normal.woff2">
 <link rel="preload" as="font" type="font/woff2" crossorigin href="assets/fonts/montserrat-latin-500-normal.woff2">
 <link rel="stylesheet" href="assets/css/fonts.css?v=226e8a05">
-<link rel="stylesheet" href="assets/css/site.css?v=f43147df">
+<link rel="stylesheet" href="assets/css/app.css?v=8f7073f9">
 </head><body>
-<div class="ann">A second story’s sample, complimentary with every bottle</div>
+<div class="topbar">
+<div class="ann"><span>A second story’s sample, complimentary with every bottle</span></div>
 <header class="nav">
-  <button class="burger" aria-label="Menu"><i></i><i></i><i></i></button>
-  <a class="brand" href="index.html"><b>SIDE STORY</b><span>PARFUMS &amp; OILS</span></a>
-  <nav class="navlinks">
-    <a href="collection.html">The Fragrances</a>
-    <a href="stories.html">Your Stories</a>
-    <a href="share.html">Share Yours</a>
-    <a href="collection.html">Samples</a>
-    <a href="index.html#gifting">Gifting</a>
-    <a href="index.html#making">Our House</a>
-  </nav>
-  <div class="util">
-    <a href="collection.html">Search</a>
-    <a href="bag.html">Account</a>
-    <button onclick="openDrawer()">Bag (<span id="bagcount">0</span>)</button>
+  <div class="inner">
+    <button class="burger" aria-label="Menu" aria-expanded="false"><i></i><i></i><i></i></button>
+    <a class="brand" href="index.html" aria-label="Side Story — Parfums &amp; Oils"><img src="assets/img/logo.svg?v=dd5e3f44" alt="Side Story — Parfums &amp; Oils"></a>
+    <nav class="links" aria-label="Primary">
+      <a href="collection.html">The Fragrances</a>
+      <a href="stories.html">Your Stories</a>
+      <a href="share.html" aria-current="page">Share Yours</a>
+      <a href="samples.html">Samples</a>
+      <a href="gifting.html">Gifting</a>
+      <a href="our-house.html">Our House</a>
+    </nav>
+    <div class="util">
+      <a href="search.html">Search</a><a href="account.html">Account</a>
+      <button onclick="openDrawer()">Bag (<span id="bagcount">0</span>)</button>
+    </div>
   </div>
 </header>
-<section class="hero" style="min-height:min(70vh,560px)">
-  <img class="bg" src="assets/img/hero.jpg" alt=""><div class="veil"></div>
-  <div class="copy">
-    <p class="kicker">Your stories · an open call</p>
-    <h1>The eighth story<br>hasn’t been written yet.</h1>
-    <p>Seven fragrances began as fiction. The next one could begin with something that actually happened — to you. Send us the moment; we read every one.</p>
-    <div class="cta"><a class="btn btn-ivory" href="#write">Write yours</a><a class="btn btn-ghost" href="#postbag">Read what others sent</a></div>
+</div>
+<section class="banner">
+  <img src="assets/img/spine.jpg?v=8de0cad4" alt="An open notebook">
+  <div class="c">
+    <p class="k">Your stories &middot; an open call</p>
+    <h1>The eighth story hasn&rsquo;t been written yet.</h1>
+    <p>Seven fragrances began as fiction. The next one could begin with something that actually happened &mdash; to you. Send us the moment; we read every one.</p>
   </div>
 </section>
 
-<section class="centered rev">
-  <p class="kicker">Why we are asking</p>
-  <h2 class="disp" style="font-size:clamp(24px,3.1vw,34px);line-height:1.5;margin:18px 0">We have never made a fragrance from a marketing brief. We are not about to start.</h2>
-  <p class="mut" style="line-height:1.85">Every bottle we make was composed against nine pages of writing. Those pages have always come from our own writers — but the best moments we’ve heard this year came from the people wearing them: a bakery at 5am, a hospital corridor at Christmas, a borrowed jumper that still smelled of someone. One of those deserves a bottle.</p>
-</section>
-
-<section style="background:var(--sand)">
-  <div class="shead rev"><div><p class="kicker">How it works</p><h2>Four steps, one bottle.</h2></div></div>
-  <div class="plates">
-    <div class="rev"><p class="disp" style="font-size:30px;color:var(--brass)">I</p><h3 class="disp" style="font-size:22px;margin:8px 0">Write it plainly</h3><p class="mut" style="font-size:14px;line-height:1.7">No more than 500 words. A moment, not a memoir — where you were, who was there, what the air was doing.</p></div>
-    <div class="rev"><p class="disp" style="font-size:30px;color:var(--brass)">II</p><h3 class="disp" style="font-size:22px;margin:8px 0">We read everything</h3><p class="mut" style="font-size:14px;line-height:1.7">Every submission is read by the house. You will hear from us either way, within a month.</p></div>
-    <div class="rev"><p class="disp" style="font-size:30px;color:var(--brass)">III</p><h3 class="disp" style="font-size:22px;margin:8px 0">A shortlist goes to Grasse</h3><p class="mut" style="font-size:14px;line-height:1.7">Four stories a year are sent to Jacques Chabert and the Argeville noses to be read aloud, unattributed.</p></div>
-    <div class="rev"><p class="disp" style="font-size:30px;color:var(--brass)">IV</p><h3 class="disp" style="font-size:22px;margin:8px 0">One becomes a fragrance</h3><p class="mut" style="font-size:14px;line-height:1.7">Published under your name in the printed edition, with the first bottle of the run sent to you.</p></div>
-  </div>
-</section>
-
-<section id="write">
-  <div id="formwrap">
-    <div class="shead rev"><div><p class="kicker">Send your story</p><h2>Tell us the moment.</h2></div></div>
-    <form class="form" id="storyform">
-      <div class="rev">
-        <label class="field"><span>Your story’s title</span><input required placeholder="e.g. The Bakery at Five"></label>
-        <label class="field"><span>Where and when</span><input required placeholder="e.g. Lisbon, the winter I turned thirty"></label>
-        <label class="field"><span>The moment — up to 500 words</span>
-          <textarea id="moment" required placeholder="It was still dark when the ovens went on, and the whole street smelled of it before anyone was awake…"></textarea></label>
-        <p class="count" id="wcount">0 / 500 words</p>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
-          <label class="field"><span>Your name</span><input required placeholder="Alex Buckley"></label>
-          <label class="field"><span>Email</span><input type="email" required placeholder="alex@buckley.co.uk"></label>
-        </div>
-        <label class="consent"><input type="checkbox" required>
-          <span>I’m happy for Side Story to read my story, and to contact me about it. You keep the copyright — we will ask again, in writing, before anything is published or set to scent.</span></label>
-        <button class="btn btn-ink" type="submit">Send your story</button>
+<div class="inner">
+  <p class="crumb"><a href="index.html">Home</a> / Share Yours</p>
+  <form class="form" onsubmit="event.preventDefault();this.querySelector('.sent').hidden=false;this.querySelector('.btn').disabled=true;">
+    <div>
+      <p class="k">Write yours</p>
+      <h2 class="sechead">Tell us the moment.</h2>
+      <label class="field"><span>Your story</span>
+        <textarea name="story" placeholder="Start anywhere. The room, the hour, what was said." required></textarea>
+        <small>Three hundred words is plenty. We are after one moment, not a life.</small></label>
+      <div class="row2">
+        <label class="field"><span>Name</span><input name="name" required></label>
+        <label class="field"><span>Email</span><input type="email" name="email" required></label>
       </div>
-      <aside class="aside rev">
-        <h4>What we are looking for</h4>
-        <p>Air, weather, rooms, hands, hours. The specific over the sweeping — one Tuesday beats a whole decade.</p>
-        <h4>And what we are not</h4>
-        <p style="font-style:italic;margin-bottom:0">Product reviews, note lists, or anything you would call content. Write it as though no one is buying.</p>
-      </aside>
-    </form>
-  </div>
-</section>
-
-<section id="postbag" style="background:var(--plaster)">
-  <div class="shead rev"><div><p class="kicker">From the postbag</p><h2>What people have already sent us.</h2>
-  <p class="mut" style="font-style:italic;margin-top:8px">Published with permission. Three of these are with Grasse now.</p></div></div>
-  <div class="plates">
-    <div class="sub rev"><span class="tag">With Grasse</span>
-      <h3 class="disp" style="font-size:24px;margin:14px 0 6px">The Bakery at Five</h3>
-      <p class="kicker" style="color:var(--txt);opacity:.6">Marta L. · Lisbon</p>
-      <p class="mut" style="font-style:italic;line-height:1.75;margin-top:12px">“It was still dark when the ovens went on, and the whole street smelled of it before anyone was awake. I have never been happier than I was at that hour, poor and warm and covered in flour.”</p></div>
-    <div class="sub rev"><span class="tag">With Grasse</span>
-      <h3 class="disp" style="font-size:24px;margin:14px 0 6px">Ward 9, Christmas Eve</h3>
-      <p class="kicker" style="color:var(--txt);opacity:.6">Tom H. · Leeds</p>
-      <p class="mut" style="font-style:italic;line-height:1.75;margin-top:12px">“Antiseptic, cheap tinsel, and someone’s satsuma. Twenty years on I cannot peel one without being nineteen again, holding my mother’s hand and pretending to be brave.”</p></div>
-    <div class="sub rev"><span class="tag alt">Shortlisted</span>
-      <h3 class="disp" style="font-size:24px;margin:14px 0 6px">His Jumper</h3>
-      <p class="kicker" style="color:var(--txt);opacity:.6">Priya S. · Glasgow</p>
-      <p class="mut" style="font-style:italic;line-height:1.75;margin-top:12px">“He left it on the back of my chair in October and never asked for it. By March it had stopped smelling of him, and that was the actual ending — not the argument.”</p></div>
-  </div>
-</section>
-
-<section>
-  <p class="kicker rev">The small print, in plain English</p>
-  <div class="plates" style="margin-top:26px">
-    <div class="rev" style="border-top:1px solid var(--line);padding-top:14px"><h3 style="font-family:'Libre Caslon Text',serif;font-size:17px">It stays yours</h3><p class="mut" style="font-size:13px;line-height:1.7;margin-top:6px">You keep the copyright to everything you send. Always.</p></div>
-    <div class="rev" style="border-top:1px solid var(--line);padding-top:14px"><h3 style="font-family:'Libre Caslon Text',serif;font-size:17px">We ask before we publish</h3><p class="mut" style="font-size:13px;line-height:1.7;margin-top:6px">Nothing appears on this site, in a box, or in a bottle without your written yes.</p></div>
-    <div class="rev" style="border-top:1px solid var(--line);padding-top:14px"><h3 style="font-family:'Libre Caslon Text',serif;font-size:17px">No fee, no purchase</h3><p class="mut" style="font-size:13px;line-height:1.7;margin-top:6px">You do not need to have bought anything. Open to anyone over 18.</p></div>
-    <div class="rev" style="border-top:1px solid var(--line);padding-top:14px"><h3 style="font-family:'Libre Caslon Text',serif;font-size:17px">If yours is chosen</h3><p class="mut" style="font-size:13px;line-height:1.7;margin-top:6px">You are credited by name in the printed edition, sent the first bottle of the run, and paid a commission fee agreed with you beforehand.</p></div>
-  </div>
-</section>
+      <label class="field"><span>What should it smell of?</span><input name="notes" placeholder="Optional — cold water, cut grass, iron on the hands"></label>
+      <div class="actions"><button class="btn btn-ink" type="submit">Send your story</button></div>
+      <p class="re sent" hidden>Thank you &mdash; it is with the reading group. We reply to every submission within a fortnight.</p>
+    </div>
+    <div class="aside-card">
+      <h3>Why we are asking</h3>
+      <p>We have never made a fragrance from a marketing brief and we are not about to start. Every bottle we make was composed against nine pages of writing.</p>
+      <p>Stories chosen for development are commissioned properly: a fee, a royalty on the fragrance, and your name on the printed edition. Nothing is published without your written say-so.</p>
+      <p><a class="ul" href="stories.html">Read what others sent</a></p>
+    </div>
+  </form>
+</div>
 <footer>
-  <div class="cols">
-    <div><h4>The Shelf</h4><a href="collection.html">The Fragrances</a><a href="collection.html">The First Lines</a><a href="collection.html">Samples</a><a href="index.html#gifting">Gifting</a></div>
-    <div><h4>The House</h4><a href="stories.html">Your Stories</a><a href="share.html">Share Yours</a><a href="index.html#making">The Making</a><a href="index.html#journal">Atelier Journal</a></div>
-    <div><h4>The Practical</h4><a href="bag.html">Shipping &amp; Returns</a><a href="bag.html">Stockists</a><a href="share.html">Contact</a><a href="bag.html">FAQ</a></div>
-  </div>
-  <div class="fbot">
-    <div class="pay"><i>VISA</i><i>MC</i><i>AMEX</i><i>&#63743;Pay</i></div>
-    <p class="legal">© Side Story Parfums · Made in Grasse, sealed in stone · United Kingdom (GBP £)</p>
+  <div class="inner">
+    <div class="cols">
+      <div><h4>The Shelf</h4><a href="collection.html">The Fragrances</a><a href="samples.html">The First Lines</a><a href="samples.html">Samples</a><a href="gifting.html">Gifting</a></div>
+      <div><h4>The House</h4><a href="our-house.html">Our Story</a><a href="our-house.html#making">The Making</a><a href="our-house.html#stones">The Stones</a><a href="journal.html">Atelier Journal</a></div>
+      <div><h4>The Practical</h4><a href="shipping.html">Shipping &amp; Returns</a><a href="stockists.html">Stockists</a><a href="contact.html">Contact</a><a href="faq.html">FAQ</a></div>
+    </div>
+    <div class="fmid">
+      <p class="fcopy">&copy; Side Story Parfums MMXXVI &middot; Made in Grasse</p>
+      <div class="fbrand"><img src="assets/img/logo-ivory.svg?v=dded37e6" alt="Side Story &mdash; Parfums &amp; Oils"></div>
+    </div>
+    <div class="fbot">
+      <div class="pay"><i>VISA</i><i>MC</i><i>AMEX</i><i>&#63743;Pay</i></div>
+      <p class="legal"><a href="legal.html">Privacy</a> &middot; <a href="legal.html">Terms</a> &middot; <a href="legal.html">Cookies</a> &nbsp; United Kingdom (GBP &pound;)</p>
+    </div>
   </div>
 </footer>
-<div class="scrim" id="scrim"></div>
+<div class="scrim" id="scrim" onclick="closeDrawer()"></div>
 <aside class="drawer" id="drawer" aria-label="Your bag">
-  <div class="dhead"><span>Your bag — <span data-bagcount>0</span></span><button onclick="closeDrawer()" style="background:none;border:0;cursor:pointer;font:inherit">Close</button></div>
+  <div class="dhead"><span>Your bag &mdash; <span data-bagcount>0</span></span><button onclick="closeDrawer()">Close</button></div>
   <div id="ditems"></div>
   <label class="tryfirst"><input type="checkbox" checked>
     <div><b>Try a second story first</b><span>A complimentary 2ml of another story, tucked into the parcel.</span></div></label>
-  <p class="thresh" id="thresh">Complimentary delivery at £100</p>
+  <p class="thresh" id="thresh">Complimentary delivery at &pound;100</p>
   <div class="tbar"><div class="tfill" id="tfill"></div></div>
-  <div class="dtot"><span>Subtotal</span><span id="dtotal">£0</span></div>
-  <a class="btn btn-ink" href="bag.html">View bag &amp; checkout</a>
-  <button class="btn btn-ghost-ink" onclick="closeDrawer()">Continue reading</button>
-  <p class="fine" style="text-align:center;margin-top:10px">Tax included · 30-day returns · sample cost redeemed</p>
+  <div class="dtot"><span>Subtotal</span><span id="dtotal">&pound;0</span></div>
+  <a class="btn btn-ink" href="bag.html">View bag</a>
+  <button class="btn btn-ghostink" onclick="closeDrawer()">Keep reading</button>
 </aside>
-<script src="assets/js/site.js?v=e7f08f70"></script>
+<script src="assets/js/site.js?v=2163aa10"></script>
 </body></html>

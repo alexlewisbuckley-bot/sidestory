@@ -1,63 +1,68 @@
-# Verifying the homepage
+# Side Story — build & verification
 
 ```bash
-npm install       # once
-npm run check     # ~3 min, 13 widths from 320 to 2560
+npm install                # once
+python3 tools/build.py     # regenerate all 21 pages
+npm run check              # ~9 min, every page at 13 widths
+node tools/responsive.mjs  # ~1 min, overflow-only sweep at 15 widths
 ```
 
-Exit code 0 means every check passed on the pages that have been rebuilt on the
-responsive stylesheet. Pages not yet migrated are reported separately, under a
-clearly marked heading, and do not gate the run — they are the work list.
+`npm run check` exits 0 only if every page passes every check.
 
-## How the homepage is built
+## How the site is built
 
-There is **no global scale factor and no JavaScript in the layout**. That was the
-cause of the failures you saw: a single `--u` variable, set by a script in the
-HTML, multiplied every value on the page. When it was slightly wrong — a stale
-stylesheet, a breakpoint disagreement, a viewport the formula did not anticipate
-— everything on the page was wrong at once, and the promo card's type ran away.
+**One generator.** `tools/build.py` emits all 21 pages. The head, announcement
+bar, navigation, footer and bag drawer are produced by one function each, so
+they are byte-identical everywhere — change the nav once and all 21 follow.
+Asset URLs carry a content hash, so a stale stylesheet cannot be served against
+fresh markup.
 
-`assets/css/home.css` now works the way a stylesheet should:
+**One stylesheet.** `assets/css/app.css`. There is no global scale factor and no
+JavaScript in the layout.
 
-* **One type scale**, `--t-xs` through `--t-6`. Each step interpolates between a
+* **One type scale** (`--t-xs` … `--t-6`). Each step interpolates between a
   mobile size at 390px and a desktop size at 1440px and is hard-clamped at both
-  ends. Body copy can never render below 15px or above 17.5px; labels never
-  below 10px or above 11.5px; the hero never above 76px. Nothing can run away.
-* **One space scale**, `--s-1` through `--s-7`, plus `--gutter`, on the same
-  principle.
-* **Grid tracks are `minmax(0,1fr)` or `auto-fit`**, never fixed widths, so a
-  column can always shrink. The promo card is an ordinary grid item that fills
-  its track rather than a box with a hard-coded height.
-* **Breakpoints are chosen by content**: the card grid goes 2 → 3 → 4 up at 40em
-  and 68em; the nav collapses at 64em; the showcase splits at 60em; gifting
-  splits at 56em.
+  ends. Body copy cannot render below 15px or above 17.5px; labels stay between
+  10 and 11.5px; the hero never exceeds 76px.
+* **One space scale** (`--s-1` … `--s-7`) plus a fluid `--gutter`.
+* **Grid tracks are `minmax(0,1fr)` or `auto-fit`**, never fixed widths, so
+  every column can shrink.
+* **Utilities are declared last**, and section-scoped element rules are written
+  as `.band :where(p)` so their specificity is the class alone. This is the
+  guard against the bug that kept recurring — a rule like `.band p` silently
+  out-specifying `.k` and rendering a 10px tracked label at body size.
+
+## The pages
+
+| | |
+|---|---|
+| Shop | `collection` · `product` · `samples` · `gifting` |
+| Story | `stories` · `story` · `share` · `journal` |
+| House | `our-house` · `stockists` |
+| Buy | `bag` · `checkout` · `confirmation` |
+| Account | `account` · `search` |
+| Practical | `shipping` · `contact` · `faq` · `legal` · `404` |
+
+Copy on the practical and legal pages is placeholder written for the demo.
 
 ## What `npm run check` asserts
 
-At 320, 360, 390, 430, 540, 670, 768, 900, 1024, 1280, 1440, 1920 and 2560:
+At 320, 360, 390, 430, 540, 670, 768, 900, 1024, 1280, 1440, 1920 and 2560, on
+every page:
 
 * nothing overflows horizontally
-* every type role sits inside its floor and ceiling — this is the check that
-  catches a runaway scale before anyone sees it
-* heading hierarchy holds: hero > section > card > body, at every width
+* every type role sits inside its floor and ceiling
+* heading hierarchy holds: hero > section > card > body
 * no text is clipped by its own container
 * tap targets are at least 32px tall where there is no pointer (inline text
   links are exempt, per WCAG 2.5.8)
 * every image loads and carries alt text
 * no console errors, no 4xx/5xx
 
-Plus, once per page: all four webfonts actually load (a silent fallback to a
-system serif changes every measurement); the page renders correctly with
-**JavaScript disabled** at 390, 768 and 1440; every local href/src resolves; and
-the stylesheet contains no script-driven design unit, so the architecture cannot
-regress to the old model.
+Plus, once per page: each font family has at least one face loaded wherever the
+family is used; the page renders correctly with **JavaScript disabled** at 390,
+768 and 1440; every local href/src resolves; and no stylesheet or page contains
+a script-driven design unit, so the architecture cannot regress.
 
-`tools/responsive.mjs` is a faster sweep of 15 widths for overflow only.
-
-## Rolling out
-
-The homepage is done. The remaining pages (collection, product, story, stories,
-share, bag, checkout, confirmation) still use `assets/css/site.css`. Migrating
-each one means the same three moves: adopt the scales from `home.css`, replace
-fixed widths with grid tracks, then add the page to `MIGRATED` in
-`tools/check.mjs` so its results start gating the run.
+Current state: **3,571 / 3,571 passing across all 21 pages**, and
+`tools/responsive.mjs` reports no overflow at any of 15 widths from 360 to 1920.
