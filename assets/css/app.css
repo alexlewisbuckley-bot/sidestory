@@ -433,8 +433,20 @@ body{background:var(--ivory);color:var(--ink);
    stopped working the moment the dimensions were added. This restores them;
    rules that genuinely want a fixed height still win on specificity. */
 img{display:block;max-width:100%;height:auto}
-/* <picture> is a wrapper, not a box — the layout must not see it */
+/* <picture> is a wrapper, not a box — the layout must not see it.
+
+   And its <source> elements must not be seen either. `display:contents`
+   promotes a picture's children into its parent's layout, and a <source> has
+   no UA `display:none` — it is normally invisible only because <picture>
+   never renders it. So every <picture> sitting directly inside a grid or a
+   flex row was quietly contributing two extra items.
+
+   Mostly they collapsed to nothing and nobody noticed. In the signature show,
+   whose grid is three explicit columns, they took the first two: the large
+   plate was pushed into the third track and ended up alone in the top right
+   corner, with the thumbnails and the copy in the columns meant for it. */
 picture{display:contents}
+picture>source{display:none}
 
 /* The hidden attribute has to beat every component display rule, or a
    `display:flex` two hundred lines later quietly un-hides the thing. This
@@ -742,7 +754,10 @@ button:disabled,[aria-disabled="true"]{cursor:default}
 @media (min-width:64em){
   .show .inner{grid-template-columns:minmax(0,600fr) auto minmax(0,481fr);
     column-gap:var(--s-4);align-items:start}
-  .show .thumbs{flex-direction:column}
+  /* stacked, the buttons stretched to the full width of the track — 371px of
+     button around an 86px thumbnail — so the rule that marks the active one
+     ran four times the width of the picture it was marking */
+  .show .thumbs{flex-direction:column;align-items:flex-start}
   .show .copy{padding-top:var(--s-4);margin-left:var(--s-4)}
 }
 .show h2{font-size:var(--t-5);margin-top:var(--s-3);color:var(--ink);max-width:14ch}
