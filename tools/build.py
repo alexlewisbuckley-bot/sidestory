@@ -63,11 +63,8 @@ BY_SLUG = {p["slug"]: p for p in PRODUCTS}
 # stone all speak about the same bottle rather than sharing generic copy.
 CHAPTERS = {
   "hotel-lobby": dict(
-    pull="Eight o\u2019clock passed without appearing to.",
-    pullref="From Hotel Lobby, Chapter II",
-    numeral="I", chapter="Chapter I of IX",
-    title="The lobby at ten to eight.",
-    author="Morgan Childs",
+    pull="Eight o\u2019clock passed without appearing to.", pullref="From Hotel Lobby, Chapter II",
+    numeral="I", chapter="Chapter I of IX", title="The lobby at ten to eight.", author="Morgan Childs",
     paras=["It was ten minutes before eight when she arrived, and the lobby had already decided the evening for her. The revolving door gave its slow, museum turn; the marble took her heels and made them sound deliberate. At the bar, the wood had been polished so long it had opinions.",
            "She asked for nothing yet. The barman, who understood waiting the way sommeliers understand rain, set down a glass of ice and let it speak."],
     scent="antique bergamot, poured over ice \u2014 the scent begins where the chapter does",
@@ -77,6 +74,84 @@ CHAPTERS = {
              ("Base","sandalwood, faint incense, warm amber","\u2014 eight o\u2019clock passes unnoticed")],
     stone_title="Nero Marquina, cut once.",
     stone_body="Quarried at Markina-Xemein, its veining decided by nature alone \u2014 your lid\u2019s pattern exists on no other bottle, and will not be cut again."),
+
+  "sibling-rivalry": dict(
+    pull="He had been winning the same argument since 1994.", pullref="From Sibling Rivalry, Chapter IV",
+    numeral="II", chapter="Chapter I of IX", title="Two brothers, one kitchen.", author="Nell Ferreira",
+    paras=["There is a particular silence that only a brother can make, and she had been listening to it for thirty years. It arrived with the kettle, sat down uninvited, and waited to be contradicted.",
+           "The kitchen had not changed. The argument had not changed. Only the two of them had, and not in the places that would have helped."],
+    scent="grapefruit cut with smoke \u2014 sharp first, then unwilling to leave",
+    caption="the chapter, photographed as it was written \u2014 the table, the kettle, the unfinished sentence",
+    margins=[("Opening","grapefruit, bitten not peeled","\u2014 the first thing either of them says"),
+             ("Heart","vetiver, green and unbothered","\u2014 neither of them apologises"),
+             ("Base","birch smoke, faint tar","\u2014 and still nobody leaves the room")],
+    stone_title="Leopard Salome, cut once.",
+    stone_body="A brecciated marble whose fracture lines were set long before anyone thought to quarry it \u2014 the seam on your lid runs in one direction only, and once."),
+
+  "pillow-talk": dict(
+    pull="What is said in the dark, and the longer thing that is not.", pullref="From Pillow Talk, Chapter III",
+    numeral="III", chapter="Chapter I of IX", title="They agreed on the hour.", author="Iris Vandeleur",
+    paras=["They agreed on almost nothing except the hour, and the hour was always late. It was the one negotiation neither of them wanted to win, so they returned to it nightly, like a book left face-down.",
+           "The room kept its own weather: linen still warm, a lamp neither of them reached to turn off, and the particular quiet that only arrives after everything worth saying has been said badly."],
+    scent="warm skin under cotton \u2014 nothing announced, everything understood",
+    caption="the chapter, photographed as it was written \u2014 linen, lamplight, the hour kept late",
+    margins=[("Opening","powder, soft as a first sentence","\u2014 the lamp is still on"),
+             ("Heart","white musk, skin-warm","\u2014 neither of them moves"),
+             ("Base","cashmere wood, faint vanilla","\u2014 what is not said, said longest")],
+    stone_title="Calacatta, cut once.",
+    stone_body="One grey seam through a white field, running off-centre because the block decided so \u2014 the lid on your bottle is the only one that will carry that line."),
+
+  "sunday-service": dict(
+    pull="The music was the same. The cool, oaky air of the church was the same.", pullref="From Sunday Service, Chapter V",
+    numeral="IV", chapter="Chapter I of IX", title="The road home, unresurfaced.", author="Morgan Childs",
+    paras=["The road home has not been resurfaced in twenty years, and neither has the part of me that drives it. Past the reservoir the trees close over the lane the way they always did, and there \u2014 still standing, still rusted the colour of a wet penny \u2014 is the gate we used to climb.",
+           "Inside, the cool oaky air arrives before the organ does \u2014 polish and cold stone and the ghost of last week\u2019s lilies \u2014 and I am eleven again in an itching jumper, and thirty-eight, and neither."],
+    scent="church oak and beeswax \u2014 cold air held in clean linen",
+    caption="the chapter, photographed as it was written \u2014 stone, polish, and the last of the lilies",
+    margins=[("Opening","cold water, cut grass","\u2014 the gate, still rusted"),
+             ("Heart","incense over pressed linen","\u2014 the organ starts before you are ready"),
+             ("Base","beeswax, church oak, old stone","\u2014 and you are eleven again")],
+    stone_title="Verde Jade, cut once.",
+    stone_body="Green under the polish and almost black away from the light \u2014 quarried in a seam that gives perhaps a dozen lids a year, and never the same twice."),
+
+  "third-date": dict(
+    pull="By the third one you stop performing.", pullref="From Third Date, Chapter II",
+    numeral="V", chapter="Chapter I of IX", title="The third one, and after.", author="Nell Ferreira",
+    paras=["By the third one you stop performing, which is either the end of it or the beginning. The menu is no longer a prop. The stories have run out of their best versions and have started telling themselves honestly, which is slower and much more dangerous.",
+           "There was a candle between them doing the work of a much larger fire, and neither of them moved it out of the way."],
+    scent="plum and tobacco \u2014 the point where the evening stops being polite",
+    caption="the chapter, photographed as it was written \u2014 candle, glass, and the second bottle",
+    margins=[("Opening","dark plum, barely sweet","\u2014 the menu is put down"),
+             ("Heart","tobacco leaf, warm and dry","\u2014 the stories stop being edited"),
+             ("Base","benzoin, candle smoke","\u2014 nobody suggests leaving")],
+    stone_title="Rosso Levanto, cut once.",
+    stone_body="Deep red run through with white \u2014 a stone that looks composed and is entirely accidental. Your lid\u2019s pattern was decided in the block, not by us."),
+
+  "road-trip": dict(
+    pull="We agreed not to name the destination until the second tank.", pullref="From Road Trip, Chapter I",
+    numeral="VI", chapter="Chapter I of IX", title="Before the light did.", author="Iris Vandeleur",
+    paras=["We left before the light did and agreed not to name the destination until the second tank. The windows came down somewhere past the second roundabout and stayed down, which meant conversation had to be shouted or abandoned. We abandoned it.",
+           "The road warmed as the morning did. By ten the car smelled of hot upholstery, someone\u2019s cigarette from a decade ago, and whatever grows beside a road in July."],
+    scent="warm wind through an open window \u2014 leather, amber, dust",
+    caption="the chapter, photographed as it was written \u2014 the road, the light, the second tank",
+    margins=[("Opening","hot dust, bright and dry","\u2014 the windows come down"),
+             ("Heart","worn leather, sun on the seat","\u2014 conversation is abandoned"),
+             ("Base","amber, faint petrol, warm tar","\u2014 nobody names the destination")],
+    stone_title="Rosso Francia, cut once.",
+    stone_body="Warm and veined like an old map, which is the whole joke \u2014 no two lids agree on the route, and yours will not be repeated."),
+
+  "4pm-matinee": dict(
+    pull="Nobody goes to the cinema at four unless they are hiding from something.", pullref="From 4pm Matinee, Chapter I",
+    numeral="VII", chapter="Chapter I of IX", title="The four o\u2019clock showing.", author="Morgan Childs",
+    paras=["Nobody goes to the cinema at four in the afternoon unless they are hiding from something. The foyer knows it and is kind about it: the carpet takes your footsteps, the girl on the desk does not ask, and the room beyond is already dark.",
+           "There were nine of us. We sat with an empty seat between each, like a code, and for two hours the afternoon was somebody else\u2019s problem."],
+    scent="citrus in a dark room \u2014 velvet, dust, and an afternoon spent elsewhere",
+    caption="the chapter, photographed as it was written \u2014 foyer light, velvet, the empty seat",
+    margins=[("Opening","bergamot and bitter orange","\u2014 the foyer, before the dark"),
+             ("Heart","iris over warm velvet","\u2014 nine people, nine empty seats"),
+             ("Base","dry cedar, faint dust","\u2014 two hours that belong to nobody")],
+    stone_title="Giallo Siena, cut once.",
+    stone_body="A yellow marble that reads gold under lamplight and sand under daylight \u2014 the lid you receive will do both, in a pattern cut only once."),
 }
 
 JOURNAL = [
@@ -166,7 +241,7 @@ def topbar(current):
           <a class="ml" href="our-house.html#stones">The stones</a>
           <a class="ml" href="journal.html">Atelier journal</a>
         </div>
-        <a class="feature" href="product.html?f=hotel-lobby">
+        <a class="feature" href="product-hotel-lobby.html">
           <img src="{fp('assets/img/p-hotel-lobby-card.jpg')}" alt="Hotel Lobby eau de parfum" loading="lazy">
           <span>Bestseller &mdash; Hotel Lobby, &pound;160</span></a>
         <a class="feature" href="samples.html">
@@ -242,14 +317,14 @@ def crumbs(*parts):
 def product_card(p, reveal=True):
     badge = f'<span class="badge">{p["badge"]}</span>' if p["badge"] else ""
     return f"""      <article class="card{' rev' if reveal else ''}" data-order="{PRODUCTS.index(p)}" data-feeling="{p['feeling']}" data-stone="{p['stone']}" data-note="{p['notes'].split(',')[0].strip()}">
-        <div class="ph"><a href="product.html?f={p['slug']}"><img src="{fp('assets/img/' + p['img'] + '-card.jpg')}" alt="{p['name']} eau de parfum" loading="lazy"></a>{badge}
+        <div class="ph"><a href="product-{p['slug']}.html"><img src="{fp('assets/img/' + p['img'] + '-card.jpg')}" alt="{p['name']} eau de parfum" loading="lazy"></a>{badge}
           <div class="quick"><div class="r">
             <button class="btn btn-ink btn-sm" onclick="addToBag('{p['slug']}','full',this)">100ml &mdash; &pound;160</button>
             <button class="btn btn-ghostink btn-sm" onclick="addToBag('{p['slug']}','sample',this)">Sample &pound;5</button>
           </div><small>The printed story is in the box</small></div></div>
         <div class="meta"><span class="chip" style="background:{p['swatch']}"></span><span class="stone">{p['stone']}</span>
           <h3>{p['name']}</h3><p class="notes">{p['notes']}</p>
-          <p class="price"><span>&pound;160 &middot; 100 ml</span><a class="ul" href="product.html?f={p['slug']}">View</a></p></div>
+          <p class="price"><span>&pound;160 &middot; 100 ml</span><a class="ul" href="product-{p['slug']}.html">View</a></p></div>
       </article>"""
 
 
@@ -307,122 +382,126 @@ def build():
 </section>
 """)
 
-    # ---- 03 product (PDP, defaults to Hotel Lobby) -----------------------
-    p = BY_SLUG["hotel-lobby"]
-    shots = photos.manifest()[p["slug"]]
-    gal = [fp("assets/img/" + f) for f in shots]
-    alts = ["The bottle", "Boxed with its printed story", "The outer carton", "The set"]
-    thumbs = "".join(
-        '<button%s onclick="pdpSwap(this,\'%s\')"><img src="%s" alt="%s" loading="lazy"></button>'
-        % (' aria-current="true"' if i == 0 else "", u, u, alts[i] if i < len(alts) else "View %d" % (i + 1))
-        for i, u in enumerate(gal))
-    ch = CHAPTERS[p["slug"]]
-    pyramid = "\n".join(
-        f"      <div><b>{a}</b><em>{b}</em><i>{c}</i></div>" for a, b, c in ch["margins"])
-    paras = "\n".join(f"        <p>{t}</p>" for t in ch["paras"])
-    bands = f"""
-<section class="storyband">
-  <img src="{fp('assets/img/' + p['img'] + '-2.jpg') if len(gal) > 1 else fp('assets/img/unboxing.jpg')}" alt="">
-  <div class="c">
-    <blockquote>&ldquo;{ch['pull']}&rdquo;</blockquote>
-    <p>{ch['pullref']} &middot; <a href="story.html?s={p['slug']}">Read the full story</a></p>
-  </div>
-</section>
-
-<section class="chapter">
-  <span class="numeral" aria-hidden="true">{ch['numeral']}</span>
-  <div class="inner">
-    <div>
-      <p class="k">The story &middot; {ch['chapter']}</p>
-      <h2>{ch['title']}</h2>
-      <p class="byline">written by {ch['author']} &mdash; nine pages, printed and boxed with this bottle</p>
-      <div class="excerpt">
-{paras}
+    # ---- 03 product — one page per fragrance -----------------------------
+    for p in PRODUCTS:
+        slug_page = "product-" + p["slug"]
+        shots = photos.manifest()[p["slug"]]
+        # the card frame is a wider crop, so it carries more native detail than
+        # the tight one — use it for the PDP hero, where the image is largest
+        shots = ["p-%s-card.jpg" % p["slug"]] + shots[1:]
+        gal = [fp("assets/img/" + f) for f in shots]
+        alts = ["The bottle", "Boxed with its printed story", "The outer carton", "The set"]
+        thumbs = "".join(
+            '<button%s onclick="pdpSwap(this,\'%s\')"><img src="%s" alt="%s" loading="lazy"></button>'
+            % (' aria-current="true"' if i == 0 else "", u, u, alts[i] if i < len(alts) else "View %d" % (i + 1))
+            for i, u in enumerate(gal))
+        ch = CHAPTERS[p["slug"]]
+        pyramid = "\n".join(
+            f"      <div><b>{a}</b><em>{b}</em><i>{c}</i></div>" for a, b, c in ch["margins"])
+        paras = "\n".join(f"        <p>{t}</p>" for t in ch["paras"])
+        bands = f"""
+    <section class="storyband">
+      <img src="{fp('assets/img/' + p['img'] + '-2.jpg') if len(gal) > 1 else fp('assets/img/unboxing.jpg')}" alt="">
+      <div class="c">
+        <blockquote>&ldquo;{ch['pull']}&rdquo;</blockquote>
+        <p>{ch['pullref']} &middot; <a href="story.html?s={p['slug']}">Read the full story</a></p>
       </div>
-      <p class="scent">{ch['scent']}</p>
-      <div class="go">
-        <a class="btn btn-ghostink" href="story.html?s={p['slug']}">Read chapter one</a>
-        <small>The full story ships in the box</small>
+    </section>
+
+    <section class="chapter">
+      <span class="numeral" aria-hidden="true">{ch['numeral']}</span>
+      <div class="inner">
+        <div>
+          <p class="k">The story &middot; {ch['chapter']}</p>
+          <h2>{ch['title']}</h2>
+          <p class="byline">written by {ch['author']} &mdash; nine pages, printed and boxed with this bottle</p>
+          <div class="excerpt">
+    {paras}
+          </div>
+          <p class="scent">{ch['scent']}</p>
+          <div class="go">
+            <a class="btn btn-ghostink" href="story.html?s={p['slug']}">Read chapter one</a>
+            <small>The full story ships in the box</small>
+          </div>
+        </div>
+        <figure class="plates2">
+          <img class="big" src="{gal[1] if len(gal) > 1 else fp('assets/img/unboxing.jpg')}" alt="{p['name']}, as the chapter was written" loading="lazy">
+          <img class="small" src="{gal[2] if len(gal) > 2 else fp('assets/img/spine.jpg')}" alt="" loading="lazy">
+          <figcaption>{ch['caption']}</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="margins">
+      <div class="inner">
+        <p class="k">Notes &amp; composition</p>
+        <h2>The pyramid, read as margins.</h2>
+        <div class="pyramid">
+    {pyramid}
+        </div>
+      </div>
+    </section>
+
+    <section class="stoneband">
+      <div class="inner">
+        <img src="{fp('assets/img/stone-shelf.jpg')}" alt="{p['stone']}, hand-cut in Liguria" loading="lazy">
+        <div>
+          <p class="k">The stone</p>
+          <h2>{ch['stone_title']}</h2>
+          <p>{ch['stone_body']}</p>
+          <a class="ul" href="our-house.html#stones">More on the stones</a>
+        </div>
+      </div>
+    </section>
+    """
+        others = [q for q in PRODUCTS if q["slug"] != p["slug"]][:4]
+        rel = "\n".join(product_card(q, reveal=False) for q in others)
+        written[slug_page] = page(slug_page, p["name"],
+            f"{p['name']} eau de parfum — {p['notes']}. Sealed beneath a {p['stone']} lid, with its printed story in the box.", f"""
+    <div class="inner">
+      {crumbs(("Home", "index.html"), ("The Fragrances", "collection.html"), p["name"])}
+      <div class="pdp">
+        <div class="gal">
+          <img class="main" id="pdpmain" src="{gal[0]}" alt="{p['name']} eau de parfum">
+          <div class="strip">{thumbs}</div>
+        </div>
+        <div class="info">
+          <p class="k">{p['story']} &middot; Eau de parfum</p>
+          <h1>{p['name']}</h1>
+          <p class="sub">{p['stone']} &middot; {p['notes']}</p>
+          <blockquote>&ldquo;{p['line']}&rdquo; &mdash; nine pages of {p['feeling'].lower()}, worn as woods warmed by a polished bar.</blockquote>
+          <div class="sizes">
+            <button aria-current="true">100 ml &mdash; &pound;160</button>
+            <button>50 ml &mdash; &pound;110</button>
+            <button>Sample &mdash; &pound;5</button>
+          </div>
+          <div class="cta">
+            <button class="btn btn-ink" onclick="addToBag('{p['slug']}','full',this)">Add to bag &mdash; &pound;160</button>
+            <a class="btn btn-ghostink" href="story.html?s={p['slug']}">Read the story</a>
+          </div>
+          <p class="re">Complimentary UK delivery over &pound;100 &middot; 30-day returns &middot; sample cost redeemed against your first bottle</p>
+          <div class="acc">
+            <details open><summary>The story</summary><div class="body">{p['name']} began as {p['story']}, commissioned from a novelist and printed on cotton paper before the first accord was weighed. Nine pages arrive with the bottle; the digital edition arrives with your confirmation.</div></details>
+            <details><summary>Notes</summary><div class="body">Top &mdash; bergamot, pink pepper. Heart &mdash; {p['notes']}. Base &mdash; vetiver, cedar, a little smoke. Composed in Grasse by Jacques Chabert.</div></details>
+            <details><summary>The stone</summary><div class="body">{p['stone']}, hand-cut in Liguria. Veining is decided by the block, so no two lids repeat. The lid lifts free of the glass and keeps its weight in the hand.</div></details>
+            <details><summary>Delivery &amp; returns</summary><div class="body">Complimentary UK delivery over &pound;100, otherwise &pound;5. Two to four working days, signed for. Unopened bottles may be returned within 30 days; samples are non-returnable but always credited.</div></details>
+          </div>
+        </div>
       </div>
     </div>
-    <figure class="plates2">
-      <img class="big" src="{gal[1] if len(gal) > 1 else fp('assets/img/unboxing.jpg')}" alt="{p['name']}, as the chapter was written" loading="lazy">
-      <img class="small" src="{gal[2] if len(gal) > 2 else fp('assets/img/spine.jpg')}" alt="" loading="lazy">
-      <figcaption>{ch['caption']}</figcaption>
-    </figure>
-  </div>
-</section>
 
-<section class="margins">
-  <div class="inner">
-    <p class="k">Notes &amp; composition</p>
-    <h2>The pyramid, read as margins.</h2>
-    <div class="pyramid">
-{pyramid}
-    </div>
-  </div>
-</section>
+    {bands}
 
-<section class="stoneband">
-  <div class="inner">
-    <img src="{fp('assets/img/stone-shelf.jpg')}" alt="{p['stone']}, hand-cut in Liguria" loading="lazy">
-    <div>
-      <p class="k">The stone</p>
-      <h2>{ch['stone_title']}</h2>
-      <p>{ch['stone_body']}</p>
-      <a class="ul" href="our-house.html#stones">More on the stones</a>
-    </div>
-  </div>
-</section>
-"""
-    others = [q for q in PRODUCTS if q["slug"] != p["slug"]][:4]
-    rel = "\n".join(product_card(q, reveal=False) for q in others)
-    written["product"] = page("product", p["name"],
-        f"{p['name']} eau de parfum — {p['notes']}. Sealed beneath a {p['stone']} lid, with its printed story in the box.", f"""
-<div class="inner">
-  {crumbs(("Home", "index.html"), ("The Fragrances", "collection.html"), p["name"])}
-  <div class="pdp">
-    <div class="gal">
-      <img class="main" id="pdpmain" src="{gal[0]}" alt="{p['name']} eau de parfum">
-      <div class="strip">{thumbs}</div>
-    </div>
-    <div class="info">
-      <p class="k">{p['story']} &middot; Eau de parfum</p>
-      <h1>{p['name']}</h1>
-      <p class="sub">{p['stone']} &middot; {p['notes']}</p>
-      <blockquote>&ldquo;{p['line']}&rdquo; &mdash; nine pages of {p['feeling'].lower()}, worn as woods warmed by a polished bar.</blockquote>
-      <div class="sizes">
-        <button aria-current="true">100 ml &mdash; &pound;160</button>
-        <button>50 ml &mdash; &pound;110</button>
-        <button>Sample &mdash; &pound;5</button>
+    <section class="seven">
+      <div class="inner">
+        <div class="head"><div><p class="k">Also on the shelf</p><h2>Other stories.</h2></div>
+          <a class="ul" href="collection.html">All fragrances</a></div>
+        <div class="cards">
+    {rel}
+        </div>
       </div>
-      <div class="cta">
-        <button class="btn btn-ink" onclick="addToBag('{p['slug']}','full',this)">Add to bag &mdash; &pound;160</button>
-        <a class="btn btn-ghostink" href="story.html?s={p['slug']}">Read the story</a>
-      </div>
-      <p class="re">Complimentary UK delivery over &pound;100 &middot; 30-day returns &middot; sample cost redeemed against your first bottle</p>
-      <div class="acc">
-        <details open><summary>The story</summary><div class="body">{p['name']} began as {p['story']}, commissioned from a novelist and printed on cotton paper before the first accord was weighed. Nine pages arrive with the bottle; the digital edition arrives with your confirmation.</div></details>
-        <details><summary>Notes</summary><div class="body">Top &mdash; bergamot, pink pepper. Heart &mdash; {p['notes']}. Base &mdash; vetiver, cedar, a little smoke. Composed in Grasse by Jacques Chabert.</div></details>
-        <details><summary>The stone</summary><div class="body">{p['stone']}, hand-cut in Liguria. Veining is decided by the block, so no two lids repeat. The lid lifts free of the glass and keeps its weight in the hand.</div></details>
-        <details><summary>Delivery &amp; returns</summary><div class="body">Complimentary UK delivery over &pound;100, otherwise &pound;5. Two to four working days, signed for. Unopened bottles may be returned within 30 days; samples are non-returnable but always credited.</div></details>
-      </div>
-    </div>
-  </div>
-</div>
-
-{bands}
-
-<section class="seven">
-  <div class="inner">
-    <div class="head"><div><p class="k">Also on the shelf</p><h2>Other stories.</h2></div>
-      <a class="ul" href="collection.html">All fragrances</a></div>
-    <div class="cards">
-{rel}
-    </div>
-  </div>
-</section>
-""", current="collection.html")
+    </section>
+    """, current="collection.html")
 
     # ---- 04 samples ------------------------------------------------------
     written["samples"] = page("samples", "Samples & The First Lines",
@@ -634,7 +713,7 @@ def build():
         <p>{q['stone']} lid &middot; {q['notes']}. Composed to the fifth page &mdash; church oak, beeswax, cold air held in linen.</p>
         <div class="actions">
           <button class="btn btn-ink" onclick="addToBag('{q['slug']}','full',this)">Add to bag &mdash; &pound;160</button>
-          <a class="btn btn-ghostink" href="product.html?f={q['slug']}">See the bottle</a>
+          <a class="btn btn-ghostink" href="product-{q['slug']}.html">See the bottle</a>
         </div>
       </div>
       <img class="figfull" src="{fp('assets/img/' + q['img'] + '-1.jpg')}" alt="{q['name']} eau de parfum" loading="lazy">

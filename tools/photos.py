@@ -127,8 +127,14 @@ def square_crop(path, out, mode="tight", size=1000):
     top = min(max(0, cy - side * cfg["top_bias"]), H - side)
 
     crop = im.crop((round(left), round(top), round(left + side), round(top + side)))
-    crop = crop.resize((size, size), Image.LANCZOS)
-    crop.save(out, quality=86, optimize=True, progressive=True)
+    # Never upscale. Enlarging a crop past its native pixels adds softness and no
+    # detail — that is what made the product images look blurry. Downscale to the
+    # target when the crop is larger, otherwise ship it at native size.
+    native = crop.size[0]
+    target = min(size, native)
+    if native != target:
+        crop = crop.resize((target, target), Image.LANCZOS)
+    crop.save(out, quality=92, optimize=True, progressive=True, subsampling=0)
     return crop.size
 
 
@@ -155,12 +161,12 @@ if __name__ == "__main__":
             if not os.path.exists(p):
                 print(f"  ! missing master {src}.jpg"); continue
             o = os.path.join(OUT, f"p-{slug}-{i+1}.jpg")
-            square_crop(p, o, mode, 1000)
+            square_crop(p, o, mode, 1600)
             print(f"  p-{slug}-{i+1}.jpg".ljust(30) +
                   f"{mode:5}  {round(os.path.getsize(o)/1024)}KB   <- {src}.jpg")
             if i == 0:
                 oc = os.path.join(OUT, f"p-{slug}-card.jpg")
-                square_crop(p, oc, "card", 900)
+                square_crop(p, oc, "card", 1200)
                 print(f"  p-{slug}-card.jpg".ljust(30) +
                       f"card   {round(os.path.getsize(oc)/1024)}KB   <- {src}.jpg")
             if debug:

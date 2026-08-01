@@ -533,8 +533,10 @@ footer a:hover{opacity:1}
    ========================================================================== */
 
 /* --------------------------------------------------------- page header -- */
+/* the breadcrumb needs air under the nav — flush against it reads as an error */
 .crumb{font-family:Montserrat,sans-serif;font-size:var(--t-xs);letter-spacing:.18em;
-  text-transform:uppercase;color:var(--txt);opacity:.65;line-height:1.8}
+  text-transform:uppercase;color:var(--txt);opacity:.65;line-height:1.8;
+  padding-block:var(--s-5) 0}
 .crumb a:hover{opacity:1;text-decoration:underline;text-underline-offset:.25em}
 
 .phead{padding-block:var(--s-6) var(--s-5)}
@@ -580,7 +582,9 @@ footer a:hover{opacity:1}
 .pdp{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--s-5);padding-block:var(--s-5) var(--s-7)}
 /* the bottle and the words share the page; the photograph does not dominate it */
 @media (min-width:60em){ .pdp{grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr);gap:var(--s-6);align-items:start} }
-.gal{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--s-2);max-width:34rem}
+/* The masters only carry ~650-870px across the bottle region, so the gallery is
+   capped where that is still sharp on a 2x screen rather than blown up past it. */
+.gal{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--s-2);max-width:29rem}
 .gal .main{width:100%;aspect-ratio:1;object-fit:cover;background:var(--plaster)}
 .gal .strip{display:flex;gap:var(--s-2);padding:0;background:none;border:0;height:auto}
 .gal .strip button{padding:0;border:1.5px solid transparent;line-height:0;opacity:.82}
@@ -756,7 +760,7 @@ footer a:hover{opacity:1}
   margin-top:0;max-width:none}
 .ul{font-size:var(--t-xs);letter-spacing:.22em;line-height:1.4}
 .btn{font-size:var(--t-xs);letter-spacing:.2em}
-.crumb{font-size:var(--t-xs);line-height:1.8;margin-top:0}
+.crumb{font-size:var(--t-xs);line-height:1.8;margin-top:0;padding-block:var(--s-5) 0}
 .re{font-size:var(--t-xs);line-height:1.9}
 .hero .k,.banner .k,.campaign .k{color:var(--ivory)}
 .promo .k{color:#D8C6A4}
