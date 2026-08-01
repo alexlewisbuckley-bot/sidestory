@@ -1,5 +1,12 @@
 {
-  "dependencies": {
-    "playwright": "^1.62.1"
+  "name": "sidestory",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "check": "node tools/check.mjs",
+    "serve": "python3 -m http.server 8899"
+  },
+  "devDependencies": {
+    "playwright": "^1.47.0"
   }
 }

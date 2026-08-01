@@ -260,3 +260,13 @@ footer a:hover{opacity:1}
   *{animation-duration:.01ms !important;transition-duration:.15s !important}
   .hero img.bg{animation:none;transform:none}
 }
+
+/* story article: body + margin notes; collapses to one column on small screens */
+.artgrid{display:grid;grid-template-columns:minmax(0,1fr) 260px;gap:56px;align-items:start}
+.artaside{position:sticky;top:120px;min-width:0}
+.marginnote{max-width:250px}
+@media (max-width:900px){
+  .artgrid{grid-template-columns:minmax(0,1fr);gap:32px}
+  .artaside{position:static;top:auto}
+  .marginnote{max-width:none}
+}
