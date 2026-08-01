@@ -396,6 +396,45 @@ def head(title, desc, css, body_attr=""):
 """
 
 
+# One number, six places. The threshold was typed out in the drawer, the shelf
+# footnote, the product details, the shipping table and the bag maths, which is
+# five chances for them to disagree the next time it moves.
+FREE_GBP = 40
+FREE_AED = 400
+
+ANNOUNCEMENTS = [
+    "Complimentary delivery over &pound;%d / AED&nbsp;%d" % (FREE_GBP, FREE_AED),
+    "A second story&rsquo;s sample, complimentary with every bottle",
+    "Every 100&nbsp;ml under a hand-carved stone lid, with its printed story",
+    "Thirty days to return an unopened bottle",
+]
+
+
+def announcement():
+    """A continuous ticker rather than one fixed line.
+
+    Two identical copies of the message list sit side by side in one track,
+    and the track is translated by exactly half its own width. At the end of
+    that translation the second copy is standing where the first one started,
+    the animation restarts, and nothing on screen moves — which is what makes
+    the loop seamless rather than a jump you have learned to ignore.
+
+    The second copy is aria-hidden, so a screen reader is read the messages
+    once. The whole strip is a labelled region and not a live region: it
+    changes constantly by design, and announcing every change would make the
+    page unusable with a screen reader on.
+    """
+    items = "".join(
+        '<span class="anni">%s</span><i class="anns" aria-hidden="true"></i>' % m
+        for m in ANNOUNCEMENTS)
+    return ('<div class="ann" role="region" aria-label="Announcements">\n'
+            '  <div class="anntrack" data-ann>\n'
+            '    <div class="anngroup">%s</div>\n'
+            '    <div class="anngroup" aria-hidden="true">%s</div>\n'
+            '  </div>\n'
+            '</div>' % (items, items))
+
+
 def topbar(current):
     cur = ' aria-current="page"'
     items = "\n      ".join(
@@ -412,7 +451,7 @@ def topbar(current):
         for href, label in NAV_LINKS)
     return f"""<div class="enter-veil" aria-hidden="true"></div>
 <div class="menu-dim" id="menudim"></div>
-<div class="ann"><span>A second story’s sample, complimentary with every bottle</span></div>
+{announcement()}
 <div class="topbar">
 <header class="nav">
   <div class="inner">
@@ -506,14 +545,14 @@ def footer():
 """
 
 
-DRAWER = """<div class="scrim" id="scrim" onclick="closeDrawer()"></div>
+DRAWER = f"""<div class="scrim" id="scrim" onclick="closeDrawer()"></div>
 <aside class="drawer" id="drawer" role="dialog" aria-modal="true"
        aria-labelledby="drawer-title" hidden>
   <div class="dhead"><span id="drawer-title">Your bag &mdash; <span data-bagcount>0</span></span><button onclick="closeDrawer()">Close</button></div>
   <div id="ditems"></div>
   <label class="tryfirst"><input type="checkbox" checked>
     <div><b>Try a second story first</b><span>A complimentary 2ml of another story &mdash; its argument &mdash; tucked into the parcel.</span></div></label>
-  <p class="thresh" id="thresh">Complimentary delivery at &pound;100</p>
+  <p class="thresh" id="thresh">Complimentary delivery at &pound;{FREE_GBP}</p>
   <div class="tbar"><div class="tfill" id="tfill"></div></div>
   <div class="dtot"><span>Subtotal</span><b id="dtotal">&pound;0</b></div>
   <a class="btn btn-ink" href="checkout.html">Checkout</a>
@@ -854,7 +893,7 @@ def page(slug, title, desc, body, current=None, css=("assets/css/fonts.css", "as
         + '<main id="main">\n' + body.strip() + "\n</main>\n" \
         + footer() + DRAWER + search_overlay() \
         + f'<script>window.SS_CAT={catalogue_json()};</script>\n' \
-        + f'<script>window.SS_IDX={search_index()};</script>\n' \
+        + f'<script>window.SS_IDX={search_index()};window.SS_FREE={FREE_GBP};</script>\n' \
         + f'<script src="{fp("assets/js/site.js")}"></script>\n</body></html>\n'
     # one pass over the finished page, so the footer wordmark and the drawer
     # are covered too — they are appended after the body and were escaping it
@@ -998,7 +1037,7 @@ def build():
     <div class="cards" data-size="{key or '100ml'}">
 {cards}
     </div>
-    <p class="foot rev">Every 100ml ships with its printed story and its carved stone lid &nbsp;&middot;&nbsp; 7.5ml and samples travel in a printed sleeve &nbsp;&middot;&nbsp; complimentary UK delivery over &pound;100</p>
+    <p class="foot rev">Every 100ml ships with its printed story and its carved stone lid &nbsp;&middot;&nbsp; 7.5ml and samples travel in a printed sleeve &nbsp;&middot;&nbsp; complimentary UK delivery over &pound;{FREE_GBP}</p>
   </div>
 </section>
 """, current="collection.html")
@@ -1115,7 +1154,7 @@ def build():
             <details open><summary>The story</summary><div class="body">{p['name']} began as {p['story']}, commissioned from a novelist and printed on cotton paper before the first accord was weighed. Nine pages arrive with the bottle; the digital edition arrives with your confirmation.</div></details>
             <details><summary>Notes</summary><div class="body">Top &mdash; bergamot, pink pepper. Heart &mdash; {p['notes']}. Base &mdash; vetiver, cedar, a little smoke. Composed in Grasse by Jacques Chabert.</div></details>
             <details><summary>The stone</summary><div class="body">{p['stone']}, hand-cut in Liguria. Veining is decided by the block, so no two lids repeat. The lid lifts free of the glass and keeps its weight in the hand.</div></details>
-            <details><summary>Delivery &amp; returns</summary><div class="body">Complimentary UK delivery over &pound;100, otherwise &pound;5. Two to four working days, signed for. Unopened bottles may be returned within 30 days; samples are non-returnable but always credited.</div></details>
+            <details><summary>Delivery &amp; returns</summary><div class="body">Complimentary UK delivery over &pound;{FREE_GBP}, otherwise &pound;5. Two to four working days, signed for. Unopened bottles may be returned within 30 days; samples are non-returnable but always credited.</div></details>
           </div>
         </div>
       </div>
@@ -1781,7 +1820,7 @@ def build():
     <table class="table" role="table">
       <thead><tr role="row"><th role="columnheader" scope="col">Destination</th><th role="columnheader" scope="col">Service</th><th role="columnheader" scope="col">Time</th><th role="columnheader" scope="col">Cost</th></tr></thead>
       <tbody>
-        <tr role="row"><td role="cell" data-label="Destination">United Kingdom</td><td role="cell" data-label="Service">Tracked, signed for</td><td role="cell" data-label="Time">2&ndash;4 working days</td><td role="cell" data-label="Cost">&pound;5, complimentary over &pound;100</td></tr>
+        <tr role="row"><td role="cell" data-label="Destination">United Kingdom</td><td role="cell" data-label="Service">Tracked, signed for</td><td role="cell" data-label="Time">2&ndash;4 working days</td><td role="cell" data-label="Cost">&pound;5, complimentary over &pound;{FREE_GBP}</td></tr>
         <tr role="row"><td role="cell" data-label="Destination">Ireland &amp; EU</td><td role="cell" data-label="Service">Tracked, duties paid</td><td role="cell" data-label="Time">4&ndash;7 working days</td><td role="cell" data-label="Cost">&pound;12, complimentary over &pound;180</td></tr>
         <tr role="row"><td role="cell" data-label="Destination">United States</td><td role="cell" data-label="Service">Tracked, duties paid</td><td role="cell" data-label="Time">5&ndash;8 working days</td><td role="cell" data-label="Cost">&pound;18</td></tr>
         <tr role="row"><td role="cell" data-label="Destination">Rest of world</td><td role="cell" data-label="Service">Tracked</td><td role="cell" data-label="Time">7&ndash;14 working days</td><td role="cell" data-label="Cost">From &pound;22</td></tr>

@@ -41,6 +41,72 @@
     });
   }
   addEventListener('scroll',onScroll,{passive:true}); onScroll();
+
+  /* ---- the announcement ticker ---------------------------------------
+     The CSS runs the loop; this only decides how fast. A fixed duration
+     means the speed depends on how much text there happens to be and how
+     wide the screen is, so the same strip races on a phone and crawls on a
+     desktop. Setting it from the measured width fixes the speed in pixels
+     per second, which is the thing a reader actually experiences.
+
+     Measured after the webfonts land, because the track is laid out in
+     Montserrat and measuring it in the fallback gives a width that is out by
+     a few per cent — small, but it is the difference between the loop
+     rejoining exactly and drifting a hair each pass. */
+  (function(){
+    const track=document.querySelector('[data-ann]');
+    if(!track) return;
+    const SPEED=42;                 /* px per second — slow enough to read */
+    const reduce=matchMedia('(prefers-reduced-motion: reduce)');
+
+    /* Two copies only work if one copy is at least as wide as the screen.
+       On a very wide display the four messages are narrower than the viewport,
+       and translating half the track would drag a band of empty ink across
+       the page before the second copy arrived. Each group is padded out with
+       repeats of its own items until it covers the screen; the halves stay
+       identical, so the loop still rejoins exactly. Repeats are aria-hidden —
+       a screen reader is read the four messages once. */
+    function fill(){
+      if(reduce.matches) return;
+      const groups=[...track.querySelectorAll('.anngroup')];
+      if(groups.length<2) return;
+      const base=groups.map(g=>[...g.children].slice(0,g.__n||g.children.length));
+      groups.forEach((g,i)=>{ g.__n=g.__n||g.children.length;
+        while(g.getBoundingClientRect().width < innerWidth && g.children.length < g.__n*12){
+          base[i].forEach(node=>{ const c=node.cloneNode(true);
+            c.setAttribute('aria-hidden','true'); g.appendChild(c); });
+        }
+      });
+    }
+    function pace(){
+      if(reduce.matches){ track.style.removeProperty('--ann-dur'); return; }
+      fill();
+      /* half the track is one full copy of the list, which is the distance
+         the animation travels */
+      const d=track.scrollWidth/2;
+      if(d>0) track.style.setProperty('--ann-dur',Math.round(d/SPEED)+'s');
+    }
+    pace();
+    if(document.fonts&&document.fonts.ready) document.fonts.ready.then(pace);
+    addEventListener('resize',pace,{passive:true});
+
+    /* Reduced motion: no ticker, one message at a time, swapped on a timer
+       with no transition. The alternative — freezing the strip — leaves
+       whichever message happens to be under the viewport, often half of one. */
+    let timer;
+    function rotate(){
+      clearInterval(timer);
+      const items=[...track.querySelectorAll('.anngroup:first-child .anni')];
+      if(!reduce.matches||items.length<2){ items.forEach(i=>i.hidden=false); return; }
+      let i=0;
+      const show=()=>items.forEach((el,k)=>{ el.hidden = k!==i; });
+      show();
+      timer=setInterval(()=>{ i=(i+1)%items.length; show(); },7000);
+    }
+    rotate();
+    (reduce.addEventListener?reduce.addEventListener.bind(reduce,'change')
+      :reduce.addListener.bind(reduce))(()=>{ pace(); rotate(); });
+  })();
   /* A thumbnail already carries the whole picture — the same file at 480, 960
      and 1600 in all three formats. Copying its sources into the main plate is
      both correct and free; nothing new has to be emitted for it. */
@@ -521,10 +587,15 @@
         : '<p class="crumb" style="padding-block:var(--s-5)">Empty — every story starts somewhere.</p>';
     }
     const t=document.getElementById('dtotal'); if(t) t.textContent=money(total());
-    const pct=Math.min(100,Math.round(total()/100*100));
+    /* the threshold is one number, written by the build and read here — it
+       used to be typed into this line twice and into five pieces of copy
+       elsewhere, all of which had to be found and changed together */
+    const FREE = window.SS_FREE || 40;
+    const pct=Math.min(100,Math.round(total()/FREE*100));
     const fill=document.getElementById('tfill'); if(fill) fill.style.width=pct+'%';
     const th=document.getElementById('thresh');
-    if(th) th.textContent = total()>=100 ? 'Complimentary delivery — unlocked' : 'Complimentary delivery at £100 — £'+(100-total())+' away';
+    if(th) th.textContent = total()>=FREE ? 'Complimentary delivery — unlocked'
+      : 'Complimentary delivery at £'+FREE+' — £'+(FREE-total())+' away';
     document.querySelectorAll('[data-bagtotal]').forEach(e=>e.textContent=money(total()));
     document.querySelectorAll('[data-bagcount]').forEach(e=>e.textContent=bag.length);
     renderBagPage();

@@ -597,10 +597,50 @@ button:disabled,[aria-disabled="true"]{cursor:default}
    line of copy, not furniture: it scrolls away with the page, and only the
    navigation sticks. That also drops a layout-animating transition and gives
    a phone back fifty pixels of permanently occupied screen. */
-.ann{background:var(--ink);color:var(--ivory);display:flex;align-items:center;
-  justify-content:center;text-align:center;padding:var(--space-4) var(--gutter);
+/* One line held four messages badly: on a phone the single announcement wrapped
+   to two rows and took forty pixels of a screen that has none to spare, and
+   three of the four things worth saying were not being said at all.
+
+   It is a ticker. Two identical copies of the list sit side by side in one
+   track, and the track translates by exactly half its own width — at the end
+   of which the second copy is standing precisely where the first began, the
+   animation restarts, and nothing on screen moves. That is the difference
+   between a seamless loop and a jump you learn to ignore.
+
+   Only transform animates, on one composited layer, so it costs nothing on the
+   main thread and cannot shift the layout. The duration is set from the
+   measured track width so the speed is the same on a phone and on a desktop —
+   a fixed duration would race on a narrow screen and crawl on a wide one. */
+.ann{background:var(--ink);color:var(--ivory);
+  padding-block:var(--space-4);overflow:hidden;
   font-family:var(--font-sans);font-size:var(--t-2xs);
   letter-spacing:var(--track-label);text-transform:uppercase;line-height:1.3}
+.anntrack{display:flex;width:max-content;will-change:transform;
+  animation:annroll var(--ann-dur,40s) linear infinite}
+.anngroup{display:flex;align-items:center;flex:none}
+.anni{white-space:nowrap;padding-inline:var(--space-5)}
+/* the separator is the brass diamond the footer uses, not a pipe or a bullet */
+.anns{flex:none;width:.25rem;height:.25rem;transform:rotate(45deg);
+  background:var(--ochre-200);opacity:.75}
+@keyframes annroll{from{transform:translate3d(0,0,0)}
+                   to{transform:translate3d(-50%,0,0)}}
+/* a hover is a request to read it */
+.ann:hover .anntrack,.ann:focus-within .anntrack{animation-play-state:paused}
+
+/* Reduced motion gets no movement at all. A ticker that has been frozen shows
+   whichever message happened to be under the viewport, which may be half of
+   one — so the track is unwound and one message is shown at a time, swapped
+   by the script on a timer with no transition. Everything stays reachable
+   without anything sliding. */
+@media (prefers-reduced-motion:reduce){
+  .ann{display:flex;align-items:center;justify-content:center;text-align:center}
+  .anntrack{animation:none;width:100%;justify-content:center}
+  .anngroup{flex-wrap:wrap;justify-content:center}
+  .anngroup+.anngroup{display:none}
+  .anni{white-space:normal;padding-inline:0}
+  .anni[hidden]{display:none}
+  .anns{display:none}
+}
 .topbar{position:sticky;top:0;z-index:var(--z-header);background:var(--ivory)}
 
 .nav{background:var(--ivory);border-bottom:1px solid var(--line)}
