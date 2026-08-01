@@ -100,7 +100,7 @@
   --fs-quote:clamp(25px,calc(25px + 3 * (100vw - 768px) / 672),28px);
   --space-section:clamp(120px,calc(120px + 40 * (100vw - 768px) / 672),160px);
   --space-section-major:clamp(180px,calc(180px + 60 * (100vw - 768px) / 672),240px);
-  --layout-margin:clamp(24px,calc(24px + 24 * (100vw - 768px) / 672),48px);
+  --layout-margin:clamp(47px,calc(47px + 49 * (100vw - 768px) / 672),96px);
   --layout-gutter:clamp(20px,calc(20px + 4 * (100vw - 768px) / 672),24px);
   --layout-columns:12;
 
@@ -184,6 +184,20 @@
   --t-5:clamp(36.48px,calc(36.48px + 11.52 * (100vw - 768px) / 672),48px);
   --t-6:clamp(52.96px,calc(52.96px + 23.04 * (100vw - 768px) / 672),76px);
 
+  /* Controls. The design does not have one button: it has a scale, and every
+     button hugs its label rather than stretching. Heights and paddings below
+     are measured off the artboards — hero 45/32, standard 41/28, small 34/20,
+     the PDP size pill 33/16, and the two commerce buttons 52 and 48 which are
+     the only ones that go full width, and only inside the 464px buy column. */
+  --ctl-h:clamp(40px,calc(40px + 1 * (100vw - 768px) / 672),41px);
+  --ctl-h-lg:clamp(44px,calc(44px + 1 * (100vw - 768px) / 672),45px);
+  --ctl-h-sm:34px;  --ctl-h-pill:33px;
+  --ctl-h-buy:52px; --ctl-h-pay:48px;
+  --ctl-px:clamp(22px,calc(22px + 6 * (100vw - 768px) / 672),28px);
+  --ctl-px-lg:clamp(24px,calc(24px + 8 * (100vw - 768px) / 672),32px);
+  --ctl-px-sm:20px; --ctl-px-pill:16px;
+  --buy-col:29rem;
+
   /* tracking, also measured off the screens */
   --ls-nav:.24em; --ls-kicker:.28em; --ls-btn:.22em; --ls-price:.16em;
   --ls-stone:.24em; --ls-badge:.22em; --ls-legal:.20em;
@@ -214,7 +228,7 @@
     --fs-quote:clamp(22px,calc(22px + 3 * (100vw - 390px) / 378),25px);
     --space-section:clamp(96px,calc(96px + 24 * (100vw - 390px) / 378),120px);
     --space-section-major:clamp(120px,calc(120px + 60 * (100vw - 390px) / 378),180px);
-    --layout-margin:clamp(20px,calc(20px + 4 * (100vw - 390px) / 378),24px);
+    --layout-margin:clamp(20px,calc(20px + 27 * (100vw - 390px) / 378),47px);
     --layout-gutter:clamp(16px,calc(16px + 4 * (100vw - 390px) / 378),20px);
     --layout-columns:4;
     --s-7:var(--space-8);
@@ -281,7 +295,7 @@ section{position:relative}
 .btn{display:inline-flex;align-items:center;justify-content:center;text-align:center;
   font-family:Montserrat,sans-serif;font-weight:600;font-size:var(--t-btn);
   letter-spacing:var(--ls-btn);text-transform:uppercase;
-  min-height:2.875rem;padding:0.75rem clamp(1.125rem,2vw,1.875rem);
+  min-height:var(--ctl-h);padding-inline:var(--ctl-px);padding-block:0;
   border:1px solid transparent;
   transition:background .25s var(--settle),color .25s var(--settle),border-color .25s var(--settle)}
 .btn-ivory{background:var(--ivory);color:var(--ink)}
@@ -292,7 +306,7 @@ section{position:relative}
 .btn-ink:hover{background:#141615}
 .btn-ghostink{border-color:rgba(43,46,45,.45);color:var(--ink)}
 .btn-ghostink:hover{border-color:var(--ink);background:rgba(43,46,45,.05)}
-.btn-sm{min-height:2.25rem;padding:0.5rem 0.875rem;letter-spacing:.14em}
+.btn-sm{min-height:var(--ctl-h-sm);padding-inline:var(--ctl-px-sm);letter-spacing:.14em}
 
 .ul{display:inline-block;font-family:Montserrat,sans-serif;font-weight:500;
   font-size:var(--t-xs);letter-spacing:var(--ls-nav);text-transform:uppercase;white-space:nowrap;
@@ -357,6 +371,7 @@ section{position:relative}
 .hero p{font-size:var(--t-lg);line-height:var(--lh-lede);opacity:.94;max-width:35rem;
   margin-top:var(--s-4);animation-delay:.44s}
 .hero .cta{display:flex;flex-wrap:wrap;gap:var(--s-3);margin-top:var(--s-5);animation-delay:.6s}
+.hero .cta .btn{min-height:var(--ctl-h-lg);padding-inline:var(--ctl-px-lg)}
 .cue{position:absolute;left:50%;bottom:var(--s-4);translate:-50% 0;text-align:center;
   color:var(--ivory);pointer-events:none}
 .cue s{display:block;width:1px;height:2.125rem;background:var(--ivory);margin:0 auto;
@@ -395,7 +410,7 @@ section{position:relative}
 .cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
   gap:var(--s-6) var(--s-2);margin-top:var(--s-6)}
 @media (min-width:40em){ .cards{grid-template-columns:repeat(3,minmax(0,1fr))} }
-@media (min-width:68em){ .cards{grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--s-6) var(--s-3)} }
+@media (min-width:68em){ .cards{grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--space-9) var(--space-5)} }
 
 .card{position:relative;display:flex;flex-direction:column;transition:opacity .3s var(--settle)}
 .cards.sorting .card,.cards.sorting .promo{opacity:.25}
@@ -663,13 +678,14 @@ footer a:hover{opacity:1}
 .drawer .btn{width:100%;margin-top:var(--s-5)}
 
 /* the complimentary-sample offer: tracked label, then the note in italic serif */
-.tryfirst{display:grid;grid-template-columns:auto minmax(0,1fr);gap:var(--s-3);
-  align-items:start;margin-top:var(--s-5);padding:var(--s-4);background:var(--plaster);cursor:pointer}
-.tryfirst input{width:1.375rem;height:1.375rem;flex:none;margin:0;accent-color:var(--ink)}
-.tryfirst b{display:block;font-family:Montserrat,sans-serif;font-weight:500;font-size:var(--t-xs);
-  letter-spacing:.2em;text-transform:uppercase;color:var(--ink)}
-.tryfirst span{display:block;margin-top:var(--s-3);font-family:'Libre Caslon Text',serif;
-  font-style:italic;font-size:var(--t-md);line-height:1.55;color:var(--ink);opacity:.9}
+.tryfirst{display:grid;grid-template-columns:auto minmax(0,1fr);gap:var(--space-3);
+  align-items:start;margin-top:var(--s-5);padding:var(--space-4);background:var(--plaster);
+  border-radius:var(--radius-hairline);cursor:pointer}
+.tryfirst input{width:.9375rem;height:.9375rem;flex:none;margin:.1rem 0 0;accent-color:var(--ink)}
+.tryfirst b{display:block;font-family:Montserrat,sans-serif;font-weight:500;font-size:var(--t-2xs);
+  letter-spacing:.18em;text-transform:uppercase;color:var(--ink);line-height:1.3}
+.tryfirst span{display:block;margin-top:var(--space-3);font-family:'Libre Caslon Text',serif;
+  font-style:italic;font-size:var(--t-sm);line-height:1.4;color:var(--ink);opacity:.85}
 
 .thresh{margin-top:var(--s-5);font-family:Montserrat,sans-serif;font-weight:500;
   font-size:var(--t-xs);letter-spacing:.2em;text-transform:uppercase;color:var(--brass)}
@@ -787,65 +803,91 @@ footer a:hover{opacity:1}
   letter-spacing:.18em;text-transform:uppercase;color:var(--txt);opacity:.6}
 
 /* --------------------------------------------------------------- PDP ---- */
-.pdp{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--s-5);padding-block:var(--s-5) var(--s-7)}
-/* the bottle and the words share the page; the photograph does not dominate it */
-@media (min-width:60em){ .pdp{grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr);gap:var(--s-6);align-items:start} }
-/* The masters only carry ~650-870px across the bottle region, so the gallery is
-   capped where that is still sharp on a 2x screen rather than blown up past it. */
-.gal{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--s-2);max-width:29rem}
-.gal .main{width:100%;aspect-ratio:1;object-fit:cover;background:var(--plaster)}
-.gal .strip{display:flex;gap:var(--s-2);padding:0;background:none;border:0;height:auto}
-.gal .strip button{padding:0;border:1.5px solid transparent;line-height:0;opacity:.82}
-.gal .strip button[aria-current]{opacity:1;border-color:var(--ink)}
-.gal .strip img{width:clamp(3.25rem,7vw,5rem);aspect-ratio:1;object-fit:cover}
+/* Rebuilt against "PDP — Hotel Lobby" on the Side By Side page, node 203:3992.
+   The fault the comparison exposed was that the buy column had no measure of
+   its own: it took whatever half of the page was left, so every control in it
+   was stretched to fit. In the design the buy column is a fixed 464px and the
+   controls are sized individually inside it — size options hug their label at
+   33px tall, and only the two commerce buttons run full width. */
+.pdp{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--s-5);
+  padding-block:var(--s-5) var(--s-7)}
+@media (min-width:60em){
+  .pdp{grid-template-columns:minmax(0,1fr) var(--buy-col);gap:var(--space-9);align-items:start}
+}
+
+/* gallery: main plate with the thumbnails in a column beside it (design has
+   88px thumbs at a 104px pitch to the right of the plate, not beneath it) */
+.gal{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--space-5);align-items:start}
+@media (min-width:60em){ .gal{grid-template-columns:minmax(0,1fr) 5.5rem} }
+.gal .main{width:100%;aspect-ratio:1;object-fit:cover;background:var(--plaster);
+  border-radius:var(--radius-hairline)}
+.gal .strip{display:flex;flex-wrap:wrap;gap:var(--space-4);
+  padding:0;background:none;border:0;height:auto}
+@media (min-width:60em){ .gal .strip{flex-direction:column;flex-wrap:nowrap} }
+.gal .strip button{padding:0;border:1.5px solid transparent;line-height:0;opacity:.82;
+  border-radius:var(--radius-hairline)}
+.gal .strip button[aria-current]{opacity:1;border-color:rgba(43,46,45,.8)}
+.gal .strip img{width:clamp(3.25rem,7vw,5.5rem);aspect-ratio:1;object-fit:cover;
+  border-radius:var(--radius-hairline)}
+@media (min-width:60em){ .gal .strip img{width:5.5rem} }
 
 .pdp .info{position:sticky;top:calc(var(--s-6) + 3rem)}
 @media (max-width:59.9375em){ .pdp .info{position:static} }
-.pdp h1{font-size:var(--t-5);margin-top:var(--s-2);max-width:14ch}
+
+/* buy column type and rhythm, verbatim from the frame */
+.pdp .info>.k{letter-spacing:.30em}
+.pdp h1{font-size:var(--t-5);margin-top:var(--space-3);max-width:14ch}
 .pdp .sub{display:flex;align-items:center;gap:.7em;flex-wrap:wrap;
-  font-family:Montserrat,sans-serif;font-weight:500;font-size:var(--t-xs);letter-spacing:.2em;
-  text-transform:uppercase;color:var(--txt);margin-top:var(--s-4)}
-.pdp .sub .chip{width:.9rem;height:.9rem;margin:0;flex:none}
-.pdp blockquote{font-size:var(--t-lg)}
+  font-family:Montserrat,sans-serif;font-weight:500;font-size:var(--t-2xs);
+  letter-spacing:.22em;text-transform:uppercase;color:var(--txt);margin-top:var(--space-3)}
+.pdp .sub .chip{width:.6875rem;height:.6875rem;margin:0;flex:none}
+.pdp blockquote{font-family:'Libre Caslon Text',serif;font-style:italic;
+  font-size:var(--t-md);line-height:1.72;color:var(--txt);
+  margin-top:var(--space-5);max-width:none}
 
-/* a tracked field label, as above the size row in the prototype */
-.fieldlabel{margin-top:var(--s-5);font-family:Montserrat,sans-serif;font-weight:500;
-  font-size:var(--t-xs);letter-spacing:.22em;text-transform:uppercase;color:var(--txt)}
-.fieldlabel+.sizes{margin-top:var(--s-3)}
+/* a tracked field label, as above the size row in the design */
+.fieldlabel{margin-top:var(--space-5);font-family:Montserrat,sans-serif;font-weight:500;
+  font-size:var(--t-2xs);letter-spacing:.26em;text-transform:uppercase;color:var(--ink)}
+.fieldlabel+.sizes{margin-top:var(--space-3)}
 
-/* the buy actions stack full width, primary then Apple Pay */
-.pdp .cta{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--s-2);margin-top:var(--s-5)}
-.pdp .cta .btn{width:100%;min-height:3.5rem}
-.applepay{letter-spacing:.2em}
-
-/* the offer block reads the same here as it does in the bag */
-.pdp .tryfirst{margin-top:var(--s-5)}
-.pdp blockquote{font-family:'Libre Caslon Text',serif;font-style:italic;font-size:var(--t-md);
-  line-height:1.8;color:var(--txt);margin-top:var(--s-4);max-width:44ch}
-.sizes{display:flex;flex-wrap:wrap;gap:var(--s-2);margin-top:var(--s-4)}
-.sizes button{flex:1 1 8rem;min-height:3.5rem;padding:.5rem var(--s-3);
-  border:1px solid rgba(43,46,45,.28);background:var(--ivory);
-  font-family:Montserrat,sans-serif;font-weight:500;font-size:var(--t-xs);
-  letter-spacing:.16em;text-transform:uppercase;color:var(--ink);
+/* size options hug their label — they are pills, not thirds of the column */
+.sizes{display:flex;flex-wrap:wrap;gap:10px;margin-top:var(--space-3)}
+.sizes button{flex:0 0 auto;min-height:var(--ctl-h-pill);
+  padding:0 var(--ctl-px-pill);display:inline-flex;align-items:center;
+  border:1px solid rgba(43,46,45,.3);border-radius:var(--radius-hairline);
+  background:transparent;
+  font-family:Montserrat,sans-serif;font-weight:500;font-size:var(--t-2xs);
+  letter-spacing:.16em;text-transform:uppercase;color:var(--ink);white-space:nowrap;
   transition:border-color .25s var(--settle),background .25s var(--settle)}
 .sizes button[aria-current]{border-color:var(--ink);background:var(--ink);color:var(--ivory)}
-.pdp .cta{display:flex;flex-wrap:wrap;gap:var(--s-2);margin-top:var(--s-4)}
-.pdp .cta .btn{flex:1 1 12rem}
-.pdp .re{margin-top:var(--s-3);font-family:Montserrat,sans-serif;font-size:var(--t-xs);
-  letter-spacing:.14em;text-transform:uppercase;color:var(--txt);opacity:.65;line-height:1.9}
 
-/* accordion */
-.acc{margin-top:var(--s-5);border-top:1px solid var(--line)}
+/* the offer block reads the same here as it does in the bag */
+.pdp .tryfirst{margin-top:var(--space-5)}
+
+/* the only two full-width controls on the site, and only inside this column */
+.pdp .cta{display:grid;grid-template-columns:minmax(0,1fr);gap:10px;margin-top:var(--space-5)}
+.pdp .cta .btn{width:100%;min-height:var(--ctl-h-buy)}
+.pdp .cta .applepay{min-height:var(--ctl-h-pay);font-weight:500;
+  font-size:var(--t-xs);letter-spacing:var(--ls-btn);border-color:rgba(43,46,45,.5)}
+.i-apple{width:.9em;height:1.2em;fill:currentColor;opacity:.9;
+  margin-right:.55em;flex:none;display:inline-block;vertical-align:-.18em}
+.pay .i-apple{margin-right:.15em}
+.pdp .re{margin-top:var(--space-4);font-family:Montserrat,sans-serif;font-size:var(--t-2xs);
+  letter-spacing:.16em;text-transform:uppercase;color:var(--txt);opacity:.65;line-height:1.9}
+
+/* accordion — 48px rows on hairlines, label at the nav step */
+.acc{margin-top:var(--space-6);border-top:1px solid var(--line)}
 .acc details{border-bottom:1px solid var(--line)}
 .acc summary{display:flex;justify-content:space-between;align-items:center;gap:var(--s-3);
-  min-height:3.25rem;padding-block:var(--s-3);cursor:pointer;list-style:none;
+  min-height:3rem;padding-block:14px;cursor:pointer;list-style:none;
   font-family:Montserrat,sans-serif;font-weight:500;font-size:var(--t-xs);
-  letter-spacing:.2em;text-transform:uppercase;color:var(--ink)}
+  letter-spacing:var(--ls-nav);text-transform:uppercase;color:var(--ink)}
 .acc summary::-webkit-details-marker{display:none}
-.acc summary::after{content:"+";font-size:var(--t-1);line-height:1;font-weight:400;opacity:.6}
-.acc details[open] summary::after{content:"–"}
-.acc :where(.body){padding-bottom:var(--s-4);font-family:'Libre Caslon Text',serif;
-  font-size:var(--t-md);line-height:1.8;color:var(--txt);max-width:52ch}
+.acc summary::after{content:"+";font-family:'Libre Caslon Text',serif;font-size:var(--t-sm);
+  line-height:1;font-weight:400;letter-spacing:0;opacity:.7}
+.acc details[open] summary::after{content:"\2013"}
+.acc :where(.body){padding-bottom:var(--space-4);font-family:'Libre Caslon Text',serif;
+  font-size:var(--t-sm);line-height:1.66;color:var(--txt);max-width:52ch}
 
 /* ---------------------------------------------------------- editorial --- */
 .article{padding-block:var(--s-6) var(--s-7)}
