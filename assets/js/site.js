@@ -160,15 +160,32 @@
       if(b) pickSize(row,b);
     }
   });
-  /* Shop by size. One card per fragrance; choosing a size rewrites that
-     card's plate, price, quick-add and link rather than swapping in a second
-     set of cards, so the shelf stays as designed and the product page opens
-     on whatever was chosen here. */
-  document.querySelectorAll('.filters[data-size-for]').forEach(row=>{
-    const grid=document.querySelector(row.dataset.sizeFor); if(!grid) return;
-    const apply=key=>{
+  /* ------------------------------------------------------------------ shelf
+     Seven fragrances fit on one screen, so a filter is only worth having if
+     each option returns a real, small set. Stone was dropped as a control:
+     there are seven stones and seven fragrances, so every option returned
+     exactly one card — a menu of the products under another name, not a
+     filter. Scent family is the one axis a shopper arrives with a preference
+     on, and each family holds one or two, so choosing more widens.
+
+     Size is a different kind of control and looks like one: it changes what
+     you are buying, not what you can see, so it never hides a card. */
+  document.querySelectorAll('[data-shelf-for]').forEach(bar=>{
+    const grid=document.querySelector(bar.dataset.shelfFor); if(!grid) return;
+    const cards=[...grid.querySelectorAll('.card[data-slug]')];
+    const promo=grid.querySelector('.promo');
+    const famBtns=[...bar.querySelectorAll('[data-family]')];
+    const sizeBtns=[...bar.querySelectorAll('[data-size]')];
+    const countEl=bar.querySelector('[data-count]');
+    const clearEl=bar.querySelector('[data-clear]');
+    const labelEl=bar.querySelector('[data-scentlabel]');
+    const disclose=bar.querySelector('[data-disclose]');
+    const chips=bar.querySelector('#scentchips');
+    const chosen=new Set();
+
+    function applySize(key){
       grid.dataset.size=key;
-      grid.querySelectorAll('.card[data-slug]').forEach(card=>{
+      cards.forEach(card=>{
         const p=CAT[card.dataset.slug]; if(!p||!p.sizes) return;
         const v=p.sizes[key]; if(!v) return;
         const shot=card.querySelector('[data-shot]');
@@ -183,43 +200,47 @@
           a.href='product-'+card.dataset.slug+'.html'+(key==='100ml'?'':'?size='+key);
         });
       });
-      row.querySelectorAll('button').forEach(b=>{
-        if(b.dataset.size===key) b.setAttribute('aria-current','true');
-        else b.removeAttribute('aria-current');
+      sizeBtns.forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.size===key)));
+    }
+
+    function applyScent(){
+      let shown=0;
+      cards.forEach(card=>{
+        const on = !chosen.size || chosen.has(card.dataset.family);
+        card.hidden=!on; if(on) shown++;
       });
-    };
-    row.addEventListener('click',e=>{
-      const b=e.target.closest('button[data-size]'); if(!b) return;
-      apply(b.dataset.size);
+      /* the discovery-set card is not a fragrance, so it only belongs on the
+         unfiltered shelf */
+      if(promo) promo.hidden = chosen.size>0;
+      famBtns.forEach(b=>b.setAttribute('aria-pressed',String(chosen.has(b.dataset.family))));
+      const names=famBtns.filter(b=>chosen.has(b.dataset.family)).map(b=>b.textContent.trim());
+      if(labelEl) labelEl.textContent = names.length? names.join(', ') : 'All seven';
+      if(countEl) countEl.textContent = !chosen.size ? 'Seven stories'
+        : shown+(shown===1?' story':' stories');
+      if(clearEl) clearEl.hidden = chosen.size===0;
+      bar.classList.toggle('on', chosen.size>0);
+    }
+
+    bar.addEventListener('click',e=>{
+      const sz=e.target.closest('[data-size]');
+      if(sz){ applySize(sz.dataset.size); return; }
+      const fam=e.target.closest('[data-family]');
+      if(fam){
+        const k=fam.dataset.family;
+        chosen.has(k)? chosen.delete(k) : chosen.add(k);
+        applyScent(); return;
+      }
+      if(e.target.closest('[data-clear]')){ chosen.clear(); applyScent(); return; }
+      if(e.target.closest('[data-disclose]')){
+        const open=disclose.getAttribute('aria-expanded')==='true';
+        disclose.setAttribute('aria-expanded',String(!open));
+        if(chips) chips.classList.toggle('open',!open);
+      }
     });
-    apply(grid.dataset.size||'100ml');
+    applySize(grid.dataset.size||'100ml');
+    applyScent();
   });
 
-  /* Collection sort. The grid is re-ordered with the CSS `order` property, so
-     nothing is added or removed from the DOM and no layout is rebuilt. */
-  document.querySelectorAll('.filters[data-sort-for]').forEach(row=>{
-    const grid=document.querySelector(row.dataset.sortFor); if(!grid) return;
-    const cards=[...grid.querySelectorAll('.card')];
-    const promo=grid.querySelector('.promo');
-    const label={order:'7 stories · 1 set',feeling:'by feeling · A–Z',
-                 stone:'by stone · A–Z',note:'by opening note · A–Z'};
-    const apply=key=>{
-      const sorted=[...cards].sort((a,b)=> key==='order'
-        ? (+a.dataset.order)-(+b.dataset.order)
-        : (a.dataset[key]||'').localeCompare(b.dataset[key]||''));
-      sorted.forEach((c,i)=>{c.style.order=i;});
-      if(promo) promo.style.order=sorted.length;
-      const c=row.querySelector('[data-count]'); if(c) c.textContent=label[key]||label.order;
-    };
-    row.addEventListener('click',e=>{
-      const b=e.target.closest('button[data-sort]'); if(!b) return;
-      row.querySelectorAll('button').forEach(x=>x.removeAttribute('aria-current'));
-      b.setAttribute('aria-current','true');
-      grid.classList.add('sorting');
-      setTimeout(()=>{apply(b.dataset.sort);grid.classList.remove('sorting');},180);
-    });
-    apply('order');
-  });
 
   /* PDP */
   window.selectSize=(el,price,kind)=>{

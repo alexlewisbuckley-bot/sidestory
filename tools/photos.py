@@ -74,6 +74,59 @@ SEVENFIVE = {slug: PACK_BOX for slug in
 PACK_CARD = dict(subject_h=0.46, pad_x=2.4, top_bias=0.46)
 PACK_MAIN = dict(subject_h=0.34, pad_x=3.2, top_bias=0.50)
 
+# The 2ml sample cartons. Shot filling the frame, where the bottles and the
+# 7.5ml packs were shot small in it — so a straight square crop would put the
+# sample at 78% of the card against the bottle's 46%, and the shelf would stop
+# reading as a set. The backdrop is a smooth paper sweep, so the frame is
+# extended above and below by replicating its own edge rows before cropping.
+# That is the only way to make the two shoots agree without faking a
+# background: nothing is painted, the sweep is simply continued.
+SAMPLE_BOX = (0.380, 0.191, 0.573, 0.940)
+SAMPLES = ("hotel-lobby", "pillow-talk", "sunday-service", "third-date", "road-trip")
+SAMPLE_FILL = 0.56          # carton height as a fraction of the square
+
+
+def extend_sweep(im, need_top, need_bottom):
+    """Continue a smooth paper sweep past the top and bottom of the frame.
+
+    The edge rows are taken from a horizontally softened copy, not from the
+    frame itself: repeating a literal row repeats its per-column paper fibre
+    too, and that reads as vertical streaking down the extension. Softening
+    across the row first leaves only the sweep's own tone."""
+    W, H = im.size
+    a = np.asarray(im).astype(np.float32)
+    soft = np.asarray(im.filter(ImageFilter.GaussianBlur(28))).astype(np.float32)
+    parts = []
+    if need_top > 0:
+        parts.append(soft[0:1].repeat(need_top, axis=0))
+    parts.append(a)
+    if need_bottom > 0:
+        parts.append(soft[H - 1:H].repeat(need_bottom, axis=0))
+    out = np.concatenate(parts, axis=0)
+    return Image.fromarray(np.clip(out, 0, 255).astype(np.uint8))
+
+
+def sample_crop(path, out, size):
+    im = Image.open(path).convert("RGB")
+    W, H = im.size
+    x0, y0, x1, y1 = (SAMPLE_BOX[0] * W, SAMPLE_BOX[1] * H,
+                      SAMPLE_BOX[2] * W, SAMPLE_BOX[3] * H)
+    side = round((y1 - y0) / SAMPLE_FILL)
+    cx, cy = (x0 + x1) / 2, (y0 + y1) / 2
+    top = round(cy - side * 0.44)
+    left = round(min(max(0, cx - side / 2), max(0, W - side)))
+    need_top = max(0, -top)
+    need_bottom = max(0, top + side - H)
+    canvas = extend_sweep(im, need_top, need_bottom)
+    crop = canvas.crop((left, top + need_top, left + side, top + need_top + side))
+    native = crop.size[0]
+    target = min(size, native)
+    if native != target:
+        crop = crop.resize((target, target), Image.LANCZOS)
+    crop.save(out, quality=92, optimize=True, progressive=True, subsampling=0)
+    return crop.size
+
+
 # Packshots (open box, outer carton) vary in composition and keep the detector.
 MANUAL = {}
 
@@ -205,6 +258,16 @@ if __name__ == "__main__":
                 if i == 0:
                     t2 = Image.open(os.path.join(OUT, f"p-{slug}-card.jpg")).copy()
                     t2.thumbnail((240, 240)); tiles.append(t2)
+    for slug in SAMPLES:
+        q = os.path.join(SRC, slug + "-sample.jpg")
+        if not os.path.exists(q):
+            print("  - no sample carton for %s yet" % slug); continue
+        for name, tgt in (("p-%s-sample-card.jpg" % slug, 900),
+                          ("p-%s-sample.jpg" % slug, 1200)):
+            o = os.path.join(OUT, name)
+            size = sample_crop(q, o, tgt)
+            print(("  " + name).ljust(30) + "%dx%d  %dKB   <- %s-sample.jpg"
+                  % (size[0], size[1], round(os.path.getsize(o) / 1024), slug))
     for slug, box in SEVENFIVE.items():
         q = os.path.join(SRC, slug + "-75.jpg")
         if not os.path.exists(q):

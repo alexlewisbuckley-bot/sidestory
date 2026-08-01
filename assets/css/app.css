@@ -407,7 +407,7 @@ section{position:relative}
 @keyframes rise{to{opacity:1;transform:none}}
 .hero .k{font-size:var(--t-xs);color:var(--ivory);opacity:.9;letter-spacing:.3em;animation-delay:.12s}
 .hero h1{font-size:var(--t-6);line-height:var(--lh-headline);margin-top:var(--s-4);animation-delay:.28s}
-.hero p{font-size:var(--t-lg);line-height:var(--lh-lede);opacity:.94;max-width:35rem;
+.hero :where(p){font-size:var(--t-lg);line-height:var(--lh-lede);opacity:.94;max-width:35rem;
   margin-top:var(--s-4);animation-delay:.44s}
 .hero .cta{display:flex;flex-wrap:wrap;gap:var(--s-3);margin-top:var(--s-5);animation-delay:.6s}
 .hero .cta .btn{min-height:var(--ctl-h-lg);padding-inline:var(--ctl-px-lg)}
@@ -431,7 +431,7 @@ section{position:relative}
 .sig{display:grid;grid-template-columns:auto minmax(0,1fr);gap:var(--s-3);align-items:center}
 .sig img{width:clamp(3.5rem,7vw,6.5rem);aspect-ratio:1;height:auto;object-fit:cover}
 .sig h3{font-size:var(--t-lg);line-height:1.4;margin-top:.35em;color:var(--ink)}
-.sig p{font-family:Montserrat,sans-serif;font-weight:500;font-size:var(--t-xs);
+.sig :where(p){font-family:Montserrat,sans-serif;font-weight:500;font-size:var(--t-xs);
   letter-spacing:.16em;text-transform:uppercase;color:var(--txt);opacity:.85;margin-top:.45em}
 
 /* ----------------------------------------------------- 03b house intro -- */
@@ -488,7 +488,7 @@ section{position:relative}
   background:var(--verde);color:var(--ivory);padding:var(--s-5);height:100%}
 .promo .k{color:#D8C6A4;letter-spacing:.24em}
 .promo h3{font-family:'Libre Caslon Display',serif;font-size:var(--t-2);line-height:1.2}
-.promo p{font-size:var(--t-sm);line-height:1.6;opacity:.94;max-width:32ch}
+.promo :where(p){font-size:var(--t-sm);line-height:1.6;opacity:.94;max-width:32ch}
 .promo .btn{align-self:flex-start}
 
 .seven .foot{text-align:center;margin-top:var(--s-6);font-family:Montserrat,sans-serif;
@@ -571,7 +571,7 @@ section{position:relative}
 .feel:hover .chip{transform:scale(1.45)}
 .feel h3{font-family:'Libre Caslon Display',serif;font-size:var(--t-1);
   margin-top:var(--s-5);color:var(--ink)}
-.feel p{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:var(--t-sm);
+.feel :where(p){font-family:'Cormorant Garamond',serif;font-weight:300;font-size:var(--t-sm);
   line-height:1.4;color:var(--txt);opacity:.8;margin-top:.4em}
 .feelings .note{margin-top:var(--s-5);font-family:Montserrat,sans-serif;font-weight:500;
   font-size:var(--t-xs);letter-spacing:.2em;text-transform:uppercase;color:var(--txt);
@@ -583,7 +583,7 @@ section{position:relative}
 .way img{width:100%;aspect-ratio:400/180;object-fit:cover}
 .way .b{display:flex;flex-direction:column;flex:1;padding:var(--s-4)}
 .way h3{font-size:var(--t-1);margin-top:var(--s-2);color:var(--ink)}
-.way p{font-size:var(--t-sm);line-height:1.65;color:var(--txt);opacity:.9;margin-top:var(--s-2)}
+.way :where(p){font-size:var(--t-sm);line-height:1.65;color:var(--txt);opacity:.9;margin-top:var(--s-2)}
 .way .go{display:inline-block;margin-top:auto;padding-top:var(--s-3);
   font-family:Montserrat,sans-serif;font-weight:500;font-size:var(--t-xs);
   letter-spacing:.2em;text-transform:uppercase;color:var(--ink)}
@@ -618,11 +618,11 @@ section{position:relative}
 .post{display:flex;flex-direction:column;overflow:hidden;min-width:0}
 .post img{width:100%;aspect-ratio:8/5;object-fit:cover;transition:transform 1s var(--settle)}
 .post:hover img{transform:scale(1.04)}
-.post .k{margin-top:var(--s-3);letter-spacing:.22em}
+.post .k{margin-top:var(--space-4);font-size:var(--t-2xs);letter-spacing:.26em}
 .post h3{font-size:var(--t-1);line-height:1.4;margin-top:var(--s-2);color:var(--ink);
   transition:color .3s var(--settle)}
 .post:hover h3{color:var(--brass)}
-.post p{font-family:'Libre Caslon Text',serif;font-style:italic;font-size:var(--t-sm);
+.post :where(p){font-family:'Libre Caslon Text',serif;font-style:italic;font-size:var(--t-sm);
   line-height:1.6;color:var(--txt);opacity:.8;margin-top:var(--s-2)}
 
 /* --------------------------------------------------------- 10 gifting --- */
@@ -632,7 +632,7 @@ section{position:relative}
 .gift .fade{display:none}
 .gift .c{padding:var(--s-6) var(--gutter) var(--s-7);max-width:calc(40rem + var(--gutter) * 2)}
 .gift h2{font-size:var(--t-4);margin-top:var(--s-3);max-width:18ch}
-.gift p{font-size:var(--t-md);line-height:1.8;opacity:.92;max-width:46ch;margin-top:var(--s-4)}
+.gift :where(p){font-size:var(--t-md);line-height:1.8;opacity:.92;max-width:46ch;margin-top:var(--s-4)}
 .gift .ded{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:var(--t-1);
   background:rgba(241,240,232,.94);color:var(--ink);padding:var(--s-3) var(--s-4);
   margin-top:var(--s-4);max-width:22rem;text-align:center}
@@ -649,7 +649,7 @@ section{position:relative}
 .credrow{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,16rem),1fr));
   gap:var(--s-5)}
 .cred{min-width:0}
-.cred p{font-family:'Libre Caslon Text',serif;font-style:italic;font-size:var(--t-md);
+.cred :where(p){font-family:'Libre Caslon Text',serif;font-style:italic;font-size:var(--t-md);
   line-height:1.7;color:var(--ink)}
 .cred b{font-family:Montserrat,sans-serif;font-weight:500;font-size:var(--t-xs);
   letter-spacing:.22em;text-transform:uppercase;color:var(--ink)}
@@ -846,6 +846,82 @@ footer a:hover{opacity:1}
 .filters .count{margin-left:auto;font-family:Montserrat,sans-serif;font-size:var(--t-xs);
   letter-spacing:.18em;text-transform:uppercase;color:var(--txt);opacity:.6}
 
+/* ==================================================== the shelf controls ==
+   Two controls, doing two different jobs, and looking like it.
+
+   Size changes what you are buying — it never hides a card — so it is a
+   segmented control with one always active. Scent narrows what you can see,
+   so it is a set of toggles that can all be off.
+
+   Stone was removed as a control. There are seven stones and seven
+   fragrances, so a stone filter returned exactly one card per option: a menu
+   of the products under another name. It stays on every card, where it is
+   an attribute rather than navigation.
+   ========================================================================= */
+.shelfbar{display:flex;flex-wrap:wrap;align-items:center;gap:var(--space-5) var(--space-7);
+  margin-top:var(--space-6);padding-block:var(--space-4);
+  border-block:1px solid var(--line)}
+.shelfbar .ctl{display:flex;align-items:center;gap:var(--space-3);min-width:0}
+.shelfbar .lbl{font-family:Montserrat,sans-serif;font-weight:500;font-size:var(--t-2xs);
+  letter-spacing:var(--ls-stone);text-transform:uppercase;color:var(--txt);opacity:.6;
+  white-space:nowrap}
+
+/* size — segmented, one always on */
+.shelfbar .seg{display:flex;border:1px solid rgba(43,46,45,.28)}
+.shelfbar .seg button{padding:0 var(--space-4);min-height:var(--ctl-h-sm);
+  font-family:Montserrat,sans-serif;font-weight:500;font-size:var(--t-2xs);
+  letter-spacing:.16em;text-transform:uppercase;color:var(--ink);white-space:nowrap;
+  transition:background .25s var(--settle),color .25s var(--settle)}
+.shelfbar .seg button+button{border-left:1px solid rgba(43,46,45,.28)}
+.shelfbar .seg button:hover{background:rgba(43,46,45,.05)}
+.shelfbar .seg button[aria-pressed="true"]{background:var(--ink);color:var(--ivory)}
+
+/* scent — toggles, all can be off */
+.shelfbar .chips{display:flex;flex-wrap:wrap;gap:var(--space-2)}
+.shelfbar .chips button{padding:0 var(--space-4);min-height:var(--ctl-h-sm);
+  border:1px solid rgba(43,46,45,.22);border-radius:var(--radius-hairline);
+  font-family:Montserrat,sans-serif;font-weight:500;font-size:var(--t-2xs);
+  letter-spacing:.16em;text-transform:uppercase;color:var(--txt);white-space:nowrap;
+  transition:border-color .25s var(--settle),background .25s var(--settle),
+             color .25s var(--settle)}
+.shelfbar .chips button:hover{border-color:rgba(43,46,45,.55);color:var(--ink)}
+.shelfbar .chips button[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);
+  color:var(--ivory)}
+/* the disclosure is a mobile affordance; on desktop the chips are always out */
+.shelfbar .disclose{display:none}
+
+.shelfcount{margin-left:auto;display:flex;align-items:center;gap:var(--space-4);
+  font-family:Montserrat,sans-serif;font-weight:500;font-size:var(--t-2xs);
+  letter-spacing:.18em;text-transform:uppercase;color:var(--txt);opacity:.6}
+.shelfbar .clear{font:inherit;letter-spacing:inherit;text-transform:inherit;
+  color:var(--ink);opacity:1;border-bottom:1px solid currentColor;padding-bottom:.15em}
+
+/* cards leave and return without the grid jumping */
+.cards .card[hidden],.cards .promo[hidden]{display:none}
+
+/* ---- mobile: size stays out, scent folds away ------------------------- */
+@media (max-width:52em){
+  .shelfbar{gap:var(--space-4);padding-block:var(--space-4)}
+  .shelfbar .ctl{width:100%}
+  .shelfbar .ctl.size .seg{flex:1 1 auto}
+  .shelfbar .ctl.size .seg button{flex:1 1 0;padding-inline:var(--space-2);
+    min-height:var(--ctl-h);text-align:center;justify-content:center}
+  /* scent collapses behind one control that names the current selection */
+  .shelfbar .disclose{display:flex;align-items:center;justify-content:space-between;
+    gap:var(--space-3);flex:1 1 auto;min-height:var(--ctl-h);
+    padding:0 var(--space-4);border:1px solid rgba(43,46,45,.28);
+    font-family:Montserrat,sans-serif;font-weight:500;font-size:var(--t-2xs);
+    letter-spacing:.16em;text-transform:uppercase;color:var(--ink);text-align:left}
+  .shelfbar .disclose::after{content:"+";font-family:'Libre Caslon Text',serif;
+    font-size:var(--t-sm);letter-spacing:0;opacity:.7}
+  .shelfbar .disclose[aria-expanded="true"]::after{content:"\2013"}
+  .shelfbar .chips{display:none;width:100%}
+  .shelfbar .chips.open{display:flex}
+  .shelfbar .chips button{flex:1 1 45%;min-height:var(--ctl-h);justify-content:center;
+    display:inline-flex;align-items:center;text-align:center}
+  .shelfcount{margin-left:0;width:100%;justify-content:space-between}
+}
+
 /* --------------------------------------------------------------- PDP ---- */
 /* Rebuilt against "PDP — Hotel Lobby" on the Side By Side page, node 203:3992.
    The fault the comparison exposed was that the buy column had no measure of
@@ -991,7 +1067,7 @@ footer a:hover{opacity:1}
   padding-block:var(--space-7) var(--space-9)}
 .yset h2{font-size:clamp(24px,calc(24px + 8 * (100vw - 390px) / 1050),32px);
   color:var(--ivory);max-width:40ch;margin-inline:auto}
-.yset p{font-size:var(--t-md);opacity:.92;max-width:44ch;
+.yset :where(p){font-size:var(--t-md);opacity:.92;max-width:44ch;
   margin:var(--space-4) auto 0}
 .yset .btn{margin-top:var(--space-5)}
 
@@ -1157,7 +1233,7 @@ footer a:hover{opacity:1}
   font-style:normal;font-size:var(--t-2);color:var(--brass);line-height:1}
 .hstep h3{font-family:'Libre Caslon Display',Georgia,serif;font-weight:400;
   font-size:var(--t-1);color:var(--ink);margin-top:var(--space-3)}
-.hstep p{font-size:var(--t-sm);line-height:1.7;color:var(--txt);margin-top:var(--space-3)}
+.hstep :where(p){font-size:var(--t-sm);line-height:1.7;color:var(--txt);margin-top:var(--space-3)}
 
 /* --- the form ----------------------------------------------------------- */
 .tellus{background:var(--ivory);padding-block:var(--space-9)}
@@ -1244,7 +1320,7 @@ footer a:hover{opacity:1}
 .term{border-top:1px solid rgba(43,46,45,.15);padding-top:var(--space-3)}
 .term h3{font-family:'Libre Caslon Text',serif;font-weight:400;font-size:var(--t-lg);
   color:var(--ink)}
-.term p{font-size:var(--t-sm);line-height:1.68;color:var(--txt);margin-top:var(--space-3)}
+.term :where(p){font-size:var(--t-sm);line-height:1.68;color:var(--txt);margin-top:var(--space-3)}
 
 /* ---------------------------------------------------------- editorial --- */
 .article{padding-block:var(--s-6) var(--s-7)}
@@ -1306,7 +1382,7 @@ footer a:hover{opacity:1}
 .srow.total{border-top:1px solid var(--line);margin-top:var(--s-3);padding-top:var(--s-3);
   color:var(--ink);font-weight:600}
 .empty{text-align:center;padding-block:var(--s-6)}
-.empty p{font-size:var(--t-md);color:var(--txt);margin-top:var(--s-3)}
+.empty :where(p){font-size:var(--t-md);color:var(--txt);margin-top:var(--s-3)}
 
 /* checkout progress */
 .steps{display:flex;flex-wrap:wrap;gap:var(--s-2) var(--s-3);padding-block:var(--s-4);
@@ -1531,7 +1607,7 @@ footer .cols a:hover{opacity:1;padding-left:.3rem}
   max-width:calc(46rem + var(--gutter) * 2)}
 .storyband blockquote{font-family:'Libre Caslon Display',serif;font-size:var(--t-4);
   line-height:1.24;text-wrap:balance}
-.storyband p{margin-top:var(--s-4);font-family:Montserrat,sans-serif;font-size:var(--t-xs);
+.storyband :where(p){margin-top:var(--s-4);font-family:Montserrat,sans-serif;font-size:var(--t-xs);
   letter-spacing:.2em;text-transform:uppercase;opacity:.85}
 .storyband a{border-bottom:1px solid rgba(241,240,232,.5);padding-bottom:.15em}
 
@@ -1599,5 +1675,5 @@ footer .cols a:hover{opacity:1;padding-left:.3rem}
 @media (min-width:60em){ .stoneband .inner{grid-template-columns:minmax(0,560fr) minmax(0,520fr);gap:var(--s-7)} }
 .stoneband img{width:100%;aspect-ratio:56/34;object-fit:cover;background:var(--plaster)}
 .stoneband h2{font-size:var(--t-3);margin-top:var(--s-3);max-width:14ch}
-.stoneband p{font-size:var(--t-md);line-height:1.8;color:var(--txt);max-width:46ch;margin-top:var(--s-4)}
+.stoneband :where(p){font-size:var(--t-md);line-height:1.8;color:var(--txt);max-width:46ch;margin-top:var(--s-4)}
 .stoneband .ul{margin-top:var(--s-4)}

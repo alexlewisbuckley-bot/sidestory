@@ -31,31 +31,31 @@ PRODUCTS = [
     dict(slug="hotel-lobby",    name="Hotel Lobby",    stone="Nero Marquina",  swatch="#1C1D1D",
          notes="woods, spice, green",        story="Story I",   feeling="Anticipation",
          line="It was a ten minutes before 8pm when he arrived, and its resplendence never failed to catch him off guard.",
-         img="p-hotel-lobby", badge="Bestseller", read="5 min", wear="woods warmed by a polished bar"),
+         img="p-hotel-lobby", badge="Bestseller", read="5 min", family="woods", wear="woods warmed by a polished bar"),
     dict(slug="sibling-rivalry", name="Sibling Rivalry", stone="Leopard Salome", swatch="#8A6A3F",
          notes="grapefruit, vetiver, smoke", story="Story II",  feeling="Mischief",
          line="There is a particular silence that only a brother can make, and she had been listening to it for thirty years.",
-         img="p-sibling-rivalry", badge="", read="6 min", wear="grapefruit cut with woodsmoke"),
+         img="p-sibling-rivalry", badge="", read="6 min", family="citrus", wear="grapefruit cut with woodsmoke"),
     dict(slug="pillow-talk",    name="Pillow Talk",    stone="Calacatta",      swatch="#E0DCD0",
          notes="musk, powder, warm skin",    story="Story III", feeling="Comfort",
          line="They had been awake for hours, unspooling the sweet trivialities of their personal histories in sleepy whispers.",
-         img="p-pillow-talk", badge="", read="4 min", wear="warm skin under cool linen"),
+         img="p-pillow-talk", badge="", read="4 min", family="powder", wear="warm skin under cool linen"),
     dict(slug="sunday-service", name="Sunday Service", stone="Verde Jade",     swatch="#3E5147",
          notes="incense, linen, morning air", story="Story IV", feeling="Devotion",
          line="The drive from the city to the country always felt like rolling back time.",
-         img="p-sunday-service", badge="", read="7 min", wear="cold air held in church oak"),
+         img="p-sunday-service", badge="", read="7 min", family="incense", wear="cold air held in church oak"),
     dict(slug="third-date",     name="Third Date",     stone="Rosso Levanto",  swatch="#7A2E2A",
          notes="plum, tobacco, candlelight",  story="Story V",  feeling="Attraction",
          line="She hardly knew him, of course—tonight was only the third date. But there was such familiarity between them.",
-         img="p-third-date", badge="", read="5 min", wear="orange blossom over well-worn leather"),
+         img="p-third-date", badge="", read="5 min", family="amber", wear="orange blossom over well-worn leather"),
     dict(slug="road-trip",      name="Road Trip",      stone="Rosso Francia",  swatch="#B5593F",
          notes="amber, leather, warm wind",   story="Story VI", feeling="Escape",
          line="They knew where they were going, but neither seemed to mind the impromptu detour along the way.",
-         img="p-road-trip", badge="New story", read="6 min", wear="warm leather and wind off an open window"),
+         img="p-road-trip", badge="New story", read="6 min", family="amber", wear="warm leather and wind off an open window"),
     dict(slug="4pm-matinee",    name="4pm Matinee",    stone="Giallo Siena",   swatch="#C99A3F",
          notes="citrus, velvet, dark rooms",  story="Story VII", feeling="Solitude",
          line="She came to the afternoon matinee alone. She liked the rush of independence when the ticket seller looked around for a date.",
-         img="p-4pm-matinee", badge="", read="5 min", wear="soft velvet in a darkened theatre"),
+         img="p-4pm-matinee", badge="", read="5 min", family="citrus", wear="soft velvet in a darkened theatre"),
 ]
 BY_SLUG = {p["slug"]: p for p in PRODUCTS}
 
@@ -360,6 +360,18 @@ DRAWER = """<div class="scrim" id="scrim" onclick="closeDrawer()"></div>
 # 7.5ml at £40 replaces it. Only the 100ml carries the carved stone lid and
 # the printed story — the 7.5ml and the sample travel in a printed sleeve, so
 # the include line is per size and not a sitewide claim.
+# Scent families. Seven fragrances, so a filter is only worth having if each
+# option returns a real, small set — every product sits in exactly one family
+# and selecting more than one widens rather than narrows. Derived from the
+# note line each card already shows, which is what a shopper actually reads.
+FAMILIES = [
+    dict(key="woods",   label="Woods &amp; green"),
+    dict(key="citrus",  label="Citrus &amp; fresh"),
+    dict(key="powder",  label="Soft &amp; powdery"),
+    dict(key="incense", label="Spice &amp; incense"),
+    dict(key="amber",   label="Amber &amp; warm"),
+]
+
 SIZES = [
     dict(key="100ml",  label="100 ml", price=160,
          incl="The printed story is in the box",
@@ -375,9 +387,13 @@ BY_SIZE = {z["key"]: z for z in SIZES}
 
 
 def size_img(p, key):
-    """Card image for a fragrance at a given size."""
-    if key == "7-5ml":
-        cand = "assets/img/p-%s-75-card.jpg" % p["slug"]
+    """Card image for a fragrance at a given size.
+
+    Each variant shows what actually arrives. Anything not photographed yet
+    falls back to the bottle rather than showing the wrong pack."""
+    suffix = {"7-5ml": "-75-card", "sample": "-sample-card"}.get(key)
+    if suffix:
+        cand = "assets/img/p-%s%s.jpg" % (p["slug"], suffix)
         if os.path.exists(os.path.join(ROOT, cand)):
             return cand
     return "assets/img/p-%s-card.jpg" % p["slug"]
@@ -385,8 +401,9 @@ def size_img(p, key):
 
 def size_main(p, key):
     """Product-page plate for a fragrance at a given size."""
-    if key == "7-5ml":
-        cand = "assets/img/p-%s-75.jpg" % p["slug"]
+    suffix = {"7-5ml": "-75", "sample": "-sample"}.get(key)
+    if suffix:
+        cand = "assets/img/p-%s%s.jpg" % (p["slug"], suffix)
         if os.path.exists(os.path.join(ROOT, cand)):
             return cand
     return "assets/img/p-%s-hero.jpg" % p["slug"]
@@ -474,7 +491,7 @@ def crumbs(*parts):
 
 def product_card(p, reveal=True):
     badge = f'<span class="badge">{p["badge"]}</span>' if p["badge"] else ""
-    return f"""      <article class="card{' rev' if reveal else ''}" data-slug="{p['slug']}" data-order="{PRODUCTS.index(p)}" data-feeling="{p['feeling']}" data-stone="{p['stone']}" data-note="{p['notes'].split(',')[0].strip()}">
+    return f"""      <article class="card{' rev' if reveal else ''}" data-slug="{p['slug']}" data-order="{PRODUCTS.index(p)}" data-feeling="{p['feeling']}" data-stone="{p['stone']}" data-note="{p['notes'].split(',')[0].strip()}" data-family="{p['family']}">
         <div class="ph"><a data-href href="product-{p['slug']}.html"><img data-shot src="{fp('assets/img/' + p['img'] + '-card.jpg')}" alt="{p['name']} eau de parfum" loading="lazy"></a>{badge}
           <div class="quick"><div class="r">
             <button class="btn btn-ink btn-sm" data-buy data-size="100ml" onclick="addToBag('{p['slug']}',this.dataset.size,this)">100 ml &mdash; &pound;160</button>
@@ -542,9 +559,12 @@ def build():
         if key in (None, "sample"):
             cards += "\n" + PROMO_CARD
         sizerow = "\n".join(
-            '      <button data-size="%s"%s>%s</button>'
-            % (z["key"], ' aria-current="true"' if z["key"] == (key or "100ml") else "", z["label"])
+            '          <button type="button" data-size="%s" aria-pressed="%s">%s</button>'
+            % (z["key"], "true" if z["key"] == (key or "100ml") else "false", z["label"])
             for z in SIZES)
+        famrow = "\n".join(
+            '          <button type="button" data-family="%s" aria-pressed="false">%s</button>'
+            % (f["key"], f["label"]) for f in FAMILIES)
         written[slug] = page(slug, title,
             "Seven stories, worn as scent. Eau de parfum &mdash; 100ml &pound;160, 7.5ml &pound;40, samples &pound;5.", f"""
 <section class="seven">
@@ -555,16 +575,23 @@ def build():
       <h1>{head}</h1>
       <p class="lede">{lede}</p>
     </div>
-    <div class="filters" data-sort-for=".cards">
-      <button data-sort="order" aria-current="true">All</button>
-      <button data-sort="feeling">By feeling</button>
-      <button data-sort="stone">By stone</button>
-      <button data-sort="note">By note</button>
-      <span class="count" data-count>7 stories &middot; 1 set</span>
-    </div>
-    <div class="filters sizerow" data-size-for=".cards">
-      <span class="lbl">Size</span>
+    <div class="shelfbar" data-shelf-for=".cards">
+      <div class="ctl size">
+        <span class="lbl" id="lbl-size">Size</span>
+        <div class="seg" role="group" aria-labelledby="lbl-size">
 {sizerow}
+        </div>
+      </div>
+      <div class="ctl scent">
+        <span class="lbl" id="lbl-scent">Scent</span>
+        <button class="disclose" type="button" data-disclose aria-expanded="false" aria-controls="scentchips">
+          <span data-scentlabel>All seven</span></button>
+        <div class="chips" id="scentchips" role="group" aria-labelledby="lbl-scent">
+{famrow}
+        </div>
+      </div>
+      <p class="shelfcount"><span data-count>Seven stories</span>
+        <button type="button" class="clear" data-clear hidden>Clear</button></p>
     </div>
     <div class="cards" data-size="{key or '100ml'}">
 {cards}
