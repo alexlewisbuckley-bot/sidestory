@@ -16,6 +16,46 @@ import photos
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
+def typeset(html):
+    """Hand-setting the breaks that a line-breaking algorithm cannot.
+
+    `text-wrap:balance` evens the lengths of a heading's lines; it will still
+    happily end one on "a" or leave the last word of a paragraph alone on its
+    own line. Two rules, applied to display type and to the ledes only:
+
+      · a single-letter word never ends a line — it binds to what follows,
+        so "commissioned before a / single note" becomes "before / a single
+        note";
+      · the last two words of a heading never separate, unless together they
+        are long enough that binding them could push a narrow screen into an
+        overflow.
+
+    Interface text, prices and captions are left alone: a non-breaking space
+    inside a 10px tracked label is a way to make a column overflow on a phone.
+    """
+    import re as _re
+
+    def bind(text):
+        # single-letter words bind forward
+        text = _re.sub(r'(?<=\s)([aAI])\s+(?=[A-Za-z\u2018\u201c])', r'\1&nbsp;', text)
+        # and the last two words hold together when they are short enough
+        m = _re.search(r'\s+(\S+)\s+(\S+)\s*$', text)
+        if m and len(m.group(1)) + len(m.group(2)) <= 14 and '&nbsp;' not in m.group(0):
+            text = text[:m.start()] + ' ' + m.group(1) + '&nbsp;' + m.group(2) + text[m.end():]
+        return text
+
+    def walk(m):
+        open_tag, inner, close_tag = m.group(1), m.group(2), m.group(3)
+        if '<' in inner:            # leave anything with nested markup alone
+            return m.group(0)
+        return open_tag + bind(inner) + close_tag
+
+    html = _re.sub(r'(<(?:h1|h2|h3|blockquote)\b[^>]*>)([^<]+)(</(?:h1|h2|h3|blockquote)>)',
+                   walk, html)
+    html = _re.sub(r'(<p class="lede"[^>]*>)([^<]+)(</p>)', walk, html)
+    return html
+
+
 def fp(path):
     """Content hash for cache-busting."""
     full = os.path.join(ROOT, path)
@@ -552,6 +592,7 @@ def page(slug, title, desc, body, current=None, css=("assets/css/fonts.css", "as
     # one pass over the finished page, so the footer wordmark and the drawer
     # are covered too — they are appended after the body and were escaping it
     out = upgrade_images(out)
+    out = typeset(out)
     with open(os.path.join(ROOT, slug + ".html"), "w") as f:
         f.write(out)
     return len(out)

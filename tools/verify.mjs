@@ -75,7 +75,7 @@ for(const w of WIDTHS){
   p.on('console',m=>{if(m.type()==='error')R.console.push(`${w} ${m.text().slice(0,90)}`)});
   p.on('pageerror',e=>R.console.push(`${w} PAGEERROR ${e.message.slice(0,90)}`));
   for(const pg of PAGES){
-    await p.goto('http://localhost:8801/'+pg,{waitUntil:'networkidle'});
+    await p.goto('http://localhost:8802/'+pg,{waitUntil:'networkidle'});
     // reveal, then stop all motion, so nothing is measured mid-transition —
     // the previous probe caught .rev elements at alpha .14 and called them
     // contrast failures

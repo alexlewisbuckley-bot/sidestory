@@ -5,7 +5,7 @@ const ok=(n,c)=>out.push((c?'PASS ':'FAIL ')+n);
 
 // desktop: shelf filtering + size switching
 let p=await (await b.newContext({viewport:{width:1440,height:1000}})).newPage();
-await p.goto('http://localhost:8801/collection.html',{waitUntil:'networkidle'});
+await p.goto('http://localhost:8802/collection.html',{waitUntil:'networkidle'});
 await p.click('.shelfbar .chips button[data-family="citrus"]');
 await p.waitForTimeout(300);
 ok('scent filter hides cards', await p.evaluate(()=>[...document.querySelectorAll('.cards .card')].some(c=>c.hidden)));
@@ -21,7 +21,7 @@ ok('no fill on selected size', await p.evaluate(()=>{const c=getComputedStyle(do
   return c==='rgba(0, 0, 0, 0)'||c==='transparent'}));
 
 // PDP
-await p.goto('http://localhost:8801/product-hotel-lobby.html',{waitUntil:'networkidle'});
+await p.goto('http://localhost:8802/product-hotel-lobby.html',{waitUntil:'networkidle'});
 await p.click('.sizes button[data-size="sample"]'); await p.waitForTimeout(300);
 ok('pdp size sets price', await p.evaluate(()=>document.querySelector('.cta .btn').textContent.includes('5')));
 ok('pdp marker moves', await p.evaluate(()=>getComputedStyle(document.querySelector('.sizes button[data-size="sample"]'),'::after').opacity==='1'));
@@ -38,7 +38,7 @@ ok('escape closes and unlocks', await p.evaluate(()=>document.getElementById('dr
   && !document.documentElement.classList.contains('overlay-open')));
 
 // forms
-await p.goto('http://localhost:8801/contact.html',{waitUntil:'networkidle'});
+await p.goto('http://localhost:8802/contact.html',{waitUntil:'networkidle'});
 await p.evaluate(()=>document.querySelector('.form').requestSubmit());
 await p.waitForTimeout(300);
 ok('invalid form blocks + marks', await p.evaluate(()=>document.querySelectorAll('.field.invalid').length>0
@@ -51,7 +51,7 @@ ok('valid form shows confirmation', await p.evaluate(()=>!document.querySelector
 
 // mobile sheet + nav
 const m=await (await b.newContext({viewport:{width:390,height:844},hasTouch:true})).newPage();
-await m.goto('http://localhost:8801/collection.html',{waitUntil:'networkidle'});
+await m.goto('http://localhost:8802/collection.html',{waitUntil:'networkidle'});
 ok('nav is one row', await m.evaluate(()=>{const i=document.querySelector('.nav .inner');
   const kids=[...i.children].filter(c=>getComputedStyle(c).display!=='none');
   const tops=new Set(kids.map(c=>Math.round(c.getBoundingClientRect().top/10)));return tops.size<=1}));

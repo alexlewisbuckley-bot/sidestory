@@ -101,7 +101,7 @@ const PROBE=`(()=>{
   return out;})()`;
 
 for(const pg of PAGES){
-  await p.goto('http://localhost:8801/'+pg,{waitUntil:'networkidle'});
+  await p.goto('http://localhost:8802/'+pg,{waitUntil:'networkidle'});
   await p.evaluate(()=>{document.querySelectorAll('.rev').forEach(e=>e.classList.add('in'));
     document.querySelectorAll('.enter-veil').forEach(e=>e.remove());});
   await p.addStyleTag({content:'*,*::before,*::after{transition:none!important;animation:none!important}'});

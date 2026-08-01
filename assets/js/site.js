@@ -75,9 +75,41 @@
     });
   }
 
-  /* scroll reveals */
-  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:.12,rootMargin:'0px 0px -40px'});
-  document.querySelectorAll('.rev').forEach((el,i)=>{el.style.transitionDelay=(i%4*70)+'ms';io.observe(el);});
+  /* Scroll reveals.
+
+     The delay used to be the element's index in the document modulo four,
+     written inline at load and left on the element for good — so a card that
+     happened to be third in the page answered a filter change 140ms after the
+     two beside it, for the life of the session. And because the index was
+     global, arriving at a new section could mean waiting 210ms for its first
+     line to appear, for no reason the eye could connect to anything.
+
+     The delay is now decided at the moment of reveal, from the group that is
+     entering together: a row of four cascades across itself, a paragraph
+     arriving on its own does not wait at all. It is removed as soon as the
+     entrance is over — on transitionend, and on a timer in case the
+     transition never fires. */
+  const STEP=70, io=new IntersectionObserver(entries=>{
+    const arriving=entries.filter(e=>e.isIntersecting)
+      .sort((a,b)=>{
+        const ra=a.boundingClientRect, rb=b.boundingClientRect;
+        return (ra.top-rb.top) || (ra.left-rb.left);
+      });
+    arriving.forEach((e,i)=>{
+      const el=e.target, d=Math.min(i,5)*STEP;
+      if(d) el.style.transitionDelay=d+'ms';
+      el.classList.add('in');
+      io.unobserve(el);
+      if(!d) return;
+      let done=false;
+      const clear=()=>{ if(done) return; done=true;
+        el.style.transitionDelay='';
+        el.removeEventListener('transitionend',clear); };
+      el.addEventListener('transitionend',clear);
+      setTimeout(clear, d+1200);
+    });
+  },{threshold:.12,rootMargin:'0px 0px -40px'});
+  document.querySelectorAll('.rev').forEach(el=>io.observe(el));
 
   /* ------------------------------------------------------------ overlays
      One contract for every overlay: move focus in, trap Tab, lock the page
@@ -170,8 +202,14 @@
       img: v ? v.img : p.img});
     save();
     const c=document.getElementById('bagcount'); if(c){c.classList.add('tick');setTimeout(()=>c.classList.remove('tick'),300);}
-    if(btn){const t=btn.textContent;btn.textContent='In the bag ✓';btn.disabled=true;
-      setTimeout(()=>{btn.textContent=t;btn.disabled=false;},1400);}
+    /* The label used to become "In the bag ✓" — the one system glyph on a site
+       that draws its own marks, and on a button that hugs its label it changed
+       the button's width mid-press. The words and the disabled state say it,
+       and the drawer that follows says it properly. */
+    if(btn){const t=btn.textContent, w=btn.getBoundingClientRect().width;
+      btn.style.minWidth=Math.round(w)+'px';
+      btn.textContent='In the bag'; btn.disabled=true;
+      setTimeout(()=>{btn.textContent=t;btn.disabled=false;btn.style.minWidth='';},1400);}
     renderBag(); setTimeout(openDrawer,420);
   };
   function renderBagPage(){

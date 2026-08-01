@@ -1,31 +1,89 @@
 /* Side Story — self-hosted webfonts.
    Self-hosted so rendering is deterministic and identical to the Figma file:
-   no dependency on Google Fonts being reachable, no FOUT-driven layout shift. */
+   no dependency on Google Fonts being reachable. */
 
-@font-face{font-family:'Libre Caslon Display';font-style:normal;font-weight:400;font-display:block;
+@font-face{font-family:'Libre Caslon Display';font-style:normal;font-weight:400;font-display:swap;
   src:url('../fonts/libre-caslon-display-latin-400-normal.woff2') format('woff2');
   unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
 
-@font-face{font-family:'Libre Caslon Text';font-style:normal;font-weight:400;font-display:block;
+@font-face{font-family:'Libre Caslon Text';font-style:normal;font-weight:400;font-display:swap;
   src:url('../fonts/libre-caslon-text-latin-400-normal.woff2') format('woff2');
   unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
-@font-face{font-family:'Libre Caslon Text';font-style:italic;font-weight:400;font-display:block;
+@font-face{font-family:'Libre Caslon Text';font-style:italic;font-weight:400;font-display:swap;
   src:url('../fonts/libre-caslon-text-latin-400-italic.woff2') format('woff2');
   unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
 
-@font-face{font-family:'Montserrat';font-style:normal;font-weight:400;font-display:block;
+@font-face{font-family:'Montserrat';font-style:normal;font-weight:400;font-display:swap;
   src:url('../fonts/montserrat-latin-400-normal.woff2') format('woff2');
   unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
-@font-face{font-family:'Montserrat';font-style:normal;font-weight:500;font-display:block;
+@font-face{font-family:'Montserrat';font-style:normal;font-weight:500;font-display:swap;
   src:url('../fonts/montserrat-latin-500-normal.woff2') format('woff2');
   unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
-@font-face{font-family:'Montserrat';font-style:normal;font-weight:600;font-display:block;
+@font-face{font-family:'Montserrat';font-style:normal;font-weight:600;font-display:swap;
   src:url('../fonts/montserrat-latin-600-normal.woff2') format('woff2');
   unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
 
-@font-face{font-family:'Cormorant Garamond';font-style:normal;font-weight:300;font-display:block;
+@font-face{font-family:'Cormorant Garamond';font-style:normal;font-weight:300;font-display:swap;
   src:url('../fonts/cormorant-garamond-latin-300-normal.woff2') format('woff2');
   unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
-@font-face{font-family:'Cormorant Garamond';font-style:italic;font-weight:300;font-display:block;
+@font-face{font-family:'Cormorant Garamond';font-style:italic;font-weight:300;font-display:swap;
   src:url('../fonts/cormorant-garamond-latin-300-italic.woff2') format('woff2');
   unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+
+/* ---------------------------------------------------------------------------
+   Metric-matched fallbacks.
+
+   Every face was set to font-display:block, which means the browser paints NO
+   TEXT until the webfont arrives. On this site first-contentful-paint and
+   largest-contentful-paint were the same event at about 2.5s on a throttled
+   phone, because the first thing painted was the type. A page that shows
+   nothing is not fast, whatever the byte count says.
+
+   They are `swap` now, which would normally trade the blank page for a reflow
+   when the real font lands. These faces remove the reflow: each is the local
+   fallback scaled by size-adjust so its average lowercase advance matches the
+   real face, with ascent, descent and line-gap overridden to the real face's
+   own. Line breaks are identical before and after the swap, so the text
+   appears at once and nothing moves when the fonts arrive.
+
+   The fallback is Times rather than Georgia deliberately. Georgia is the
+   handsomer stand-in for Caslon, but its metrics cannot be read on any
+   machine here, and a size-adjust computed from a remembered figure is a
+   guess — the first attempt at this used a published average advance for
+   Arial that turned out to be 8% wrong. Times, Liberation Serif and Tinos
+   share one metric set that is measurable, and the same is true of Arial,
+   Liberation Sans and Arimo. Every ratio below is computed from those tables
+   and the result is verified in a browser with the webfonts blocked.
+   --------------------------------------------------------------------------- */
+@font-face{font-family:'Caslon Display Fallback';font-style:normal;font-weight:400;
+  src:local('Times New Roman'),local('Liberation Serif'),local('Tinos'),local('Times');
+  size-adjust:91.95%;ascent-override:105.5%;
+  descent-override:28.9%;line-gap-override:0.0%}
+@font-face{font-family:'Caslon Text Fallback';font-style:normal;font-weight:400;
+  src:local('Times New Roman'),local('Liberation Serif'),local('Tinos'),local('Times');
+  size-adjust:117.61%;ascent-override:82.5%;
+  descent-override:22.1%;line-gap-override:0.0%}
+@font-face{font-family:'Caslon Text Fallback';font-style:italic;font-weight:400;
+  src:local('Times New Roman'),local('Liberation Serif'),local('Tinos'),local('Times');
+  size-adjust:117.50%;ascent-override:82.5%;
+  descent-override:22.1%;line-gap-override:0.0%}
+@font-face{font-family:'Cormorant Fallback';font-style:normal;font-weight:300;
+  src:local('Times New Roman'),local('Liberation Serif'),local('Tinos'),local('Times');
+  size-adjust:96.62%;ascent-override:95.6%;
+  descent-override:29.7%;line-gap-override:0.0%}
+@font-face{font-family:'Cormorant Fallback';font-style:italic;font-weight:300;
+  src:local('Times New Roman'),local('Liberation Serif'),local('Tinos'),local('Times');
+  size-adjust:87.35%;ascent-override:105.8%;
+  descent-override:32.9%;line-gap-override:0.0%}
+@font-face{font-family:'Montserrat Fallback';font-style:normal;font-weight:400;
+  src:local('Arial'),local('Liberation Sans'),local('Helvetica'),local('Arimo');
+  size-adjust:112.71%;ascent-override:85.9%;
+  descent-override:22.3%;line-gap-override:0.0%}
+@font-face{font-family:'Montserrat Fallback';font-style:normal;font-weight:500;
+  src:local('Arial'),local('Liberation Sans'),local('Helvetica'),local('Arimo');
+  size-adjust:114.48%;ascent-override:84.6%;
+  descent-override:21.9%;line-gap-override:0.0%}
+@font-face{font-family:'Montserrat Fallback';font-style:normal;font-weight:600;
+  src:local('Arial'),local('Liberation Sans'),local('Helvetica'),local('Arimo');
+  size-adjust:116.42%;ascent-override:83.1%;
+  descent-override:21.6%;line-gap-override:0.0%}

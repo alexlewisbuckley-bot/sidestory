@@ -4,7 +4,7 @@ const W=+(process.env.PW||390);
 const [pg,...sels]=process.argv.slice(2);
 const b=await chromium.launch({executablePath:'/opt/pw-browsers/chromium'});
 const p=await (await b.newContext({viewport:{width:W,height:844},deviceScaleFactor:2,isMobile:true,hasTouch:true})).newPage();
-await p.goto('http://localhost:8801/'+pg,{waitUntil:'networkidle'});
+await p.goto('http://localhost:8802/'+pg,{waitUntil:'networkidle'});
 await p.evaluate(()=>{document.querySelectorAll('.rev').forEach(e=>e.classList.add('in'));document.querySelectorAll('.enter-veil').forEach(e=>e.remove());});
 await p.addStyleTag({content:'*,*::before,*::after{transition:none!important;animation:none!important}'});
 await p.waitForTimeout(200);

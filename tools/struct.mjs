@@ -5,7 +5,7 @@ const b=await chromium.launch({executablePath:'/opt/pw-browsers/chromium'});
 const p=await (await b.newContext({viewport:{width:1440,height:1000}})).newPage();
 const R={skip:[],noname:[],nomain:[],dupid:[],alt:[],lang:[]};
 for(const pg of PAGES){
-  await p.goto('http://localhost:8801/'+pg,{waitUntil:'networkidle'});
+  await p.goto('http://localhost:8802/'+pg,{waitUntil:'networkidle'});
   const o=await p.evaluate(()=>{
     const out={skip:[],noname:[],main:0,dup:[],alt:0,lang:document.documentElement.lang||''};
     let last=0;

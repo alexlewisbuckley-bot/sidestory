@@ -178,10 +178,10 @@
 
   /* families — Display for display-scale headings as every designed screen
      uses it; Text for everything else, per the type styles */
-  --font-display:'Libre Caslon Display',Georgia,serif;
-  --font-serif:'Libre Caslon Text',Georgia,serif;
-  --font-sans:Montserrat,system-ui,sans-serif;
-  --font-script:'Cormorant Garamond',Georgia,serif;
+  --font-display:'Libre Caslon Display','Caslon Display Fallback','Times New Roman',serif;
+  --font-serif:'Libre Caslon Text','Caslon Text Fallback','Times New Roman',serif;
+  --font-sans:Montserrat,'Montserrat Fallback',Arial,system-ui,sans-serif;
+  --font-script:'Cormorant Garamond','Cormorant Fallback','Times New Roman',serif;
 
   /* Elevation. The file defines no effect styles, so every shadow on the site
      had been invented where it was needed — seven of them, no two related.
@@ -299,6 +299,9 @@
   --ctl-px-lg:clamp(24px,calc(24px + 8 * (100vw - 768px) / 672),32px);
   --ctl-px-sm:20px; --ctl-px-pill:16px;
   --buy-col:29rem;
+  /* the sticky header's height, so anything that has to clear it — an anchor
+     target, the shelf bar — can be told once rather than guess */
+  --navh:5.5rem;
 
   /* ---------------------------------------------------------------------
      Tracking. One ladder, and it follows size rather than the author.
@@ -376,7 +379,7 @@
     --layout-margin:clamp(20px,calc(20px + 27 * (100vw - 390px) / 378),47px);
     --layout-gutter:clamp(16px,calc(16px + 4 * (100vw - 390px) / 378),20px);
     --layout-columns:4;
-    --navh:4.3125rem; /* the phone header, fixed so things can stick under it */
+    --navh:4.3125rem;
     --s-7:var(--space-8);
     --sec-sm:var(--space-7); --sec:var(--space-8); --sec-lg:var(--space-9);
 
@@ -451,13 +454,16 @@ button{font:inherit;border:0;background:none;cursor:pointer;color:inherit}
   :focus-visible,.btn-ink:focus-visible,.btn-ghost:focus-visible{
   outline-color:var(--ivory);box-shadow:0 0 0 4px rgba(43,46,45,.55)}
 /* skip link — first thing in the tab order on every page */
-.skip{position:absolute;left:var(--space-4);top:-4rem;z-index:var(--z-top);
+/* the last transition on a layout property: it moved `top`, which is a
+   reflow per frame for the one element a keyboard user meets first */
+.skip{position:absolute;left:var(--space-4);top:var(--space-2);z-index:var(--z-top);
+  transform:translateY(-400%);
   padding:0 var(--space-5);height:var(--ctl-h);display:inline-flex;align-items:center;
   background:var(--ink);color:var(--ivory);
   font-family:var(--font-sans);font-weight:600;font-size:var(--t-2xs);
   letter-spacing:var(--track-label);text-transform:uppercase;
-  transition:top var(--d-quick) var(--settle)}
-.skip:focus{top:var(--space-4)}
+  transition:transform var(--d-quick) var(--settle)}
+.skip:focus{transform:none}
 
 /* a name for sections that have one without showing it — the outline was
    jumping h1 to h3 wherever a band was visually self-evident but unnamed */
@@ -628,7 +634,10 @@ button:disabled,[aria-disabled="true"]{cursor:default}
   .strip .inner{grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--s-6)}
   .strip .sig+.sig{border-left:1px solid var(--line);padding-left:var(--s-6)}
 }
-.sig{display:grid;grid-template-columns:auto minmax(0,1fr);gap:var(--s-3);align-items:center}
+/* The three items were centred in a row whose height is set by the tallest,
+   so a one-line title pushed its kicker eleven pixels below the two beside
+   it. The plates already lined up; the words did not. */
+.sig{display:grid;grid-template-columns:auto minmax(0,1fr);gap:var(--s-3);align-items:start}
 .sig img{width:clamp(3.5rem,7vw,6.5rem);aspect-ratio:1;height:auto;object-fit:cover}
 .sig h3{font-size:var(--t-lg);line-height:1.4;margin-top:.35em;color:var(--ink)}
 .sig :where(p:not(.k)){font-family:var(--font-sans);font-weight:500;font-size:var(--t-xs);
@@ -881,8 +890,11 @@ button:disabled,[aria-disabled="true"]{cursor:default}
 
 /* ----------------------------------------------------- 11 credentials --- */
 .creds{background:var(--ivory);border-top:1px solid var(--line)}
+/* two of the three credits open with an italic serif quote and the third with
+   a line of caps; aligning the boxes left the third's first line eight pixels
+   low. They align on the baseline the reader actually sees. */
 .credrow{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,16rem),1fr));
-  gap:var(--s-5)}
+  gap:var(--s-5);align-items:baseline}
 .cred{min-width:0}
 .cred :where(p:not(.k)){font-family:var(--font-serif);font-style:italic;font-size:var(--t-md);
   line-height:1.7;color:var(--ink)}
@@ -1057,8 +1069,14 @@ html.overlay-open,html.overlay-open body{overflow:hidden}
    Only where the content genuinely needs a different arrangement.
    ========================================================================= */
 
-/* below 64em the primary nav collapses behind a button */
-@media (max-width:63.9375em){
+/* Below 72em the primary nav collapses behind a button.
+   It used to be 64em, which is where the burger was hidden — but the seven
+   links, the wordmark and the three utilities do not fit on one line until
+   about 1140px, so between 1024 and 1139 the header silently wrapped onto two
+   rows and grew from 74px to 115px. A breakpoint chosen by the content rather
+   than by the device, which is what the note at the top of this file says the
+   strategy is. */
+@media (max-width:71.9375em){
   .links{display:none;order:9;flex-basis:100%;margin-left:0}
   .links.open{display:flex;position:absolute;top:100%;left:0;right:0;
     flex-direction:column;gap:0;margin:0;
@@ -2348,4 +2366,90 @@ footer .fbot a,footer .legal a,footer .fcopy a,
      had three utilities where it has room for two, and Bag was running off
      the right edge. Declared here, after the rule that was overriding it. */
   .util>a.u-account{display:none}
+}
+
+/* ==========================================================================
+   The last layer — the things nobody names but everybody feels.
+
+   Each of these was a browser default sitting inside a designed page. On
+   their own none of them matters; together they are the difference between a
+   site that was styled and one that was finished.
+   ========================================================================== */
+
+/* Selection was the browser's blue. On an ivory-and-charcoal page it is the
+   single loudest default left, and it appears the moment anyone drags across
+   a headline — which, on a site whose argument is its writing, they do. */
+::selection{background:var(--ochre-200);color:var(--ink);text-shadow:none}
+/* the caret in a field was pure black; it is the site's ink */
+input,textarea,select{caret-color:var(--ink)}
+
+/* Anchor targets have to clear the sticky header, or following "The making"
+   from the mega menu lands the heading underneath it. One token, set at every
+   width, so this cannot drift out of step with the header again. */
+[id]{scroll-margin-top:calc(var(--navh) + var(--s-5))}
+
+/* Kerning and the common ligatures, asked for rather than hoped for: some
+   engines drop kerning below about 20px, which is most of this site's
+   interface text, and the two Caslons carry fi/fl/ffi pairs that appear in
+   "first", "fine", "reflect" and "flyleaf" on the first screen alone. */
+html{font-kerning:normal;font-variant-ligatures:common-ligatures;font-optical-sizing:auto}
+
+/* Figures that sit in a column line up. Caslon Text, Cormorant and Montserrat
+   all carry tabular numerals; the tables, the totals and the price row under
+   every card are the places where a proportional 1 against a 6 reads as a
+   wobble. */
+.table,.summary,.dtot,.card .price,.ditem .meta,.line .meta,.srow,.acct .table{
+  font-variant-numeric:tabular-nums}
+
+/* The opening quote of a pull quote sits optically outside the measure, so the
+   first letter of the sentence lines up with everything above and below it
+   rather than being pushed in by the width of a comma. Safari does this
+   properly; everywhere else takes the hanging indent. */
+blockquote{hanging-punctuation:first last}
+@supports not (hanging-punctuation:first){
+  .storyband blockquote,.pnote blockquote,.yfeat .q{text-indent:-.42em}
+}
+
+/* Tapping anything on iOS flashed a translucent blue rectangle over it. The
+   site has had its own :active states since the launch pass, so the flash was
+   adding nothing except a colour from another design system. */
+a,button,summary,label,input,select,textarea,[role="button"]{
+  -webkit-tap-highlight-color:transparent}
+
+/* Tell the engine what it is looking at, so form controls, scrollbars and the
+   spellcheck underline are themed for a light page rather than guessed at. */
+:root{color-scheme:light}
+
+/* Scrolling an overlay should not carry on into the page underneath it once
+   it reaches its end — the drawer and the scent sheet both sit above a locked
+   body, and chaining the scroll through is how an overlay feels flimsy. */
+.drawer,.sheetlist,.mega{overscroll-behavior:contain}
+
+/* Windows High Contrast throws away every background and shadow, which on
+   this site means the selected size, the pressed scent chip and the drawn
+   checkbox all become invisible — every one of them is marked with a painted
+   rule or a drawn tick. These keep their state in a system colour. */
+@media (forced-colors:active){
+  .shelfbar .seg button[aria-pressed="true"]::after,
+  .shelfbar .chips button[aria-pressed="true"]::after,
+  .sizes button[aria-current]::after,
+  .gal .strip button[aria-current]::after,
+  .show .thumbs button[aria-current]::after{
+    background:Highlight;forced-color-adjust:none}
+  .tryfirst input:checked::after,.consent input:checked::after,
+  .srow[aria-pressed="true"] i::after{border-color:Highlight;forced-color-adjust:none}
+  .chip{forced-color-adjust:none;outline:1px solid CanvasText}
+  .btn{border:1px solid ButtonBorder}
+}
+
+/* And the page itself, on paper: the navigation, the bag and the decoration
+   are not part of the story someone wanted to keep. */
+@media print{
+  .topbar,.ann,.drawer,.sheet,.sheetscrim,.mega,.menu-dim,.enter-veil,
+  .shelfbar,.quick,.cue,footer .cols,.news,.skip{display:none!important}
+  *{background:#fff!important;color:#000!important;box-shadow:none!important}
+  a[href^="http"]::after{content:" (" attr(href) ")";font-size:.85em}
+  .rail{display:block!important}
+  .rail>*{break-inside:avoid}
+  section{break-inside:avoid-page}
 }

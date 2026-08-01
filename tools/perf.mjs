@@ -12,7 +12,7 @@ for(const pg of process.argv.slice(2)){
   p.on('response',async r=>{reqs++;try{const h=r.headers();bytes+=+(h['content-length']||0)}catch{}});
   await p.evaluateOnNewDocument?.(()=>{});
   const t0=Date.now();
-  await p.goto('http://localhost:8801/'+pg,{waitUntil:'load'});
+  await p.goto('http://localhost:8802/'+pg,{waitUntil:'load'});
   const m=await p.evaluate(()=>new Promise(res=>{
     let cls=0; let lcp=0;
     new PerformanceObserver(l=>{for(const e of l.getEntries()) if(!e.hadRecentInput) cls+=e.value})
