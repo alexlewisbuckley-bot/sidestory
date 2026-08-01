@@ -862,7 +862,7 @@ def build():
       <p class="sig">&mdash; {initials}</p>
     </div>
     <figure class="sfig">
-      <img src="{fp(plate(q, 1))}" alt="{q['name']} eau de parfum" loading="lazy">
+      <img src="{fp(story_plate(q))}" alt="{q['name']}" loading="lazy">
     </figure>
   </div>
 </section>
