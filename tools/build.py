@@ -30,7 +30,7 @@ def fp(path):
 PRODUCTS = [
     dict(slug="hotel-lobby",    name="Hotel Lobby",    stone="Nero Marquina",  swatch="#1C1D1D",
          notes="woods, spice, green",        story="Story I",   feeling="Anticipation",
-         line="It was ten minutes before eight when she arrived, and the bar had just begun to forgive the afternoon.",
+         line="It was a ten minutes before 8pm when he arrived, and its resplendence never failed to catch him off guard.",
          img="p-hotel-lobby", badge="Bestseller", read="5 min"),
     dict(slug="sibling-rivalry", name="Sibling Rivalry", stone="Leopard Salome", swatch="#8A6A3F",
          notes="grapefruit, vetiver, smoke", story="Story II",  feeling="Mischief",
@@ -62,16 +62,24 @@ BY_SLUG = {p["slug"]: p for p in PRODUCTS}
 # The PDP story bands. Written per fragrance so the chapter, the margins and the
 # stone all speak about the same bottle rather than sharing generic copy.
 CHAPTERS = {
+  # Hotel Lobby — copy supplied by Alex, 1 Aug. Paragraphs verbatim.
   "hotel-lobby": dict(
-    pull="Eight o\u2019clock passed without appearing to.", pullref="From Hotel Lobby, Chapter II",
-    numeral="I", chapter="Chapter I of IX", title="The lobby at ten to eight.", author="Morgan Childs",
-    paras=["It was ten minutes before eight when she arrived, and the lobby had already decided the evening for her. The revolving door gave its slow, museum turn; the marble took her heels and made them sound deliberate. At the bar, the wood had been polished so long it had opinions.",
-           "She asked for nothing yet. The barman, who understood waiting the way sommeliers understand rain, set down a glass of ice and let it speak."],
-    scent="antique bergamot, poured over ice \u2014 the scent begins where the chapter does",
+    pull="The bar was the kind of place Hemingway might have lingered a little too long.",
+    pullref="From Hotel Lobby, Chapter I",
+    numeral="I", chapter="Chapter I of IX", title="Ten minutes before eight.", author="Morgan Childs",
+    paras=[
+      "It was a ten minutes before 8pm when he arrived. He had been there before, but its resplendence never failed to catch him off guard. Modish floors patterned in ebony and ivory marble, deep armchairs in dark, buttery leather, a chocolate Steinway piano, and the amber lights of old-world libraries. The bar was the kind of place Hemingway might have lingered a little too long, lights glittering on the crystal and glass. Hushed conversations, each one layering the next.",
+      "He perched on the edge of an armchair to wait, eyes darting about the lobby in anticipation. He checked his watch. Still early.",
+      "He felt a rush of cool air on his cheeks as the revolving door swept a white-haired couple, dressed to the nines, into the warmth of the lobby. The man, small but well-built, even in his eighties, wore a pocket square and a raffish grin, like a troublemaking boy who could hardly believe what he was getting away with. On his arm, an impeccably styled, sharp-featured woman with a slash of red lipstick. Her air was regal, but it was clear she was struggling to maintain her composure in the wake of a puerile joke. Her crimson pout was now the sole focus of her husband\u2019s attention. It began to warp into a smirk, and then, much to the woman\u2019s chagrin, into a full-fledged smile.",
+      "As they passed him in the lobby, the man gave his knee a paternal tap. \u201cCan you believe she\u2019s with me?\u201d he said, gesturing to the woman by his side. \u201cAlmost sixty years.\u201d",
+      "He watched the elevator doors close behind them and then checked his watch \u2014 still a few minutes. A familiar song drifted from the piano. Something from an old romantic, a melody that his father loved and his mother sang to herself in the kitchen. They would have looked at home here. Like a puff of smoke, the lyrics seemed briefly tangible in the air \u2014 something something, gave me a thrill \u2014 and then dissipated, leaving only the fragrance of their wistfulness behind.",
+      "Suddenly, a warm voice spoke his name, pulling him out of his reverie and back into the hotel lobby. He looked up to see the face he came for, as familiar as the notes on the piano, and every bit as beguiling. He smiled, rising with purpose and posture. The evening had begun.",
+    ],
+    scent="antique bergamot poured over ice \u2014 ebony marble, buttery leather, amber light",
     caption="the chapter, photographed as it was written \u2014 box, liner, and the bar\u2019s low light",
-    margins=[("Opening","antique bergamot, poured over ice","\u2014 as she crosses the marble"),
-             ("Heart","polished cedar \u2014 the bar\u2019s opinion","\u2014 the hand rests on the counter"),
-             ("Base","sandalwood, faint incense, warm amber","\u2014 eight o\u2019clock passes unnoticed")],
+    margins=[("Opening","cold air through the revolving door","\u2014 he checks his watch, still early"),
+             ("Heart","dark buttery leather, warmed by the room","\u2014 almost sixty years"),
+             ("Base","amber light on crystal and glass","\u2014 the evening had begun")],
     stone_title="Nero Marquina, cut once.",
     stone_body="Quarried at Markina-Xemein, its veining decided by nature alone \u2014 your lid\u2019s pattern exists on no other bottle, and will not be cut again."),
 
@@ -746,10 +754,11 @@ def build():
         nxt  = BY_SLUG[order[(i + 1) % len(order)]]
 
         paras = list(c["paras"])
+        cut = max(1, min(len(paras) - 1, round(len(paras) * 0.62))) if len(paras) > 1 else 1
         lead_html = '      <p class="dropcap">%s</p>' % paras[0]
-        if len(paras) > 2:
-            lead_html += "\n" + "\n".join("      <p>%s</p>" % t for t in paras[1:-1])
-        tail_html = "\n".join("      <p>%s</p>" % t for t in paras[-1:]) if len(paras) > 1 else ""
+        if cut > 1:
+            lead_html += "\n" + "\n".join("      <p>%s</p>" % t for t in paras[1:cut])
+        tail_html = "\n".join("      <p>%s</p>" % t for t in paras[cut:])
 
         notes_html = "\n".join(
             '        <p class="marginnote">%s<small>In the margin &mdash; %02d of 09</small></p>'
