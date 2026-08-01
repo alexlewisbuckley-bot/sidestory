@@ -61,6 +61,21 @@ for (const p of PAGES) {
   if (s.docOverflowX) bad('horizontal overflow while open');
   if (!s.focusInPanel) bad('focus not moved into the panel (was ' + s.focus + ')');
 
+  // nothing may paint through the open panel — a sticky bar lower down the
+  // document at the same z-index will happily win the tie and draw over it
+  const pierced = await pg.evaluate(() => {
+    const el = document.getElementById('menupanel'), r = el.getBoundingClientRect(), out = [];
+    for (let i = 1; i <= 9; i++) {
+      const y = r.top + (r.height * i / 10), x = innerWidth / 2;
+      const hit = document.elementFromPoint(x, y);
+      if (hit && !el.contains(hit) && hit !== el) {
+        out.push(Math.round(y) + ':' + hit.tagName + '.' + (hit.className || '').toString().slice(0, 30));
+      }
+    }
+    return out;
+  });
+  if (pierced.length) bad('something paints over the open panel: ' + JSON.stringify(pierced));
+
   // scrollability if it overflows
   if (s.scrollH > s.clientH) {
     const sc = await pg.evaluate(() => { const el = document.getElementById('menupanel'); el.scrollTop = 9999; return el.scrollTop; });

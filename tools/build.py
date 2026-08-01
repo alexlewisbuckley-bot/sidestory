@@ -462,15 +462,16 @@ def topbar(current):
 </div>
 <nav class="menupanel" id="menupanel" aria-label="Menu" hidden>
   <div class="mpin">
-    <div class="mplinks">
-      {mob}
-    </div>
     <p class="mpfh">Shop by size</p>
     <div class="mpsizes">
       <a href="collection-100ml.html">100 ml<span>&pound;160</span></a>
       <a href="collection-7-5ml.html">7.5 ml<span>&pound;40</span></a>
       <a href="samples.html">The First Lines<span>&pound;38</span></a>
       <a href="collection-samples.html">Samples<span>&pound;5</span></a>
+    </div>
+    <p class="mpfh">Explore</p>
+    <div class="mplinks">
+      {mob}
     </div>
     <div class="mputil">
       <a href="search.html">Search</a>
