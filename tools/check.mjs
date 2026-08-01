@@ -228,6 +228,52 @@ async function checkAt(browser, file, v) {
   await ctx.close();
 }
 
+
+/* ------------------------------------------------------- interactions --- */
+async function checkInteractions(browser, file) {
+  const page = await browser.newPage({ viewport: { width: 1280, height: 900 } });
+  await page.goto(`http://localhost:${PORT}/${file}`, { waitUntil: 'networkidle' });
+
+  // the collection sort must actually reorder, not merely highlight a tab
+  if (await page.$('.filters[data-sort-for]')) {
+    const order = () => page.evaluate(() => [...document.querySelectorAll('.cards .card')]
+      .sort((a, b) => (+getComputedStyle(a).order) - (+getComputedStyle(b).order))
+      .map(c => c.querySelector('h3').textContent).join('|'));
+    const before = await order();
+    await page.click('.filters button[data-sort="stone"]');
+    await page.waitForTimeout(320);
+    const after = await order();
+    rec(file, 'ui', 'sort tabs reorder the grid', before !== after, 'order unchanged after clicking a tab');
+    const promoLast = await page.evaluate(() => {
+      const all = [...document.querySelectorAll('.cards > *')].map(e => +getComputedStyle(e).order);
+      const promo = +getComputedStyle(document.querySelector('.promo')).order;
+      return Math.max(...all) === promo;
+    });
+    rec(file, 'ui', 'discovery-set card stays last', promoLast);
+  }
+
+  // the bag drawer must open, and the menu must open on a narrow viewport
+  if (await page.$('#drawer')) {
+    await page.click('.util button');
+    await page.waitForTimeout(300);
+    rec(file, 'ui', 'bag drawer opens',
+      await page.$eval('#drawer', e => e.classList.contains('open')));
+    await page.keyboard.press('Escape');
+  }
+  await page.setViewportSize({ width: 390, height: 800 });
+  await page.waitForTimeout(150);
+  if (await page.$('.burger')) {
+    await page.click('.burger');
+    await page.waitForTimeout(250);
+    const open = await page.evaluate(() => {
+      const n = document.querySelector('.navlinks,.links');
+      return !!n && getComputedStyle(n).display !== 'none' && n.getBoundingClientRect().height > 40;
+    });
+    rec(file, 'ui', 'menu opens at 390px', open);
+  }
+  await page.close();
+}
+
 /* --------------------------------------------------------- no script ---- */
 async function checkNoScript(browser, file) {
   for (const w of [390, 768, 1440]) {
@@ -290,6 +336,7 @@ const pages = (await readdir(ROOT)).filter(f => f.endsWith('.html'))
 for (const f of pages) {
   await checkFonts(browser, f);
   for (const v of WIDTHS) await checkAt(browser, f, v);
+  await checkInteractions(browser, f);
   await checkNoScript(browser, f);
 }
 

@@ -29,36 +29,36 @@ PRODUCTS = [
     dict(slug="hotel-lobby",    name="Hotel Lobby",    stone="Nero Marquina",  swatch="#1C1D1D",
          notes="woods, spice, green",        story="Story I",   feeling="Anticipation",
          line="It was ten minutes before eight when she arrived, and the bar had just begun to forgive the afternoon.",
-         img="p-hotel-lobby.jpg", badge="Bestseller", read="5 min"),
+         img="p-hotel-lobby-r.jpg", badge="Bestseller", read="5 min"),
     dict(slug="sibling-rivalry", name="Sibling Rivalry", stone="Leopard Salome", swatch="#8A6A3F",
          notes="grapefruit, vetiver, smoke", story="Story II",  feeling="Mischief",
          line="There is a particular silence that only a brother can make, and she had been listening to it for thirty years.",
-         img="p-sibling-rivalry.jpg", badge="", read="6 min"),
+         img="p-sibling-rivalry-r.jpg", badge="", read="6 min"),
     dict(slug="pillow-talk",    name="Pillow Talk",    stone="Calacatta",      swatch="#E0DCD0",
          notes="musk, powder, warm skin",    story="Story III", feeling="Comfort",
          line="They agreed on almost nothing except the hour, and the hour was always late.",
-         img="p-pillow-talk.jpg", badge="", read="4 min"),
+         img="p-pillow-talk-r.jpg", badge="", read="4 min"),
     dict(slug="sunday-service", name="Sunday Service", stone="Verde Jade",     swatch="#3E5147",
          notes="incense, linen, morning air", story="Story IV", feeling="Devotion",
          line="The road home has not been resurfaced in twenty years, and neither has the part of me that drives it.",
-         img="p-sunday-service.jpg", badge="", read="7 min"),
+         img="p-sunday-service-r.jpg", badge="", read="7 min"),
     dict(slug="third-date",     name="Third Date",     stone="Rosso Levanto",  swatch="#7A2E2A",
          notes="plum, tobacco, candlelight",  story="Story V",  feeling="Attraction",
          line="By the third one you stop performing, which is either the end of it or the beginning.",
-         img="p-third-date.jpg", badge="", read="5 min"),
+         img="p-third-date-r.jpg", badge="", read="5 min"),
     dict(slug="road-trip",      name="Road Trip",      stone="Rosso Francia",  swatch="#B5593F",
          notes="amber, leather, warm wind",   story="Story VI", feeling="Escape",
          line="We left before the light did and agreed not to name the destination until the second tank.",
-         img="p-road-trip.jpg", badge="New story", read="6 min"),
+         img="p-road-trip-r.jpg", badge="New story", read="6 min"),
     dict(slug="4pm-matinee",    name="4pm Matinee",    stone="Giallo Siena",   swatch="#C99A3F",
          notes="citrus, velvet, dark rooms",  story="Story VII", feeling="Solitude",
          line="Nobody goes to the cinema at four in the afternoon unless they are hiding from something.",
-         img="p-4pm-matinee.jpg", badge="", read="5 min"),
+         img="p-4pm-matinee-r.jpg", badge="", read="5 min"),
 ]
 BY_SLUG = {p["slug"]: p for p in PRODUCTS}
 
 JOURNAL = [
-    dict(slug="ten-to-eight", kicker="Campaign · 5 min read", img="p-third-date.jpg",
+    dict(slug="ten-to-eight", kicker="Campaign · 5 min read", img="p-third-date-r.jpg",
          title="Ten to Eight — the autumn story, on film",
          sub="Shot in a Lisbon hotel that asked not to be named."),
     dict(slug="story-first", kicker="Founders · 4 min read", img="founders.jpg",
@@ -192,7 +192,7 @@ def crumbs(*parts):
 
 def product_card(p, reveal=True):
     badge = f'<span class="badge">{p["badge"]}</span>' if p["badge"] else ""
-    return f"""      <article class="card{' rev' if reveal else ''}">
+    return f"""      <article class="card{' rev' if reveal else ''}" data-order="{PRODUCTS.index(p)}" data-feeling="{p['feeling']}" data-stone="{p['stone']}" data-note="{p['notes'].split(',')[0].strip()}">
         <div class="ph"><a href="product.html?f={p['slug']}"><img src="{fp('assets/img/' + p['img'])}" alt="{p['name']} eau de parfum" loading="lazy"></a>{badge}
           <div class="quick"><div class="r">
             <button class="btn btn-ink btn-sm" onclick="addToBag('{p['slug']}','full',this)">100ml &mdash; &pound;160</button>
@@ -234,9 +234,12 @@ def build():
       <h1>Seven stories, worn as scent.</h1>
       <p class="lede">Each began as nine pages of fiction, commissioned before a single note was weighed; each is sealed beneath a hand-carved stone lid. Eau de parfum, 100ml, &pound;160 &mdash; samples always &pound;5, always redeemable against a full bottle.</p>
     </div>
-    <div class="filters">
-      <button aria-current="true">All</button><button>By feeling</button><button>By stone</button><button>By note</button>
-      <span class="count">7 stories &middot; 1 set</span>
+    <div class="filters" data-sort-for=".cards">
+      <button data-sort="order" aria-current="true">All</button>
+      <button data-sort="feeling">By feeling</button>
+      <button data-sort="stone">By stone</button>
+      <button data-sort="note">By note</button>
+      <span class="count" data-count>7 stories &middot; 1 set</span>
     </div>
     <div class="cards">
 {cards}
@@ -280,7 +283,7 @@ def build():
       </div>
       <p class="re">Complimentary UK delivery over &pound;100 &middot; 30-day returns &middot; sample cost redeemed against your first bottle</p>
       <div class="acc">
-        <details open><summary>The story</summary><div class="body">{p['name']} began as {p['story'].lower()}, commissioned from a novelist and printed on cotton paper before the first accord was weighed. Nine pages arrive with the bottle; the digital edition arrives with your confirmation.</div></details>
+        <details open><summary>The story</summary><div class="body">{p['name']} began as {p['story']}, commissioned from a novelist and printed on cotton paper before the first accord was weighed. Nine pages arrive with the bottle; the digital edition arrives with your confirmation.</div></details>
         <details><summary>Notes</summary><div class="body">Top &mdash; bergamot, pink pepper. Heart &mdash; {p['notes']}. Base &mdash; vetiver, cedar, a little smoke. Composed in Grasse by Jacques Chabert.</div></details>
         <details><summary>The stone</summary><div class="body">{p['stone']}, hand-cut in Liguria. Veining is decided by the block, so no two lids repeat. The lid lifts free of the glass and keeps its weight in the hand.</div></details>
         <details><summary>Delivery &amp; returns</summary><div class="body">Complimentary UK delivery over &pound;100, otherwise &pound;5. Two to four working days, signed for. Unopened bottles may be returned within 30 days; samples are non-returnable but always credited.</div></details>

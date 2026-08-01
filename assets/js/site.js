@@ -137,12 +137,30 @@
       if(add&&price) add.textContent='Add to bag — £'+price;
     });
   });
-  document.querySelectorAll('.filters').forEach(row=>{
+  /* Collection sort. The grid is re-ordered with the CSS `order` property, so
+     nothing is added or removed from the DOM and no layout is rebuilt. */
+  document.querySelectorAll('.filters[data-sort-for]').forEach(row=>{
+    const grid=document.querySelector(row.dataset.sortFor); if(!grid) return;
+    const cards=[...grid.querySelectorAll('.card')];
+    const promo=grid.querySelector('.promo');
+    const label={order:'7 stories · 1 set',feeling:'by feeling · A–Z',
+                 stone:'by stone · A–Z',note:'by opening note · A–Z'};
+    const apply=key=>{
+      const sorted=[...cards].sort((a,b)=> key==='order'
+        ? (+a.dataset.order)-(+b.dataset.order)
+        : (a.dataset[key]||'').localeCompare(b.dataset[key]||''));
+      sorted.forEach((c,i)=>{c.style.order=i;});
+      if(promo) promo.style.order=sorted.length;
+      const c=row.querySelector('[data-count]'); if(c) c.textContent=label[key]||label.order;
+    };
     row.addEventListener('click',e=>{
-      const b=e.target.closest('button'); if(!b) return;
+      const b=e.target.closest('button[data-sort]'); if(!b) return;
       row.querySelectorAll('button').forEach(x=>x.removeAttribute('aria-current'));
       b.setAttribute('aria-current','true');
+      grid.classList.add('sorting');
+      setTimeout(()=>{apply(b.dataset.sort);grid.classList.remove('sorting');},180);
     });
+    apply('order');
   });
 
   /* PDP */

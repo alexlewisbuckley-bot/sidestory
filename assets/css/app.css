@@ -187,7 +187,7 @@ section{position:relative}
   .strip .sig+.sig{border-left:1px solid var(--line);padding-left:var(--s-6)}
 }
 .sig{display:grid;grid-template-columns:auto minmax(0,1fr);gap:var(--s-3);align-items:center}
-.sig img{width:clamp(3.5rem,7vw,7rem);height:clamp(3.5rem,7vw,7rem);object-fit:cover}
+.sig img{width:clamp(3.5rem,7vw,6rem);aspect-ratio:4/5;height:auto;object-fit:cover}
 .sig h3{font-size:var(--t-md);line-height:1.35;margin-top:.35em;color:var(--ink)}
 .sig p{font-family:Montserrat,sans-serif;font-weight:500;font-size:var(--t-xs);
   letter-spacing:.16em;text-transform:uppercase;color:var(--txt);opacity:.85;margin-top:.45em}
@@ -209,8 +209,9 @@ section{position:relative}
 @media (min-width:40em){ .cards{grid-template-columns:repeat(3,minmax(0,1fr))} }
 @media (min-width:68em){ .cards{grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--s-6) var(--s-3)} }
 
-.card{position:relative;display:flex;flex-direction:column}
-.card .ph{position:relative;width:100%;aspect-ratio:296/330;overflow:hidden;background:var(--plaster)}
+.card{position:relative;display:flex;flex-direction:column;transition:opacity .3s var(--settle)}
+.cards.sorting .card,.cards.sorting .promo{opacity:.25}
+.card .ph{position:relative;width:100%;aspect-ratio:4/5;overflow:hidden;background:var(--plaster)}
 .card .ph a{display:block;width:100%;height:100%}
 .card .ph img{width:100%;height:100%;object-fit:cover;
   transition:transform .9s var(--settle),filter .4s var(--settle)}
@@ -573,13 +574,14 @@ footer a:hover{opacity:1}
 
 /* --------------------------------------------------------------- PDP ---- */
 .pdp{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--s-5);padding-block:var(--s-5) var(--s-7)}
-@media (min-width:60em){ .pdp{grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:var(--s-6);align-items:start} }
-.gal{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--s-2)}
-.gal .main{width:100%;aspect-ratio:1;object-fit:cover;background:var(--plaster)}
+/* the bottle and the words share the page; the photograph does not dominate it */
+@media (min-width:60em){ .pdp{grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr);gap:var(--s-6);align-items:start} }
+.gal{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--s-2);max-width:34rem}
+.gal .main{width:100%;aspect-ratio:4/5;object-fit:cover;background:var(--plaster)}
 .gal .strip{display:flex;gap:var(--s-2);padding:0;background:none;border:0;height:auto}
 .gal .strip button{padding:0;border:1.5px solid transparent;line-height:0;opacity:.82}
 .gal .strip button[aria-current]{opacity:1;border-color:var(--ink)}
-.gal .strip img{width:clamp(3.25rem,7vw,5rem);aspect-ratio:1;object-fit:cover}
+.gal .strip img{width:clamp(3.25rem,7vw,5rem);aspect-ratio:4/5;object-fit:cover}
 
 .pdp .info{position:sticky;top:calc(var(--s-6) + 3rem)}
 @media (max-width:59.9375em){ .pdp .info{position:static} }
