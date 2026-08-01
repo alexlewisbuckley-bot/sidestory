@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Stories, carved in scent — Side Story Parfums</title>
+<meta name="description" content="Seven fine fragrances begun as short stories in Grasse and sealed beneath hand-carved stone.">
+<meta name="robots" content="noindex"><!-- demo -->
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Libre+Caslon+Text:ital@0;1&family=Cormorant+Garamond:ital,wght@0,300;1,300;1,400&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/site.css">
+</head><body>
+<div class="ann">A second story’s sample, complimentary with every bottle</div>
+<header class="nav">
+  <button class="burger" aria-label="Menu"><i></i><i></i><i></i></button>
+  <a class="brand" href="index.html"><b>SIDE STORY</b><span>PARFUMS &amp; OILS</span></a>
+  <nav class="navlinks">
+    <a href="collection.html">The Fragrances</a>
+    <a href="stories.html">Your Stories</a>
+    <a href="share.html">Share Yours</a>
+    <a href="collection.html">Samples</a>
+    <a href="index.html#gifting">Gifting</a>
+    <a href="index.html#making">Our House</a>
+  </nav>
+  <div class="util">
+    <a href="collection.html">Search</a>
+    <a href="bag.html">Account</a>
+    <button onclick="openDrawer()">Bag (<span id="bagcount">0</span>)</button>
+  </div>
+</header>
+<section class="hero">
+  <img class="bg" src="assets/img/hero.jpg" alt="Side Story discovery boxes in raking sunlight">
+  <div class="veil"></div>
+  <div class="copy">
+    <p class="kicker">Side Story — Parfums &amp; Oils · Grasse</p>
+    <h1>Stories, carved<br>in scent.</h1>
+    <p>Seven fine fragrances, begun as short stories and sealed beneath hand-carved stone.</p>
+    <div class="cta"><a class="btn btn-ivory" href="collection.html">Shop the seven</a>
+    <button class="btn btn-ghost" onclick="addToBag('set','full',this)">Begin with samples — £5</button></div>
+  </div>
+</section>
+
+<section style="padding-top:clamp(36px,4vw,56px);padding-bottom:clamp(36px,4vw,56px);border-bottom:1px solid var(--line)">
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:34px">
+    <a class="rev" href="product.html?f=hotel-lobby" style="display:flex;gap:18px;align-items:center">
+      <img src="assets/img/p-hotel-lobby.jpg" alt="" style="width:96px;height:96px;object-fit:cover" loading="lazy">
+      <div><p class="kicker">Bestseller</p><h3 style="font-family:'Libre Caslon Text',serif;font-size:17px;margin:4px 0">Hotel Lobby — eau de parfum</h3><p class="price">£160</p></div></a>
+    <a class="rev" href="collection.html" style="display:flex;gap:18px;align-items:center">
+      <img src="assets/img/set-first-lines.jpg" alt="" style="width:96px;height:96px;object-fit:cover" loading="lazy">
+      <div><p class="kicker">The discovery set</p><h3 style="font-family:'Libre Caslon Text',serif;font-size:17px;margin:4px 0">The First Lines — seven in miniature</h3><p class="price">£38 — redeemable</p></div></a>
+    <a class="rev" href="stories.html?s=sunday-service" style="display:flex;gap:18px;align-items:center">
+      <img src="assets/img/spine.jpg" alt="" style="width:96px;height:96px;object-fit:cover" loading="lazy">
+      <div><p class="kicker">Just bound</p><h3 style="font-family:'Libre Caslon Text',serif;font-size:17px;margin:4px 0">Sunday Service, re-read</h3><p class="price">Read the story</p></div></a>
+  </div>
+</section>
+
+<section class="rev" style="text-align:center">
+  <p class="kicker">The house</p>
+  <h2 class="disp" style="font-size:clamp(24px,3.1vw,34px);line-height:1.5;max-width:900px;margin:18px auto 24px">
+    We are the fragrance house that writes the story first — nine pages of fiction, commissioned before a single note — then composes the perfume to keep it.</h2>
+  <p><a class="link-ul" href="stories.html">The stories</a> &nbsp;&nbsp; <a class="link-ul" href="#making">The making</a> &nbsp;&nbsp; <a class="link-ul" href="collection.html">The stones</a></p>
+</section>
+
+<section id="seven">
+  <div class="shead rev"><div><p class="kicker">The seven stories</p><h2>Choose by the stone that pulls your hand.</h2></div>
+  <a class="link-ul" href="collection.html">All fragrances</a></div>
+  <div class="grid"><article class="card rev">
+  <div class="imgwrap"><a href="product.html?f=hotel-lobby"><img src="assets/img/p-hotel-lobby.jpg" alt="Hotel Lobby" loading="lazy"></a><span class="badge">Bestseller</span>
+    <div class="quick"><div class="row">
+      <button class="btn btn-ink btn-sm" onclick="addToBag('hotel-lobby','full',this)">100ml — £160</button>
+      <button class="btn btn-ghost-ink btn-sm" onclick="addToBag('hotel-lobby','sample',this)">Sample £5</button>
+    </div><small>The printed story is in the box</small></div>
+  </div>
+  <div class="cinfo"><span class="chip" style="background:#1C1E1D"></span><h3>Hotel Lobby</h3>
+    <p class="notes">woods, spice, green</p>
+    <p class="price"><span>£160 · 100 ml</span><a class="link-ul" href="product.html?f=hotel-lobby">View</a></p>
+  </div>
+</article><article class="card rev">
+  <div class="imgwrap"><a href="product.html?f=sibling-rivalry"><img src="assets/img/p-sibling-rivalry.jpg" alt="Sibling Rivalry" loading="lazy"></a>
+    <div class="quick"><div class="row">
+      <button class="btn btn-ink btn-sm" onclick="addToBag('sibling-rivalry','full',this)">100ml — £160</button>
+      <button class="btn btn-ghost-ink btn-sm" onclick="addToBag('sibling-rivalry','sample',this)">Sample £5</button>
+    </div><small>The printed story is in the box</small></div>
+  </div>
+  <div class="cinfo"><span class="chip" style="background:#8A6A3F"></span><h3>Sibling Rivalry</h3>
+    <p class="notes">grapefruit, vetiver, smoke</p>
+    <p class="price"><span>£160 · 100 ml</span><a class="link-ul" href="product.html?f=sibling-rivalry">View</a></p>
+  </div>
+</article><article class="card rev">
+  <div class="imgwrap"><a href="product.html?f=pillow-talk"><img src="assets/img/p-pillow-talk.jpg" alt="Pillow Talk" loading="lazy"></a>
+    <div class="quick"><div class="row">
+      <button class="btn btn-ink btn-sm" onclick="addToBag('pillow-talk','full',this)">100ml — £160</button>
+      <button class="btn btn-ghost-ink btn-sm" onclick="addToBag('pillow-talk','sample',this)">Sample £5</button>
+    </div><small>The printed story is in the box</small></div>
+  </div>
+  <div class="cinfo"><span class="chip" style="background:#E0DCD0"></span><h3>Pillow Talk</h3>
+    <p class="notes">musk, powder, warm skin</p>
+    <p class="price"><span>£160 · 100 ml</span><a class="link-ul" href="product.html?f=pillow-talk">View</a></p>
+  </div>
+</article><article class="card rev">
+  <div class="imgwrap"><a href="product.html?f=sunday-service"><img src="assets/img/p-sunday-service.jpg" alt="Sunday Service" loading="lazy"></a>
+    <div class="quick"><div class="row">
+      <button class="btn btn-ink btn-sm" onclick="addToBag('sunday-service','full',this)">100ml — £160</button>
+      <button class="btn btn-ghost-ink btn-sm" onclick="addToBag('sunday-service','sample',this)">Sample £5</button>
+    </div><small>The printed story is in the box</small></div>
+  </div>
+  <div class="cinfo"><span class="chip" style="background:#3E5147"></span><h3>Sunday Service</h3>
+    <p class="notes">incense, linen, morning air</p>
+    <p class="price"><span>£160 · 100 ml</span><a class="link-ul" href="product.html?f=sunday-service">View</a></p>
+  </div>
+</article><article class="card rev">
+  <div class="imgwrap"><a href="product.html?f=third-date"><img src="assets/img/p-third-date.jpg" alt="Third Date" loading="lazy"></a>
+    <div class="quick"><div class="row">
+      <button class="btn btn-ink btn-sm" onclick="addToBag('third-date','full',this)">100ml — £160</button>
+      <button class="btn btn-ghost-ink btn-sm" onclick="addToBag('third-date','sample',this)">Sample £5</button>
+    </div><small>The printed story is in the box</small></div>
+  </div>
+  <div class="cinfo"><span class="chip" style="background:#6E3B34"></span><h3>Third Date</h3>
+    <p class="notes">plum, tobacco, candlelight</p>
+    <p class="price"><span>£160 · 100 ml</span><a class="link-ul" href="product.html?f=third-date">View</a></p>
+  </div>
+</article><article class="card rev">
+  <div class="imgwrap"><a href="product.html?f=road-trip"><img src="assets/img/p-road-trip.jpg" alt="Road Trip" loading="lazy"></a>
+    <div class="quick"><div class="row">
+      <button class="btn btn-ink btn-sm" onclick="addToBag('road-trip','full',this)">100ml — £160</button>
+      <button class="btn btn-ghost-ink btn-sm" onclick="addToBag('road-trip','sample',this)">Sample £5</button>
+    </div><small>The printed story is in the box</small></div>
+  </div>
+  <div class="cinfo"><span class="chip" style="background:#B5593F"></span><h3>Road Trip</h3>
+    <p class="notes">amber, leather, warm air</p>
+    <p class="price"><span>£160 · 100 ml</span><a class="link-ul" href="product.html?f=road-trip">View</a></p>
+  </div>
+</article><article class="card rev">
+  <div class="imgwrap"><a href="product.html?f=4pm-matinee"><img src="assets/img/p-4pm-matinee.jpg" alt="4pm Matinee" loading="lazy"></a><span class="badge">New story</span>
+    <div class="quick"><div class="row">
+      <button class="btn btn-ink btn-sm" onclick="addToBag('4pm-matinee','full',this)">100ml — £160</button>
+      <button class="btn btn-ghost-ink btn-sm" onclick="addToBag('4pm-matinee','sample',this)">Sample £5</button>
+    </div><small>The printed story is in the box</small></div>
+  </div>
+  <div class="cinfo"><span class="chip" style="background:#C79A4B"></span><h3>4pm Matinee</h3>
+    <p class="notes">citrus, velvet, dark rooms</p>
+    <p class="price"><span>£160 · 100 ml</span><a class="link-ul" href="product.html?f=4pm-matinee">View</a></p>
+  </div>
+</article><article class="card promo rev">
+  <p class="kicker" style="color:#D8C6A4">Undecided?</p>
+  <h3>The First Lines</h3>
+  <p>All seven stories in miniature — read them on your own skin. £38, credited against your first full bottle.</p>
+  <p style="margin-top:8px"><button class="btn btn-ivory btn-sm" onclick="addToBag('set','full',this)">Begin the set — £38</button></p>
+</article></div>
+  <p class="reassure rev" style="text-align:center;margin-top:40px">Every bottle ships with its printed story · samples always £5, always redeemable · complimentary UK delivery over £100</p>
+</section>
+
+<section class="split" style="background:var(--plaster)">
+  <div class="rev"><img src="assets/img/unboxing.jpg" alt="Hotel Lobby, boxed with its printed story" loading="lazy"></div>
+  <div class="rev">
+    <p class="kicker">The chapter of the season</p>
+    <h2 class="disp" style="font-size:clamp(30px,3.8vw,46px);margin:12px 0">Hotel Lobby</h2>
+    <blockquote>“It was ten minutes before eight when she arrived. The bar was the kind of place Hemingway might have lingered a little too long…”</blockquote>
+    <div class="spec"><b>Story</b><span>Anticipation · Attraction</span></div>
+    <div class="spec"><b>Style</b><span>Woods, spice, green</span></div>
+    <div class="spec"><b>Stone</b><span>Nero Marquina, Basque Country</span></div>
+    <div style="margin-top:24px;display:flex;gap:12px;flex-wrap:wrap">
+      <button class="btn btn-ink" onclick="addToBag('hotel-lobby','full',this)">Add to bag — £160</button>
+      <a class="btn btn-ghost-ink" href="stories.html?s=sunday-service">Read a story</a></div>
+    <p class="reassure">Complimentary UK delivery · 30-day returns · sample cost redeemed</p>
+  </div>
+</section>
+
+<section class="band">
+  <img src="assets/img/stone-shelf.jpg" alt="A bottle on a carved stone sill in late sun" loading="lazy">
+  <div class="v"></div>
+  <div class="c rev"><h2>“Every bottle keeps its story in the box —<br>nine pages, printed, worth reading twice.”</h2>
+  <p class="kicker" style="color:#D8C6A4;margin-top:16px"><a href="stories.html">From Pillow Talk — Chapter I · Read the stories</a></p></div>
+</section>
+
+<section style="background:var(--plaster)">
+  <div class="shead rev"><div><p class="kicker">The consultation</p><h2>Begin with a feeling.</h2></div></div>
+  <div class="feels">
+    <a class="feel rev" href="product.html?f=hotel-lobby"><span class="chip" style="background:#1C1E1D"></span><h3>Anticipation</h3><p>the hour before — Hotel Lobby</p></a>
+    <a class="feel rev" href="product.html?f=pillow-talk"><span class="chip" style="background:#E0DCD0"></span><h3>Comfort</h3><p>skin-warm quiet — Pillow Talk</p></a>
+    <a class="feel rev" href="product.html?f=road-trip"><span class="chip" style="background:#B5593F"></span><h3>Escape</h3><p>windows down — Road Trip</p></a>
+    <a class="feel rev" href="product.html?f=sunday-service"><span class="chip" style="background:#3E5147"></span><h3>Devotion</h3><p>incense &amp; linen — Sunday Service</p></a>
+    <a class="feel rev" href="product.html?f=sibling-rivalry"><span class="chip" style="background:#8A6A3F"></span><h3>Mischief</h3><p>a raised eyebrow — Sibling Rivalry</p></a>
+  </div>
+</section>
+
+<section id="making">
+  <div class="shead rev"><div><p class="kicker">The making</p><h2>Begun in Grasse. Finished by hand.</h2></div>
+  <a class="link-ul" href="#journal">Atelier journal</a></div>
+  <div class="plates">
+    <div class="plate rev"><img src="assets/img/founders.jpg" alt="" loading="lazy"><p>the two of us, arguing a story into its final line</p></div>
+    <div class="plate rev"><img src="assets/img/stone-shelf.jpg" alt="" loading="lazy"><p>stone set down in Ligurian light — no two lids match</p></div>
+    <div class="plate rev"><img src="assets/img/spine.jpg" alt="" loading="lazy"><p>stone meets glass — recycled, FSC, no plastic in the parcel</p></div>
+  </div>
+</section>
+
+<section id="journal" style="background:var(--sand)">
+  <div class="shead rev"><div><p class="kicker">The atelier journal</p><h2>Notes from the house.</h2></div>
+  <a class="link-ul" href="stories.html">Visit the journal</a></div>
+  <div class="plates">
+    <a class="plate rev" href="stories.html?s=sunday-service"><img src="assets/img/plants.jpg" alt="" loading="lazy">
+      <p style="font-style:normal"><span class="kicker">Campaign · 5 min</span><br><span style="font-family:'Libre Caslon Text',serif;font-size:18px">Ten to Eight — the autumn story, on film</span></p></a>
+    <a class="plate rev" href="stories.html?s=sunday-service"><img src="assets/img/founders.jpg" alt="" loading="lazy">
+      <p style="font-style:normal"><span class="kicker">Founders · 4 min</span><br><span style="font-family:'Libre Caslon Text',serif;font-size:18px">Why we write the story before the scent</span></p></a>
+    <a class="plate rev" href="stories.html?s=sunday-service"><img src="assets/img/spine.jpg" alt="" loading="lazy">
+      <p style="font-style:normal"><span class="kicker">Studio · 6 min</span><br><span style="font-family:'Libre Caslon Text',serif;font-size:18px">Cutting Verde Jade — a lid diary</span></p></a>
+  </div>
+</section>
+
+<section class="gift split" id="gifting">
+  <div class="rev">
+    <p class="kicker" style="color:#D8C6A4">Kept &amp; given</p>
+    <h2>A story is a serious gift.</h2>
+    <p>Every parcel arrives gift-ready — the stone lid, the printed story, no plastic in the box. Add the Dedication: a line of yours, typeset on the story’s flyleaf, and sent again as a digital edition.</p>
+    <div class="dedication">for A. — who was late</div>
+    <p style="margin-top:22px"><a class="btn btn-ivory" href="collection.html">Explore gifting</a></p>
+  </div>
+  <div class="rev"><img src="assets/img/unboxing.jpg" alt="" loading="lazy"></div>
+</section>
+
+<section class="creds">
+  <div class="rev"><p class="q">“The most literate thing to happen to British perfume in a decade.”</p><small>— How To Spend It</small></div>
+  <div class="rev"><p class="q">“Stone lids you’ll fidget with forever, stories you’ll actually read.”</p><small>— Vogue Beauty</small></div>
+  <div class="rev"><p class="kicker" style="color:var(--ink)">Stocked at Liberty London</p><small>Regent Street &amp; online</small></div>
+</section>
+
+<section class="news">
+  <div class="rev">
+    <h2 class="disp">Undecided is a fine place to begin.</h2>
+    <p class="mut" style="margin-top:10px">One letter a month — a new chapter, first readings, and nothing else.</p>
+    <form id="newsform"><input type="email" placeholder="your@email.com" required aria-label="Email"><button class="btn btn-ink" type="submit">Subscribe</button></form>
+    <p class="fine">One letter a month. Unsubscribe any time — your address is never shared.</p>
+  </div>
+</section>
+<footer>
+  <div class="cols">
+    <div><h4>The Shelf</h4><a href="collection.html">The Fragrances</a><a href="collection.html">The First Lines</a><a href="collection.html">Samples</a><a href="index.html#gifting">Gifting</a></div>
+    <div><h4>The House</h4><a href="stories.html">Your Stories</a><a href="share.html">Share Yours</a><a href="index.html#making">The Making</a><a href="index.html#journal">Atelier Journal</a></div>
+    <div><h4>The Practical</h4><a href="bag.html">Shipping &amp; Returns</a><a href="bag.html">Stockists</a><a href="share.html">Contact</a><a href="bag.html">FAQ</a></div>
+  </div>
+  <div class="fbot">
+    <div class="pay"><i>VISA</i><i>MC</i><i>AMEX</i><i>&#63743;Pay</i></div>
+    <p class="legal">© Side Story Parfums · Made in Grasse, sealed in stone · United Kingdom (GBP £)</p>
+  </div>
+</footer>
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer" aria-label="Your bag">
+  <div class="dhead"><span>Your bag — <span data-bagcount>0</span></span><button onclick="closeDrawer()" style="background:none;border:0;cursor:pointer;font:inherit">Close</button></div>
+  <div id="ditems"></div>
+  <label class="tryfirst"><input type="checkbox" checked>
+    <div><b>Try a second story first</b><span>A complimentary 2ml of another story, tucked into the parcel.</span></div></label>
+  <p class="thresh" id="thresh">Complimentary delivery at £100</p>
+  <div class="tbar"><div class="tfill" id="tfill"></div></div>
+  <div class="dtot"><span>Subtotal</span><span id="dtotal">£0</span></div>
+  <a class="btn btn-ink" href="bag.html">View bag &amp; checkout</a>
+  <button class="btn btn-ghost-ink" onclick="closeDrawer()">Continue reading</button>
+  <p class="fine" style="text-align:center;margin-top:10px">Tax included · 30-day returns · sample cost redeemed</p>
+</aside>
+<script src="assets/js/site.js"></script>
+</body></html>
