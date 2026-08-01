@@ -84,9 +84,10 @@ function serve() {
       if (p === '/') p = '/index.html';
       const f = join(ROOT, p);
       if (!f.startsWith(ROOT)) { rp.writeHead(403).end(); return; }
-      try { rp.writeHead(200, { 'content-type': MIME[extname(f)] || 'application/octet-stream' })
-              .end(await readFile(f)); }
-      catch { rp.writeHead(404).end('404'); }
+      let body;
+      try { body = await readFile(f); }
+      catch { rp.writeHead(404, { 'content-type': 'text/plain' }).end('404'); return; }
+      rp.writeHead(200, { 'content-type': MIME[extname(f)] || 'application/octet-stream' }).end(body);
     });
     s.listen(PORT, () => res(s));
   });

@@ -10,6 +10,8 @@ so a stale stylesheet can never be served against fresh markup.
     python3 tools/build.py
 """
 import hashlib, html, os, re, sys
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import photos
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -29,36 +31,36 @@ PRODUCTS = [
     dict(slug="hotel-lobby",    name="Hotel Lobby",    stone="Nero Marquina",  swatch="#1C1D1D",
          notes="woods, spice, green",        story="Story I",   feeling="Anticipation",
          line="It was ten minutes before eight when she arrived, and the bar had just begun to forgive the afternoon.",
-         img="p-hotel-lobby-r.jpg", badge="Bestseller", read="5 min"),
+         img="p-hotel-lobby", badge="Bestseller", read="5 min"),
     dict(slug="sibling-rivalry", name="Sibling Rivalry", stone="Leopard Salome", swatch="#8A6A3F",
          notes="grapefruit, vetiver, smoke", story="Story II",  feeling="Mischief",
          line="There is a particular silence that only a brother can make, and she had been listening to it for thirty years.",
-         img="p-sibling-rivalry-r.jpg", badge="", read="6 min"),
+         img="p-sibling-rivalry", badge="", read="6 min"),
     dict(slug="pillow-talk",    name="Pillow Talk",    stone="Calacatta",      swatch="#E0DCD0",
          notes="musk, powder, warm skin",    story="Story III", feeling="Comfort",
          line="They agreed on almost nothing except the hour, and the hour was always late.",
-         img="p-pillow-talk-r.jpg", badge="", read="4 min"),
+         img="p-pillow-talk", badge="", read="4 min"),
     dict(slug="sunday-service", name="Sunday Service", stone="Verde Jade",     swatch="#3E5147",
          notes="incense, linen, morning air", story="Story IV", feeling="Devotion",
          line="The road home has not been resurfaced in twenty years, and neither has the part of me that drives it.",
-         img="p-sunday-service-r.jpg", badge="", read="7 min"),
+         img="p-sunday-service", badge="", read="7 min"),
     dict(slug="third-date",     name="Third Date",     stone="Rosso Levanto",  swatch="#7A2E2A",
          notes="plum, tobacco, candlelight",  story="Story V",  feeling="Attraction",
          line="By the third one you stop performing, which is either the end of it or the beginning.",
-         img="p-third-date-r.jpg", badge="", read="5 min"),
+         img="p-third-date", badge="", read="5 min"),
     dict(slug="road-trip",      name="Road Trip",      stone="Rosso Francia",  swatch="#B5593F",
          notes="amber, leather, warm wind",   story="Story VI", feeling="Escape",
          line="We left before the light did and agreed not to name the destination until the second tank.",
-         img="p-road-trip-r.jpg", badge="New story", read="6 min"),
+         img="p-road-trip", badge="New story", read="6 min"),
     dict(slug="4pm-matinee",    name="4pm Matinee",    stone="Giallo Siena",   swatch="#C99A3F",
          notes="citrus, velvet, dark rooms",  story="Story VII", feeling="Solitude",
          line="Nobody goes to the cinema at four in the afternoon unless they are hiding from something.",
-         img="p-4pm-matinee-r.jpg", badge="", read="5 min"),
+         img="p-4pm-matinee", badge="", read="5 min"),
 ]
 BY_SLUG = {p["slug"]: p for p in PRODUCTS}
 
 JOURNAL = [
-    dict(slug="ten-to-eight", kicker="Campaign · 5 min read", img="p-third-date-r.jpg",
+    dict(slug="ten-to-eight", kicker="Campaign · 5 min read", img="p-third-date-1.jpg",
          title="Ten to Eight — the autumn story, on film",
          sub="Shot in a Lisbon hotel that asked not to be named."),
     dict(slug="story-first", kicker="Founders · 4 min read", img="founders.jpg",
@@ -193,7 +195,7 @@ def crumbs(*parts):
 def product_card(p, reveal=True):
     badge = f'<span class="badge">{p["badge"]}</span>' if p["badge"] else ""
     return f"""      <article class="card{' rev' if reveal else ''}" data-order="{PRODUCTS.index(p)}" data-feeling="{p['feeling']}" data-stone="{p['stone']}" data-note="{p['notes'].split(',')[0].strip()}">
-        <div class="ph"><a href="product.html?f={p['slug']}"><img src="{fp('assets/img/' + p['img'])}" alt="{p['name']} eau de parfum" loading="lazy"></a>{badge}
+        <div class="ph"><a href="product.html?f={p['slug']}"><img src="{fp('assets/img/' + p['img'] + '-card.jpg')}" alt="{p['name']} eau de parfum" loading="lazy"></a>{badge}
           <div class="quick"><div class="r">
             <button class="btn btn-ink btn-sm" onclick="addToBag('{p['slug']}','full',this)">100ml &mdash; &pound;160</button>
             <button class="btn btn-ghostink btn-sm" onclick="addToBag('{p['slug']}','sample',this)">Sample &pound;5</button>
@@ -251,6 +253,13 @@ def build():
 
     # ---- 03 product (PDP, defaults to Hotel Lobby) -----------------------
     p = BY_SLUG["hotel-lobby"]
+    shots = photos.manifest()[p["slug"]]
+    gal = [fp("assets/img/" + f) for f in shots]
+    alts = ["The bottle", "Boxed with its printed story", "The outer carton", "The set"]
+    thumbs = "".join(
+        '<button%s onclick="pdpSwap(this,\'%s\')"><img src="%s" alt="%s" loading="lazy"></button>'
+        % (' aria-current="true"' if i == 0 else "", u, u, alts[i] if i < len(alts) else "View %d" % (i + 1))
+        for i, u in enumerate(gal))
     others = [q for q in PRODUCTS if q["slug"] != p["slug"]][:4]
     rel = "\n".join(product_card(q, reveal=False) for q in others)
     written["product"] = page("product", p["name"],
@@ -259,13 +268,8 @@ def build():
   {crumbs(("Home", "index.html"), ("The Fragrances", "collection.html"), p["name"])}
   <div class="pdp">
     <div class="gal">
-      <img class="main" id="pdpmain" src="{fp('assets/img/' + p['img'])}" alt="{p['name']} eau de parfum">
-      <div class="strip">
-        <button aria-current="true" onclick="pdpSwap(this,'{fp('assets/img/' + p['img'])}')"><img src="{fp('assets/img/' + p['img'])}" alt="The bottle" loading="lazy"></button>
-        <button onclick="pdpSwap(this,'{fp('assets/img/unboxing.jpg')}')"><img src="{fp('assets/img/unboxing.jpg')}" alt="Boxed with its printed story" loading="lazy"></button>
-        <button onclick="pdpSwap(this,'{fp('assets/img/spine.jpg')}')"><img src="{fp('assets/img/spine.jpg')}" alt="The embossed spine" loading="lazy"></button>
-        <button onclick="pdpSwap(this,'{fp('assets/img/stone-shelf.jpg')}')"><img src="{fp('assets/img/stone-shelf.jpg')}" alt="The stone lid" loading="lazy"></button>
-      </div>
+      <img class="main" id="pdpmain" src="{gal[0]}" alt="{p['name']} eau de parfum">
+      <div class="strip">{thumbs}</div>
     </div>
     <div class="info">
       <p class="k">{p['story']} &middot; Eau de parfum</p>
@@ -456,7 +460,7 @@ def build():
 
     # ---- 07 stories index ------------------------------------------------
     cards = "\n".join(f"""      <a class="post rev" href="story.html?s={q['slug']}">
-        <img src="{fp('assets/img/' + q['img'])}" alt="{q['name']}" loading="lazy">
+        <img src="{fp('assets/img/' + q['img'] + '-1.jpg')}" alt="{q['name']}" loading="lazy">
         <p class="k">{q['story']} &middot; {q['read']} read</p><h3>{q['name']}</h3>
         <p>&ldquo;{q['line'][:96]}&hellip;&rdquo;</p></a>""" for q in PRODUCTS)
     written["stories"] = page("stories", "Your Stories",
@@ -490,7 +494,7 @@ def build():
     written["story"] = page("story", q["name"],
         f"{q['name']} — the story that became the fragrance. Written by Morgan Childs.", f"""
 <section class="banner">
-  <img src="{fp('assets/img/' + q['img'])}" alt="{q['name']}">
+  <img src="{fp('assets/img/' + q['img'] + '-1.jpg')}" alt="{q['name']}">
   <div class="c">
     <p class="k">Your stories &middot; {q['story']} &middot; {q['stone']}</p>
     <h1>{q['name']}</h1>
@@ -531,7 +535,7 @@ def build():
           <a class="btn btn-ghostink" href="product.html?f={q['slug']}">See the bottle</a>
         </div>
       </div>
-      <img class="figfull" src="{fp('assets/img/' + q['img'])}" alt="{q['name']} eau de parfum" loading="lazy">
+      <img class="figfull" src="{fp('assets/img/' + q['img'] + '-1.jpg')}" alt="{q['name']} eau de parfum" loading="lazy">
     </div>
   </div>
 </section>
