@@ -665,6 +665,15 @@ def build():
     # a fresh one. That mismatch is exactly what made the homepage cards look
     # unfixed after the crops were corrected.
     home_body = open(os.path.join(ROOT, "tools/parts/home.html")).read()
+    # The homepage's seven cards were a hand-written copy of the catalogue, and
+    # it had drifted: the badge that the data (and every collection page, and
+    # the homepage's own signature strip) puts on Road Trip was sitting on
+    # 4pm Matinee. Same class of problem as the three records of the stone
+    # colours. It renders from product_card now, so it cannot drift again.
+    home_cards = ('<div class="cards">\n'
+                  + "\n".join(product_card(p) for p in PRODUCTS)
+                  + "\n" + '<article class="promo rev">\n        <p class="k">Undecided?</p><h3>The First Lines</h3>\n        <p>All seven stories in miniature — read them on your own skin. £38, credited against your first full bottle.</p>\n        <div><button class="btn btn-ghost btn-sm" onclick="addToBag(\'set\',\'full\',this)">Begin the set</button></div>\n      </article>' + "\n    </div>")
+    home_body = home_body.replace("<!--SS_CARDS-->", home_cards)
     home_body = re.sub(r'(href|src)="(assets/(?:img|css|js)/[^"?]+)"',
                        lambda m: '%s="%s"' % (m.group(1), fp(m.group(2))), home_body)
     # the gallery swaps images from an inline handler, so hash those paths too
