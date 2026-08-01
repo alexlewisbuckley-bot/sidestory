@@ -31,31 +31,31 @@ PRODUCTS = [
     dict(slug="hotel-lobby",    name="Hotel Lobby",    stone="Nero Marquina",  swatch="#1C1D1D",
          notes="woods, spice, green",        story="Story I",   feeling="Anticipation",
          line="It was a ten minutes before 8pm when he arrived, and its resplendence never failed to catch him off guard.",
-         img="p-hotel-lobby", badge="Bestseller", read="5 min"),
+         img="p-hotel-lobby", badge="Bestseller", read="5 min", wear="woods warmed by a polished bar"),
     dict(slug="sibling-rivalry", name="Sibling Rivalry", stone="Leopard Salome", swatch="#8A6A3F",
          notes="grapefruit, vetiver, smoke", story="Story II",  feeling="Mischief",
          line="There is a particular silence that only a brother can make, and she had been listening to it for thirty years.",
-         img="p-sibling-rivalry", badge="", read="6 min"),
+         img="p-sibling-rivalry", badge="", read="6 min", wear="grapefruit cut with woodsmoke"),
     dict(slug="pillow-talk",    name="Pillow Talk",    stone="Calacatta",      swatch="#E0DCD0",
          notes="musk, powder, warm skin",    story="Story III", feeling="Comfort",
          line="They had been awake for hours, unspooling the sweet trivialities of their personal histories in sleepy whispers.",
-         img="p-pillow-talk", badge="", read="4 min"),
+         img="p-pillow-talk", badge="", read="4 min", wear="warm skin under cool linen"),
     dict(slug="sunday-service", name="Sunday Service", stone="Verde Jade",     swatch="#3E5147",
          notes="incense, linen, morning air", story="Story IV", feeling="Devotion",
          line="The drive from the city to the country always felt like rolling back time.",
-         img="p-sunday-service", badge="", read="7 min"),
+         img="p-sunday-service", badge="", read="7 min", wear="cold air held in church oak"),
     dict(slug="third-date",     name="Third Date",     stone="Rosso Levanto",  swatch="#7A2E2A",
          notes="plum, tobacco, candlelight",  story="Story V",  feeling="Attraction",
          line="She hardly knew him, of course—tonight was only the third date. But there was such familiarity between them.",
-         img="p-third-date", badge="", read="5 min"),
+         img="p-third-date", badge="", read="5 min", wear="orange blossom over well-worn leather"),
     dict(slug="road-trip",      name="Road Trip",      stone="Rosso Francia",  swatch="#B5593F",
          notes="amber, leather, warm wind",   story="Story VI", feeling="Escape",
          line="They knew where they were going, but neither seemed to mind the impromptu detour along the way.",
-         img="p-road-trip", badge="New story", read="6 min"),
+         img="p-road-trip", badge="New story", read="6 min", wear="warm leather and wind off an open window"),
     dict(slug="4pm-matinee",    name="4pm Matinee",    stone="Giallo Siena",   swatch="#C99A3F",
          notes="citrus, velvet, dark rooms",  story="Story VII", feeling="Solitude",
          line="She came to the afternoon matinee alone. She liked the rush of independence when the ticket seller looked around for a date.",
-         img="p-4pm-matinee", badge="", read="5 min"),
+         img="p-4pm-matinee", badge="", read="5 min", wear="soft velvet in a darkened theatre"),
 ]
 BY_SLUG = {p["slug"]: p for p in PRODUCTS}
 
@@ -365,6 +365,21 @@ def catalogue_json():
     return json.dumps(data, ensure_ascii=False)
 
 
+def openline(p, limit=58):
+    """The story's opening, cut where a reader would cut it.
+
+    Prefer the first sentence when it is short enough; otherwise fall back to
+    the last word boundary before the limit. Never mid-word, which is what the
+    old fixed slice was doing."""
+    t = p["line"].strip()
+    m = re.match(r"(.{20,%d}?[.!?])(\s|$)" % limit, t)
+    if m:
+        return m.group(1)[:-1]
+    if len(t) <= limit:
+        return t.rstrip(" ,;:")
+    return t[:limit].rsplit(" ", 1)[0].rstrip(" ,;:\u2014-")
+
+
 def story_plate(q):
     """The editorial plate for a fragrance's story.
 
@@ -565,7 +580,7 @@ def build():
           <p class="k">{p['story']} &middot; Eau de parfum</p>
       <h1>{p['name']}</h1>
       <p class="sub"><span class="chip" style="background:{p['swatch']}"></span>{p['stone']} &middot; {p['notes']}</p>
-      <blockquote>&ldquo;{p['line'][:52]}&hellip;&rdquo; &mdash; nine pages of {p['feeling'].lower()}, worn as {p['notes'].split(',')[0]} warmed by a polished bar.</blockquote>
+      <blockquote>&ldquo;{openline(p)}&hellip;&rdquo; &mdash; nine pages of {p['feeling'].lower()}, worn as {p['wear']}.</blockquote>
 
       <p class="fieldlabel">Size</p>
       <div class="sizes">
@@ -918,42 +933,136 @@ def build():
                 story_body, current="stories.html")
 
     # ---- 09 share your story --------------------------------------------
+    #   Frame: P15 "Share your story" (171:2803). Copy is the frame's own.
+    STEPS = [
+        ("I",   "Write it plainly",
+         "No more than 500 words. A moment, not a memoir &mdash; where you were, who was there, what the air was doing."),
+        ("II",  "We read everything",
+         "Every submission is read by the house. You will hear from us either way, within a month."),
+        ("III", "A shortlist goes to Grasse",
+         "Four stories a year are sent to Jacques Chabert and the Argeville noses to be read aloud, unattributed."),
+        ("IV",  "One becomes a fragrance",
+         "Published under your name in the printed edition, with the first bottle of the run sent to you."),
+    ]
+    POSTBAG = [
+        ("With Grasse", "verde", "The Bakery at Five", "Marta L. &middot; Lisbon",
+         "It was still dark when the ovens went on, and the whole street smelled of it before anyone was awake. I have never been happier than I was at that hour, poor and warm and covered in flour."),
+        ("With Grasse", "verde", "Ward 9, Christmas Eve", "Tom H. &middot; Leeds",
+         "Antiseptic, cheap tinsel, and someone&rsquo;s satsuma. Twenty years on I cannot peel one without being nineteen again, holding my mother&rsquo;s hand and pretending to be brave."),
+        ("Shortlisted", "brass", "His Jumper", "Priya S. &middot; Glasgow",
+         "He left it on the back of my chair in October and never asked for it. By March it had stopped smelling of him, and that was the actual ending &mdash; not the argument."),
+    ]
+    SMALLPRINT = [
+        ("It stays yours", "You keep the copyright to everything you send. Always."),
+        ("We ask before we publish", "Nothing appears on this site, in a box, or in a bottle without your written yes."),
+        ("No fee to enter, no purchase", "You do not need to have bought anything. Open to anyone over 18."),
+        ("If yours is chosen", "You are credited by name in the printed edition, sent the first bottle of the run, and paid a commission fee agreed with you beforehand."),
+    ]
+    steps_html = "\n".join(
+        f"""      <div class="hstep"><em>{n}</em><h3>{t}</h3><p>{b}</p></div>"""
+        for n, t, b in STEPS)
+    post_html = "\n".join(
+        f"""      <article class="pnote">
+        <span class="tag {cls}">{tag}</span>
+        <h3>{title}</h3>
+        <p class="who">{who}</p>
+        <blockquote>&ldquo;{quote}&rdquo;</blockquote></article>"""
+        for tag, cls, title, who, quote in POSTBAG)
+    print_html = "\n".join(
+        f"""      <div class="term"><h3>{t}</h3><p>{b}</p></div>"""
+        for t, b in SMALLPRINT)
+
     written["share"] = page("share", "Share Yours",
         "Send us the moment. The eighth fragrance could begin with something that actually happened to you.", f"""
-<section class="banner">
+<section class="shero">
   <img src="{fp('assets/img/spine.jpg')}" alt="An open notebook">
-  <div class="c">
-    <p class="k">Your stories &middot; an open call</p>
-    <h1>The eighth story hasn&rsquo;t been written yet.</h1>
-    <p>Seven fragrances began as fiction. The next one could begin with something that actually happened &mdash; to you. Send us the moment; we read every one.</p>
+  <span class="veil" aria-hidden="true"></span>
+  <div class="inner">
+    <div class="c">
+      <p class="k">Your stories &middot; an open call</p>
+      <h1>The eighth story hasn&rsquo;t been written yet.</h1>
+      <p class="lede">Seven fragrances began as fiction. The next one could begin with something that actually happened &mdash; to you. Send us the moment; we read every one.</p>
+      <div class="cta">
+        <a class="btn btn-ivory" href="#tellus">Write yours</a>
+        <a class="btn btn-ghost" href="#postbag">Read what others sent</a>
+      </div>
+    </div>
   </div>
 </section>
 
-<div class="inner">
-  {crumbs(("Home", "index.html"), "Share Yours")}
-  <form class="form" onsubmit="event.preventDefault();this.querySelector('.sent').hidden=false;this.querySelector('.btn').disabled=true;">
-    <div>
-      <p class="k">Write yours</p>
-      <h2 class="sechead">Tell us the moment.</h2>
-      <label class="field"><span>Your story</span>
-        <textarea name="story" placeholder="Start anywhere. The room, the hour, what was said." required></textarea>
-        <small>Three hundred words is plenty. We are after one moment, not a life.</small></label>
-      <div class="row2">
-        <label class="field"><span>Name</span><input name="name" required></label>
-        <label class="field"><span>Email</span><input type="email" name="email" required></label>
+<section class="invite">
+  <div class="inner">
+    <p class="k">Why we are asking</p>
+    <h2>We have never made a fragrance from a marketing brief. We are not about to start.</h2>
+    <p>Every bottle we make was composed against nine pages of writing. Those pages have always come from our own writers &mdash; but the best moments we&rsquo;ve heard this year came from the people wearing them: a bakery at 5am, a hospital corridor at Christmas, a borrowed jumper that still smelled of someone. One of those deserves a bottle.</p>
+  </div>
+</section>
+
+<section class="howworks">
+  <span class="ghost" aria-hidden="true">Eighth</span>
+  <div class="inner">
+    <p class="k">How it works</p>
+    <h2>Four steps, one bottle.</h2>
+    <div class="hsteps">
+{steps_html}
+    </div>
+  </div>
+</section>
+
+<section class="tellus" id="tellus">
+  <div class="inner">
+    <div class="hd">
+      <p class="k">Send your story</p>
+      <h2>Tell us the moment.</h2>
+    </div>
+    <form class="sform" onsubmit="event.preventDefault();this.querySelector('.sent').hidden=false;this.querySelector('button[type=submit]').disabled=true;">
+      <label class="ffield"><span>Your story&rsquo;s title</span>
+        <input name="title" placeholder="e.g. The Bakery at Five" required></label>
+      <label class="ffield"><span>Where and when</span>
+        <input name="when" placeholder="e.g. Lisbon, the winter I turned thirty" required></label>
+      <label class="ffield tall"><span>The moment &mdash; up to 500 words</span>
+        <textarea name="story" data-count placeholder="It was still dark when the ovens went on, and the whole street smelled of it before anyone was awake&hellip;" required></textarea></label>
+      <p class="count"><span data-countout>0</span> / 500 words</p>
+      <div class="frow2">
+        <label class="ffield"><span>Your name</span><input name="name" required></label>
+        <label class="ffield"><span>Email</span><input type="email" name="email" required></label>
       </div>
-      <label class="field"><span>What should it smell of?</span><input name="notes" placeholder="Optional — cold water, cut grass, iron on the hands"></label>
-      <div class="actions"><button class="btn btn-ink" type="submit">Send your story</button></div>
-      <p class="re sent" hidden>Thank you &mdash; it is with the reading group. We reply to every submission within a fortnight.</p>
+      <div class="consent">
+        <label><input type="checkbox" required>
+          <span>I&rsquo;m happy for Side Story to read my story, and to contact me about it. You keep the copyright &mdash; we will ask again, in writing, before anything is published or set to scent.</span></label>
+        <button class="btn btn-ink" type="submit">Send your story</button>
+      </div>
+      <p class="re sent" hidden>Thank you &mdash; it is with the reading group. You will hear from us either way, within a month.</p>
+    </form>
+    <aside class="looking">
+      <p class="k">What we are looking for</p>
+      <p>Air, weather, rooms, hands, hours. The specific over the sweeping &mdash; one Tuesday beats a whole decade.</p>
+      <p class="k">And what we are not</p>
+      <p class="not">Product reviews, note lists, or anything you would call content. Write it as though no one is buying.</p>
+    </aside>
+  </div>
+</section>
+
+<section class="postbag" id="postbag">
+  <div class="inner">
+    <p class="k">From the postbag</p>
+    <h2>What people have already sent us.</h2>
+    <p class="pintro">Published with permission. Three of these are with Grasse now.</p>
+    <div class="pnotes">
+{post_html}
     </div>
-    <div class="aside-card">
-      <h3>Why we are asking</h3>
-      <p>We have never made a fragrance from a marketing brief and we are not about to start. Every bottle we make was composed against nine pages of writing.</p>
-      <p>Stories chosen for development are commissioned properly: a fee, a royalty on the fragrance, and your name on the printed edition. Nothing is published without your written say-so.</p>
-      <p><a class="ul" href="stories.html">Read what others sent</a></p>
+    <a class="ul" href="stories.html">Read the full postbag &rarr;</a>
+  </div>
+</section>
+
+<section class="smallprint">
+  <div class="inner">
+    <p class="k">The small print, in plain English</p>
+    <div class="terms">
+{print_html}
     </div>
-  </form>
-</div>
+  </div>
+</section>
 """)
 
     # ---- 10 journal ------------------------------------------------------

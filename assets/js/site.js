@@ -265,3 +265,17 @@
   })();
 
 })();
+
+/* Share your story — the frame shows a live word count under the moment field. */
+(function(){
+  var ta = document.querySelector('textarea[data-count]');
+  var out = document.querySelector('[data-countout]');
+  if (!ta || !out) return;
+  function tick(){
+    var words = ta.value.trim() ? ta.value.trim().split(/\s+/).length : 0;
+    out.textContent = words;
+    out.parentNode.classList.toggle('over', words > 500);
+  }
+  ta.addEventListener('input', tick);
+  tick();
+})();
