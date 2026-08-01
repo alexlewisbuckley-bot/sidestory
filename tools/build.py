@@ -168,6 +168,9 @@ JOURNAL = [
 
 # ------------------------------------------------------------- chrome ----
 
+# only The Fragrances opens the mega panel; the rest are plain links
+MEGA_FOR = "collection.html"
+
 NAV_LINKS = [
     ("collection.html", "The Fragrances"),
     ("stories.html",    "Your Stories"),
@@ -211,7 +214,8 @@ def head(title, desc, css):
 def topbar(current):
     cur = ' aria-current="page"'
     items = "\n      ".join(
-        '<a href="%s"%s>%s</a>' % (href, cur if href == current else "", label)
+        '<a href="%s"%s%s>%s</a>' % (href, ' data-mega="1"' if href == MEGA_FOR else "",
+                                     cur if href == current else "", label)
         for href, label in NAV_LINKS)
     return f"""<div class="enter-veil" aria-hidden="true"></div>
 <div class="menu-dim" id="menudim"></div>
@@ -286,19 +290,37 @@ DRAWER = """<div class="scrim" id="scrim" onclick="closeDrawer()"></div>
   <div class="dhead"><span>Your bag &mdash; <span data-bagcount>0</span></span><button onclick="closeDrawer()">Close</button></div>
   <div id="ditems"></div>
   <label class="tryfirst"><input type="checkbox" checked>
-    <div><b>Try a second story first</b><span>A complimentary 2ml of another story, tucked into the parcel.</span></div></label>
+    <div><b>Try a second story first</b><span>A complimentary 2ml of another story &mdash; its argument &mdash; tucked into the parcel.</span></div></label>
   <p class="thresh" id="thresh">Complimentary delivery at &pound;100</p>
   <div class="tbar"><div class="tfill" id="tfill"></div></div>
-  <div class="dtot"><span>Subtotal</span><span id="dtotal">&pound;0</span></div>
-  <a class="btn btn-ink" href="bag.html">View bag</a>
-  <button class="btn btn-ghostink" onclick="closeDrawer()">Keep reading</button>
+  <div class="dtot"><span>Subtotal</span><b id="dtotal">&pound;0</b></div>
+  <a class="btn btn-ink" href="checkout.html">Checkout</a>
+  <p class="dfine">Tax included &middot; 30-day returns &middot; sample cost redeemed</p>
 </aside>
 """
 
 
+def catalogue_json():
+    """The bag reads this instead of carrying its own copy of the product list —
+    that duplicate is what left the drawer pointing at image files the photo
+    pipeline had stopped producing."""
+    import json
+    data = {p["slug"]: dict(name=p["name"], stone=p["stone"], col=p["swatch"],
+                            notes=p["notes"], price=160,
+                            img="assets/img/p-%s-card.jpg" % p["slug"],
+                            href="product-%s.html" % p["slug"])
+            for p in PRODUCTS}
+    data["set"] = dict(name="The First Lines", stone="", col="#3E5147",
+                       notes="all seven in miniature", price=38,
+                       img="assets/img/set-first-lines.jpg", href="samples.html")
+    return json.dumps(data, ensure_ascii=False)
+
+
 def page(slug, title, desc, body, current=None, css=("assets/css/fonts.css", "assets/css/app.css")):
     out = head(title, desc, css) + topbar(current or (slug + ".html")) + body.strip() + "\n" \
-        + footer() + DRAWER + f'<script src="{fp("assets/js/site.js")}"></script>\n</body></html>\n'
+        + footer() + DRAWER \
+        + f'<script>window.SS_CAT={catalogue_json()};</script>\n' \
+        + f'<script src="{fp("assets/js/site.js")}"></script>\n</body></html>\n'
     with open(os.path.join(ROOT, slug + ".html"), "w") as f:
         f.write(out)
     return len(out)

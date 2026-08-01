@@ -469,25 +469,49 @@ footer a:hover{opacity:1}
   box-shadow:-1.5rem 0 3.75rem rgba(0,0,0,.2)}
 .drawer.open{translate:0 0}
 .dhead{display:flex;justify-content:space-between;align-items:center;gap:var(--s-3);
-  border-bottom:1px solid var(--line);padding-bottom:var(--s-2);
-  font-family:Montserrat,sans-serif;font-size:var(--t-xs);letter-spacing:.18em;text-transform:uppercase}
-.dhead button{display:inline-flex;align-items:center;min-height:2.75rem;padding-inline:.25rem}
-.drawer .btn{width:100%;margin-top:var(--s-3)}
-.tryfirst{display:flex;gap:var(--s-3);align-items:flex-start;margin-top:var(--s-4);
-  padding:var(--s-3);background:var(--plaster);cursor:pointer}
-.tryfirst input{width:1.125rem;height:1.125rem;flex:0 0 auto;margin-top:.15rem;accent-color:var(--ink)}
-.tryfirst b{display:block;font-family:'Libre Caslon Text',serif;font-weight:400;font-size:var(--t-sm)}
-.tryfirst span{display:block;font-size:var(--t-xs);line-height:1.6;color:var(--txt);opacity:.8;margin-top:.3em}
-.thresh{margin-top:var(--s-4);font-family:Montserrat,sans-serif;font-size:var(--t-xs);
-  letter-spacing:.16em;text-transform:uppercase;color:var(--txt)}
+  border-bottom:1px solid var(--line);padding-bottom:var(--s-3);
+  font-family:Montserrat,sans-serif;font-weight:500;font-size:var(--t-xs);
+  letter-spacing:.22em;text-transform:uppercase}
+.dhead button{display:inline-flex;align-items:center;min-height:2.75rem;padding-inline:.25rem;
+  font-family:Montserrat,sans-serif;font-weight:500;font-size:var(--t-xs);
+  letter-spacing:.22em;text-transform:uppercase;color:var(--txt)}
+.dhead button:hover{color:var(--ink)}
+.drawer .btn{width:100%;margin-top:var(--s-5)}
+
+/* the complimentary-sample offer: tracked label, then the note in italic serif */
+.tryfirst{display:grid;grid-template-columns:auto minmax(0,1fr);gap:var(--s-3);
+  align-items:start;margin-top:var(--s-5);padding:var(--s-4);background:var(--plaster);cursor:pointer}
+.tryfirst input{width:1.375rem;height:1.375rem;flex:none;margin:0;accent-color:var(--ink)}
+.tryfirst b{display:block;font-family:Montserrat,sans-serif;font-weight:500;font-size:var(--t-xs);
+  letter-spacing:.2em;text-transform:uppercase;color:var(--ink)}
+.tryfirst span{display:block;margin-top:var(--s-3);font-family:'Libre Caslon Text',serif;
+  font-style:italic;font-size:var(--t-md);line-height:1.55;color:var(--ink);opacity:.9}
+
+.thresh{margin-top:var(--s-5);font-family:Montserrat,sans-serif;font-weight:500;
+  font-size:var(--t-xs);letter-spacing:.2em;text-transform:uppercase;color:var(--brass)}
 .tbar{height:2px;background:rgba(43,46,45,.14);margin-top:var(--s-2)}
 .tfill{height:100%;background:var(--brass);width:0;transition:width .6s var(--settle)}
-.dtot{display:flex;justify-content:space-between;margin-top:var(--s-4);
-  padding-top:var(--s-3);border-top:1px solid var(--line);
-  font-family:Montserrat,sans-serif;font-size:var(--t-xs);letter-spacing:.18em;text-transform:uppercase}
-.ditem{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:var(--s-3);
-  align-items:center;padding-block:var(--s-3);border-bottom:1px solid var(--line)}
-.ditem img{width:3.5rem;height:3.5rem;object-fit:cover}
+
+.dtot{display:flex;justify-content:space-between;align-items:baseline;gap:var(--s-3);
+  margin-top:var(--s-5);padding-top:var(--s-4);border-top:1px solid var(--line);
+  font-family:Montserrat,sans-serif;font-weight:500;font-size:var(--t-xs);
+  letter-spacing:.22em;text-transform:uppercase;color:var(--ink)}
+.dtot b{font-family:'Libre Caslon Display',serif;font-weight:400;font-size:var(--t-3);
+  letter-spacing:0;text-transform:none}
+.dfine{margin-top:var(--s-4);font-family:Montserrat,sans-serif;font-size:var(--t-xs);
+  letter-spacing:.02em;text-transform:none;color:var(--txt);opacity:.7;line-height:1.7}
+
+.ditem{display:grid;grid-template-columns:3.5rem minmax(0,1fr) auto;gap:var(--s-3);
+  align-items:start;padding-block:var(--s-4);border-bottom:1px solid var(--line)}
+.ditem img{width:3.5rem;height:3.5rem;object-fit:cover;background:var(--plaster)}
+.ditem h3{font-family:'Libre Caslon Text',serif;font-size:var(--t-md);line-height:1.35;
+  text-transform:none;letter-spacing:0}
+.ditem .meta{display:block;margin-top:.35em;font-family:Montserrat,sans-serif;
+  font-size:var(--t-xs);letter-spacing:.16em;text-transform:uppercase;
+  color:var(--txt);opacity:.75;line-height:1.6}
+.ditem .ul{margin-top:var(--s-2)}
+.ditem>span:last-child{font-family:Montserrat,sans-serif;font-size:var(--t-xs);
+  letter-spacing:.14em;white-space:nowrap;padding-top:.15em}
 
 /* =========================================================== breakpoints ==
    Only where the content genuinely needs a different arrangement.

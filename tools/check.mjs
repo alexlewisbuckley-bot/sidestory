@@ -259,11 +259,26 @@ async function checkInteractions(browser, file) {
     await page.waitForTimeout(300);
     rec(file, 'ui', 'bag drawer opens',
       await page.$eval('#drawer', e => e.classList.contains('open')));
+    const row = await page.evaluate(async () => {
+      window.addToBag && addToBag('hotel-lobby', 'full');
+      await new Promise(r => setTimeout(r, 600));
+      const d = document.querySelector('#ditems .ditem');
+      if (!d) return { ok: false, why: 'no row rendered' };
+      const img = d.querySelector('img');
+      await img.decode().catch(() => {});
+      return { ok: !!img && img.complete && img.naturalWidth > 0,
+               why: img ? img.getAttribute('src') : 'no img' };
+    });
+    rec(file, 'ui', 'bag row shows its product image', row.ok, row.why);
     await page.keyboard.press('Escape');
   }
   // P10 · A2 — the mega menu opens, dims the page, and closes on Escape
-  if (await page.$('.links a')) {
-    await page.hover('.links a'); await page.waitForTimeout(500);
+  // the panel belongs to The Fragrances only — the other links are plain
+  if (await page.$('.links a[data-mega]')) {
+    await page.hover('.links a:not([data-mega])'); await page.waitForTimeout(450);
+    rec(file, 'ui', 'other nav links do not open the panel',
+      await page.evaluate(() => !document.getElementById('mega').classList.contains('on')));
+    await page.hover('.links a[data-mega]'); await page.waitForTimeout(500);
     const st = await page.evaluate(() => ({
       on: document.getElementById('mega').classList.contains('on'),
       dim: document.getElementById('menudim').classList.contains('on'),

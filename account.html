@@ -13,7 +13,7 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="assets/fonts/libre-caslon-text-latin-400-normal.woff2">
 <link rel="preload" as="font" type="font/woff2" crossorigin href="assets/fonts/montserrat-latin-500-normal.woff2">
 <link rel="stylesheet" href="assets/css/fonts.css?v=226e8a05">
-<link rel="stylesheet" href="assets/css/app.css?v=83af941c">
+<link rel="stylesheet" href="assets/css/app.css?v=cfe6aa76">
 </head><body>
 <div class="enter-veil" aria-hidden="true"></div>
 <div class="menu-dim" id="menudim"></div>
@@ -24,7 +24,7 @@
     <button class="burger" aria-label="Menu" aria-expanded="false"><i></i><i></i><i></i></button>
     <a class="brand" href="index.html" aria-label="Side Story — Parfums &amp; Oils"><img src="assets/img/logo.svg?v=dd5e3f44" alt="Side Story — Parfums &amp; Oils"></a>
     <nav class="links" aria-label="Primary">
-      <a href="collection.html">The Fragrances</a>
+      <a href="collection.html" data-mega="1">The Fragrances</a>
       <a href="stories.html">Your Stories</a>
       <a href="share.html">Share Yours</a>
       <a href="samples.html">Samples</a>
@@ -119,12 +119,13 @@
   <div class="dhead"><span>Your bag &mdash; <span data-bagcount>0</span></span><button onclick="closeDrawer()">Close</button></div>
   <div id="ditems"></div>
   <label class="tryfirst"><input type="checkbox" checked>
-    <div><b>Try a second story first</b><span>A complimentary 2ml of another story, tucked into the parcel.</span></div></label>
+    <div><b>Try a second story first</b><span>A complimentary 2ml of another story &mdash; its argument &mdash; tucked into the parcel.</span></div></label>
   <p class="thresh" id="thresh">Complimentary delivery at &pound;100</p>
   <div class="tbar"><div class="tfill" id="tfill"></div></div>
-  <div class="dtot"><span>Subtotal</span><span id="dtotal">&pound;0</span></div>
-  <a class="btn btn-ink" href="bag.html">View bag</a>
-  <button class="btn btn-ghostink" onclick="closeDrawer()">Keep reading</button>
+  <div class="dtot"><span>Subtotal</span><b id="dtotal">&pound;0</b></div>
+  <a class="btn btn-ink" href="checkout.html">Checkout</a>
+  <p class="dfine">Tax included &middot; 30-day returns &middot; sample cost redeemed</p>
 </aside>
-<script src="assets/js/site.js?v=731b2f78"></script>
+<script>window.SS_CAT={"hotel-lobby": {"name": "Hotel Lobby", "stone": "Nero Marquina", "col": "#1C1D1D", "notes": "woods, spice, green", "price": 160, "img": "assets/img/p-hotel-lobby-card.jpg", "href": "product-hotel-lobby.html"}, "sibling-rivalry": {"name": "Sibling Rivalry", "stone": "Leopard Salome", "col": "#8A6A3F", "notes": "grapefruit, vetiver, smoke", "price": 160, "img": "assets/img/p-sibling-rivalry-card.jpg", "href": "product-sibling-rivalry.html"}, "pillow-talk": {"name": "Pillow Talk", "stone": "Calacatta", "col": "#E0DCD0", "notes": "musk, powder, warm skin", "price": 160, "img": "assets/img/p-pillow-talk-card.jpg", "href": "product-pillow-talk.html"}, "sunday-service": {"name": "Sunday Service", "stone": "Verde Jade", "col": "#3E5147", "notes": "incense, linen, morning air", "price": 160, "img": "assets/img/p-sunday-service-card.jpg", "href": "product-sunday-service.html"}, "third-date": {"name": "Third Date", "stone": "Rosso Levanto", "col": "#7A2E2A", "notes": "plum, tobacco, candlelight", "price": 160, "img": "assets/img/p-third-date-card.jpg", "href": "product-third-date.html"}, "road-trip": {"name": "Road Trip", "stone": "Rosso Francia", "col": "#B5593F", "notes": "amber, leather, warm wind", "price": 160, "img": "assets/img/p-road-trip-card.jpg", "href": "product-road-trip.html"}, "4pm-matinee": {"name": "4pm Matinee", "stone": "Giallo Siena", "col": "#C99A3F", "notes": "citrus, velvet, dark rooms", "price": 160, "img": "assets/img/p-4pm-matinee-card.jpg", "href": "product-4pm-matinee.html"}, "set": {"name": "The First Lines", "stone": "", "col": "#3E5147", "notes": "all seven in miniature", "price": 38, "img": "assets/img/set-first-lines.jpg", "href": "samples.html"}};</script>
+<script src="assets/js/site.js?v=ec3906f9"></script>
 </body></html>

@@ -1,15 +1,9 @@
 /* Side Story — demo behaviour. Cart state is in-memory + sessionStorage for the demo only. */
 (function(){
-  const CAT = {
-    'hotel-lobby':{name:'Hotel Lobby',stone:'Nero Marquina',col:'#1C1E1D',notes:'woods, spice, green',img:'p-hotel-lobby.jpg',price:160},
-    'sibling-rivalry':{name:'Sibling Rivalry',stone:'Leopard Salome',col:'#8A6A3F',notes:'grapefruit, vetiver, smoke',img:'p-sibling-rivalry.jpg',price:160},
-    'pillow-talk':{name:'Pillow Talk',stone:'Calacatta',col:'#E0DCD0',notes:'musk, powder, warm skin',img:'p-pillow-talk.jpg',price:160},
-    'sunday-service':{name:'Sunday Service',stone:'Verde Jade',col:'#3E5147',notes:'incense, linen, morning air',img:'p-sunday-service.jpg',price:160},
-    'third-date':{name:'Third Date',stone:'Rosso Levanto',col:'#6E3B34',notes:'plum, tobacco, candlelight',img:'p-third-date.jpg',price:160},
-    'road-trip':{name:'Road Trip',stone:'Rosso Francia',col:'#B5593F',notes:'amber, leather, warm air',img:'p-road-trip.jpg',price:160},
-    '4pm-matinee':{name:'4pm Matinee',stone:'Giallo Siena',col:'#C79A4B',notes:'citrus, velvet, dark rooms',img:'p-4pm-matinee.jpg',price:160}
-  };
-  window.SS_CAT = CAT;
+  /* The page supplies the catalogue (window.SS_CAT), generated from the same
+     data the pages and the photo pipeline use. */
+  const CAT = window.SS_CAT || {};
+
   const KEY='ss_bag_v1';
   let bag = [];
   try { bag = JSON.parse(sessionStorage.getItem(KEY)||'[]'); } catch(e){ bag=[]; }
@@ -69,10 +63,10 @@
     const items=document.getElementById('ditems');
     if(items){
       items.innerHTML = bag.length? bag.map((i,ix)=>`<div class="ditem">
-        <img src="assets/img/${i.img}" alt="">
+        <img src="${i.img}" alt="" width="112" height="112">
         <div><h3>${i.label}</h3><p class="meta">${i.meta}</p>
-          <button class="ul" onclick="SSremove(${ix})">Remove</button></div>
-        <span class="meta">${money(i.price)}</span></div>`).join('')
+          <span class="price">${money(i.price)}</span>
+          <button class="ul" onclick="SSremove(${ix})">Remove</button></div></div>`).join('')
         : '<p class="crumb" style="padding-block:var(--s-5)">Empty — every story starts somewhere.</p>';
     }
     const t=document.getElementById('dtotal'); if(t) t.textContent=money(total());
@@ -86,7 +80,7 @@
   }
   window.SSremove=i=>{bag.splice(i,1);save();renderBag();};
   window.addToBag=(slug,kind,btn)=>{
-    const p=CAT[slug]||{name:'The First Lines',img:'set-first-lines.jpg',price:38,stone:'—'};
+    const p=CAT[slug]||CAT.set||{name:'The First Lines',img:'assets/img/set-first-lines.jpg',price:38,stone:''};
     const isSample=kind==='sample';
     bag.push({slug,label:p.name+(isSample?' — sample':(slug==='set'?'':' — 100ml')),
       meta:isSample?'2ml · its story, printed small':(p.stone?p.stone.toUpperCase()+' LID · STORY INCLUDED':'ALL SEVEN IN MINIATURE'),
@@ -100,7 +94,7 @@
   function renderBagPage(){
     const wrap=document.getElementById('baglines'); if(!wrap) return;
     wrap.innerHTML = bag.length? bag.map((i,ix)=>`<div class="line">
-      <img src="assets/img/${i.img}" alt="">
+      <img src="${i.img}" alt="" width="112" height="112">
       <div><h3>${i.label}</h3><p class="meta">${i.meta}</p>
         <div class="act"><span class="meta">${money(i.price)}</span>
           <button class="ul" onclick="SSremove(${ix})">Remove</button></div></div>
@@ -217,7 +211,7 @@
     const mega=document.getElementById('mega');
     const dim=document.getElementById('menudim');
     if(!nav||!links||!mega) return;
-    const items=[...links.querySelectorAll('a')];
+    const items=[...links.querySelectorAll('a[data-mega]')];   /* The Fragrances only */
     if(!items.length) return;
     let open=false, hideTimer, intentTimer, suppress=false;
     const set=v=>{
