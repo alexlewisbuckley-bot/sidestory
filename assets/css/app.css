@@ -1905,15 +1905,19 @@ input:user-invalid,textarea:user-invalid{border-color:var(--text-error)}
 .mega .inner{display:grid;gap:var(--s-5);padding-block:var(--s-5) var(--s-6);
   grid-template-columns:minmax(0,1fr)}
 @media (min-width:64em){
-  .mega .inner{grid-template-columns:11.5rem 11.5rem minmax(0,1fr) minmax(0,1fr);
+  /* five children, four tracks — so the second feature wrapped to a new row
+     under the first link column and sat four hundred pixels below its pair */
+  .mega .inner{grid-template-columns:repeat(3,11.5rem) minmax(0,1fr) minmax(0,1fr);
     gap:var(--s-6);align-items:start}
 }
 .mega .fh{font-family:var(--font-sans);font-weight:500;font-size:var(--t-xs);
   letter-spacing:var(--track-label);text-transform:uppercase;color:var(--brass-text);margin-bottom:var(--s-4)}
 .mega a.ml{display:block;font-family:var(--font-serif);font-size:var(--t-md);
-  line-height:1.3;color:rgba(43,46,45,.92);padding-block:.45rem;
-  transition:color var(--d-quick) var(--settle),transform var(--d-quick) var(--settle)}
-.mega a.ml:hover{color:var(--ink);padding-left:.35rem}
+  line-height:1.3;color:var(--txt);padding-block:.45rem;
+  transition:color var(--d-quick) var(--settle)}
+/* these used to slide .35rem to the right on hover — the same gesture the
+   footer links had, and the only two places on the site that did it */
+.mega a.ml:hover,.mega a.ml:focus-visible{color:var(--ink)}
 .mega .feature{display:block;min-width:0;overflow:hidden}
 .mega .feature img{width:100%;aspect-ratio:6/5;object-fit:cover;background:var(--plaster);
   transition:transform var(--d-slow) var(--settle)}
