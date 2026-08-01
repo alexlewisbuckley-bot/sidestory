@@ -31,9 +31,9 @@ button{font:inherit;border:0;background:none;cursor:pointer;color:inherit}
  border-bottom:1px solid rgba(43,46,45,.12);transition:height .45s var(--settle)}
 .nav.shrunk{height:calc(64*var(--u));box-shadow:0 1px 0 rgba(43,46,45,.06)}
 .nav .inner{display:flex;align-items:center;width:100%;padding:0 calc(72*var(--u))}
-.brand{width:calc(150*var(--u));flex:none;line-height:1;transition:transform .45s var(--settle)}
+.brand{flex:none;line-height:1;white-space:nowrap;transition:transform .45s var(--settle)}
 .nav.shrunk .brand{transform:scale(.86)}
-.brand b{display:block;font-family:'Libre Caslon Display',serif;font-weight:400;font-size:calc(23*var(--u));letter-spacing:.11em;color:#33383A}
+.brand b{display:block;font-family:'Libre Caslon Display',serif;font-weight:400;font-size:calc(21*var(--u));letter-spacing:.10em;color:#33383A;white-space:nowrap}
 .brand i{display:block;font-style:normal;font-family:Montserrat,sans-serif;font-size:calc(7*var(--u));letter-spacing:.42em;color:#33383A;text-align:center;margin-top:calc(3*var(--u))}
 .links{display:flex;margin-left:calc(56*var(--u));gap:calc(30*var(--u))}
 .links a,.util a,.util button{font-family:Montserrat,sans-serif;font-weight:500;font-size:calc(10*var(--u));letter-spacing:.24em;text-transform:uppercase;color:var(--txt);position:relative;white-space:nowrap}
@@ -74,7 +74,7 @@ button{font:inherit;border:0;background:none;cursor:pointer;color:inherit}
 .hero .copy{position:absolute;left:var(--gut);bottom:calc(88*var(--u));width:calc(670*var(--u));color:var(--ivory)}
 .hero .copy>*{opacity:0;transform:translateY(calc(16*var(--u)));animation:rise .95s var(--settle) forwards}
 @keyframes rise{to{opacity:1;transform:none}}
-.hero .k{color:var(--ivory);opacity:.9;animation-delay:.12s}
+.hero .k{font-size:calc(10*var(--u));letter-spacing:.30em;line-height:1.2;width:auto;margin-top:0;color:var(--ivory);opacity:.9;animation-delay:.12s}
 .hero h1{font-family:'Libre Caslon Display',serif;font-weight:400;font-size:calc(76*var(--u));line-height:1.14;
  margin-top:calc(28*var(--u));white-space:nowrap;animation-delay:.28s}
 .hero p{font-size:calc(16.5*var(--u));line-height:1.76;opacity:.94;width:calc(560*var(--u));margin-top:calc(28*var(--u));animation-delay:.44s}
@@ -172,8 +172,8 @@ button{font:inherit;border:0;background:none;cursor:pointer;color:inherit}
 .campaign{position:relative;height:calc(560*var(--u));overflow:hidden}
 .campaign>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .campaign .v{position:absolute;inset:0;background:linear-gradient(14deg,rgba(23,18,12,.6),rgba(23,18,12,0) 62%)}
-.campaign .c{position:absolute;left:var(--gut);bottom:calc(78*var(--u));color:var(--ivory);width:calc(700*var(--u))}
-.campaign h2{font-family:'Libre Caslon Display',serif;font-weight:400;font-size:calc(42*var(--u));line-height:1.4}
+.campaign .c{position:absolute;left:var(--gut);bottom:calc(78*var(--u));color:var(--ivory);width:calc(820*var(--u))}
+.campaign h2{font-family:'Libre Caslon Display',serif;font-weight:400;font-size:calc(42*var(--u));line-height:1.4;white-space:nowrap}
 .campaign .k{color:var(--ivory);opacity:.85;font-size:calc(9.5*var(--u));letter-spacing:.28em;margin-top:calc(30*var(--u))}
 .campaign .dir{left:auto;right:calc(24*var(--u));top:calc(24*var(--u));bottom:auto;width:calc(354*var(--u));font-size:calc(8.5*var(--u))}
 
@@ -308,11 +308,13 @@ footer a:hover{opacity:1}
   .brand{width:auto}.brand b{font-size:19px}.brand i{font-size:6px}
   .util{gap:16px}.util a{display:none}.util button{font-size:10px}
   .ann{height:auto;padding:9px 16px;font-size:8px;line-height:1.4}
-  .hero{height:auto;min-height:74vh;padding:120px 0 0}
-  .hero .copy{position:relative;left:0;bottom:auto;width:auto;padding:0 20px 44px;margin-top:34vh}
+  .hero{height:auto;min-height:70vh;padding:0}
+  .hero .veil{background:linear-gradient(0deg,rgba(23,19,15,.88) 0%,rgba(23,19,15,.5) 38%,rgba(23,19,15,.12) 100%)}
+  .hero .copy{position:relative;left:0;bottom:auto;width:auto;padding:52vh 20px 40px}
+  .hero .k{font-size:8.5px;letter-spacing:.26em}
   .hero h1{font-size:38px;white-space:normal;line-height:1.14;margin-top:16px}
   .hero p{font-size:14px;width:auto;max-width:420px;margin-top:16px}
-  .hero .cta{flex-wrap:wrap;gap:10px;margin-top:22px}
+  .hero .cta{flex-wrap:wrap;gap:10px;margin-top:20px}
   .hero .cta .btn,.hero .cta .btn.wide{width:auto;padding:0 22px;height:44px;font-size:10px}
   .cue{display:none}
   .strip{height:auto;padding:24px 0}
@@ -343,7 +345,7 @@ footer a:hover{opacity:1}
   .dir{width:auto;right:calc(10*var(--u))}
   .campaign{height:auto;min-height:56vh;padding:44px 0}
   .campaign .c{position:relative;left:0;bottom:auto;width:auto;padding:26vh 20px 0}
-  .campaign h2{font-size:22px}
+  .campaign h2{font-size:20px;white-space:normal}
   .feel{height:auto}
   .gift{height:auto;padding-bottom:0}
   .gift>img{position:relative;width:100%;height:240px;margin-top:28px}
