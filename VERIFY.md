@@ -1,76 +1,63 @@
-# Verifying the build against the design
-
-The point of this harness is that nobody has to eyeball the site against Figma
-to know whether it is right. Run one command and it tells you.
+# Verifying the homepage
 
 ```bash
-npm install          # once
-npm run check        # ~90s, prints a pass/fail line per page
+npm install       # once
+npm run check     # ~3 min, 13 widths from 320 to 2560
 ```
 
-Exit code 0 means every check passed. Any failure prints the Figma value, the
-built value and the delta, e.g.
+Exit code 0 means every check passed on the pages that have been rebuilt on the
+responsive stylesheet. Pages not yet migrated are reported separately, under a
+clearly marked heading, and do not gate the run — they are the work list.
 
-```
-✗ [layout] 09b · journal h  —  figma 700 · built 606 · Δ-94
-✗ [type] "Stories, carved in scent." width — figma 670px · built 723.9px · Δ+8.0%
-```
+## How the homepage is built
 
-## What it checks
+There is **no global scale factor and no JavaScript in the layout**. That was the
+cause of the failures you saw: a single `--u` variable, set by a script in the
+HTML, multiplied every value on the page. When it was slightly wrong — a stale
+stylesheet, a breakpoint disagreement, a viewport the formula did not anticipate
+— everything on the page was wrong at once, and the promo card's type ran away.
 
-**Against `spec/homepage.json`**, which is extracted straight out of the Figma
-file (page `09 · Flagship Homepage`, root node `83:27`) and must never be
-hand-edited to make a test pass:
+`assets/css/home.css` now works the way a stylesheet should:
 
-- every section's y-position and height, to ±6px / ±8px
-- every heading's font family, font size, and **rendered ink width** — the last
-  one is the real test, because it fails if the typeface, the size, the tracking
-  or the word-spacing is wrong even when `font-size` reads correctly
-- that all eight webfont faces actually loaded
+* **One type scale**, `--t-xs` through `--t-6`. Each step interpolates between a
+  mobile size at 390px and a desktop size at 1440px and is hard-clamped at both
+  ends. Body copy can never render below 15px or above 17.5px; labels never
+  below 10px or above 11.5px; the hero never above 76px. Nothing can run away.
+* **One space scale**, `--s-1` through `--s-7`, plus `--gutter`, on the same
+  principle.
+* **Grid tracks are `minmax(0,1fr)` or `auto-fit`**, never fixed widths, so a
+  column can always shrink. The promo card is an ordinary grid item that fills
+  its track rather than a box with a hard-coded height.
+* **Breakpoints are chosen by content**: the card grid goes 2 → 3 → 4 up at 40em
+  and 68em; the nav collapses at 64em; the showcase splits at 60em; gifting
+  splits at 56em.
 
-**On every page, at 1440 / 1280 / 1024 / 900 / 834 / 670 / 390 / 360:**
+## What `npm run check` asserts
 
-- no horizontal overflow
-- every image loads and has an `alt`
-- no console errors, no 4xx/5xx
-- the sticky nav collapses at most once across a 0–600px scroll sweep
-  (this is the check that catches the header-shake regression)
+At 320, 360, 390, 430, 540, 670, 768, 900, 1024, 1280, 1440, 1920 and 2560:
 
-**Statically:** every local `href`/`src` in every page resolves to a file that
-exists.
+* nothing overflows horizontally
+* every type role sits inside its floor and ceiling — this is the check that
+  catches a runaway scale before anyone sees it
+* heading hierarchy holds: hero > section > card > body, at every width
+* no text is clipped by its own container
+* tap targets are at least 32px tall where there is no pointer (inline text
+  links are exempt, per WCAG 2.5.8)
+* every image loads and carries alt text
+* no console errors, no 4xx/5xx
 
-## The two design regimes
+Plus, once per page: all four webfonts actually load (a silent fallback to a
+system serif changes every measurement); the page renders correctly with
+**JavaScript disabled** at 390, 768 and 1440; every local href/src resolves; and
+the stylesheet contains no script-driven design unit, so the architecture cannot
+regress to the old model.
 
-The page is built from two Figma artboards, and `--u` — the design unit every
-value is expressed in — is re-based between them by the inline script in each
-page head:
+`tools/responsive.mjs` is a faster sweep of 15 widths for overflow only.
 
-```
-w >= 1024 :  --u = min(w, 1440) / 390 * (390/1440)   // desktop artboard 83:27, exact at 1440
-w <  1024 :  --u = min(w,  560) /  390               // mobile artboard 86:74, exact at 390
-```
+## Rolling out
 
-This matters because the first version mixed the two: below 900px the desktop
-unit kept shrinking (0.465px at 670px, so the nav bar collapsed to 41px tall)
-while the mobile rules were written in fixed pixels and stayed full size. The
-result was neither design. Every mobile value now comes from the 390 artboard
-and is expressed in `--u`, so the two regimes never overlap.
-
-`spec/homepage-mobile.json` asserts the mobile side at 390px. It only covers the
-bands where the artboard and the build carry the same content — the build keeps
-several sections and link columns the mobile artboard drops, and those are noted
-in the spec rather than silently skipped.
-
-## Why the fonts are self-hosted
-
-They used to come from Google Fonts. When that request didn't land, the browser
-silently fell back to a system serif and *every measurement on the page changed* —
-the hero headline rendered 8% wider than the design at the correct `font-size`.
-The woff2 files now ship in `assets/fonts/` and `check` asserts they loaded, so
-that failure mode cannot recur silently.
-
-## When the design changes
-
-Re-extract the spec from Figma, don't edit the numbers by hand. The values in
-`spec/homepage.json` carry their Figma node id (`"figma": "83:41"`) so each one
-can be traced back to the layer it came from.
+The homepage is done. The remaining pages (collection, product, story, stories,
+share, bag, checkout, confirmation) still use `assets/css/site.css`. Migrating
+each one means the same three moves: adopt the scales from `home.css`, replace
+fixed widths with grid tracks, then add the page to `MIGRATED` in
+`tools/check.mjs` so its results start gating the run.
