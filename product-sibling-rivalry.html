@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Sibling Rivalry · Side Story — Parfums &amp; Oils</title>
-<meta name="description" content="Sibling Rivalry eau de parfum — grapefruit, vetiver, smoke. Sealed beneath a Leopard Salome lid, with its printed story in the box.">
+<meta name="description" content="Sibling Rivalry eau de parfum — grapefruit, vetiver, smoke. 100ml £160 beneath a Leopard Salome lid with its printed story; 7.5ml £40; samples £5.">
 <meta name="theme-color" content="#2B2E2D">
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="favicon.ico" sizes="any">
@@ -13,8 +13,8 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="assets/fonts/libre-caslon-text-latin-400-normal.woff2">
 <link rel="preload" as="font" type="font/woff2" crossorigin href="assets/fonts/montserrat-latin-500-normal.woff2">
 <link rel="stylesheet" href="assets/css/fonts.css?v=226e8a05">
-<link rel="stylesheet" href="assets/css/app.css?v=c3720b3b">
-</head><body>
+<link rel="stylesheet" href="assets/css/app.css?v=37c85a29">
+</head><body data-slug="sibling-rivalry">
 <div class="enter-veil" aria-hidden="true"></div>
 <div class="menu-dim" id="menudim"></div>
 <div class="topbar">
@@ -33,6 +33,13 @@
     </nav>
     <div class="mega" id="mega" hidden>
       <div class="inner">
+        <div>
+          <h4>Shop by size</h4>
+          <a class="ml" href="collection-100ml.html">100 ml &mdash; &pound;160</a>
+          <a class="ml" href="collection-7-5ml.html">7.5 ml &mdash; &pound;40</a>
+          <a class="ml" href="collection-samples.html">Samples &mdash; &pound;5</a>
+          <a class="ml" href="samples.html">The First Lines &mdash; &pound;38</a>
+        </div>
         <div>
           <h4>Shop</h4>
           <a class="ml" href="collection.html">All seven stories</a>
@@ -78,9 +85,9 @@
 
       <p class="fieldlabel">Size</p>
       <div class="sizes">
-        <button aria-current="true" data-price="160">100 ml &mdash; &pound;160</button>
-        <button data-price="110">50 ml &mdash; &pound;110</button>
-        <button data-price="5">Sample &mdash; &pound;5</button>
+        <button aria-current="true" data-size="100ml" data-price="160">100 ml &mdash; &pound;160</button>
+        <button data-size="7-5ml" data-price="40">7.5 ml &mdash; &pound;40</button>
+        <button data-size="sample" data-price="5">Sample &mdash; &pound;5</button>
       </div>
 
       <label class="tryfirst"><input type="checkbox" checked>
@@ -88,9 +95,10 @@
           <span>A 2ml of Hotel Lobby &mdash; anticipation &mdash; tucked into the parcel.</span></div></label>
 
       <div class="cta">
-        <button class="btn btn-ink" onclick="addToBag('sibling-rivalry','full',this)">Add to bag &mdash; &pound;160</button>
-        <button class="btn btn-ghostink applepay" onclick="addToBag('sibling-rivalry','full',this)"><svg class="i-apple" viewBox="0 0 384 512" aria-hidden="true" focusable="false"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.931.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/></svg> Apple Pay</button>
+        <button class="btn btn-ink" data-size="100ml" onclick="addToBag('sibling-rivalry',this.dataset.size,this)">Add to bag &mdash; &pound;160</button>
+        <button class="btn btn-ghostink applepay" onclick="addToBag('sibling-rivalry',document.querySelector('.pdp .cta .btn-ink').dataset.size||'100ml',this)"><svg class="i-apple" viewBox="0 0 384 512" aria-hidden="true" focusable="false"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.931.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/></svg> Apple Pay</button>
       </div>
+      <p class="re"><span data-sizeline>Hand-carved stone lid, and the nine printed pages, in the box.</span></p>
       <p class="re">Complimentary UK delivery &middot; 30-day returns &middot; sample cost redeemed</p>
 
       <div class="acc">
@@ -167,45 +175,45 @@
         <div class="head"><div><p class="k">Also on the shelf</p><h2>Other stories.</h2></div>
           <a class="ul" href="collection.html">All fragrances</a></div>
         <div class="cards">
-          <article class="card" data-order="0" data-feeling="Anticipation" data-stone="Nero Marquina" data-note="woods">
-        <div class="ph"><a href="product-hotel-lobby.html"><img src="assets/img/p-hotel-lobby-card.jpg?v=8eb4a7ea" alt="Hotel Lobby eau de parfum" loading="lazy"></a><span class="badge">Bestseller</span>
+          <article class="card" data-slug="hotel-lobby" data-order="0" data-feeling="Anticipation" data-stone="Nero Marquina" data-note="woods">
+        <div class="ph"><a data-href href="product-hotel-lobby.html"><img data-shot src="assets/img/p-hotel-lobby-card.jpg?v=8eb4a7ea" alt="Hotel Lobby eau de parfum" loading="lazy"></a><span class="badge">Bestseller</span>
           <div class="quick"><div class="r">
-            <button class="btn btn-ink btn-sm" onclick="addToBag('hotel-lobby','full',this)">100ml &mdash; &pound;160</button>
+            <button class="btn btn-ink btn-sm" data-buy data-size="100ml" onclick="addToBag('hotel-lobby',this.dataset.size,this)">100 ml &mdash; &pound;160</button>
             <button class="btn btn-ghostink btn-sm" onclick="addToBag('hotel-lobby','sample',this)">Sample &pound;5</button>
-          </div><small>The printed story is in the box</small></div></div>
+          </div><small data-incl>The printed story is in the box</small></div></div>
         <div class="meta"><span class="chip" style="background:#1C1D1D"></span><span class="stone">Nero Marquina</span>
           <h3>Hotel Lobby</h3><p class="notes">woods, spice, green</p>
-          <p class="price"><span>&pound;160 &middot; 100 ml</span><a class="ul" href="product-hotel-lobby.html">View</a></p></div>
+          <p class="price"><span data-priceline>&pound;160 &middot; 100 ml</span><a class="ul" data-href href="product-hotel-lobby.html">View</a></p></div>
       </article>
-      <article class="card" data-order="2" data-feeling="Comfort" data-stone="Calacatta" data-note="musk">
-        <div class="ph"><a href="product-pillow-talk.html"><img src="assets/img/p-pillow-talk-card.jpg?v=f6c5d3bf" alt="Pillow Talk eau de parfum" loading="lazy"></a>
+      <article class="card" data-slug="pillow-talk" data-order="2" data-feeling="Comfort" data-stone="Calacatta" data-note="musk">
+        <div class="ph"><a data-href href="product-pillow-talk.html"><img data-shot src="assets/img/p-pillow-talk-card.jpg?v=f6c5d3bf" alt="Pillow Talk eau de parfum" loading="lazy"></a>
           <div class="quick"><div class="r">
-            <button class="btn btn-ink btn-sm" onclick="addToBag('pillow-talk','full',this)">100ml &mdash; &pound;160</button>
+            <button class="btn btn-ink btn-sm" data-buy data-size="100ml" onclick="addToBag('pillow-talk',this.dataset.size,this)">100 ml &mdash; &pound;160</button>
             <button class="btn btn-ghostink btn-sm" onclick="addToBag('pillow-talk','sample',this)">Sample &pound;5</button>
-          </div><small>The printed story is in the box</small></div></div>
+          </div><small data-incl>The printed story is in the box</small></div></div>
         <div class="meta"><span class="chip" style="background:#E0DCD0"></span><span class="stone">Calacatta</span>
           <h3>Pillow Talk</h3><p class="notes">musk, powder, warm skin</p>
-          <p class="price"><span>&pound;160 &middot; 100 ml</span><a class="ul" href="product-pillow-talk.html">View</a></p></div>
+          <p class="price"><span data-priceline>&pound;160 &middot; 100 ml</span><a class="ul" data-href href="product-pillow-talk.html">View</a></p></div>
       </article>
-      <article class="card" data-order="3" data-feeling="Devotion" data-stone="Verde Jade" data-note="incense">
-        <div class="ph"><a href="product-sunday-service.html"><img src="assets/img/p-sunday-service-card.jpg?v=99ca55e8" alt="Sunday Service eau de parfum" loading="lazy"></a>
+      <article class="card" data-slug="sunday-service" data-order="3" data-feeling="Devotion" data-stone="Verde Jade" data-note="incense">
+        <div class="ph"><a data-href href="product-sunday-service.html"><img data-shot src="assets/img/p-sunday-service-card.jpg?v=99ca55e8" alt="Sunday Service eau de parfum" loading="lazy"></a>
           <div class="quick"><div class="r">
-            <button class="btn btn-ink btn-sm" onclick="addToBag('sunday-service','full',this)">100ml &mdash; &pound;160</button>
+            <button class="btn btn-ink btn-sm" data-buy data-size="100ml" onclick="addToBag('sunday-service',this.dataset.size,this)">100 ml &mdash; &pound;160</button>
             <button class="btn btn-ghostink btn-sm" onclick="addToBag('sunday-service','sample',this)">Sample &pound;5</button>
-          </div><small>The printed story is in the box</small></div></div>
+          </div><small data-incl>The printed story is in the box</small></div></div>
         <div class="meta"><span class="chip" style="background:#3E5147"></span><span class="stone">Verde Jade</span>
           <h3>Sunday Service</h3><p class="notes">incense, linen, morning air</p>
-          <p class="price"><span>&pound;160 &middot; 100 ml</span><a class="ul" href="product-sunday-service.html">View</a></p></div>
+          <p class="price"><span data-priceline>&pound;160 &middot; 100 ml</span><a class="ul" data-href href="product-sunday-service.html">View</a></p></div>
       </article>
-      <article class="card" data-order="4" data-feeling="Attraction" data-stone="Rosso Levanto" data-note="plum">
-        <div class="ph"><a href="product-third-date.html"><img src="assets/img/p-third-date-card.jpg?v=c8f7af1f" alt="Third Date eau de parfum" loading="lazy"></a>
+      <article class="card" data-slug="third-date" data-order="4" data-feeling="Attraction" data-stone="Rosso Levanto" data-note="plum">
+        <div class="ph"><a data-href href="product-third-date.html"><img data-shot src="assets/img/p-third-date-card.jpg?v=c8f7af1f" alt="Third Date eau de parfum" loading="lazy"></a>
           <div class="quick"><div class="r">
-            <button class="btn btn-ink btn-sm" onclick="addToBag('third-date','full',this)">100ml &mdash; &pound;160</button>
+            <button class="btn btn-ink btn-sm" data-buy data-size="100ml" onclick="addToBag('third-date',this.dataset.size,this)">100 ml &mdash; &pound;160</button>
             <button class="btn btn-ghostink btn-sm" onclick="addToBag('third-date','sample',this)">Sample &pound;5</button>
-          </div><small>The printed story is in the box</small></div></div>
+          </div><small data-incl>The printed story is in the box</small></div></div>
         <div class="meta"><span class="chip" style="background:#7A2E2A"></span><span class="stone">Rosso Levanto</span>
           <h3>Third Date</h3><p class="notes">plum, tobacco, candlelight</p>
-          <p class="price"><span>&pound;160 &middot; 100 ml</span><a class="ul" href="product-third-date.html">View</a></p></div>
+          <p class="price"><span data-priceline>&pound;160 &middot; 100 ml</span><a class="ul" data-href href="product-third-date.html">View</a></p></div>
       </article>
         </div>
       </div>
@@ -239,6 +247,6 @@
   <a class="btn btn-ink" href="checkout.html">Checkout</a>
   <p class="dfine">Tax included &middot; 30-day returns &middot; sample cost redeemed</p>
 </aside>
-<script>window.SS_CAT={"hotel-lobby": {"name": "Hotel Lobby", "stone": "Nero Marquina", "col": "#1C1D1D", "notes": "woods, spice, green", "price": 160, "img": "assets/img/p-hotel-lobby-card.jpg", "href": "product-hotel-lobby.html"}, "sibling-rivalry": {"name": "Sibling Rivalry", "stone": "Leopard Salome", "col": "#8A6A3F", "notes": "grapefruit, vetiver, smoke", "price": 160, "img": "assets/img/p-sibling-rivalry-card.jpg", "href": "product-sibling-rivalry.html"}, "pillow-talk": {"name": "Pillow Talk", "stone": "Calacatta", "col": "#E0DCD0", "notes": "musk, powder, warm skin", "price": 160, "img": "assets/img/p-pillow-talk-card.jpg", "href": "product-pillow-talk.html"}, "sunday-service": {"name": "Sunday Service", "stone": "Verde Jade", "col": "#3E5147", "notes": "incense, linen, morning air", "price": 160, "img": "assets/img/p-sunday-service-card.jpg", "href": "product-sunday-service.html"}, "third-date": {"name": "Third Date", "stone": "Rosso Levanto", "col": "#7A2E2A", "notes": "plum, tobacco, candlelight", "price": 160, "img": "assets/img/p-third-date-card.jpg", "href": "product-third-date.html"}, "road-trip": {"name": "Road Trip", "stone": "Rosso Francia", "col": "#B5593F", "notes": "amber, leather, warm wind", "price": 160, "img": "assets/img/p-road-trip-card.jpg", "href": "product-road-trip.html"}, "4pm-matinee": {"name": "4pm Matinee", "stone": "Giallo Siena", "col": "#C99A3F", "notes": "citrus, velvet, dark rooms", "price": 160, "img": "assets/img/p-4pm-matinee-card.jpg", "href": "product-4pm-matinee.html"}, "set": {"name": "The First Lines", "stone": "", "col": "#3E5147", "notes": "all seven in miniature", "price": 38, "img": "assets/img/set-first-lines.jpg", "href": "samples.html"}};</script>
-<script src="assets/js/site.js?v=245f7636"></script>
+<script>window.SS_CAT={"hotel-lobby": {"name": "Hotel Lobby", "stone": "Nero Marquina", "col": "#1C1D1D", "notes": "woods, spice, green", "price": 160, "img": "assets/img/p-hotel-lobby-card.jpg", "href": "product-hotel-lobby.html", "sizes": {"100ml": {"label": "100 ml", "price": 160, "incl": "The printed story is in the box", "img": "assets/img/p-hotel-lobby-card.jpg?v=8eb4a7ea", "main": "assets/img/p-hotel-lobby-hero.jpg?v=23a4c464"}, "7-5ml": {"label": "7.5 ml", "price": 40, "incl": "Printed sleeve, no story", "img": "assets/img/p-hotel-lobby-75-card.jpg?v=1a36373a", "main": "assets/img/p-hotel-lobby-75.jpg?v=f885b32c"}, "sample": {"label": "Sample", "price": 5, "incl": "2ml, and its opening page", "img": "assets/img/p-hotel-lobby-card.jpg?v=8eb4a7ea", "main": "assets/img/p-hotel-lobby-hero.jpg?v=23a4c464"}}}, "sibling-rivalry": {"name": "Sibling Rivalry", "stone": "Leopard Salome", "col": "#8A6A3F", "notes": "grapefruit, vetiver, smoke", "price": 160, "img": "assets/img/p-sibling-rivalry-card.jpg", "href": "product-sibling-rivalry.html", "sizes": {"100ml": {"label": "100 ml", "price": 160, "incl": "The printed story is in the box", "img": "assets/img/p-sibling-rivalry-card.jpg?v=9cfa79c8", "main": "assets/img/p-sibling-rivalry-hero.jpg?v=8d5962db"}, "7-5ml": {"label": "7.5 ml", "price": 40, "incl": "Printed sleeve, no story", "img": "assets/img/p-sibling-rivalry-card.jpg?v=9cfa79c8", "main": "assets/img/p-sibling-rivalry-hero.jpg?v=8d5962db"}, "sample": {"label": "Sample", "price": 5, "incl": "2ml, and its opening page", "img": "assets/img/p-sibling-rivalry-card.jpg?v=9cfa79c8", "main": "assets/img/p-sibling-rivalry-hero.jpg?v=8d5962db"}}}, "pillow-talk": {"name": "Pillow Talk", "stone": "Calacatta", "col": "#E0DCD0", "notes": "musk, powder, warm skin", "price": 160, "img": "assets/img/p-pillow-talk-card.jpg", "href": "product-pillow-talk.html", "sizes": {"100ml": {"label": "100 ml", "price": 160, "incl": "The printed story is in the box", "img": "assets/img/p-pillow-talk-card.jpg?v=f6c5d3bf", "main": "assets/img/p-pillow-talk-hero.jpg?v=e721df40"}, "7-5ml": {"label": "7.5 ml", "price": 40, "incl": "Printed sleeve, no story", "img": "assets/img/p-pillow-talk-75-card.jpg?v=83fbf9d7", "main": "assets/img/p-pillow-talk-75.jpg?v=9279e8c6"}, "sample": {"label": "Sample", "price": 5, "incl": "2ml, and its opening page", "img": "assets/img/p-pillow-talk-card.jpg?v=f6c5d3bf", "main": "assets/img/p-pillow-talk-hero.jpg?v=e721df40"}}}, "sunday-service": {"name": "Sunday Service", "stone": "Verde Jade", "col": "#3E5147", "notes": "incense, linen, morning air", "price": 160, "img": "assets/img/p-sunday-service-card.jpg", "href": "product-sunday-service.html", "sizes": {"100ml": {"label": "100 ml", "price": 160, "incl": "The printed story is in the box", "img": "assets/img/p-sunday-service-card.jpg?v=99ca55e8", "main": "assets/img/p-sunday-service-hero.jpg?v=4aa4d48d"}, "7-5ml": {"label": "7.5 ml", "price": 40, "incl": "Printed sleeve, no story", "img": "assets/img/p-sunday-service-75-card.jpg?v=1da57f20", "main": "assets/img/p-sunday-service-75.jpg?v=2b5ecf5e"}, "sample": {"label": "Sample", "price": 5, "incl": "2ml, and its opening page", "img": "assets/img/p-sunday-service-card.jpg?v=99ca55e8", "main": "assets/img/p-sunday-service-hero.jpg?v=4aa4d48d"}}}, "third-date": {"name": "Third Date", "stone": "Rosso Levanto", "col": "#7A2E2A", "notes": "plum, tobacco, candlelight", "price": 160, "img": "assets/img/p-third-date-card.jpg", "href": "product-third-date.html", "sizes": {"100ml": {"label": "100 ml", "price": 160, "incl": "The printed story is in the box", "img": "assets/img/p-third-date-card.jpg?v=c8f7af1f", "main": "assets/img/p-third-date-hero.jpg?v=a5d7012f"}, "7-5ml": {"label": "7.5 ml", "price": 40, "incl": "Printed sleeve, no story", "img": "assets/img/p-third-date-75-card.jpg?v=31275378", "main": "assets/img/p-third-date-75.jpg?v=203867d3"}, "sample": {"label": "Sample", "price": 5, "incl": "2ml, and its opening page", "img": "assets/img/p-third-date-card.jpg?v=c8f7af1f", "main": "assets/img/p-third-date-hero.jpg?v=a5d7012f"}}}, "road-trip": {"name": "Road Trip", "stone": "Rosso Francia", "col": "#B5593F", "notes": "amber, leather, warm wind", "price": 160, "img": "assets/img/p-road-trip-card.jpg", "href": "product-road-trip.html", "sizes": {"100ml": {"label": "100 ml", "price": 160, "incl": "The printed story is in the box", "img": "assets/img/p-road-trip-card.jpg?v=a257a32a", "main": "assets/img/p-road-trip-hero.jpg?v=125b813d"}, "7-5ml": {"label": "7.5 ml", "price": 40, "incl": "Printed sleeve, no story", "img": "assets/img/p-road-trip-75-card.jpg?v=2633f1da", "main": "assets/img/p-road-trip-75.jpg?v=879ddd32"}, "sample": {"label": "Sample", "price": 5, "incl": "2ml, and its opening page", "img": "assets/img/p-road-trip-card.jpg?v=a257a32a", "main": "assets/img/p-road-trip-hero.jpg?v=125b813d"}}}, "4pm-matinee": {"name": "4pm Matinee", "stone": "Giallo Siena", "col": "#C99A3F", "notes": "citrus, velvet, dark rooms", "price": 160, "img": "assets/img/p-4pm-matinee-card.jpg", "href": "product-4pm-matinee.html", "sizes": {"100ml": {"label": "100 ml", "price": 160, "incl": "The printed story is in the box", "img": "assets/img/p-4pm-matinee-card.jpg?v=51f3b37a", "main": "assets/img/p-4pm-matinee-hero.jpg?v=01d24a57"}, "7-5ml": {"label": "7.5 ml", "price": 40, "incl": "Printed sleeve, no story", "img": "assets/img/p-4pm-matinee-75-card.jpg?v=612fbb9d", "main": "assets/img/p-4pm-matinee-75.jpg?v=de12ecae"}, "sample": {"label": "Sample", "price": 5, "incl": "2ml, and its opening page", "img": "assets/img/p-4pm-matinee-card.jpg?v=51f3b37a", "main": "assets/img/p-4pm-matinee-hero.jpg?v=01d24a57"}}}, "set": {"name": "The First Lines", "stone": "", "col": "#3E5147", "notes": "all seven in miniature", "price": 38, "img": "assets/img/set-first-lines.jpg", "href": "samples.html"}};</script>
+<script src="assets/js/site.js?v=9f707a8a"></script>
 </body></html>

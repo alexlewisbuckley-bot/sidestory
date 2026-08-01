@@ -81,10 +81,19 @@
   window.SSremove=i=>{bag.splice(i,1);save();renderBag();};
   window.addToBag=(slug,kind,btn)=>{
     const p=CAT[slug]||CAT.set||{name:'The First Lines',img:'assets/img/set-first-lines.jpg',price:38,stone:''};
-    const isSample=kind==='sample';
-    bag.push({slug,label:p.name+(isSample?' — sample':(slug==='set'?'':' — 100ml')),
-      meta:isSample?'2ml · its story, printed small':(p.stone?p.stone.toUpperCase()+' LID · STORY INCLUDED':'ALL SEVEN IN MINIATURE'),
-      price:isSample?5:p.price,img:p.img});
+    /* 'full' is the old name for the 100ml and still arrives from older markup */
+    const key = kind==='full' ? '100ml' : kind;
+    const v = (p.sizes||{})[key];
+    const isSample = key==='sample';
+    const meta = slug==='set' ? 'ALL SEVEN IN MINIATURE'
+      : isSample ? '2ML · ITS OPENING PAGE'
+      : key==='7-5ml' ? '7.5ML SPRAY · PRINTED SLEEVE'
+      : (p.stone? p.stone.toUpperCase()+' LID · STORY INCLUDED' : 'ALL SEVEN IN MINIATURE');
+    bag.push({slug,
+      label: p.name + (slug==='set' ? '' : ' — ' + (v ? v.label : '100 ml')),
+      meta,
+      price: v ? v.price : (isSample?5:p.price),
+      img: v ? v.img : p.img});
     save();
     const c=document.getElementById('bagcount'); if(c){c.classList.add('tick');setTimeout(()=>c.classList.remove('tick'),300);}
     if(btn){const t=btn.textContent;btn.textContent='In the bag ✓';btn.disabled=true;
@@ -121,16 +130,71 @@
     btn.setAttribute('aria-current','true');
     main.style.opacity=0; setTimeout(()=>{main.src=src;main.style.opacity=1;},180);
   };
+  /* One product per fragrance; the variant is chosen by the button, or by the
+     ?size= on the link that brought you here, which is how the shop-by-size
+     collections open on the right one. */
+  function pickSize(row,b,scroll){
+    if(!b) return;
+    row.querySelectorAll('button').forEach(x=>x.removeAttribute('aria-current'));
+    b.setAttribute('aria-current','true');
+    const key=b.dataset.size||'100ml';
+    const price=b.dataset.price||(b.textContent.match(/£(\d+)/)||[])[1];
+    const add=document.querySelector('.pdp .cta .btn-ink');
+    if(add&&price){ add.textContent='Add to bag — £'+price; add.dataset.size=key; }
+    const slug=document.body.dataset.slug;
+    const v=slug && CAT[slug] && CAT[slug].sizes && CAT[slug].sizes[key];
+    const main=document.getElementById('pdpmain');
+    if(v&&main&&v.main&&main.src.indexOf(v.main)<0){
+      main.style.opacity=0;
+      setTimeout(()=>{main.src=v.main;main.style.opacity=1;},180);
+      document.querySelectorAll('.gal .strip button').forEach(x=>x.removeAttribute('aria-current'));
+    }
+    const incl=document.querySelector('[data-sizeline]');
+    if(v&&incl) incl.textContent=v.incl;
+  }
   document.querySelectorAll('.sizes').forEach(row=>{
-    row.addEventListener('click',e=>{
-      const b=e.target.closest('button'); if(!b) return;
-      row.querySelectorAll('button').forEach(x=>x.removeAttribute('aria-current'));
-      b.setAttribute('aria-current','true');
-      const price=b.dataset.price||(b.textContent.match(/£(\d+)/)||[])[1];
-      const add=document.querySelector('.pdp .cta .btn-ink');
-      if(add&&price) add.textContent='Add to bag — £'+price;
-    });
+    row.addEventListener('click',e=>pickSize(row,e.target.closest('button')));
+    const want=new URLSearchParams(location.search).get('size');
+    if(want){
+      const b=row.querySelector('button[data-size="'+want.replace(/[^a-z0-9-]/gi,'')+'"]');
+      if(b) pickSize(row,b);
+    }
   });
+  /* Shop by size. One card per fragrance; choosing a size rewrites that
+     card's plate, price, quick-add and link rather than swapping in a second
+     set of cards, so the shelf stays as designed and the product page opens
+     on whatever was chosen here. */
+  document.querySelectorAll('.filters[data-size-for]').forEach(row=>{
+    const grid=document.querySelector(row.dataset.sizeFor); if(!grid) return;
+    const apply=key=>{
+      grid.dataset.size=key;
+      grid.querySelectorAll('.card[data-slug]').forEach(card=>{
+        const p=CAT[card.dataset.slug]; if(!p||!p.sizes) return;
+        const v=p.sizes[key]; if(!v) return;
+        const shot=card.querySelector('[data-shot]');
+        if(shot&&shot.getAttribute('src')!==v.img) shot.src=v.img;
+        const buy=card.querySelector('[data-buy]');
+        if(buy){ buy.dataset.size=key; buy.innerHTML=v.label+' — £'+v.price; }
+        const line=card.querySelector('[data-priceline]');
+        if(line) line.innerHTML='£'+v.price+' · '+v.label;
+        const incl=card.querySelector('[data-incl]');
+        if(incl) incl.textContent=v.incl;
+        card.querySelectorAll('[data-href]').forEach(a=>{
+          a.href='product-'+card.dataset.slug+'.html'+(key==='100ml'?'':'?size='+key);
+        });
+      });
+      row.querySelectorAll('button').forEach(b=>{
+        if(b.dataset.size===key) b.setAttribute('aria-current','true');
+        else b.removeAttribute('aria-current');
+      });
+    };
+    row.addEventListener('click',e=>{
+      const b=e.target.closest('button[data-size]'); if(!b) return;
+      apply(b.dataset.size);
+    });
+    apply(grid.dataset.size||'100ml');
+  });
+
   /* Collection sort. The grid is re-ordered with the CSS `order` property, so
      nothing is added or removed from the DOM and no layout is rebuilt. */
   document.querySelectorAll('.filters[data-sort-for]').forEach(row=>{

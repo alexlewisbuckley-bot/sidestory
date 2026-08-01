@@ -55,6 +55,25 @@ EDITORIAL = [
 STORY = ["hotel-lobby", "sibling-rivalry", "pillow-talk", "sunday-service",
          "third-date", "road-trip", "4pm-matinee"]
 
+# The 7.5ml packs. Six frames from one set-up, the pack small and centred in a
+# 1512x1008 frame. Boxes below were measured against a blurred background model
+# — the saturation detector is built for a coloured bottle on paper and cannot
+# see a white box on a white backdrop. Values are fractions of the frame.
+# One box for all six, not six measured boxes. They are frames from a single
+# set-up with the pack in the same place, so per-image detection only
+# introduces the differences it thinks it sees — a lighter inner sleeve reads
+# as a wider pack — and the cards then sit at visibly different scales. This
+# is the median of the six measurements, and it makes them a set.
+PACK_BOX = (0.432, 0.344, 0.549, 0.655)
+SEVENFIVE = {slug: PACK_BOX for slug in
+             ("hotel-lobby", "pillow-talk", "sunday-service",
+              "third-date", "road-trip", "4pm-matinee")}
+# The pack is only about a third of the frame, so a tight square would have to
+# be small. The card takes the tight crop where 296px is plenty; the product
+# page takes a looser one so it still holds up on a 2x screen.
+PACK_CARD = dict(subject_h=0.46, pad_x=2.4, top_bias=0.46)
+PACK_MAIN = dict(subject_h=0.34, pad_x=3.2, top_bias=0.50)
+
 # Packshots (open box, outer carton) vary in composition and keep the detector.
 MANUAL = {}
 
@@ -112,7 +131,8 @@ def subject_box(im):
     return float(x0), float(y0), float(x1), float(y1)
 
 
-MODES = {"tight": TIGHT, "loose": LOOSE, "card": CARD, "hero": HERO}
+MODES = {"tight": TIGHT, "loose": LOOSE, "card": CARD, "hero": HERO,
+         "pack-card": PACK_CARD, "pack-main": PACK_MAIN}
 
 
 def square_crop(path, out, mode="tight", size=1000):
@@ -185,6 +205,17 @@ if __name__ == "__main__":
                 if i == 0:
                     t2 = Image.open(os.path.join(OUT, f"p-{slug}-card.jpg")).copy()
                     t2.thumbnail((240, 240)); tiles.append(t2)
+    for slug, box in SEVENFIVE.items():
+        q = os.path.join(SRC, slug + "-75.jpg")
+        if not os.path.exists(q):
+            print("  - no 7.5ml pack for %s yet" % slug); continue
+        MANUAL[slug + "-75"] = box
+        for mode, name, tgt in (("pack-card", "p-%s-75-card.jpg" % slug, 900),
+                                ("pack-main", "p-%s-75.jpg" % slug, 1200)):
+            o = os.path.join(OUT, name)
+            size = square_crop(q, o, mode, tgt)
+            print(("  " + name).ljust(30) + "%dx%d  %dKB   <- %s-75.jpg"
+                  % (size[0], size[1], round(os.path.getsize(o) / 1024), slug))
     for slug in STORY:
         q = os.path.join(SRC, slug + "-story.jpg")
         if not os.path.exists(q):

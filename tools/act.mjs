@@ -14,7 +14,7 @@ const R={};
 // size selector
 await p.click('.sizes button:nth-child(2)'); await p.waitForTimeout(200);
 R.sizeSelects = await p.$eval('.sizes button:nth-child(2)', e=>e.getAttribute('aria-current')==='true');
-R.ctaPriceUpdates = await p.$eval('.pdp .cta .btn', e=>e.textContent.includes('110'));
+R.ctaPriceUpdates_40 = await p.$eval('.pdp .cta .btn', e=>e.textContent.includes('40'));
 // thumbnail swap
 const before = await p.$eval('#pdpmain', e=>e.src);
 await p.click('.gal .strip button:nth-child(3)'); await p.waitForTimeout(600);

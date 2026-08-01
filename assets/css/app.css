@@ -839,6 +839,10 @@ footer a:hover{opacity:1}
   letter-spacing:.2em;text-transform:uppercase;color:var(--txt);
   min-height:2.25rem;padding:.35rem .1rem;border-bottom:1px solid transparent}
 .filters button[aria-current]{color:var(--ink);border-bottom-color:var(--ink)}
+.filters.sizerow{margin-top:calc(var(--space-3) * -1);border-top:0;padding-top:0}
+.filters .lbl{font-family:Montserrat,sans-serif;font-weight:500;font-size:var(--t-2xs);
+  letter-spacing:var(--ls-stone);text-transform:uppercase;color:var(--txt);opacity:.6;
+  margin-right:var(--space-2)}
 .filters .count{margin-left:auto;font-family:Montserrat,sans-serif;font-size:var(--t-xs);
   letter-spacing:.18em;text-transform:uppercase;color:var(--txt);opacity:.6}
 

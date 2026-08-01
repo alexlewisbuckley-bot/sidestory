@@ -239,7 +239,7 @@ FOOTER_COLS = [
 ]
 
 
-def head(title, desc, css):
+def head(title, desc, css, body_attr=""):
     links = "\n".join(f'<link rel="stylesheet" href="{fp(c)}">' for c in css)
     return f"""<!doctype html>
 <html lang="en-GB">
@@ -256,7 +256,7 @@ def head(title, desc, css):
 <link rel="preload" as="font" type="font/woff2" crossorigin href="assets/fonts/libre-caslon-text-latin-400-normal.woff2">
 <link rel="preload" as="font" type="font/woff2" crossorigin href="assets/fonts/montserrat-latin-500-normal.woff2">
 {links}
-</head><body>
+</head><body{body_attr}>
 """
 
 
@@ -279,6 +279,13 @@ def topbar(current):
     </nav>
     <div class="mega" id="mega" hidden>
       <div class="inner">
+        <div>
+          <h4>Shop by size</h4>
+          <a class="ml" href="collection-100ml.html">100 ml &mdash; &pound;160</a>
+          <a class="ml" href="collection-7-5ml.html">7.5 ml &mdash; &pound;40</a>
+          <a class="ml" href="collection-samples.html">Samples &mdash; &pound;5</a>
+          <a class="ml" href="samples.html">The First Lines &mdash; &pound;38</a>
+        </div>
         <div>
           <h4>Shop</h4>
           <a class="ml" href="collection.html">All seven stories</a>
@@ -349,6 +356,42 @@ DRAWER = """<div class="scrim" id="scrim" onclick="closeDrawer()"></div>
 """
 
 
+# The range is one product per fragrance with three variants. 50ml is gone;
+# 7.5ml at £40 replaces it. Only the 100ml carries the carved stone lid and
+# the printed story — the 7.5ml and the sample travel in a printed sleeve, so
+# the include line is per size and not a sitewide claim.
+SIZES = [
+    dict(key="100ml",  label="100 ml", price=160,
+         incl="The printed story is in the box",
+         line="Hand-carved stone lid, and the nine printed pages, in the box."),
+    dict(key="7-5ml",  label="7.5 ml", price=40,
+         incl="Printed sleeve, no story",
+         line="The same eau de parfum in a 7.5ml spray, in a printed sleeve."),
+    dict(key="sample", label="Sample", price=5,
+         incl="2ml, and its opening page",
+         line="2ml of the eau de parfum — the cost comes off your first bottle."),
+]
+BY_SIZE = {z["key"]: z for z in SIZES}
+
+
+def size_img(p, key):
+    """Card image for a fragrance at a given size."""
+    if key == "7-5ml":
+        cand = "assets/img/p-%s-75-card.jpg" % p["slug"]
+        if os.path.exists(os.path.join(ROOT, cand)):
+            return cand
+    return "assets/img/p-%s-card.jpg" % p["slug"]
+
+
+def size_main(p, key):
+    """Product-page plate for a fragrance at a given size."""
+    if key == "7-5ml":
+        cand = "assets/img/p-%s-75.jpg" % p["slug"]
+        if os.path.exists(os.path.join(ROOT, cand)):
+            return cand
+    return "assets/img/p-%s-hero.jpg" % p["slug"]
+
+
 def catalogue_json():
     """The bag reads this instead of carrying its own copy of the product list —
     that duplicate is what left the drawer pointing at image files the photo
@@ -357,7 +400,12 @@ def catalogue_json():
     data = {p["slug"]: dict(name=p["name"], stone=p["stone"], col=p["swatch"],
                             notes=p["notes"], price=160,
                             img="assets/img/p-%s-card.jpg" % p["slug"],
-                            href="product-%s.html" % p["slug"])
+                            href="product-%s.html" % p["slug"],
+                            sizes={z["key"]: dict(
+                                label=z["label"], price=z["price"], incl=z["incl"],
+                                img=fp(size_img(p, z["key"])),
+                                main=fp(size_main(p, z["key"])))
+                                for z in SIZES})
             for p in PRODUCTS}
     data["set"] = dict(name="The First Lines", stone="", col="#3E5147",
                        notes="all seven in miniature", price=38,
@@ -404,8 +452,8 @@ def plate(q, n):
     return "assets/img/p-%s-1.jpg" % q["slug"]
 
 
-def page(slug, title, desc, body, current=None, css=("assets/css/fonts.css", "assets/css/app.css")):
-    out = head(title, desc, css) + topbar(current or (slug + ".html")) + body.strip() + "\n" \
+def page(slug, title, desc, body, current=None, css=("assets/css/fonts.css", "assets/css/app.css"), body_attr=""):
+    out = head(title, desc, css, body_attr) + topbar(current or (slug + ".html")) + body.strip() + "\n" \
         + footer() + DRAWER \
         + f'<script>window.SS_CAT={catalogue_json()};</script>\n' \
         + f'<script src="{fp("assets/js/site.js")}"></script>\n</body></html>\n'
@@ -426,15 +474,15 @@ def crumbs(*parts):
 
 def product_card(p, reveal=True):
     badge = f'<span class="badge">{p["badge"]}</span>' if p["badge"] else ""
-    return f"""      <article class="card{' rev' if reveal else ''}" data-order="{PRODUCTS.index(p)}" data-feeling="{p['feeling']}" data-stone="{p['stone']}" data-note="{p['notes'].split(',')[0].strip()}">
-        <div class="ph"><a href="product-{p['slug']}.html"><img src="{fp('assets/img/' + p['img'] + '-card.jpg')}" alt="{p['name']} eau de parfum" loading="lazy"></a>{badge}
+    return f"""      <article class="card{' rev' if reveal else ''}" data-slug="{p['slug']}" data-order="{PRODUCTS.index(p)}" data-feeling="{p['feeling']}" data-stone="{p['stone']}" data-note="{p['notes'].split(',')[0].strip()}">
+        <div class="ph"><a data-href href="product-{p['slug']}.html"><img data-shot src="{fp('assets/img/' + p['img'] + '-card.jpg')}" alt="{p['name']} eau de parfum" loading="lazy"></a>{badge}
           <div class="quick"><div class="r">
-            <button class="btn btn-ink btn-sm" onclick="addToBag('{p['slug']}','full',this)">100ml &mdash; &pound;160</button>
+            <button class="btn btn-ink btn-sm" data-buy data-size="100ml" onclick="addToBag('{p['slug']}',this.dataset.size,this)">100 ml &mdash; &pound;160</button>
             <button class="btn btn-ghostink btn-sm" onclick="addToBag('{p['slug']}','sample',this)">Sample &pound;5</button>
-          </div><small>The printed story is in the box</small></div></div>
+          </div><small data-incl>The printed story is in the box</small></div></div>
         <div class="meta"><span class="chip" style="background:{p['swatch']}"></span><span class="stone">{p['stone']}</span>
           <h3>{p['name']}</h3><p class="notes">{p['notes']}</p>
-          <p class="price"><span>&pound;160 &middot; 100 ml</span><a class="ul" href="product-{p['slug']}.html">View</a></p></div>
+          <p class="price"><span data-priceline>&pound;160 &middot; 100 ml</span><a class="ul" data-href href="product-{p['slug']}.html">View</a></p></div>
       </article>"""
 
 
@@ -462,20 +510,50 @@ def build():
     home_body = re.sub(r"'(assets/img/[^'?]+)'",
                        lambda m: "'%s'" % fp(m.group(1)), home_body)
     written["index"] = page("index", "Stories, carved in scent",
-        "Seven fine fragrances, each begun as a commissioned short story and sealed beneath a hand-carved stone lid.",
+        "Seven fine fragrances, each begun as a commissioned short story. 100ml £160 beneath a hand-carved stone lid, 7.5ml £40, samples £5.",
         home_body, current="index.html")
 
-    # ---- 02 collection ---------------------------------------------------
-    cards = "\n".join(product_card(p) for p in PRODUCTS) + "\n" + PROMO_CARD
-    written["collection"] = page("collection", "The Fragrances",
-        "Seven stories, worn as scent. Eau de parfum, 100ml, £160 — samples always £5 and always redeemable.", f"""
+    # ---- 02 collection, and one per size ---------------------------------
+    #   One product per fragrance with three variants, so the size collections
+    #   are the same seven cards with the variant pre-applied — the card price,
+    #   plate and link all switch, and the product page opens on that size.
+    SHELF = [
+        (None, "collection", "The Fragrances", "The collection",
+         "Seven stories, worn as scent.",
+         "Each began as nine pages of fiction, commissioned before a single note was weighed. "
+         "Eau de parfum in three sizes: 100ml at &pound;160 under a hand-carved stone lid with its "
+         "printed story in the box, 7.5ml at &pound;40 in a printed sleeve, and samples at &pound;5, "
+         "always redeemable against a full bottle."),
+        ("100ml", "collection-100ml", "100 ml", "The collection &middot; 100 ml",
+         "Seven stories, at 100 ml.",
+         "The full bottle, &pound;160. Hand-carved stone lid, and the nine printed pages in the box "
+         "&mdash; the only size that carries both."),
+        ("7-5ml", "collection-7-5ml", "7.5 ml", "The collection &middot; 7.5 ml",
+         "Seven stories, at 7.5 ml.",
+         "The same eau de parfum in a 7.5ml spray, &pound;40, in a printed sleeve. No stone lid and "
+         "no printed story at this size &mdash; those belong to the 100ml."),
+        ("sample", "collection-samples", "Samples", "The collection &middot; samples",
+         "Seven stories, to try first.",
+         "2ml of any of the seven, &pound;5, and the cost comes off your first full bottle. "
+         "Sent in a printed sleeve with the story&rsquo;s opening page."),
+    ]
+    for key, slug, title, kicker, head, lede in SHELF:
+        cards = "\n".join(product_card(p) for p in PRODUCTS)
+        if key in (None, "sample"):
+            cards += "\n" + PROMO_CARD
+        sizerow = "\n".join(
+            '      <button data-size="%s"%s>%s</button>'
+            % (z["key"], ' aria-current="true"' if z["key"] == (key or "100ml") else "", z["label"])
+            for z in SIZES)
+        written[slug] = page(slug, title,
+            "Seven stories, worn as scent. Eau de parfum &mdash; 100ml &pound;160, 7.5ml &pound;40, samples &pound;5.", f"""
 <section class="seven">
   <div class="inner">
-    {crumbs(("Home", "index.html"), "The Fragrances")}
+    {crumbs(("Home", "index.html"), ("The Fragrances", "collection.html"), title) if key else crumbs(("Home", "index.html"), "The Fragrances")}
     <div class="phead">
-      <p class="k">The collection</p>
-      <h1>Seven stories, worn as scent.</h1>
-      <p class="lede">Each began as nine pages of fiction, commissioned before a single note was weighed; each is sealed beneath a hand-carved stone lid. Eau de parfum, 100ml, &pound;160 &mdash; samples always &pound;5, always redeemable against a full bottle.</p>
+      <p class="k">{kicker}</p>
+      <h1>{head}</h1>
+      <p class="lede">{lede}</p>
     </div>
     <div class="filters" data-sort-for=".cards">
       <button data-sort="order" aria-current="true">All</button>
@@ -484,13 +562,17 @@ def build():
       <button data-sort="note">By note</button>
       <span class="count" data-count>7 stories &middot; 1 set</span>
     </div>
-    <div class="cards">
+    <div class="filters sizerow" data-size-for=".cards">
+      <span class="lbl">Size</span>
+{sizerow}
+    </div>
+    <div class="cards" data-size="{key or '100ml'}">
 {cards}
     </div>
-    <p class="foot rev">Every bottle ships with its printed story &nbsp;&middot;&nbsp; samples always &pound;5, always redeemable &nbsp;&middot;&nbsp; complimentary UK delivery over &pound;100</p>
+    <p class="foot rev">Every 100ml ships with its printed story and its carved stone lid &nbsp;&middot;&nbsp; 7.5ml and samples travel in a printed sleeve &nbsp;&middot;&nbsp; complimentary UK delivery over &pound;100</p>
   </div>
 </section>
-""")
+""", current="collection.html")
 
     # ---- 03 product — one page per fragrance -----------------------------
     for p in PRODUCTS:
@@ -568,7 +650,7 @@ def build():
         others = [q for q in PRODUCTS if q["slug"] != p["slug"]][:4]
         rel = "\n".join(product_card(q, reveal=False) for q in others)
         written[slug_page] = page(slug_page, p["name"],
-            f"{p['name']} eau de parfum — {p['notes']}. Sealed beneath a {p['stone']} lid, with its printed story in the box.", f"""
+            f"{p['name']} eau de parfum — {p['notes']}. 100ml £160 beneath a {p['stone']} lid with its printed story; 7.5ml £40; samples £5.", f"""
     <div class="inner">
       {crumbs(("Home", "index.html"), ("The Fragrances", "collection.html"), p["name"])}
       <div class="pdp">
@@ -584,9 +666,9 @@ def build():
 
       <p class="fieldlabel">Size</p>
       <div class="sizes">
-        <button aria-current="true" data-price="160">100 ml &mdash; &pound;160</button>
-        <button data-price="110">50 ml &mdash; &pound;110</button>
-        <button data-price="5">Sample &mdash; &pound;5</button>
+        <button aria-current="true" data-size="100ml" data-price="160">100 ml &mdash; &pound;160</button>
+        <button data-size="7-5ml" data-price="40">7.5 ml &mdash; &pound;40</button>
+        <button data-size="sample" data-price="5">Sample &mdash; &pound;5</button>
       </div>
 
       <label class="tryfirst"><input type="checkbox" checked>
@@ -594,9 +676,10 @@ def build():
           <span>A 2ml of {second['name']} &mdash; {second['feeling'].lower()} &mdash; tucked into the parcel.</span></div></label>
 
       <div class="cta">
-        <button class="btn btn-ink" onclick="addToBag('{p['slug']}','full',this)">Add to bag &mdash; &pound;160</button>
-        <button class="btn btn-ghostink applepay" onclick="addToBag('{p['slug']}','full',this)"><svg class="i-apple" viewBox="0 0 384 512" aria-hidden="true" focusable="false"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.931.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/></svg> Apple Pay</button>
+        <button class="btn btn-ink" data-size="100ml" onclick="addToBag('{p['slug']}',this.dataset.size,this)">Add to bag &mdash; &pound;160</button>
+        <button class="btn btn-ghostink applepay" onclick="addToBag('{p['slug']}',document.querySelector('.pdp .cta .btn-ink').dataset.size||'100ml',this)"><svg class="i-apple" viewBox="0 0 384 512" aria-hidden="true" focusable="false"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.931.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/></svg> Apple Pay</button>
       </div>
+      <p class="re"><span data-sizeline>Hand-carved stone lid, and the nine printed pages, in the box.</span></p>
       <p class="re">Complimentary UK delivery &middot; 30-day returns &middot; sample cost redeemed</p>
 
       <div class="acc">
@@ -620,7 +703,7 @@ def build():
         </div>
       </div>
     </section>
-    """, current="collection.html")
+    """, current="collection.html", body_attr=f' data-slug="{p["slug"]}"')
 
     # ---- 04 samples ------------------------------------------------------
     written["samples"] = page("samples", "Samples & The First Lines",
@@ -667,7 +750,7 @@ def build():
   <div class="c">
     <p class="k">Kept &amp; given</p>
     <h1>A story is a serious gift.</h1>
-    <p>Every parcel arrives gift-ready &mdash; the stone lid, the printed story, no plastic in the box. Add the Dedication and a line of yours is typeset on the flyleaf.</p>
+    <p>Every parcel arrives gift-ready and there is no plastic in the box. A 100ml brings its stone lid and its printed story; a 7.5ml comes in its printed sleeve. Add the Dedication and a line of yours is typeset on the flyleaf.</p>
   </div>
 </section>
 
@@ -1328,7 +1411,7 @@ def build():
   <div class="phead"><p class="k">The practical</p><h1>The questions we are actually asked.</h1></div>
   <div class="acc" style="max-width:52rem">
     <details open><summary>Is the story really written first?</summary><div class="body">Yes, and it is the whole point. A novelist is commissioned and paid before any brief goes to Grasse. The perfumer works to the finished pages &mdash; the hour of day in them, the room, the weather &mdash; not to a mood board.</div></details>
-    <details><summary>What arrives in the box?</summary><div class="body">The bottle under its stone lid, the story printed on cotton paper in an edition matched to the run, and a 2ml sample of a second story. No plastic anywhere in the parcel.</div></details>
+    <details><summary>What arrives in the box?</summary><div class="body">A 100ml arrives under its hand-carved stone lid, with the story printed on cotton paper in an edition matched to the run, and a 2ml sample of a second story. The 7.5ml and the samples arrive in a printed sleeve &mdash; no carved lid and no booklet at those sizes. No plastic anywhere in the parcel.</div></details>
     <details><summary>Are the lids really all different?</summary><div class="body">Every lid is cut from a block chosen for its seam. We do not select for consistency or correct the veining, so no two repeat. We do not engrave or mark them.</div></details>
     <details><summary>How does the sample credit work?</summary><div class="body">Samples are &pound;5 and The First Lines is &pound;38. Whatever you spend on samples comes off your first full bottle &mdash; no code, no expiry, applied automatically at checkout.</div></details>
     <details><summary>Can I refill a bottle?</summary><div class="body">Yes. Refills are &pound;120 and ship in a glass flacon; keep the stone and the glass. Send the empty back with the prepaid label and we reuse it.</div></details>
