@@ -1,5 +1,17 @@
 /* Side Story — demo behaviour. Cart state is in-memory + sessionStorage for the demo only. */
 (function(){
+  /* The arrival veil covers the page at 92% opacity and is lifted by a CSS
+     animation. If that animation never runs — an engine that suppresses it, a
+     paint the compositor drops — the site is a black rectangle and there is no
+     way back. One line makes that impossible. */
+  var veilSafety=setTimeout(function(){
+    document.querySelectorAll('.enter-veil').forEach(function(v){v.remove()});
+  },2500);
+  document.addEventListener('animationend',function(e){
+    if(e.target&&e.target.classList&&e.target.classList.contains('enter-veil')){
+      e.target.remove(); clearTimeout(veilSafety);}
+  },true);
+
   /* The page supplies the catalogue (window.SS_CAT), generated from the same
      data the pages and the photo pipeline use. */
   const CAT = window.SS_CAT || {};
@@ -20,8 +32,11 @@
     if(ticking) return; ticking=true;
     requestAnimationFrame(()=>{
       const y=window.scrollY||0;
-      if(!collapsed && y>140){collapsed=true;nav&&nav.classList.add('shrunk');ann&&ann.classList.add('hide');}
-      else if(collapsed && y<40){collapsed=false;nav&&nav.classList.remove('shrunk');ann&&ann.classList.remove('hide');}
+      /* the announcement no longer collapses — it scrolls away with the page
+         it belongs to, which is what it did on every reference site and what
+         removes the shift. Only the nav still shrinks. */
+      if(!collapsed && y>140){collapsed=true;nav&&nav.classList.add('shrunk');}
+      else if(collapsed && y<40){collapsed=false;nav&&nav.classList.remove('shrunk');}
       ticking=false;
     });
   }

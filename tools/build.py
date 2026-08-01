@@ -341,8 +341,8 @@ def topbar(current):
         for href, label in NAV_LINKS)
     return f"""<div class="enter-veil" aria-hidden="true"></div>
 <div class="menu-dim" id="menudim"></div>
-<div class="topbar">
 <div class="ann"><span>A second story’s sample, complimentary with every bottle</span></div>
+<div class="topbar">
 <header class="nav">
   <div class="inner">
     <button class="burger" aria-label="Menu" aria-expanded="false" aria-controls="primary-nav"><i></i><i></i><i></i></button>
@@ -383,7 +383,7 @@ def topbar(current):
       </div>
     </div>
     <div class="util">
-      <a href="search.html">Search</a><a href="account.html">Account</a>
+      <a href="search.html">Search</a><a class="u-account" href="account.html">Account</a>
       <button class="bagbtn" onclick="openDrawer()">Bag (<span id="bagcount">0</span>)</button>
     </div>
   </div>
@@ -952,7 +952,7 @@ def build():
     <p class="k">The stones</p>
     <h2>No two lids repeat.</h2>
     <p>Each lid is cut from a block chosen for its seam, not its evenness. We do not select for consistency and we do not correct the veining, which means the lid on your bottle is the only one of its kind. It lifts free of the glass and is heavy on purpose.</p>
-    <div class="matrow spaced">
+    <div class="matrow spaced rail" tabindex="0" role="group" aria-label="Materials &mdash; scroll sideways">
       <div class="mat"><div class="sw sw-nero"><em>nero marquina</em></div><b>Nero Marquina</b><i>raking light, wet-polished vein</i></div>
       <div class="mat"><div class="sw sw-pale"><em>calacatta</em></div><b>Calacatta</b><i>a single grey seam, off-centre</i></div>
       <div class="mat"><div class="sw sw-verde"><em>verde jade</em></div><b>Verde Jade</b><i>green under the polish, almost black</i></div>
@@ -1290,7 +1290,7 @@ def build():
       <p class="lede">What we are reading, shooting and cutting. Published when there is something worth saying, which is not often.</p>
     </div>
     <h2 class="vh">Journal</h2>
-    <div class="posts">
+    <div class="posts rail">
 {posts}
     </div>
   </div>

@@ -234,6 +234,24 @@
   --s-7:var(--space-10);
 
   /* ---------------------------------------------------------------------
+     Section rhythm, in three steps, and responsive in all three.
+
+     There were two systems here and only one of them was responsive. The
+     earlier sections used --s-7, which steps 96 / 72 / 56 down to a phone.
+     The pages built later — Your Stories, each story, Share Your Story —
+     used the raw primitives, so on a 390px screen they still opened with
+     96px of padding while every other section had come down to 56. Nine
+     different section paddings were reaching a phone, and the pages that
+     kept the desktop figures are the longest pages on the site.
+
+     One scale now, three steps, so a phone gets a rhythm with hierarchy
+     rather than a single flat interval.
+     --------------------------------------------------------------------- */
+  --sec-sm:var(--space-7);    /* a tight band: the strip, the newsletter */
+  --sec:var(--space-10);      /* the standard break between sections */
+  --sec-lg:var(--space-12);   /* a major break, and full-bleed coloured bands */
+
+  /* ---------------------------------------------------------------------
      The type scale, measured off the designed screens.
 
      The Figma text-style panel and the Figma artboards disagree: the panel
@@ -337,7 +355,8 @@
    Sizes are already correct here from the clamp floors above; only the
    column count and the section rhythm alias change at this mode. */
 @media (max-width:63.9375em){
-  :root{ --layout-columns:8; --s-7:var(--space-9); }
+  :root{ --layout-columns:8; --s-7:var(--space-9);
+    --sec-sm:var(--space-6); --sec:var(--space-9); --sec-lg:var(--space-11); }
 }
 
 /* 04 Responsive · Mobile — the collection's third mode.
@@ -357,24 +376,40 @@
     --layout-margin:clamp(20px,calc(20px + 27 * (100vw - 390px) / 378),47px);
     --layout-gutter:clamp(16px,calc(16px + 4 * (100vw - 390px) / 378),20px);
     --layout-columns:4;
+    --navh:4.3125rem; /* the phone header, fixed so things can stick under it */
     --s-7:var(--space-8);
+    --sec-sm:var(--space-7); --sec:var(--space-8); --sec-lg:var(--space-9);
 
-    /* type scale, mobile leg: exact at 390, meeting the desktop leg at 768 */
-    --t-2xs:clamp(7px,calc(7px + 0.54 * (100vw - 390px) / 378),7.54px);
-    --t-xs:clamp(8.5px,calc(8.5px + 0.54 * (100vw - 390px) / 378),9.04px);
-    --t-btn:clamp(10px,calc(10px + 0.36 * (100vw - 390px) / 378),10.36px);
-    --t-sm:clamp(11px,calc(11px + 0.72 * (100vw - 390px) / 378),11.72px);
-    --t-md:clamp(13px,calc(13px + 0.72 * (100vw - 390px) / 378),13.72px);
-    --t-lg:clamp(13.5px,calc(13.5px + 1.08 * (100vw - 390px) / 378),14.58px);
-    --t-notes:clamp(12px,calc(12px + 1.08 * (100vw - 390px) / 378),13.08px);
-    --t-card:clamp(13.5px,calc(13.5px + 2.34 * (100vw - 390px) / 378),15.84px);
-    --t-1:clamp(15px,calc(15px + 2.16 * (100vw - 390px) / 378),17.16px);
-    --t-2:clamp(16px,calc(16px + 2.88 * (100vw - 390px) / 378),18.88px);
-    --t-3:clamp(20px,calc(20px + 3.96 * (100vw - 390px) / 378),23.96px);
-    --t-4:clamp(24px,calc(24px + 5.76 * (100vw - 390px) / 378),29.76px);
+    /* ------------------------------------------------------------------
+       Type scale, mobile leg. Rebuilt on the device rather than the artboard.
+
+       The artboards specify 390 and 1440, and the 390 column was being
+       reproduced exactly — which put 672 text nodes on this site at 7px and
+       1,099 more at 8.5px on a phone. Those sizes are legible in a Figma
+       frame on a 27-inch monitor and they are not legible in a hand. Nothing
+       on a phone should now render below 10px.
+
+       Note the curve inverts for the small steps: interface micro-text is
+       LARGER at 390 than at 768 and settles onto the desktop leg's floor
+       exactly at 768, because a phone is held at arm's length and tapped,
+       and a tablet is not. Every value at 768 and above is untouched, so
+       this is a mobile change and only a mobile change.
+       ------------------------------------------------------------------ */
+    --t-2xs:clamp(7.54px,calc(10px - 2.46 * (100vw - 390px) / 378),10px);
+    --t-xs:clamp(9.04px,calc(11px - 1.96 * (100vw - 390px) / 378),11px);
+    --t-btn:clamp(10.36px,calc(11.5px - 1.14 * (100vw - 390px) / 378),11.5px);
+    --t-sm:clamp(11.72px,calc(12.5px - 0.78 * (100vw - 390px) / 378),12.5px);
+    --t-md:clamp(13.72px,calc(15px - 1.28 * (100vw - 390px) / 378),15px);
+    --t-lg:clamp(14.58px,calc(15px - 0.42 * (100vw - 390px) / 378),15px);
+    --t-notes:clamp(13px,calc(13px + 0.08 * (100vw - 390px) / 378),13.08px);
+    --t-card:clamp(15.84px,calc(16px - 0.16 * (100vw - 390px) / 378),16px);
+    --t-1:clamp(17px,calc(17px + 0.16 * (100vw - 390px) / 378),17.16px);
+    --t-2:clamp(18.88px,calc(19px - 0.12 * (100vw - 390px) / 378),19px);
+    --t-3:clamp(21px,calc(21px + 2.96 * (100vw - 390px) / 378),23.96px);
+    --t-4:clamp(25px,calc(25px + 4.76 * (100vw - 390px) / 378),29.76px);
     --t-5:clamp(30px,calc(30px + 6.48 * (100vw - 390px) / 378),36.48px);
     --t-6:clamp(40px,calc(40px + 12.96 * (100vw - 390px) / 378),52.96px);
-    --t-story:clamp(15px,calc(15px + 1.5 * (100vw - 390px) / 378),16.5px);
+    --t-story:clamp(16.5px,calc(17px - 0.5 * (100vw - 390px) / 378),17px);
   }
 }
 
@@ -458,7 +493,7 @@ section{position:relative}
 
 /* the standard section rhythm; bands with full-bleed art opt out */
 .house,.seven,.show,.atelier,.feelings,.ways,.making,.mater,.journal,.creds{
-  padding-block:var(--s-7)}
+  padding-block:var(--sec)}
 
 /* A page's opening band is not a gap between two sections, and it was being
    given the rhythm for one: 96px of section padding on top of the
@@ -517,13 +552,17 @@ button:disabled,[aria-disabled="true"]{cursor:default}
 .rev.in{opacity:1;transform:none}
 
 /* -------------------------------------------------- announcement + nav -- */
-.topbar{position:sticky;top:0;z-index:var(--z-header);background:var(--ivory)}
-.ann{background:var(--ink);color:var(--ivory);display:flex;align-items:center;justify-content:center;
-  text-align:center;padding:var(--space-4) var(--gutter);
+/* The announcement used to sit inside the sticky bar and collapse its
+   max-height to zero on scroll, which shifted every page down the moment you
+   started reading — the whole of this site's layout-shift budget. It is a
+   line of copy, not furniture: it scrolls away with the page, and only the
+   navigation sticks. That also drops a layout-animating transition and gives
+   a phone back fifty pixels of permanently occupied screen. */
+.ann{background:var(--ink);color:var(--ivory);display:flex;align-items:center;
+  justify-content:center;text-align:center;padding:var(--space-4) var(--gutter);
   font-family:var(--font-sans);font-size:var(--t-2xs);
-  letter-spacing:var(--track-label);text-transform:uppercase;line-height:1.3;
-  max-height:4rem;overflow:hidden}
-.ann.hide{max-height:0;padding-block:0}
+  letter-spacing:var(--track-label);text-transform:uppercase;line-height:1.3}
+.topbar{position:sticky;top:0;z-index:var(--z-header);background:var(--ivory)}
 
 .nav{background:var(--ivory);border-bottom:1px solid var(--line)}
 .nav .inner{display:flex;align-items:center;gap:var(--s-3);
@@ -583,7 +622,7 @@ button:disabled,[aria-disabled="true"]{cursor:default}
 @media (max-width:47.9375em){ .cue{display:none} }
 
 /* -------------------------------------------------- 03 signature strip -- */
-.strip{background:var(--ivory);border-bottom:1px solid var(--line);padding-block:var(--space-7)}
+.strip{background:var(--ivory);border-bottom:1px solid var(--line);padding-block:var(--sec-sm)}
 .strip .inner{display:grid;grid-template-columns:1fr;gap:var(--s-4)}
 @media (min-width:52em){
   .strip .inner{grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--s-6)}
@@ -607,8 +646,10 @@ button:disabled,[aria-disabled="true"]{cursor:default}
 
 /* ------------------------------------------------------- 04 the seven -- */
 .seven{background:var(--ivory)}
+/* the column gap was 8px against a 20px page margin, so two cards nearly
+   touched each other while sitting well inside the edge of the screen */
 .cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:var(--s-6) var(--s-2);margin-top:var(--s-6)}
+  gap:var(--s-6) var(--s-4);margin-top:var(--s-6)}
 @media (min-width:40em){ .cards{grid-template-columns:repeat(3,minmax(0,1fr))} }
 @media (min-width:68em){ .cards{grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--space-9) var(--space-5)} }
 
@@ -652,9 +693,14 @@ button:disabled,[aria-disabled="true"]{cursor:default}
 .promo :where(p:not(.k)){font-size:var(--t-sm);line-height:1.6;opacity:var(--o-strong);max-width:32ch}
 .promo .btn{align-self:flex-start}
 
-.seven .foot{text-align:center;margin-top:var(--s-6);font-family:var(--font-sans);
-  font-weight:500;font-size:var(--t-xs);letter-spacing:var(--track-label);text-transform:uppercase;
-  color:var(--txt-2);line-height:1.9}
+/* A hundred and fifty characters of tracked uppercase. On a wide screen that
+   is one line and scans as a rule; on a phone it is four lines of capitals and
+   nobody reads it. It is a sentence, so it is set as one — the same call as
+   the FAQ questions and the account note. */
+.seven .foot{text-align:center;margin-top:var(--s-6);
+  font-family:var(--font-serif);font-style:italic;font-size:var(--t-sm);
+  letter-spacing:0;text-transform:none;color:var(--txt-2);line-height:1.8;
+  max-width:56ch;margin-inline:auto;text-wrap:pretty}
 
 /* --------------------------------------------------- 05 signature show -- */
 .show{background:var(--plaster)}
@@ -691,10 +737,12 @@ button:disabled,[aria-disabled="true"]{cursor:default}
 .atelier{background:var(--ivory)}
 .atelier .lead{font-size:var(--t-md);line-height:1.8;color:var(--txt);
   max-width:var(--measure);margin-top:var(--s-4)}
-.atelier .row,.plates,.posts,.wayrow{
+/* :where() on the descendant part so these sit at one class of specificity
+   and the phone rail, declared later, can take them over */
+:where(.atelier) .row,.plates,.posts,.wayrow{
   display:grid;grid-template-columns:minmax(0,1fr);gap:var(--s-4);margin-top:var(--s-5)}
 @media (min-width:48em){
-  .atelier .row,.plates,.posts,.wayrow{grid-template-columns:repeat(3,minmax(0,1fr))}
+  :where(.atelier) .row,.plates,.posts,.wayrow{grid-template-columns:repeat(3,minmax(0,1fr))}
 }
 .atelier figure{min-width:0}
 .atelier figure>img,.atelier figure>picture>img,.atelier figure>.swatch{width:100%;aspect-ratio:400/430;object-fit:cover;display:block}
@@ -844,7 +892,7 @@ button:disabled,[aria-disabled="true"]{cursor:default}
   font-size:var(--t-xs);letter-spacing:var(--track-label);text-transform:uppercase;color:var(--txt-2)}
 
 /* ------------------------------------------------------ 12 newsletter --- */
-.news{background:var(--sand);text-align:center;padding-block:var(--space-7)}
+.news{background:var(--sand);text-align:center;padding-block:var(--sec-sm)}
 .news h2{font-size:var(--t-3);max-width:20ch;margin-inline:auto}
 .news .s{font-size:var(--t-md);color:var(--txt-2);max-width:46ch;
   margin:var(--s-3) auto 0}
@@ -880,7 +928,7 @@ footer a:hover{opacity:1}
 .pay i{display:flex;align-items:center;justify-content:center;
   width:2.75rem;height:1.625rem;border:1px solid rgba(241,240,232,.28);
   background:rgba(241,240,232,.07);border-radius:var(--radius-hairline);font-style:normal;
-  font-family:var(--font-sans);font-weight:600;font-size:.5rem;letter-spacing:.05em}
+  font-family:var(--font-sans);font-weight:600;font-size:var(--t-2xs);letter-spacing:.05em}
 .legal a{display:inline}
 .legal{font-family:var(--font-sans);font-size:var(--t-2xs);letter-spacing:var(--track-micro);
   text-transform:uppercase;line-height:1.8;opacity:var(--o-strong)}
@@ -958,6 +1006,45 @@ html.overlay-open,html.overlay-open body{overflow:hidden}
 .ditem>span:last-child{font-family:var(--font-sans);font-size:var(--t-xs);
   letter-spacing:var(--track-label);white-space:nowrap;padding-top:.15em}
 
+
+/* ==================================================== phone: the rails ====
+   On a phone, four rows on the homepage were the same gesture repeated —
+   three plates in the atelier, three in the making, three journal posts, four
+   material swatches — and each one turned into a tall vertical stack. Between
+   them they were 4,361px, about a third of the whole page, and they read as
+   one long undifferentiated scroll of pictures with small captions under
+   them.
+
+   Sideways, they are one screen each and they read as four distinct things.
+   Every item is still there, at a larger size than it was in the stack; only
+   the axis changes, and only below 48em.
+
+   The detail that makes it a designed row rather than a clipped one is the
+   peek: items are 78% of the viewport, so the edge of the next is always
+   visible and nobody has to be told the row scrolls. The rail bleeds to both
+   page edges — negative margin out, padding back in — so the first item still
+   lands on the gutter and the last can scroll clear of it.
+   ========================================================================= */
+@media (max-width:47.9375em){
+  .rail{
+    display:flex;flex-wrap:nowrap;grid-template-columns:none;
+    overflow-x:auto;overflow-y:hidden;
+    scroll-snap-type:x mandatory;overscroll-behavior-x:contain;
+    -webkit-overflow-scrolling:touch;
+    margin-inline:calc(var(--gutter) * -1);
+    padding-inline:var(--gutter);
+    scroll-padding-inline:var(--gutter);
+    gap:var(--s-3);
+    scrollbar-width:none}
+  .rail::-webkit-scrollbar{display:none}
+  .rail>*{flex:0 0 78%;min-width:0;scroll-snap-align:start}
+  /* the rail is a scroll container, so it takes a tab stop of its own; the
+     ring has to sit inside it or the overflow clips it away */
+  .rail:focus-visible{outline:2px solid var(--ink);outline-offset:-2px}
+  /* the swatch row carries four small items, so it shows two at a time */
+  .matrow.rail>*{flex:0 0 56%}
+}
+
 /* =========================================================== breakpoints ==
    Only where the content genuinely needs a different arrangement.
    ========================================================================= */
@@ -983,9 +1070,63 @@ html.overlay-open,html.overlay-open body{overflow:hidden}
   .nav .inner{position:relative;flex-wrap:nowrap}
 }
 
+@media (max-width:47.9375em){
+  /* The whole top bar was sticky, and on scroll the announcement collapsed its
+     max-height to zero while the nav shrank its padding — two layout
+     properties animating at the moment the main thread is busiest, and the
+     page jumping up by about fifty pixels the instant you start to read. It
+     was the site's entire layout-shift budget: 0.068 on the homepage against
+     0.009 everywhere else.
+
+     On a phone the announcement simply scrolls away, like the page it is
+     part of, and only the navigation sticks. Nothing collapses, nothing
+     shifts, and the sticky strip is a third shorter — which on a 844px screen
+     is worth more than the animation was. */
+  /* the sticky strip was 93px — eleven per cent of the screen, permanently.
+     The row's height comes from the 44px burger, so the padding is what was
+     spending it. 68px now, and 60 once it shrinks. */
+  .nav .inner{padding-block:var(--space-3)}
+  /* and it does not shrink on a phone: eight pixels are not worth a sticky
+     bar whose offset moves underneath the one below it */
+  .nav.shrunk .inner{padding-block:var(--space-3)}
+
+  /* The comment on the phone shelf bar said it was "one compact sticky row …
+     so you could reach the controls again without scrolling back". It was
+     never sticky. On a page three and a half screens long that means the only
+     way to change size or narrow by scent is to scroll to the top. */
+  .shelfbar{position:sticky;top:var(--navh);z-index:var(--z-sticky);
+    margin-inline:calc(var(--gutter) * -1);padding-inline:var(--gutter)}
+
+  /* On a phone the product plate is a square 350px tall, and with the
+     thumbnails under it the name, the price and ADD TO BAG all sat below the
+     fold — you met a photograph and had to take it on trust that the rest was
+     down there. 4:5 keeps the bottle whole (the masters are square and
+     centred) and brings the title up by seventy pixels. */
+  .gal .main{aspect-ratio:4/5}
+
+  /* The arrival veil is a 92%-opaque black sheet over the whole page, lifted
+     by a CSS animation. On a phone that means the first thing a visitor on a
+     mobile connection sees is a black screen for the second and a quarter
+     after first paint — and if the animation does not run, for good. It is a
+     gesture for a large screen and a fast connection; it does not belong in
+     a hand. */
+  .enter-veil{display:none}
+
+  /* the discovery-set card was a third column's worth of copy squeezed into
+     half a phone, so its button broke across two lines */
+  .promo{grid-column:1 / -1}
+
+  /* Buttons stacked on a phone match each other. Left to hug their own
+     labels they came out at two different widths, one under the other, which
+     was the least composed thing on the hero — and the same pair sat under
+     every story's scent band and on the 404. One rule, every group. */
+  .cta,.actions,.notfound .cta,.yset .cta{
+    flex-direction:column;align-items:stretch}
+  .cta>.btn,.actions>.btn,.notfound .btn{width:100%}
+}
+
 /* phones: drop the secondary nav links, keep the bag */
 @media (max-width:33.9375em){
-  .util>a{display:none}
   .hero .copy{padding-bottom:var(--s-6)}
   /* stacked, the two hero buttons hugged their own labels and so came out at
      two different widths, one under the other — the least composed thing on
@@ -1039,7 +1180,7 @@ html.overlay-open,html.overlay-open body{overflow:hidden}
 .banner :where(p:not(.k)){font-size:var(--t-md);line-height:1.8;opacity:var(--o-strong);max-width:46ch;margin-top:var(--s-3)}
 
 /* generic section wrapper for the interior pages */
-.band{padding-block:var(--s-7)}
+.band{padding-block:var(--sec)}
 .band.tint{background:var(--plaster)}
 .band.sand{background:var(--sand)}
 .band h2{font-size:var(--t-4);max-width:22ch}
@@ -1146,8 +1287,11 @@ html.overlay-open,html.overlay-open body{overflow:hidden}
   .shelfbar .ctl{height:auto;flex:1 1 auto;min-width:0}
   .shelfbar .ctl.scent{flex:0 0 auto}
   .shelfbar .lbl{display:none}
-  .shelfbar .seg{width:100%;height:auto}
-  .shelfbar .seg button{flex:1 1 0;min-width:0;padding-inline:var(--space-2);
+  .shelfbar .seg{width:100%;height:auto;justify-content:space-between}
+  /* the buttons used to stretch to equal thirds, so the 1px rule that marks
+     the selected size was three times wider than the word it marked. They hug
+     their label and the row spaces them instead. */
+  .shelfbar .seg button{flex:0 0 auto;min-width:0;padding-inline:0;
     height:var(--ctl-h);letter-spacing:var(--track-label)}
   .shelfbar .seg .long{display:none}
   .shelfbar .seg .short{display:inline}
@@ -1303,7 +1447,7 @@ html.overlay-open,html.overlay-open body{overflow:hidden}
    ========================================================================= */
 
 /* --- index: header band ------------------------------------------------- */
-.ysintro{background:var(--ivory);padding-block:var(--space-9) var(--space-10)}
+.ysintro{background:var(--ivory);padding-block:var(--sec)}
 .ysintro .k{letter-spacing:var(--track-kicker)}
 .ysintro h1{font-size:var(--t-5);margin-top:var(--space-3);max-width:30ch}
 .ysintro .lede{font-size:var(--t-md);line-height:var(--lh-body);color:var(--txt);
@@ -1316,7 +1460,7 @@ html.overlay-open,html.overlay-open body{overflow:hidden}
 .yfeat .veil{position:absolute;inset:0;z-index:var(--z-behind);background:
   linear-gradient(to top,rgba(18,16,12,.72) 0%,rgba(18,16,12,.30) 42%,rgba(18,16,12,0) 74%),
   linear-gradient(to right,rgba(20,18,13,.55) 0%,rgba(20,18,13,0) 62%)}
-.yfeat .inner{padding-block:var(--space-10)}
+.yfeat .inner{padding-block:var(--sec-lg)}
 .yfeat .c{max-width:36rem;color:var(--ivory)}
 .yfeat .k{color:var(--brass-on-dark);letter-spacing:var(--track-kicker);
   text-shadow:0 1px 3px rgba(18,16,12,.55)}
@@ -1326,7 +1470,7 @@ html.overlay-open,html.overlay-open body{overflow:hidden}
 .yfeat .ul{margin-top:var(--space-4);color:var(--ivory)}
 
 /* --- index: the six remaining stories ----------------------------------- */
-.ygrid{background:var(--ivory);padding-block:var(--space-9) var(--space-10)}
+.ygrid{background:var(--ivory);padding-block:var(--sec)}
 .scards{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--space-7) var(--space-5)}
 @media (min-width:40em){ .scards{grid-template-columns:repeat(2,minmax(0,1fr))} }
 @media (min-width:68em){ .scards{grid-template-columns:repeat(3,minmax(0,1fr))} }
@@ -1343,7 +1487,7 @@ html.overlay-open,html.overlay-open body{overflow:hidden}
 .scard h3{font-family:var(--font-display);font-weight:400;
   font-size:clamp(19px,calc(19px + 7 * (100vw - 390px) / 1050),26px);
   line-height:1.2;color:var(--ink);margin-top:var(--space-2)}
-.scard>p{font-family:var(--font-serif);font-style:italic;font-size:var(--t-sm);
+.scard>p{font-family:var(--font-serif);font-style:italic;font-size:var(--t-md);
   line-height:1.66;color:var(--txt-2);margin-top:var(--space-2);
   display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .scard .rd{display:inline-block;margin-top:var(--space-3);
@@ -1353,7 +1497,7 @@ html.overlay-open,html.overlay-open body{overflow:hidden}
 
 /* --- index: the discovery-set band -------------------------------------- */
 .yset{background:var(--verde);color:var(--ivory);text-align:center;
-  padding-block:var(--space-7) var(--space-9)}
+  padding-block:var(--sec)}
 .yset h2{font-size:clamp(24px,calc(24px + 8 * (100vw - 390px) / 1050),32px);
   color:var(--ivory);max-width:40ch;margin-inline:auto}
 .yset :where(p:not(.k)){font-size:var(--t-md);max-width:44ch;
@@ -1377,7 +1521,7 @@ html.overlay-open,html.overlay-open body{overflow:hidden}
   --accent-stone:var(--stone-matinee);--accent-field:var(--stone-tint-matinee)}
 
 /* ============================================================ one story == */
-.shead{background:var(--ivory);padding-block:var(--space-5) var(--space-10)}
+.shead{background:var(--ivory);padding-block:var(--space-7) var(--sec)}
 .shead .c{text-align:center;max-width:44rem;margin:var(--space-8) auto 0}
 .shead .k{display:inline-flex;align-items:center;gap:var(--space-3);letter-spacing:var(--track-kicker)}
 .shead .k .chip{width:.6875rem;height:.6875rem;margin:0;flex:none}
@@ -1389,7 +1533,7 @@ html.overlay-open,html.overlay-open body{overflow:hidden}
 .splate img{width:100%;height:100%;object-fit:cover}
 
 /* the reading column is 600px centred, with the margin notes to its right */
-.sbody{background:var(--ivory);padding-block:var(--space-9) var(--space-10)}
+.sbody{background:var(--ivory);padding-block:var(--sec)}
 .sbody .inner{display:grid;grid-template-columns:minmax(0,1fr);
   column-gap:var(--space-8);justify-content:center}
 @media (min-width:68em){
@@ -1407,9 +1551,13 @@ html.overlay-open,html.overlay-open body{overflow:hidden}
 .saside{display:flex;flex-direction:column;gap:var(--space-11);padding-top:var(--space-2)}
 @media (max-width:67.9375em){ .saside{flex-direction:row;flex-wrap:wrap;gap:var(--space-6);
   margin-top:var(--space-7)} .saside .marginnote{flex:1 1 14rem} }
+/* the 230px cap belongs to the story page's narrow sidebar, not to the class:
+   `.marginnote` is shared with Our House, where on a phone it was clamping a
+   note to 230px inside a 350px column and leaving the rest empty */
 .marginnote{font-family:var(--font-script);font-weight:300;font-style:italic;
   font-size:var(--t-lg);line-height:1.35;color:var(--txt-2);
-  padding-top:var(--space-3);max-width:14.375rem}
+  padding-top:var(--space-3)}
+@media (min-width:68em){ .saside .marginnote{max-width:14.375rem} }
 .marginnote::before{content:"";display:block;width:1.75rem;height:1px;
   background:var(--brass);margin-bottom:var(--space-3)}
 .marginnote small{display:block;margin-top:var(--space-3);
@@ -1429,7 +1577,7 @@ html.overlay-open,html.overlay-open body{overflow:hidden}
 
 /* the fragrance the story became */
 .sbecame{position:relative;background:var(--field);color:var(--ivory);
-  padding-block:var(--space-10);overflow:hidden}
+  padding-block:var(--sec-lg);overflow:hidden}
 .sbecame .inner{position:relative;z-index:var(--z-base)}
 .sbecame .c{max-width:32.5rem}
 .sbecame .k{color:var(--brass-on-dark);letter-spacing:var(--track-kicker)}
@@ -1444,9 +1592,19 @@ html.overlay-open,html.overlay-open body{overflow:hidden}
 .nrow span{font-family:var(--font-script);font-weight:300;font-style:italic;
   font-size:var(--t-notes);opacity:var(--o-strong)}
 .sbecame .actions{display:flex;flex-wrap:wrap;gap:var(--space-3);margin-top:var(--space-7)}
-.sbecame>.plate{position:absolute;top:0;right:0;width:min(39%,35rem);height:100%;
-  object-fit:cover;z-index:0;display:block}
-@media (max-width:63.9375em){ .sbecame>.plate{display:none} }
+/* `.sbecame>.plate` stopped matching the moment every image on the site was
+   wrapped in a <picture>, because picture{display:contents} keeps the box out
+   of layout but not out of the selector. So the plate lost its absolute
+   position AND its `display:none` below 64em, and reappeared on every phone
+   as a 390px product photograph dropped into the middle of the band. Both
+   forms are written now — the same fix the other seven full-bleed images
+   already had. */
+.sbecame>.plate,.sbecame>picture>.plate{position:absolute;top:0;right:0;
+  width:min(39%,35rem);height:100%;object-fit:cover;z-index:0;display:block}
+@media (max-width:63.9375em){
+  .sbecame>.plate,.sbecame>picture>.plate{display:none}
+  .sbecame>picture{display:none}
+}
 /* the plate fades into the field rather than butting against it */
 .sbecame::after{content:"";position:absolute;top:0;height:100%;width:12.5rem;
   right:calc(min(39%,35rem) - 12.5rem);
@@ -1454,7 +1612,7 @@ html.overlay-open,html.overlay-open body{overflow:hidden}
 @media (max-width:63.9375em){ .sbecame::after{display:none} }
 
 /* previous / next */
-.snav{background:var(--ivory);padding-block:0 var(--space-9)}
+.snav{background:var(--ivory);padding-block:0 var(--sec)}
 .snav .inner{display:flex;flex-wrap:wrap;gap:var(--space-6);
   justify-content:space-between;border-top:1px solid var(--line);padding-top:var(--space-8)}
 .snav a{display:block;max-width:22rem}
@@ -1467,7 +1625,7 @@ html.overlay-open,html.overlay-open body{overflow:hidden}
 .snav a:hover b,.snav a:focus-visible b{color:var(--brass-text)}
 
 /* the shelf of seven, as a spine of stone bars */
-.sseven{background:var(--sand);padding-block:var(--space-8)}
+.sseven{background:var(--sand);padding-block:var(--sec)}
 .sseven .k{letter-spacing:var(--track-kicker)}
 .sseven h2{font-size:var(--t-3);margin-top:var(--space-3)}
 .svs{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,8.5rem),1fr));
@@ -1501,13 +1659,13 @@ html.overlay-open,html.overlay-open body{overflow:hidden}
   margin-top:var(--space-5)}
 .shero .cta{display:flex;flex-wrap:wrap;gap:var(--space-4);margin-top:var(--space-5)}
 
-.invite{background:var(--ivory);text-align:center;padding-block:var(--space-9)}
+.invite{background:var(--ivory);text-align:center;padding-block:var(--sec)}
 .invite h2{font-size:var(--t-4);line-height:1.46;max-width:38rem;
   margin:var(--space-5) auto 0}
 .invite>.inner>p:last-child{font-size:var(--t-md);line-height:1.84;color:var(--txt);
   max-width:54.125rem;margin:var(--space-5) auto 0}
 
-.howworks{position:relative;background:var(--sand);padding-block:var(--space-9);
+.howworks{position:relative;background:var(--sand);padding-block:var(--sec);
   overflow:hidden}
 /* the frame sets an enormous "Eighth" behind the steps at 5% ink */
 .howworks .ghost{position:absolute;top:0;right:0;font-family:var(--font-display);
@@ -1526,7 +1684,7 @@ html.overlay-open,html.overlay-open body{overflow:hidden}
 .hstep :where(p:not(.k)){font-size:var(--t-sm);line-height:1.7;color:var(--txt);margin-top:var(--space-3)}
 
 /* --- the form ----------------------------------------------------------- */
-.tellus{background:var(--ivory);padding-block:var(--space-9)}
+.tellus{background:var(--ivory);padding-block:var(--sec)}
 .tellus .inner{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--space-7)}
 @media (min-width:68em){
   .tellus .inner{grid-template-columns:minmax(0,38.75rem) minmax(0,25rem);
@@ -1608,7 +1766,7 @@ html.overlay-open,html.overlay-open body{overflow:hidden}
 .looking .not{font-style:italic}
 
 /* --- the postbag -------------------------------------------------------- */
-.postbag{background:var(--plaster);padding-block:var(--space-9)}
+.postbag{background:var(--plaster);padding-block:var(--sec)}
 .postbag h2{font-size:var(--t-4);margin-top:var(--space-3)}
 .postbag .pintro{font-family:var(--font-serif);font-style:italic;
   font-size:var(--t-lg);color:var(--txt-2);margin-top:var(--space-4)}
@@ -1633,7 +1791,7 @@ html.overlay-open,html.overlay-open body{overflow:hidden}
 .postbag>.inner>.ul{margin-top:var(--space-7)}
 
 /* --- the small print ---------------------------------------------------- */
-.smallprint{background:var(--ivory);padding-block:var(--space-9)}
+.smallprint{background:var(--ivory);padding-block:var(--sec)}
 .terms{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--space-6) var(--space-7);
   margin-top:var(--space-7)}
 @media (min-width:40em){ .terms{grid-template-columns:repeat(2,minmax(0,1fr))} }
@@ -1828,7 +1986,7 @@ input:user-invalid,textarea:user-invalid{border-color:var(--text-error)}
   padding:var(--s-4) var(--s-5);margin-top:var(--s-4);max-width:22rem;text-align:center}
 
 /* ------------------------------------------------------------- misc ---- */
-.note-strip{background:var(--plaster);padding-block:var(--s-5);text-align:center;
+.note-strip{background:var(--plaster);padding-block:var(--sec-sm);text-align:center;
   font-family:var(--font-sans);font-size:var(--t-xs);letter-spacing:var(--track-label);
   text-transform:uppercase;color:var(--txt);line-height:2}
 .grid-2{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--s-5);margin-top:var(--s-5)}
@@ -2014,7 +2172,7 @@ footer .cols a:hover,footer .cols a:focus-visible{opacity:1}
 .storyband a{border-bottom:1px solid rgba(241,240,232,.5);padding-bottom:.15em}
 
 /* --- the story: chapter numeral, excerpt, overlapping plates ------------ */
-.chapter{position:relative;background:var(--ivory);padding-block:var(--s-7);overflow:hidden}
+.chapter{position:relative;background:var(--ivory);padding-block:var(--sec);overflow:hidden}
 .chapter .inner{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--s-6);
   position:relative;z-index:var(--z-base)}
 @media (min-width:64em){
@@ -2056,7 +2214,7 @@ footer .cols a:hover,footer .cols a:focus-visible{opacity:1}
 }
 
 /* --- the margins: the pyramid read as three marginal notes -------------- */
-.margins{background:var(--plaster);padding-block:var(--s-7)}
+.margins{background:var(--plaster);padding-block:var(--sec)}
 .margins h2{font-size:var(--t-4);margin-top:var(--s-2);max-width:18ch}
 .pyramid{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--s-5);margin-top:var(--s-6)}
 @media (min-width:52em){ .pyramid{grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--s-6)} }
@@ -2071,7 +2229,7 @@ footer .cols a:hover,footer .cols a:focus-visible{opacity:1}
   font-style:italic;font-size:var(--t-sm);color:var(--txt-2)}
 
 /* --- the stone --------------------------------------------------------- */
-.stoneband{background:var(--ivory);padding-block:var(--s-7)}
+.stoneband{background:var(--ivory);padding-block:var(--sec)}
 .stoneband .inner{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--s-5);align-items:center}
 @media (min-width:64em){ .stoneband .inner{grid-template-columns:minmax(0,560fr) minmax(0,520fr);gap:var(--s-7)} }
 .stoneband img{width:100%;aspect-ratio:56/34;object-fit:cover;background:var(--plaster)}
@@ -2122,4 +2280,10 @@ footer .fbot a,footer .legal a,footer .fcopy a,
     padding-block:.72rem;margin-block:-.72rem}
   input[type=checkbox],input[type=radio],
   .tryfirst input,.consent input{width:1.5rem;height:1.5rem;margin:0;flex:none}
+  /* Account moves into the menu on a phone. It had been hidden by a rule two
+     hundred lines earlier, which this block then silently un-hid by setting
+     display:flex on the same selector at the same specificity — so the header
+     had three utilities where it has room for two, and Bag was running off
+     the right edge. Declared here, after the rule that was overriding it. */
+  .util>a.u-account{display:none}
 }
