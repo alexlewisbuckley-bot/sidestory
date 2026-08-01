@@ -48,6 +48,13 @@ EDITORIAL = [
     ("sunday-service-open", "plants.jpg",     1200, None),
 ]
 
+# Story plates. Supplied editorial photography, one per fragrance, used
+# full-bleed under the story title and as the 5:3 card on the Your Stories
+# index. Kept at their own aspect and only downscaled — never cropped here,
+# because the crop is a layout decision the CSS makes per placement.
+STORY = ["hotel-lobby", "sibling-rivalry", "pillow-talk", "sunday-service",
+         "third-date", "road-trip", "4pm-matinee"]
+
 # Packshots (open box, outer carton) vary in composition and keep the detector.
 MANUAL = {}
 
@@ -178,6 +185,15 @@ if __name__ == "__main__":
                 if i == 0:
                     t2 = Image.open(os.path.join(OUT, f"p-{slug}-card.jpg")).copy()
                     t2.thumbnail((240, 240)); tiles.append(t2)
+    for slug in STORY:
+        q = os.path.join(SRC, slug + "-story.jpg")
+        if not os.path.exists(q):
+            print("  - no story plate for %s yet" % slug); continue
+        size = wide(q, os.path.join(OUT, "story-%s.jpg" % slug), 1800)
+        print(("  story-%s.jpg" % slug).ljust(30) +
+              "%dx%d  %dKB   <- %s-story.jpg"
+              % (size[0], size[1],
+                 round(os.path.getsize(os.path.join(OUT, "story-%s.jpg" % slug)) / 1024), slug))
     for src, name, w, _ in EDITORIAL:
         p = os.path.join(SRC, src + ".jpg")
         if not os.path.exists(p):

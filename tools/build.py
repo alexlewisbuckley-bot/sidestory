@@ -38,23 +38,23 @@ PRODUCTS = [
          img="p-sibling-rivalry", badge="", read="6 min"),
     dict(slug="pillow-talk",    name="Pillow Talk",    stone="Calacatta",      swatch="#E0DCD0",
          notes="musk, powder, warm skin",    story="Story III", feeling="Comfort",
-         line="They agreed on almost nothing except the hour, and the hour was always late.",
+         line="They had been awake for hours, unspooling the sweet trivialities of their personal histories in sleepy whispers.",
          img="p-pillow-talk", badge="", read="4 min"),
     dict(slug="sunday-service", name="Sunday Service", stone="Verde Jade",     swatch="#3E5147",
          notes="incense, linen, morning air", story="Story IV", feeling="Devotion",
-         line="The road home has not been resurfaced in twenty years, and neither has the part of me that drives it.",
+         line="The drive from the city to the country always felt like rolling back time.",
          img="p-sunday-service", badge="", read="7 min"),
     dict(slug="third-date",     name="Third Date",     stone="Rosso Levanto",  swatch="#7A2E2A",
          notes="plum, tobacco, candlelight",  story="Story V",  feeling="Attraction",
-         line="By the third one you stop performing, which is either the end of it or the beginning.",
+         line="She hardly knew him, of course—tonight was only the third date. But there was such familiarity between them.",
          img="p-third-date", badge="", read="5 min"),
     dict(slug="road-trip",      name="Road Trip",      stone="Rosso Francia",  swatch="#B5593F",
          notes="amber, leather, warm wind",   story="Story VI", feeling="Escape",
-         line="We left before the light did and agreed not to name the destination until the second tank.",
+         line="They knew where they were going, but neither seemed to mind the impromptu detour along the way.",
          img="p-road-trip", badge="New story", read="6 min"),
     dict(slug="4pm-matinee",    name="4pm Matinee",    stone="Giallo Siena",   swatch="#C99A3F",
          notes="citrus, velvet, dark rooms",  story="Story VII", feeling="Solitude",
-         line="Nobody goes to the cinema at four in the afternoon unless they are hiding from something.",
+         line="She came to the afternoon matinee alone. She liked the rush of independence when the ticket seller looked around for a date.",
          img="p-4pm-matinee", badge="", read="5 min"),
 ]
 BY_SLUG = {p["slug"]: p for p in PRODUCTS}
@@ -96,70 +96,111 @@ CHAPTERS = {
     stone_title="Leopard Salome, cut once.",
     stone_body="A brecciated marble whose fracture lines were set long before anyone thought to quarry it \u2014 the seam on your lid runs in one direction only, and once."),
 
+  # Pillow Talk — copy supplied by Alex, 1 Aug. Paragraphs verbatim.
   "pillow-talk": dict(
-    pull="What is said in the dark, and the longer thing that is not.", pullref="From Pillow Talk, Chapter III",
-    numeral="III", chapter="Chapter I of IX", title="They agreed on the hour.", author="Iris Vandeleur",
-    paras=["They agreed on almost nothing except the hour, and the hour was always late. It was the one negotiation neither of them wanted to win, so they returned to it nightly, like a book left face-down.",
-           "The room kept its own weather: linen still warm, a lamp neither of them reached to turn off, and the particular quiet that only arrives after everything worth saying has been said badly."],
-    scent="warm skin under cotton \u2014 nothing announced, everything understood",
-    caption="the chapter, photographed as it was written \u2014 linen, lamplight, the hour kept late",
-    margins=[("Opening","powder, soft as a first sentence","\u2014 the lamp is still on"),
-             ("Heart","white musk, skin-warm","\u2014 neither of them moves"),
-             ("Base","cashmere wood, faint vanilla","\u2014 what is not said, said longest")],
+    pull="It was only Saturday, and neither had anywhere they had to be.",
+    pullref="From Pillow Talk, Chapter I",
+    numeral="III", chapter="Chapter I of IX", title="Scout\u2019s honor.", author="Iris Vandeleur",
+    paras=[
+      "They had been awake for hours, drifting in and out of consciousness, unspooling the sweet trivialities of their personal histories in sleepy whispers, and between stolen kisses. Just before noon, he arose to make coffee, making her promise that she\u2019d be in the exact same place when he returned. They would continue the conversation. She raised three fingers in mock solemnity: scout\u2019s honor, she said.",
+      "He brought the little bowls of black coffee into the bedroom with a pitcher of cream. She liked to watch her cup become a canvas, the cream and coffee mingling like watercolours before blending into rich caramel. She was waiting in the bed next to the open window, the down duvet ruffled around her like a snow drift. The bed linens were cool against her skin, crisp and clean, the satin white illuminating her face, her violet eyes, her tousled hair.",
+      "He knelt on the bed and put his lips to her temple, then her ear, then placed one of the cups in her eager hands. He breathed in her fresh, powdery skin. Gently, he tipped a thimble of cream into her coffee, then another, watching her delight in the dance of dark and light.",
+      "He went to the sideboard and pulled a record from its sleeve as she raised the coffee to her lips. She admired the care in his touch, the way he gingerly placed the album on the turntable and slowly lowered the needle: his gentle, deliberate, unhurried way of doing things. She admired the grey on his temples, the stubble on his jawline, the willowy muscles in his neck and shoulders.",
+      "He felt her watching him and shifted his gaze back to the bed, narrowing his eyes in faux accusation. As he approached her, she began to giggle, unable to contain her delight, and he matched her laughter with a silly grin. Smitten, neither could believe their good fortune.",
+      "Morning light spilled into the bedroom and the melody escaped out of the window and down to they city below. It was only Saturday, and neither had anywhere they had to be. They both knew they might linger there for hours, or the whole day, or two, dissolving into conversation, and pleasure, and one another, as naturally as cream into coffee.",
+    ],
+    scent="black coffee and cream, cool linen and powdery skin \u2014 a Saturday with nowhere to be",
+    caption="the chapter, photographed as it was written \u2014 linen, the open window, the cup half-turned",
+    margins=[("Opening","black coffee, and cream folded into it","\u2014 the dance of dark and light"),
+             ("Heart","cool linen, crisp against the skin","\u2014 the duvet like a snow drift"),
+             ("Base","fresh powdery skin, and morning light","\u2014 neither had anywhere to be")],
     stone_title="Calacatta, cut once.",
     stone_body="One grey seam through a white field, running off-centre because the block decided so \u2014 the lid on your bottle is the only one that will carry that line."),
 
+  # Sunday Service — copy supplied by Alex, 1 Aug. Paragraphs verbatim.
   "sunday-service": dict(
-    pull="The music was the same. The cool, oaky air of the church was the same.", pullref="From Sunday Service, Chapter V",
-    numeral="IV", chapter="Chapter I of IX", title="The road home, unresurfaced.", author="Morgan Childs",
-    paras=["The road home has not been resurfaced in twenty years, and neither has the part of me that drives it. Past the reservoir the trees close over the lane the way they always did, and there \u2014 still standing, still rusted the colour of a wet penny \u2014 is the gate we used to climb.",
-           "Inside, the cool oaky air arrives before the organ does \u2014 polish and cold stone and the ghost of last week\u2019s lilies \u2014 and I am eleven again in an itching jumper, and thirty-eight, and neither."],
-    scent="church oak and beeswax \u2014 cold air held in clean linen",
-    caption="the chapter, photographed as it was written \u2014 stone, polish, and the last of the lilies",
-    margins=[("Opening","cold water, cut grass","\u2014 the gate, still rusted"),
-             ("Heart","incense over pressed linen","\u2014 the organ starts before you are ready"),
-             ("Base","beeswax, church oak, old stone","\u2014 and you are eleven again")],
+    pull="The music was the same. The cool, oaky air of the church was the same.",
+    pullref="From Sunday Service, Chapter I",
+    numeral="IV", chapter="Chapter I of IX", title="Rolling back time.", author="Morgan Childs",
+    paras=[
+      "The drive from the city to the country always felt like rolling back time. The summer faded the colour of the tall grass along the narrow road and inspired a symphony of cicadas and grasshoppers, but the plains of wheat, the cattle and horses, the sunsets and moons on the horizon were always the same, month after month, year after year, just as they had been when he was a boy. Now the leaves were dense and green, hanging heavy over the road and mottling the light on his dashboard. Soon they’d fade and fall, and the cycle would continue.",
+      "He passed by the rusted tower and remembered climbing its iron legs with his friends so they could dangle their feet over the ledge, perched high above the town. Rounding the pond, he remembered roughhousing with his classmates and tossing each other in to the still, cold water. He thought back—as he often did—to his first love and their first kiss, sitting side-by-side on the dock, hands trembling, hearts racing.",
+      "By the time he pulled onto the gravel road leading to the church, he experienced the strange sensation of both slipping into a younger version of himself and shouldering the weight and wisdom of old age. He still had so much life ahead of him, yet these journeys back to his hometown imbued him with the equanimity of a man beyond his years. He remembered inching along that road in a funeral procession after his mother died, and later, watching his newlywed sister speeding off, her husband in tow, cans rattling off the back bumper, clouds of gravel trailing after them.",
+      "His sister had already taken her place at the altar when he arrived, bouncing his pretty niece on her hip in the christening gown they had both worn years ago. As he slipped into the pew, he noted how soft the wood felt beneath his fingers, polished and worn from so many years of human touch. But the music was the same. The cool, oaky air of the church was the same. The smell—ageing paper, freshly mown grass—just the same. As much as time was hurtling by, it felt in the moment that nothing had changed.",
+      "And yet. As he rose for the first hymn, he touched the ring in his pocket. Past and present came together in that smooth gold loop. There in the place that made him, he traced it round and round, over and over again.",
+    ],
+    scent="church oak and beeswax — cold air held in clean linen",
+    caption="the chapter, photographed as it was written — stone, polish, and the last of the lilies",
+    margins=[("Opening","cold water, cut grass, iron on the hands","— the pond, the dock, the first kiss"),
+             ("Heart","linen dried outdoors — the smell of being fifteen","— the tower, and the iron legs of it"),
+             ("Base","church oak, beeswax polish, ageing paper","— the music was the same")],
     stone_title="Verde Jade, cut once.",
-    stone_body="Green under the polish and almost black away from the light \u2014 quarried in a seam that gives perhaps a dozen lids a year, and never the same twice."),
+    stone_body="Green under the polish and almost black away from the light — quarried in a seam that gives perhaps a dozen lids a year, and never the same twice."),
 
+  # Third Date — copy supplied by Alex, 1 Aug. Paragraphs verbatim.
   "third-date": dict(
-    pull="By the third one you stop performing.", pullref="From Third Date, Chapter II",
-    numeral="V", chapter="Chapter I of IX", title="The third one, and after.", author="Nell Ferreira",
-    paras=["By the third one you stop performing, which is either the end of it or the beginning. The menu is no longer a prop. The stories have run out of their best versions and have started telling themselves honestly, which is slower and much more dangerous.",
-           "There was a candle between them doing the work of a much larger fire, and neither of them moved it out of the way."],
-    scent="plum and tobacco \u2014 the point where the evening stops being polite",
-    caption="the chapter, photographed as it was written \u2014 candle, glass, and the second bottle",
-    margins=[("Opening","dark plum, barely sweet","\u2014 the menu is put down"),
-             ("Heart","tobacco leaf, warm and dry","\u2014 the stories stop being edited"),
-             ("Base","benzoin, candle smoke","\u2014 nobody suggests leaving")],
+    pull="There was such familiarity between them, as if they’d known each other a lifetime ago and were simply catching up.",
+    pullref="From Third Date, Chapter I",
+    numeral="V", chapter="Chapter I of IX", title="Only the third date.", author="Nell Ferreira",
+    paras=[
+      "What did she like about him? Her friends wanted to know. She raised her tea to her lips as she paused to think, then smiled, feeling rather sheepish. How could she choose any one thing and not list them all? She hardly knew him, of course—tonight was only the third date. But there was such familiarity between them, as if they’d known each other a lifetime ago and were simply catching up.",
+      "Across the city, he stood over the bathroom sink brushing his teeth, thinking of her, and noticed something he hadn’t experienced in years: butterflies in his stomach. He shook his head to himself, laughing. They hardly knew each other, yet she’d already made a giddy fool of him. He could hardly wait to see her again.",
+      "On the train, she pulled her compact from her purse to check her lipstick one last time. She brushed a few stray hairs into place, then ruffled her hair again, wanting to appear thoughtfully—artfully—effortless. She caught the eye of an auburn-haired lady across the aisle, who clucked to herself, remembering all the trouble she went to as a girl to look untroubled. The two women shared a knowing smile.",
+      "His anticipation got the better of him, and he arrived to the restaurant early. As he waited for her—giving his best performance as a levelheaded, self-assured person—he noticed that the orange-blossom clipping in the vase on his table gave off the most bewitching scent.",
+      "He was not one to notice the scent of a cut flower, typically, yet recently he’d become attuned to these subtle pleasures. He realised that he’d become acutely observant. The oxidised cufflinks on the elder gentleman that lives in his building, for one. The choir of birdsong emanating from the autumnal foliage, competing with the rustling of leaves. The soft, yet cracked, feel of leather on his well-worn boots. Amused that he’d gotten himself lost in so many little details, since he was not much of a daydreamer, he was hardly one to get lost in a reverie.",
+      "Then he felt a delicate hand on his shoulder, and he suddenly understood why.",
+    ],
+    scent="orange blossom cut and set on the table, over soft, well-worn leather",
+    caption="the chapter, photographed as it was written — the vase, the table, the third evening",
+    margins=[("Opening","orange blossom, cut and set on the table","— the most bewitching scent"),
+             ("Heart","oxidised brass and autumn foliage","— he had become acutely observant"),
+             ("Base","soft, cracked leather, well worn","— and he suddenly understood why")],
     stone_title="Rosso Levanto, cut once.",
-    stone_body="Deep red run through with white \u2014 a stone that looks composed and is entirely accidental. Your lid\u2019s pattern was decided in the block, not by us."),
+    stone_body="Deep red run through with white — a stone that looks composed and is entirely accidental. Your lid’s pattern was decided in the block, not by us."),
 
+  # Road Trip — copy supplied by Alex, 1 Aug. Paragraphs verbatim.
   "road-trip": dict(
-    pull="We agreed not to name the destination until the second tank.", pullref="From Road Trip, Chapter I",
-    numeral="VI", chapter="Chapter I of IX", title="Before the light did.", author="Iris Vandeleur",
-    paras=["We left before the light did and agreed not to name the destination until the second tank. The windows came down somewhere past the second roundabout and stayed down, which meant conversation had to be shouted or abandoned. We abandoned it.",
-           "The road warmed as the morning did. By ten the car smelled of hot upholstery, someone\u2019s cigarette from a decade ago, and whatever grows beside a road in July."],
-    scent="warm wind through an open window \u2014 leather, amber, dust",
-    caption="the chapter, photographed as it was written \u2014 the road, the light, the second tank",
-    margins=[("Opening","hot dust, bright and dry","\u2014 the windows come down"),
-             ("Heart","worn leather, sun on the seat","\u2014 conversation is abandoned"),
-             ("Base","amber, faint petrol, warm tar","\u2014 nobody names the destination")],
+    pull="Maybe they would return to the map, steer themselves back to their itinerary. Maybe.",
+    pullref="From Road Trip, Chapter I",
+    numeral="VI", chapter="Chapter I of IX", title="The impromptu detour.", author="Iris Vandeleur",
+    paras=[
+      "They knew where they were going, but neither seemed to mind the impromptu detour along the way. Undulating fields of sage and lavender tumbled out into the distance before them, the car drifting over the landscape like a ship on the open sea. Uninterrupted sky stretched in every direction.",
+      "Leaning back in her seat, she sank her teeth into a ripe peach and remembered the afternoons she used to spend in the backyard as a child, lying on the grass, watching the clouds carousel across the sky. She rarely took the time to look up now, but when she did, she recognised that familiar sense of calm: an old friend that came to visit in the moments when she let herself pause for simple pleasures.",
+      "It was good to be away from the city—finally—in a place where the air was crisp, where there were no schedules or obligations. It was easy to be present there, to breathe in the moment and let the feeling of being free release the tension of a long winter.",
+      "From the driver’s seat, he noticed her lean back - with a long, contented sigh. He shifted his attention, just for a moment, away from the vast stretch of highway ahead of them and toward his passenger. Her nose and cheeks had picked up a bit of colour since they had left home. The wind had tousled her hair. He told her she looked pretty, and she laughed a little, embarrassed, but hardly protesting.",
+      "She twisted the knob of the radio until the static dissipated and they heard a song they had both loved as children—one neither had heard in years, yet still remembered. Turn up the volume, he said, eyes fixated on the long road ahead. She rolled down the windows, and the music spilled out into the early-evening air.",
+      "Her hand reached over, brushing his knee. He took it, letting her fingers intertwine with his for just a moment before returning to the steering wheel. She sang along to the music softly, under her breath, charmingly off-key, pulling her bare feet up to the glove compartment and tapping along to the beat. He smiled to himself, and she pretended not to notice.",
+      "She pulled her sunglasses down and sunk deeper into the seat. The sun on the horizon bathed the hills in gold. Maybe they would return to the map, steer themselves back to their itinerary. Maybe.",
+    ],
+    scent="sage and lavender, a ripe peach and warm leather — the road with the windows down",
+    caption="the chapter, photographed as it was written — the road, the light, the detour taken",
+    margins=[("Opening","sage and lavender, tumbling to the distance","— the detour neither of them minded"),
+             ("Heart","a ripe peach, and warm wind through the window","— the music spills out into the air"),
+             ("Base","sun-warmed leather, and gold on the hills","— maybe they would return to the map")],
     stone_title="Rosso Francia, cut once.",
-    stone_body="Warm and veined like an old map, which is the whole joke \u2014 no two lids agree on the route, and yours will not be repeated."),
+    stone_body="A warm red seamed with white, cut from a block that will not repeat — the lid on your bottle is the only one carrying that line."),
 
+  # 4pm Matinee — copy supplied by Alex, 1 Aug. Paragraphs verbatim.
   "4pm-matinee": dict(
-    pull="Nobody goes to the cinema at four unless they are hiding from something.", pullref="From 4pm Matinee, Chapter I",
-    numeral="VII", chapter="Chapter I of IX", title="The four o\u2019clock showing.", author="Morgan Childs",
-    paras=["Nobody goes to the cinema at four in the afternoon unless they are hiding from something. The foyer knows it and is kind about it: the carpet takes your footsteps, the girl on the desk does not ask, and the room beyond is already dark.",
-           "There were nine of us. We sat with an empty seat between each, like a code, and for two hours the afternoon was somebody else\u2019s problem."],
-    scent="citrus in a dark room \u2014 velvet, dust, and an afternoon spent elsewhere",
-    caption="the chapter, photographed as it was written \u2014 foyer light, velvet, the empty seat",
-    margins=[("Opening","bergamot and bitter orange","\u2014 the foyer, before the dark"),
-             ("Heart","iris over warm velvet","\u2014 nine people, nine empty seats"),
-             ("Base","dry cedar, faint dust","\u2014 two hours that belong to nobody")],
+    pull="She’d never been afraid of striking out on her own. She’d never been afraid of going to the movies alone.",
+    pullref="From 4pm Matinee, Chapter I",
+    numeral="VII", chapter="Chapter I of IX", title="Just me.", author="Morgan Childs",
+    paras=[
+      "She came to the afternoon matinee alone. She liked the rush of independence she got when the ticket seller looked around for a date. “Just me,” she’d say with a playful smile. She took a seat in the middle of the theatre and sank down into the soft velvet chair, folding over the edges of her ticket in anticipation.",
+      "From the moment she was a little girl, she adored the movies. She loved the ritual of going to the theatre: the music in the lobby, the smell of buttered popcorn, the hush of the crowd when the lights went down. But as she got older, she began to long to be a part of the experience. She wanted to feel the heat of the studio lights on her face and the rumble of applause beneath her feet. To captivate an audience with her laugh, or bring them to tears. She wanted to stretch beyond her shyness, filling the darkened theatre with her wit and grace.",
+      "The film was a classic comedy, a story of a woman caught between three men. The actress in the starring role was beautiful, unconventional. She wore trousers when other ingénues were in skirts, blazed a trail for independent women in Hollywood. Offscreen, she rolled up her shirtsleeves and gardened geraniums and herbs, haggled with spice merchants from Delhi to Istanbul, and read Russian novels in long, luxurious, baths. She spent much of her life proudly, happily, alone.",
+      "That afternoon in the matinee, the girl felt her future calling like a siren’s song. Years later, it became clear that the plan was hatched that very day. Countless auditions, hours of dance, singing lessons, late nights working behind a bar, endless sweat and tears—all of these began in a darkened theatre as her dream was taking shape.",
+      "She couldn’t know that she’d succeed, but she never doubted it, either. Chasing her dream felt as natural as breathing air. It wasn’t a matter of choice. She had to become the star she knew herself to be.",
+      "And once she’d achieved it—the fame, the acclaim—she’d attribute her success to her girlish gumption. She’d never been afraid of striking out on her own. She’d never been afraid of going to the movies alone.",
+    ],
+    scent="buttered popcorn and soft velvet — the hush of a darkened theatre at four in the afternoon",
+    caption="the chapter, photographed as it was written — the ticket, the velvet, the dark",
+    margins=[("Opening","the music in the lobby, buttered popcorn","— just me, she’d say"),
+             ("Heart","soft velvet, sunk into","— the hush when the lights went down"),
+             ("Base","warm dust and studio light","— the star she knew herself to be")],
     stone_title="Giallo Siena, cut once.",
-    stone_body="A yellow marble that reads gold under lamplight and sand under daylight \u2014 the lid you receive will do both, in a pattern cut only once."),
+    stone_body="Ochre shot through with white, quarried in Tuscany — no two lids repeat, and the block decides, not us."),
+
 }
 
 JOURNAL = [
@@ -322,6 +363,18 @@ def catalogue_json():
                        notes="all seven in miniature", price=38,
                        img="assets/img/set-first-lines.jpg", href="samples.html")
     return json.dumps(data, ensure_ascii=False)
+
+
+def story_plate(q):
+    """The editorial plate for a fragrance's story.
+
+    Supplied photography lives at assets/img/story-<slug>.jpg. Any fragrance
+    without one yet falls back to its packshot, so the page is never broken
+    waiting on a shoot."""
+    cand = "assets/img/story-%s.jpg" % q["slug"]
+    if os.path.exists(os.path.join(ROOT, cand)):
+        return cand
+    return plate(q, 2)
 
 
 def plate(q, n):
@@ -697,7 +750,7 @@ def build():
     feat = BY_SLUG[FEATURED]
     fc   = CHAPTERS[FEATURED]
     scards = "\n".join(f"""      <a class="scard rev" href="story-{q['slug']}.html">
-        <span class="plate"><img src="{fp(plate(q, 1))}" alt="{q['name']}" loading="lazy"></span>
+        <span class="plate"><img src="{fp(story_plate(q))}" alt="{q['name']}" loading="lazy"></span>
         <span class="sm"><i class="chip" style="background:{q['swatch']}"></i>{q['story']} &middot; {q['read']} read</span>
         <h3>{q['name']}</h3>
         <p>{q['line']}</p>
@@ -715,7 +768,7 @@ def build():
 </section>
 
 <section class="yfeat">
-  <img src="{fp(plate(feat, 2))}" alt="{feat['name']}">
+  <img src="{fp(story_plate(feat))}" alt="{feat['name']}">
   <span class="veil" aria-hidden="true"></span>
   <div class="inner">
     <div class="c rev">
@@ -792,7 +845,7 @@ def build():
 </section>
 
 <section class="splate">
-  <img src="{fp(plate(q, 2))}" alt="{q['name']}">
+  <img src="{fp(story_plate(q))}" alt="{q['name']}">
 </section>
 
 <section class="sbody">
