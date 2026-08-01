@@ -266,7 +266,16 @@ def build():
     written = {}
 
     # ---- 01 home (body kept in tools/parts/home.html) --------------------
+    # The fragment is authored with plain asset paths; fingerprint them here so
+    # the homepage cannot serve a stale image while every generated page serves
+    # a fresh one. That mismatch is exactly what made the homepage cards look
+    # unfixed after the crops were corrected.
     home_body = open(os.path.join(ROOT, "tools/parts/home.html")).read()
+    home_body = re.sub(r'(href|src)="(assets/(?:img|css|js)/[^"?]+)"',
+                       lambda m: '%s="%s"' % (m.group(1), fp(m.group(2))), home_body)
+    # the gallery swaps images from an inline handler, so hash those paths too
+    home_body = re.sub(r"'(assets/img/[^'?]+)'",
+                       lambda m: "'%s'" % fp(m.group(1)), home_body)
     written["index"] = page("index", "Stories, carved in scent",
         "Seven fine fragrances, each begun as a commissioned short story and sealed beneath a hand-carved stone lid.",
         home_body, current="index.html")

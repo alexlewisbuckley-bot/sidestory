@@ -827,35 +827,31 @@ footer a:hover{opacity:1}
 .nav{position:relative}
 
 /* --- µ1 · CARD ---------------------------------------------------------- */
-/* One image, one crop rule for every product, so the seven cards read as a set.
-   The frame holds the bottle in its upper half; the quick-add panel rises into
-   the lower third, which is empty backdrop by construction, so the buy controls
-   never cover the product. The image develops +6% inside the fixed crop and the
-   card lifts on shadow, per the µ1 note. 400ms. Pointer devices only. */
-.card{transition:transform .4s var(--settle),box-shadow .4s var(--settle)}
-.card .ph{position:relative;overflow:hidden;isolation:isolate}
+/* Reverted to the behaviour that worked: the panel slides up over the bottom of
+   the frame and the image develops very slightly. My zoom-out experiment made
+   the panel escape the frame at narrow widths and jump between two crops; it is
+   gone. The crops themselves stay — those were a genuine fix. */
+.card{transition:box-shadow .4s var(--settle)}
+.card .ph{position:relative;overflow:hidden}
 .card .ph img{width:100%;height:100%;object-fit:cover;
-  transition:transform .4s var(--settle);will-change:transform}
+  transition:transform .9s var(--settle),filter .4s var(--settle)}
 .card h3{transition:color .4s var(--settle)}
-.quick{position:absolute;left:0;right:0;bottom:0;z-index:2;
-  background:rgba(241,240,232,.97);padding:var(--s-3) var(--s-4) var(--s-4);
-  transform:translateY(101%);transition:transform .4s var(--settle)}
+
+/* the panel lives inside the frame and never leaves it */
+.quick{position:absolute;left:0;right:0;bottom:0;z-index:2;max-height:100%;overflow:hidden;
+  background:rgba(241,240,232,.97);padding:var(--s-3);
+  transform:translateY(100%);transition:transform .5s var(--settle)}
+.quick .r{display:flex;flex-wrap:wrap;gap:var(--s-2)}
 
 @media (hover:hover) and (pointer:fine){
-  .card:hover .ph img,.card:focus-within .ph img{transform:scale(1.06)}
-  .card:hover{transform:translateY(-.375rem);box-shadow:0 1.25rem 2.75rem rgba(30,28,22,.14)}
+  .card:hover .ph img{transform:scale(1.035);filter:brightness(1.03)}
   .card:hover h3{color:var(--brass)}
   .card:hover .quick,.card:focus-within .quick{transform:none}
 }
+/* no hover to reveal it on touch, so it never renders there */
 @media (hover:none),(pointer:coarse){ .quick{display:none} }
-
-/* the lift and develop, without the zoom-out, on the editorial cards (G1) */
-.post,.way{transition:transform .4s var(--settle),box-shadow .4s var(--settle)}
-.post img,.way img{transition:transform .4s var(--settle)}
-@media (hover:hover) and (pointer:fine){
-  .post:hover,.way:hover{transform:translateY(-.375rem);box-shadow:0 1.25rem 2.75rem rgba(30,28,22,.14)}
-  .post:hover img,.way:hover img{transform:scale(1.06)}
-}
+/* and not at all where the card is too small to hold it */
+@media (max-width:34em){ .quick{display:none} }
 
 /* --- µ2 · SIZE OPTION --------------------------------------------------- */
 /* "hairline inks to 90%, field tints 6% ink. Selection is an instant fill swap." */
