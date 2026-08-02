@@ -1045,6 +1045,11 @@ button:disabled,[aria-disabled="true"]{cursor:default}
 @media (max-width:47.9375rem){
   .credrow{gap:var(--s-3)}
   .cred{padding-top:var(--s-3)}
+  /* The hanging mark hangs into the gutter, and on a phone the gutter is
+     the screen edge — the glyph was printing against the bezel. Indent the
+     quote and let the mark occupy the indent instead. */
+  .cred blockquote{padding-left:1.05em}
+  .cred blockquote::before{left:.1em}
 }
 
 /* ------------------------------------------------------ 12 newsletter --- */
