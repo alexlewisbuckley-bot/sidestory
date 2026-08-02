@@ -502,6 +502,28 @@ def align_logo(src, dst, edge):
     return dst
 
 
+def spine_section(current=None):
+    """The seven, as a row of stone colours. On a story page it marks the one
+    being read; anywhere else it is simply the shelf, which is what makes it
+    worth repeating at the foot of a page about the house."""
+    items = "\n".join(
+        '        <a class="sv%s" href="story-%s.html">'
+        '<i style="background:%s"></i><em>%s</em><b>%s</b>%s</a>'
+        % (" on" if r["slug"] == current else "", r["slug"], r["swatch"],
+           CHAPTERS[r["slug"]]["numeral"], r["name"],
+           "<small>You are reading</small>" if r["slug"] == current else "")
+        for r in PRODUCTS)
+    return f"""<section class="sseven">
+  <div class="inner">
+    <p class="k">All seven stories</p>
+    <h2>Seven to read. Seven to wear.</h2>
+    <div class="svs">
+{items}
+    </div>
+  </div>
+</section>"""
+
+
 def gift_module(kicker="Kept &amp; given",
                 head="A story is a serious gift.",
                 body="Every parcel arrives gift-ready &mdash; the stone lid, the printed story, no plastic in the box. Add the Dedication: a line of yours, typeset on the story&rsquo;s flyleaf, and sent again as a digital edition.",
@@ -1441,27 +1463,26 @@ def build():
     <p class="k">The making</p>
     <h2>Begun in Grasse. Finished by hand.</h2>
     <div class="grid-3">
-      <figure><img class="figfull" src="{fp('assets/img/plants.jpg')}" alt="Jasmine outside Mougins" loading="lazy"><figcaption class="hint">jasmine outside Mougins, first light</figcaption></figure>
-      <figure><img class="figfull" src="{fp('assets/img/founders.jpg')}" alt="The two of us, working" loading="lazy"><figcaption class="hint">the two of us, arguing a story into its final line</figcaption></figure>
-      <figure><img class="figfull" src="{fp('assets/img/spine.jpg')}" alt="Stone meeting glass" loading="lazy"><figcaption class="hint">stone meets glass &mdash; recycled, refillable</figcaption></figure>
+      <figure><img class="figfull" src="{fp('assets/img/plants.jpg')}" alt="Botanicals for the compositions" loading="lazy"><figcaption class="hint">clean botanicals, carefully composed</figcaption></figure>
+      <figure><img class="figfull" src="{fp('assets/img/founders.jpg')}" alt="The house at work" loading="lazy"><figcaption class="hint">crafted with intention</figcaption></figure>
+      <figure><img class="figfull" src="{fp('assets/img/spine.jpg')}" alt="Stone meeting glass" loading="lazy"><figcaption class="hint">made to last, designed to be reused</figcaption></figure>
     </div>
-    <p>Composed by Jacques Chabert with the house in Grasse &middot; written by seven commissioned novelists &middot; stone cut in Liguria &middot; bottled and bound in the United Kingdom.</p>
+    <p>All Side Story fragrances begin with clean, natural ingredients. A farm-to-fragrance approach preserves the character of each botanical, using synthetics only when they are the most sustainable choice. Composed in Grasse, each parfum is crafted to capture the essence of its ingredients without compromise.</p>
+    <p>Every bottle and lid is crafted by hand in Italy, designed to be recycled or reused, with packaging that is entirely free from plastic. Created to last, our parfums linger beautifully on skin and fabric, leaving a memorable impression long after they&rsquo;re worn.</p>
+    <p>Inspired by stories rather than seasons or trends, each fragrance is made with purpose.</p>
+    <p class="pull">It is never perfume for perfume&rsquo;s sake.</p>
   </div>
 </section>
 
 <section class="band" id="stones">
   <div class="inner">
-    <p class="k">The stones</p>
-    <h2>No two lids repeat.</h2>
-    <p>Each lid is cut from a block chosen for its seam, not its evenness. We do not select for consistency and we do not correct the veining, which means the lid on your bottle is the only one of its kind. It lifts free of the glass and is heavy on purpose.</p>
-    <div class="matrow spaced rail" tabindex="0" role="group" aria-label="Materials &mdash; scroll sideways">
-      <div class="mat"><div class="sw sw-nero"><em>nero marquina</em></div><b>Nero Marquina</b><i>raking light, wet-polished vein</i></div>
-      <div class="mat"><div class="sw sw-pale"><em>calacatta</em></div><b>Calacatta</b><i>a single grey seam, off-centre</i></div>
-      <div class="mat"><div class="sw sw-verde"><em>verde jade</em></div><b>Verde Jade</b><i>green under the polish, almost black</i></div>
-      <div class="mat"><div class="sw sw-rosso"><em>rosso francia</em></div><b>Rosso Francia</b><i>warm, veined like an old map</i></div>
-    </div>
+    <p class="k">Why Side Story?</p>
+    <h2>Perfumers</h2>
+    <p>Side Story strikes a fine balance between luxury and accessibility that is largely missing in the perfume market. On one hand, we use fine raw materials from Grasse, Provence, and other exceptional sources, and we collaborate with skilled master perfumers such as Jacques Chabert and Argeville who elevate the concept behind each fragrance to a form of high art. On the other, each of our &lsquo;stories&rsquo; is meant to resonate with consumers on a universal level and we have consciously decided to price the fragrances at a more reachable price than brands with similarly high manufacturing standards.</p>
   </div>
 </section>
+
+{spine_section()}
 """)
 
     # ---- 07 stories index --------------------------------------------
@@ -1543,14 +1564,6 @@ def build():
             '          <div class="nrow"><b>%s</b><span>%s</span></div>' % (lab, note)
             for lab, note, _aside in c["margins"])
 
-        strip_html = "\n".join(
-            '        <a class="sv%s" href="story-%s.html">'
-            '<i style="background:%s"></i><em>%s</em><b>%s</b>%s</a>'
-            % (" on" if r["slug"] == q["slug"] else "", r["slug"], r["swatch"],
-               CHAPTERS[r["slug"]]["numeral"], r["name"],
-               "<small>You are reading</small>" if r["slug"] == q["slug"] else "")
-            for r in PRODUCTS)
-
         initials = ".".join(w[0] for w in c["author"].split()) + "."
 
         story_body = f"""
@@ -1619,15 +1632,7 @@ def build():
   </div>
 </section>
 
-<section class="sseven">
-  <div class="inner">
-    <p class="k">All seven stories</p>
-    <h2>Seven to read. Seven to wear.</h2>
-    <div class="svs">
-{strip_html}
-    </div>
-  </div>
-</section>
+{spine_section(q["slug"])}
 """
         written["story-" + q["slug"]] = page(
             "story-" + q["slug"], q["name"],
