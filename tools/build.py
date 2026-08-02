@@ -1467,7 +1467,7 @@ def build():
       <figure><img class="figfull" src="{fp('assets/img/founders.jpg')}" alt="The house at work" loading="lazy"><figcaption class="hint">crafted with intention</figcaption></figure>
       <figure><img class="figfull" src="{fp('assets/img/spine.jpg')}" alt="Stone meeting glass" loading="lazy"><figcaption class="hint">made to last, designed to be reused</figcaption></figure>
     </div>
-    <div class="cols-3">
+    <div class="cols cols-3">
       <p>All Side Story fragrances begin with clean, natural ingredients, selected for their purity and character. Our farm-to-fragrance approach preserves every botanical, using synthetics only when they provide the most sustainable solution, without compromising the integrity of each scent.</p>
       <p>Every bottle and lid is crafted by hand in Italy, designed to be treasured long after the fragrance is finished. Made from recyclable materials and presented in entirely plastic-free packaging, every detail reflects thoughtful design and enduring craftsmanship.</p>
       <p>Every parfum is created to linger beautifully on skin and fabric, leaving a lasting impression long after it is worn. Inspired by stories instead of seasons or trends, each fragrance is composed with depth, purpose and timeless character.</p>
@@ -1479,7 +1479,15 @@ def build():
   <div class="inner">
     <p class="k">Why Side Story?</p>
     <h2>Perfumers</h2>
-    <p>Side Story strikes a fine balance between luxury and accessibility that is largely missing in the perfume market. On one hand, we use fine raw materials from Grasse, Provence, and other exceptional sources, and we collaborate with skilled master perfumers such as Jacques Chabert and Argeville who elevate the concept behind each fragrance to a form of high art. On the other, each of our &lsquo;stories&rsquo; is meant to resonate with consumers on a universal level and we have consciously decided to price the fragrances at a more reachable price than brands with similarly high manufacturing standards.</p>
+    <p class="lede">Side Story strikes a fine balance between luxury and accessibility that is largely missing in the perfume market.</p>
+    <div class="grid-2">
+      <figure><img class="figfull" src="{fp('assets/img/stone-shelf.jpg')}" alt="Raw materials and a carved stone lid" loading="lazy"><figcaption class="hint">fine raw materials from Grasse, Provence</figcaption></figure>
+      <figure><img class="figfull" src="{fp('assets/img/set-first-lines.jpg')}" alt="The First Lines discovery set" loading="lazy"><figcaption class="hint">a more reachable price</figcaption></figure>
+    </div>
+    <div class="cols cols-2">
+      <p>On one hand, we use fine raw materials from Grasse, Provence, and other exceptional sources, and we collaborate with skilled master perfumers such as Jacques Chabert and Argeville who elevate the concept behind each fragrance to a form of high art.</p>
+      <p>On the other, each of our &lsquo;stories&rsquo; is meant to resonate with consumers on a universal level and we have consciously decided to price the fragrances at a more reachable price than brands with similarly high manufacturing standards.</p>
+    </div>
   </div>
 </section>
 
