@@ -306,6 +306,18 @@ for _i, _p in enumerate(PRODUCTS):
 # only The Fragrances opens the mega panel; the rest are plain links
 MEGA_FOR = "collection.html"
 
+# The buyable formats, in ascending price. Written once because the desktop
+# mega panel and the phone menu both list them, and they had drifted: the
+# phone menu called the set "The Discovery Set" while the nav beside it called
+# the same page "Discovery Sets", and the two blocks disagreed on order.
+MENU_SIZES = [
+    ("collection-100ml.html",   "100 ml",         "&pound;160"),
+    ("collection-7-5ml.html",   "7.5 ml",         "&pound;40"),
+    ("collection-samples.html", "Samples",        "&pound;5"),
+    ("samples.html",            "Discovery Sets", "&pound;38"),
+]
+SIZE_HREFS = {h for h, _, _ in MENU_SIZES}
+
 NAV_LINKS = [
     ("collection.html", "The Fragrances"),
     ("stories.html",    "Your Stories"),
@@ -757,9 +769,20 @@ def topbar(current):
     # them on a phone opened the mega menu underneath the burger menu, which is
     # the whole reason the old one felt broken. A separate element also lets the
     # panel own its scrolling and its stacking without fighting the header row.
+    #
+    # Explore drops anything the size block above it already carries. Stacked
+    # on a phone you see both lists at once, and Samples appeared twice and
+    # the set appeared twice under two different names — on the desktop the
+    # same overlap is invisible because the size block lives behind a hover.
     mob = "\n        ".join(
         '<a href="%s"%s>%s</a>' % (href, cur if href == current else "", label)
-        for href, label in NAV_LINKS)
+        for href, label in NAV_LINKS if href not in SIZE_HREFS)
+    megasizes = "\n".join(
+        '          <a class="ml" href="%s">%s &mdash; %s</a>' % (h, label, price)
+        for h, label, price in MENU_SIZES)
+    mobsizes = "\n".join(
+        '      <a href="%s">%s<span>%s</span></a>' % (h, label, price)
+        for h, label, price in MENU_SIZES)
     return f"""<div class="enter-veil" aria-hidden="true"></div>
 <div class="menu-dim" id="menudim"></div>
 {announcement()}
@@ -775,10 +798,7 @@ def topbar(current):
       <div class="inner">
         <div>
           <p class="fh">Shop by size</p>
-          <a class="ml" href="collection-100ml.html">100 ml &mdash; &pound;160</a>
-          <a class="ml" href="collection-7-5ml.html">7.5 ml &mdash; &pound;40</a>
-          <a class="ml" href="collection-samples.html">Samples &mdash; &pound;5</a>
-          <a class="ml" href="samples.html">The Discovery Set &mdash; &pound;38</a>
+{megasizes}
         </div>
         <div>
           <p class="fh">Shop by stories</p>
@@ -810,10 +830,7 @@ def topbar(current):
   <div class="mpin">
     <p class="mpfh">Shop by size</p>
     <div class="mpsizes">
-      <a href="collection-100ml.html">100 ml<span>&pound;160</span></a>
-      <a href="collection-7-5ml.html">7.5 ml<span>&pound;40</span></a>
-      <a href="samples.html">The Discovery Set<span>&pound;38</span></a>
-      <a href="collection-samples.html">Samples<span>&pound;5</span></a>
+{mobsizes}
     </div>
     <p class="mpfh">Explore</p>
     <div class="mplinks">
