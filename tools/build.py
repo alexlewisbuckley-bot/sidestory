@@ -1362,6 +1362,23 @@ def build():
                   + "\n".join(product_card(p) for p in PRODUCTS)
                   + "\n" + '<article class="promo rev">\n        <p class="k">Undecided?</p><h3>The Discovery Set</h3>\n        <p>All seven stories in miniature — read them on your own skin. £38.</p>\n        <div><button class="btn btn-ghost btn-sm" onclick="addToBag(\'set\',\'full\',this)">Begin the set</button></div>\n      </article>' + "\n    </div>")
     home_body = home_body.replace("<!--SS_CARDS-->", home_cards)
+    # The campaign band — an invented quote over the stone ledge — is the
+    # stories page's featured band now, the same component with the same
+    # plate, pointed at the whole shelf of stories rather than one.
+    _fq = BY_SLUG["sunday-service"]
+    _fc = CHAPTERS["sunday-service"]
+    home_body = home_body.replace("<!--SS_FEAT-->", f"""<section class="yfeat">
+  <img src="{fp(story_plate(_fq))}" alt="{_fq['name']}" loading="lazy">
+  <span class="veil" aria-hidden="true"></span>
+  <div class="inner">
+    <div class="c rev">
+      <p class="k">{_fq['story']} &middot; {_fq['read']} read</p>
+      <h2>{_fq['name']}</h2>
+      <p class="q">&ldquo;{_fc['pull']}&rdquo;</p>
+      <a class="ul" href="stories.html">Read the stories &rarr;</a>
+    </div>
+  </div>
+</section>""")
     # The panel here used to sell gifting and the Dedication. The house does
     # neither, so it sells the one thing a first-time reader should actually
     # buy: the set. Copy is lifted from samples.html rather than written
@@ -1606,7 +1623,6 @@ def build():
         <button class="btn btn-ghostink applepay" onclick="addToBag('{p['slug']}',document.querySelector('.pdp .cta .btn-ink').dataset.size||'100ml',this)"><svg class="i-apple" viewBox="0 0 384 512" aria-hidden="true" focusable="false"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.931.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/></svg> Apple Pay</button>
       </div>
       <p class="re"><span data-sizeline>Hand-carved stone lid, and the nine printed pages, in the box.</span></p>
-      <p class="re">Complimentary UK delivery over &pound;{FREE_GBP} &middot; signed for, two to four working days</p>
 
       <!-- On a phone the Add button starts below the fold and is gone by the
            second screen. The bar stands in for it whenever the real button is
@@ -1692,7 +1708,6 @@ def build():
         <button class="btn btn-ink" data-size="full" onclick="addToBag('set','full',this)">Add to bag &mdash; &pound;38</button>
         <button class="btn btn-ghostink applepay" onclick="addToBag('set','full',this)"><svg class="i-apple" viewBox="0 0 384 512" aria-hidden="true" focusable="false"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.931.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/></svg> Apple Pay</button>
       </div>
-      <p class="re">Complimentary UK delivery over &pound;{FREE_GBP} &middot; signed for, two to four working days</p>
 
       <div class="acc">
             <details open><summary>What&rsquo;s in the set</summary><div class="body"><div class="notelist">

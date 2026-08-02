@@ -529,6 +529,10 @@ section{position:relative}
 main>:first-child:is(.band,.house,.seven,.show,.atelier,.feelings,
                      .ways,.making,.mater,.journal,.creds){
   padding-top:var(--space-7)}
+/* and when that opening band begins with a breadcrumb, the crumb's own 24px
+   is the gap — the product pages open at nav + 24 and the collection was
+   opening at nav + 64, the same trail at two heights */
+main>:first-child:is(.band,.seven):has(> .inner > .crumb){padding-top:0}
 
 /* section heading block: label, heading, optional link on the right */
 .head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;
