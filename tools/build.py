@@ -38,6 +38,12 @@ def typeset(html):
     def bind(text):
         # single-letter words bind forward
         text = _re.sub(r'(?<=\s)([aAI])\s+(?=[A-Za-z\u2018\u201c])', r'\1&nbsp;', text)
+        # A lone + or & standing as a conjunction binds backward, to the word
+        # before it. Left to itself it will start a line at some widths and end
+        # one at others, and a symbol opening a line reads as a bullet. Bound
+        # this way it can only ever end one, which is what a continuation mark
+        # should do.
+        text = _re.sub(r'\s+([+&])\s+(?=\S)', r'&nbsp;\1 ', text)
         # and the last two words hold together when they are short enough
         m = _re.search(r'\s+(\S+)\s+(\S+)\s*$', text)
         if m and len(m.group(1)) + len(m.group(2)) <= 14 and '&nbsp;' not in m.group(0):
@@ -375,6 +381,15 @@ def upgrade_images(html):
 
 def head(title, desc, css, body_attr=""):
     links = "\n".join(f'<link rel="stylesheet" href="{fp(c)}">' for c in css)
+    # Descriptions are written as prose, and prose has ampersands and quotation
+    # marks in it. Both were going into an attribute raw — tolerated by a
+    # browser, invalid all the same, and exactly the sort of thing a validator
+    # or a link-preview scraper is entitled to disagree about. Anything already
+    # written as an entity is left alone rather than double-escaped.
+    def attr(s):
+        s = re.sub(r"&(?!#?\w+;)", "&amp;", s)
+        return s.replace("<", "&lt;").replace('"', "&quot;")
+    title, desc = attr(title), attr(desc)
     return f"""<!doctype html>
 <html lang="en-GB">
 <head>
@@ -1054,8 +1069,13 @@ def build():
     # the gallery swaps images from an inline handler, so hash those paths too
     home_body = re.sub(r"'(assets/img/[^'?]+)'",
                        lambda m: "'%s'" % fp(m.group(1)), home_body)
-    written["index"] = page("index", "Stories, carved in scent",
-        "Seven fine fragrances, each begun as a commissioned short story. 100ml £160 beneath a hand-carved stone lid, 7.5ml £40, samples £5.",
+    # The title and the description are the hero, restated for a search result
+    # and a shared link. They were the old hero verbatim, so leaving them would
+    # have put the replaced copy back in the one place nobody looks at while
+    # editing a page — the tab, the Google listing and every WhatsApp preview.
+    written["index"] = page("index", "Short narratives + deliberate scents",
+        "Crafted with fine & broad-ranging ingredients, the scents inspire nostalgia, expression and memory. "
+        "100ml £160 beneath a hand-carved stone lid, 7.5ml £40, samples £5.",
         home_body, current="index.html")
 
     # ---- 02 collection, and one per size ---------------------------------
