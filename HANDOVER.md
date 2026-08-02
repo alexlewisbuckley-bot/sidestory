@@ -1,7 +1,11 @@
 # Side Story Parfums — handover
 
 Written at the end of the session of **1 August 2026**. Everything below is
-current as of commit `e68ad80` on `main`.
+current as of commit `a80f8c3` on `main`.
+
+**To pick up where we left off:** read §1 and §3, clone into `/tmp/pushtest`,
+start the server, run the harnesses to confirm a clean baseline, then look at
+§7 — every open item there is a decision for Alex rather than a bug.
 
 ---
 
@@ -51,7 +55,8 @@ node tools/sizesearch.mjs    # the 14 ways to ask for a size, + Close/Clear alig
 node tools/filtera11y.mjs    # radio vs checkbox semantics, tap targets, labels
 node tools/anncheck.mjs      # ticker loop geometry, pacing, reduced motion, CLS
 node tools/annwide.mjs       # ticker fill at 390 → 2560
-node tools/footcheck.mjs     # footer rows match the menu; legal line
+node tools/footcheck.mjs     # footer rows match the menu; legal line; wordmark edges
+node tools/picturecheck.mjs  # no <source> is contributing a layout box
 node tools/focusring.mjs     # dialogs focus themselves, no ring on touch
 node tools/deskmega.mjs      # desktop mega menu, keyboard, focus trap
 node tools/struct.mjs        # skip link, landmarks, dup ids, alt, lang
@@ -70,7 +75,14 @@ at once starves the CPU and a timing-sensitive assertion (`focus not moved into
 the panel`) fails spuriously. Re-run alone before believing a failure.
 
 Screenshot helpers, all writing to `/tmp`: `menushot.mjs`, `srchshot.mjs`,
-`shelfshot.mjs`, `annshot.mjs`, `footshot.mjs`.
+`shelfshot.mjs`, `annshot.mjs`, `footshot.mjs`, `brandcrop.mjs`.
+
+**Screenshot before believing a fix.** Three of this session's bugs — the
+mega panel opening over the phone menu, the sticky size bar painting through
+it, and the centred sub-line in the footer wordmark — passed every numeric
+assertion and were only visible in a rendered image. Where a measurement and a
+picture disagree, the picture is right and the measurement is asking the wrong
+question.
 
 ---
 
@@ -94,6 +106,16 @@ Screenshot helpers, all writing to `/tmp`: `menushot.mjs`, `srchshot.mjs`,
    controllers bound to the same selector, so every tap ran twice.
 6. **`b9e5230` — announcement is a continuous ticker; free delivery £40 / AED 400.**
 7. **`e68ad80` — phone footer takes the menu's rows; legal line demoted.**
+8. **`a80f8c3` — the footer wordmark aligns to the edge its block sits on.**
+   Two derived lockups, flush left under 48em and flush right above it, both
+   generated from the header's artwork at build time.
+
+Every one of these began as something Alex could see and I could not, and in
+five of the eight the thing he pointed at turned out to be a symptom of
+something structural underneath — the menu of two menus, the two shelf
+controllers, the shared z-layer, the focus ring Safari paints and Chromium
+does not, the sub-line that was centred in its own artwork. Worth reading his
+next report the same way: the visible fault is rarely the whole fault.
 
 ---
 
@@ -170,6 +192,20 @@ pads each group with aria-hidden repeats when one copy is narrower than the
 viewport. Reduced motion unwinds the whole thing and rotates one message on a
 7-second timer.
 
+### The footer wordmark
+
+`align_logo()` in `build.py` derives `logo-ivory-left.svg` and
+`logo-ivory-right.svg` from `logo-ivory.svg` at build time, shifting the
+PARFUMS & OILS band until it meets the wordmark's left or right extreme. The
+footer picks between them with a media query on a `<source>`; the header keeps
+the original centred lockup, which is correct for a mark standing alone. The
+two generated files are build output — do not hand-edit them, and do not
+hand-edit the source to "fix" the centring, which the header needs.
+
+`_path_bbox()` computes path extents properly rather than reading coordinate
+pairs off the number stream: the artwork uses `H` and `V`, which take a single
+axis, so the naive read puts everything after the first `H` on the wrong axis.
+
 ### One number, one place
 
 `FREE_GBP = 40` / `FREE_AED = 400` in `build.py`, emitted as `window.SS_FREE`.
@@ -223,6 +259,18 @@ These have been flagged repeatedly across sessions and none is a code problem.
 6. **"Explore"** is the label chosen for the phone menu's second group, and
    **"Size & scent"** is generated for the filter button. Both are easy to
    change if the wording is wrong.
+7. **AED appears only in the ticker.** The locale line still reads "United
+   Kingdom (GBP £)" and there is no currency switcher. If the UAE is a real
+   market rather than a line of copy, that is the next conversation — prices,
+   the shipping table and the locale control all assume one currency.
+
+---
+
+## 7a. Nothing is half-finished
+
+Every change this session is committed, pushed and verified; there is no
+work-in-progress to resume and no branch to reconcile. `main` at `a80f8c3` is
+what is live. The next session starts with whatever Alex raises next.
 
 ---
 
