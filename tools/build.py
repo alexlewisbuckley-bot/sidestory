@@ -117,6 +117,7 @@ BY_SLUG = {p["slug"]: p for p in PRODUCTS}
 CHAPTERS = {
   # Hotel Lobby — copy supplied by Alex, 1 Aug. Paragraphs verbatim.
   "hotel-lobby": dict(
+    summary="It was a ten minutes before 8pm when he arrived. He had been there before, but its resplendence never failed to catch him off guard. Modish floors patterned in ebony and ivory marble, deep armchairs in dark, buttery leather, a chocolate Steinway piano, and the amber lights of old-world libraries. The bar was the kind of place Hemingway might have lingered a little too long, lights glittering on the crystal and glass. Hushed conversations, each one layering the next.",
     pull="The bar was the kind of place Hemingway might have lingered a little too long.",
     pullref="From Hotel Lobby, Chapter I",
     numeral="I", chapter="Chapter I of IX", title="Ten minutes before eight.", author="[author to be credited]",
@@ -143,6 +144,7 @@ CHAPTERS = {
   # it reads as finished. The author credit is a placeholder too. Replace the
   # whole block when the real chapter arrives; nothing else references it.
   "sibling-rivalry": dict(
+    summary="FILLER \u2014 story summary to come.",
     pull="Sed ut perspiciatis unde omnis iste natus error sit voluptatem.", pullref="FILLER \u2014 story to come",
     numeral="II", chapter="Chapter I of IX", title="Lorem ipsum dolor sit amet.", author="[author to be credited]",
     paras=["Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
@@ -157,6 +159,7 @@ CHAPTERS = {
 
   # Pillow Talk — copy supplied by Alex, 1 Aug. Paragraphs verbatim.
   "pillow-talk": dict(
+    summary="Morning light spilled into the bedroom and the melody escaped out of the window and down to the city below. It was only Saturday, and neither had anywhere they had to be. They both knew they might linger there for hours, or the whole day, or two, dissolving into conversation, and pleasure, and one another, as naturally as cream into coffee.",
     pull="It was only Saturday, and neither had anywhere they had to be.",
     pullref="From Pillow Talk, Chapter I",
     numeral="III", chapter="Chapter I of IX", title="Scout\u2019s honor.", author="[author to be credited]",
@@ -178,6 +181,7 @@ CHAPTERS = {
 
   # Sunday Service — copy supplied by Alex, 1 Aug. Paragraphs verbatim.
   "sunday-service": dict(
+    summary="As he slipped into the pew, he noted how soft the wood felt beneath his fingers, polished and worn from so many years of human touch. But the music was the same. The cool, oaky air of the church was the same. The smell\u2014ageing paper, freshly mown grass\u2014just the same. As much as time was hurtling by, it felt in the moment that nothing had changed.",
     pull="The music was the same. The cool, oaky air of the church was the same.",
     pullref="From Sunday Service, Chapter I",
     numeral="IV", chapter="Chapter I of IX", title="Rolling back time.", author="[author to be credited]",
@@ -198,6 +202,7 @@ CHAPTERS = {
 
   # Third Date — copy supplied by Alex, 1 Aug. Paragraphs verbatim.
   "third-date": dict(
+    summary="What did she like about him? Her friends wanted to know. She raised her tea to her lips as she paused to think, then smiled, feeling rather sheepish. How could she choose any one thing and not list them all? She hardly knew him, of course\u2014tonight was only the third date. But there was such familiarity between them, as if they\u2019d known each other a lifetime ago and were simply catching up.",
     pull="There was such familiarity between them, as if they’d known each other a lifetime ago and were simply catching up.",
     pullref="From Third Date, Chapter I",
     numeral="V", chapter="Chapter I of IX", title="Only the third date.", author="[author to be credited]",
@@ -219,6 +224,7 @@ CHAPTERS = {
 
   # Road Trip — copy supplied by Alex, 1 Aug. Paragraphs verbatim.
   "road-trip": dict(
+    summary="They knew where they were going, but neither seemed to mind the impromptu detour along the way. Undulating fields of sage and lavender tumbled out into the distance before them, the car drifting over the landscape like a ship on the open sea. Uninterrupted sky stretched in every direction.",
     pull="Maybe they would return to the map, steer themselves back to their itinerary. Maybe.",
     pullref="From Road Trip, Chapter I",
     numeral="VI", chapter="Chapter I of IX", title="The impromptu detour.", author="[author to be credited]",
@@ -241,6 +247,7 @@ CHAPTERS = {
 
   # 4pm Matinee — copy supplied by Alex, 1 Aug. Paragraphs verbatim.
   "4pm-matinee": dict(
+    summary="She came to the afternoon matinee alone. She liked the rush of independence she got when the ticket seller looked around for a date. \u201cJust me,\u201d she\u2019d say with a playful smile. She took a seat in the middle of the theatre and sank down into the soft velvet chair, folding over the edges of her ticket in anticipation.",
     pull="She’d never been afraid of striking out on her own. She’d never been afraid of going to the movies alone.",
     pullref="From 4pm Matinee, Chapter I",
     numeral="VII", chapter="Chapter I of IX", title="Just me.", author="[author to be credited]",
@@ -1428,7 +1435,7 @@ def build():
       <p class="re">Complimentary UK delivery &middot; sample cost redeemed</p>
 
       <div class="acc">
-            <details open><summary>The story</summary><div class="body">FILLER &mdash; story summary to come. {p['name']} is {p['story']}; nine pages arrive with the bottle and the digital edition arrives with your confirmation.</div></details>
+            <details open><summary>The story</summary><div class="body">{ch['summary']} <br><br>{p['story']}, in nine pages, printed and boxed with the bottle; the digital edition arrives with your confirmation.</div></details>
             <details><summary>Notes</summary><div class="body">Top &mdash; {p['top']}. Middle &mdash; {p['mid']}. Base &mdash; {p['base']}. FILLER &mdash; perfumer to be confirmed.</div></details>
             <details><summary>The stone</summary><div class="body">{p['origin']}, hand-cut. Veining is decided by the block, so no two lids repeat. The lid lifts free of the glass and keeps its weight in the hand.</div></details>
             <details><summary>Delivery &amp; returns</summary><div class="body">Complimentary UK delivery over &pound;{FREE_GBP}, otherwise &pound;5. Two to four working days, signed for. FILLER &mdash; returns window to come. Samples are non-returnable but always credited.</div></details>

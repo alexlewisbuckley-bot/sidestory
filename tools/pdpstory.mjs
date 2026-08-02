@@ -43,6 +43,19 @@ for (const s of SLUGS) {
      r.excerptFiller === (s === 'sibling-rivalry'), r);
   ok(`${s}: the copy still awaiting Alex is marked`, r.pageFiller >= 3 && r.byline, r);
 }
+// the story tab carries the supplied summary, not a template
+const SUMMARY_OPENERS = {
+  'hotel-lobby':'It was a ten minutes before 8pm', 'sunday-service':'As he slipped into the pew',
+  'sibling-rivalry':'FILLER', 'third-date':'What did she like about him',
+  'road-trip':'They knew where they were going', '4pm-matinee':'She came to the afternoon matinee alone',
+  'pillow-talk':'Morning light spilled into the bedroom' };
+for (const s of SLUGS) {
+  await p.goto(`http://localhost:8802/product-${s}.html`, { waitUntil:'domcontentloaded' });
+  const body = await p.evaluate(()=>{
+    const d=[...document.querySelectorAll('details')].find(x=>/The story/.test(x.querySelector('summary').textContent));
+    return d ? d.querySelector('.body').textContent.trim() : ''; });
+  ok(`${s}: the story tab is its own summary`, body.startsWith(SUMMARY_OPENERS[s]), body.slice(0,60));
+}
 await b.close();
 console.log(fails ? `\n${fails} FAILURES` : '\nall PDP story checks pass');
 process.exit(fails?1:0);
