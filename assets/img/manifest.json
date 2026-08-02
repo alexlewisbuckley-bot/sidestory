@@ -1350,6 +1350,52 @@
 ]
 ]
 },
+"share-hero.jpg": {
+"avif": [
+[
+480,
+"share-hero-480.avif"
+],
+[
+960,
+"share-hero-960.avif"
+],
+[
+1600,
+"share-hero-1600.avif"
+]
+],
+"h": 909,
+"jpg": [
+[
+480,
+"share-hero-480.jpg"
+],
+[
+960,
+"share-hero-960.jpg"
+],
+[
+1600,
+"share-hero-1600.jpg"
+]
+],
+"w": 1950,
+"webp": [
+[
+480,
+"share-hero-480.webp"
+],
+[
+960,
+"share-hero-960.webp"
+],
+[
+1600,
+"share-hero-1600.webp"
+]
+]
+},
 "spine.jpg": {
 "avif": [
 [

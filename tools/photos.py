@@ -77,6 +77,10 @@ EDITORIAL = [
     ("hotel-lobby-group", "set-first-lines.jpg", 1200, None),
     ("road-trip-detail", "spine.jpg",         1200, None),
     ("sunday-service-open", "plants.jpg",     1200, None),
+    # supplied at 1950 wide and used full-bleed behind the open call, so it
+    # keeps its own width rather than being pulled down to the 1200 the
+    # smaller editorial plates use
+    ("share-hero",      "share-hero.jpg",     1950, None),
 ]
 
 # Story plates. Supplied editorial photography, one per fragrance, used

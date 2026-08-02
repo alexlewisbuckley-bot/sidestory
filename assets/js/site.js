@@ -224,6 +224,30 @@
   setTimeout(()=>{document.querySelectorAll('.rev:not(.in)').forEach(el=>{
     el.classList.add('in','done');});},3000);
 
+  /* Background film behind a pull-quote band. It carries its URL in data-src
+     and nothing else, so the file is not requested at all until the band is
+     near the viewport — it is a decoration halfway down a product page, and
+     it should not compete with the page for the first megabyte. It fades in
+     only once it can actually play, and pauses when it leaves; if it never
+     plays, or the reader has asked for less motion, the photograph beneath is
+     already there and stays. */
+  const films=document.querySelectorAll('.storyband > video[data-src]');
+  if(films.length && !matchMedia('(prefers-reduced-motion: reduce)').matches){
+    const start=v=>{
+      if(v.dataset.started) return; v.dataset.started='1';
+      v.muted=true; v.playsInline=true;
+      v.addEventListener('canplay',()=>v.classList.add('ready'),{once:true});
+      v.src=v.dataset.src;
+      const go=v.play(); if(go&&go.catch) go.catch(()=>{});
+    };
+    const fio=new IntersectionObserver(es=>es.forEach(e=>{
+      const v=e.target;
+      if(e.isIntersecting){ start(v); if(v.paused){const g=v.play(); if(g&&g.catch) g.catch(()=>{});} }
+      else if(v.dataset.started && !v.paused) v.pause();
+    }),{rootMargin:'200px 0px'});
+    films.forEach(v=>fio.observe(v));
+  }
+
   /* ------------------------------------------------------------ overlays
      One contract for every overlay: move focus in, trap Tab, lock the page
      behind, close on Escape and on the scrim, and put focus back where it

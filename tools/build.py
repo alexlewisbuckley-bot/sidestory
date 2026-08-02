@@ -310,14 +310,17 @@ NAV_LINKS = [
     ("collection.html", "The Fragrances"),
     ("stories.html",    "Your Stories"),
     ("share.html",      "Share Yours"),
-    ("samples.html",    "Samples"),
-    ("gifting.html",    "Gifting"),
+    ("collection-samples.html", "Samples"),
+    ("samples.html",    "Discovery Sets"),
     ("our-house.html",  "Our Story"),
 ]
 
 FOOTER_COLS = [
-    ("The Shelf",     [("collection.html", "The Fragrances"), ("samples.html", "The Discovery Set"),
-                       ("samples.html", "Samples"), ("gifting.html", "Gifting")]),
+    # Samples points at the 2ml shelf, not the set page; the set has its own
+    # entry, and Gifting is gone because the house does not offer it.
+    ("The Shelf",     [("collection.html", "The Fragrances"),
+                       ("collection-samples.html", "Samples"),
+                       ("samples.html", "Discovery Sets")]),
     ("The House",     [("our-house.html", "Our Story"), ("our-house.html#making", "The Making"),
                        ("our-house.html#stones", "The Stones"), ("journal.html", "Atelier Journal")]),
     ("The Practical", [("shipping.html", "Shipping &amp; Returns"), ("stockists.html", "Stockists"),
@@ -1155,9 +1158,7 @@ def search_index():
         "collection-samples.html",
         "2ml 2 ml sample samples try tester trial discovery decant vial smallest size price 5")
     add("The Discovery Set", "All seven in miniature — £38", "Shop",
-        "samples.html", "discovery set sampler starter gift bundle")
-    add("Gifting", "Dedications, wrapping, and what to choose for whom", "Shop",
-        "gifting.html", "present wrap dedication engraving christmas birthday")
+        "samples.html", "discovery set sets sampler starter bundle try first gift present")
 
     for j in JOURNAL:
         add(j["title"], j["sub"], "Journal", f'journal.html#{j["slug"]}', j["kicker"])
@@ -1216,7 +1217,7 @@ def search_overlay():
         <div class="srchlist">
           <a href="collection.html"><span>All seven stories</span></a>
           <a href="samples.html"><span>The Discovery Set</span><span class="sm">&pound;38</span></a>
-          <a href="gifting.html"><span>Gifting</span></a>
+          <a href="collection-samples.html"><span>Samples</span><span class="sm">&pound;5</span></a>
           <a href="stories.html"><span>Your Stories</span></a>
         </div>
       </div>
@@ -1261,12 +1262,23 @@ def product_card(p, reveal=True):
         <div class="ph"><a data-href href="product-{p['slug']}.html"><img data-shot src="{fp('assets/img/' + p['img'] + '-card.jpg')}" alt="{p['name']} eau de parfum" loading="lazy"></a>{badge}
           <div class="quick"><div class="r">
             <button class="btn btn-ink btn-sm" data-buy data-size="100ml" onclick="addToBag('{p['slug']}',this.dataset.size,this)">100 ml &mdash; &pound;160</button>
-            <button class="btn btn-ghostink btn-sm" onclick="addToBag('{p['slug']}','sample',this)">Sample &pound;5</button>
+            <button class="btn btn-ghostink btn-sm" data-buy data-size="7-5ml" onclick="addToBag('{p['slug']}',this.dataset.size,this)">7.5 ml &mdash; &pound;40</button>
           </div><small data-incl>The printed story is in the box</small></div></div>
         <div class="meta"><span class="chip" style="background:{p['swatch']}"></span><span class="stone">{p['stone']}</span>
           <h3>{p['name']}</h3><p class="notes">{p['notes']}</p>
           <p class="price"><span data-priceline>&pound;160 &middot; 100 ml</span><a class="ul" data-href href="product-{p['slug']}.html">View</a></p></div>
       </article>"""
+
+
+# Background film behind the pull-quote band, by slug — Hotel Lobby only for
+# now. Referenced where it lives rather than mirrored into assets/: this build
+# host cannot reach cdn.shopify.com, and a video is the one asset where a CDN
+# origin is the ordinary answer anyway. Nothing depends on it arriving. The
+# still underneath is what paints, what the poster would have been, and what
+# stays if the file is slow, blocked, or the reader has asked for less motion.
+STORY_FILM = {
+    "hotel-lobby": "https://cdn.shopify.com/videos/c/o/v/5ed609fbb758465785fa28bbe7706264.mp4",
+}
 
 
 PROMO_CARD = """      <article class="promo rev">
@@ -1441,9 +1453,12 @@ def build():
             f"      <div><b>{a}</b><em>{b}</em></div>"
             for a, b in (("Top", p["top"]), ("Middle", p["mid"]), ("Base", p["base"])))
         paras = "\n".join(f"        <p>{t}</p>" for t in excerpt_paras(ch["paras"]))
+        film = STORY_FILM.get(p["slug"])
+        filmtag = ('\n      <video class="bandfilm" data-src="%s" muted loop playsinline '
+                   'preload="none" aria-hidden="true" tabindex="-1"></video>' % film) if film else ""
         bands = f"""
     <section class="storyband">
-      <img src="{fp('assets/img/' + p['img'] + '-2.jpg') if len(gal) > 1 else fp('assets/img/unboxing.jpg')}" alt="">
+      <img src="{fp('assets/img/' + p['img'] + '-2.jpg') if len(gal) > 1 else fp('assets/img/unboxing.jpg')}" alt="">{filmtag}
       <div class="c">
         <blockquote>&ldquo;{ch['pull']}&rdquo;</blockquote>
         <p>{ch['pullref']} &middot; <a href="story-{p['slug']}.html">Read the full story</a></p>
@@ -1889,7 +1904,7 @@ def build():
     written["share"] = page("share", "Share Yours",
         "Send us the moment. The eighth fragrance could begin with something that actually happened to you.", f"""
 <section class="shero">
-  <img src="{fp('assets/img/spine.jpg')}" alt="An open notebook">
+  <img src="{fp('assets/img/share-hero.jpg')}" alt="Two people either side of a dark table, three bottles standing between them" fetchpriority="high">
   <span class="veil" aria-hidden="true"></span>
   <div class="inner">
     <div class="c">
@@ -2021,8 +2036,8 @@ def build():
       <button class="btn btn-ink" type="submit">Search</button>
     </form>
     <div class="tagrow">
-      <a href="collection.html">All seven</a><a href="samples.html">Samples</a>
-      <a href="gifting.html">Gifting</a><a href="stories.html">Stories</a>
+      <a href="collection.html">All seven</a><a href="collection-samples.html">Samples</a>
+      <a href="samples.html">Discovery Sets</a><a href="stories.html">Stories</a>
       <a href="collection.html">Woods</a><a href="collection.html">Citrus</a><a href="collection.html">Incense</a>
     </div>
   </div>

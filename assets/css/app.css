@@ -2022,6 +2022,13 @@ html.overlay-open,html.overlay-open body{overflow:hidden}
 .shero{position:relative;isolation:isolate;min-height:clamp(24rem,42vw,37.5rem);
   display:grid;align-items:center;overflow:hidden}
 .shero>img,.shero>picture>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:var(--z-art)}
+/* The plate is 2.14:1 dropped into a frame that is nearly square on a phone.
+   A centred crop kept a thin sliver of the standing figure at the right edge
+   and nothing else of her; shifted left it holds the bottles and the seated
+   figure whole and lets the other go. */
+@media (max-width:47.9375rem){
+  .shero>img,.shero>picture>img{object-position:42% center}
+}
 .shero .veil{position:absolute;inset:0;z-index:var(--z-behind);background:
   linear-gradient(to top,rgba(18,16,12,.82) 0%,rgba(18,16,12,.52) 50%,rgba(18,16,12,.10) 100%),
   linear-gradient(to right,rgba(20,18,13,.62) 0%,rgba(20,18,13,0) 66%)}
@@ -2679,7 +2686,12 @@ input:user-invalid,textarea:user-invalid{border-color:var(--text-error)}
 .quick{position:absolute;left:0;right:0;bottom:0;z-index:var(--z-raised);max-height:100%;overflow:hidden;
   background:rgba(241,240,232,.97);padding:var(--s-3);
   transform:translateY(100%);transition:transform var(--d-settled) var(--settle)}
-.quick .r{display:flex;flex-wrap:wrap;gap:var(--s-2)}
+/* Two buttons, one row, equal halves. They were flex-wrap items sized by
+   their own labels, so 100 ml — £160 took the whole line and the second size
+   dropped beneath it; the pair now shares the row whatever the labels say. */
+.quick .r{display:grid;grid-template-columns:1fr 1fr;gap:var(--s-2)}
+.quick .r .btn{width:100%;min-width:0;padding-inline:var(--s-2);
+  white-space:nowrap;text-align:center;justify-content:center}
 
 @media (hover:hover) and (pointer:fine){
   .card:hover .ph img{transform:scale(1.03)}
@@ -2738,6 +2750,16 @@ footer .cols a:hover,footer .cols a:focus-visible{opacity:1}
 .storyband{position:relative;display:grid;align-items:end;isolation:isolate;
   min-height:clamp(20rem,42svh,30rem);overflow:hidden;color:var(--ivory)}
 .storyband>img,.storyband>picture>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:var(--z-art)}
+/* The film sits on the still, at the same depth and later in source order, so
+   it covers it without ever replacing it. It fades in only once it can play —
+   a blocked CDN, a paused autoplay, a phone in low-power mode all leave the
+   photograph exactly where it was rather than a black rectangle. */
+.storyband>video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  z-index:var(--z-art);opacity:0;transition:opacity var(--d-slow) var(--settle)}
+.storyband>video.ready{opacity:1}
+@media (prefers-reduced-motion:reduce){
+  .storyband>video{display:none}
+}
 .storyband::after{content:"";position:absolute;inset:0;z-index:var(--z-behind);
   background:linear-gradient(8deg,rgba(20,17,12,.78),rgba(20,17,12,.10) 72%)}
 .storyband .c{padding:var(--s-7) var(--gutter) var(--s-6);

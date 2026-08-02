@@ -60,7 +60,7 @@ ok('idle suggestions shown', await p.evaluate(()=>!document.getElementById('srch
   && document.querySelectorAll('#srchidle .srchlist a').length >= 6));
 
 // typing produces results, live
-for (const [q, expect] of [['sunday','Sunday Service'],['hotel','Hotel Lobby'],['gift','Gifting'],
+for (const [q, expect] of [['sunday','Sunday Service'],['hotel','Hotel Lobby'],['discovery','The Discovery Set'],
                            ['ship','Shipping'],['verde','Sunday Service'],['saffron','Sunday Service']]) {
   await p.fill('#srchq', q);
   await p.waitForTimeout(120);
