@@ -8,7 +8,9 @@ await d.goto('http://localhost:8802/index.html',{waitUntil:'networkidle'});
 ok('desktop links visible', await d.evaluate(()=>getComputedStyle(document.querySelector('.links')).display!=='none'));
 ok('desktop burger hidden', await d.evaluate(()=>getComputedStyle(document.querySelector('.burger')).display==='none'));
 ok('desktop menupanel not rendered', await d.evaluate(()=>getComputedStyle(document.getElementById('menupanel')).display==='none'));
-await d.hover('.links a[data-mega]'); await d.waitForTimeout(500);
+// 140ms intent + a 500ms fade meant asserting at 500ms measured the scrim
+// mid-flight — 0.994 against a 0.99 bar, and CPU load decided the verdict
+await d.hover('.links a[data-mega]'); await d.waitForTimeout(800);
 ok('mega opens on hover', await d.evaluate(()=>document.getElementById('mega').classList.contains('on')
   && +getComputedStyle(document.getElementById('menudim')).opacity>0.99));
 await d.mouse.move(700, 700); await d.waitForTimeout(600);

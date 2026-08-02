@@ -557,6 +557,22 @@
           e.preventDefault(); open();
         }
       });
+
+      /* On a desktop the header's Search opens on hover, with the same
+         140ms of intent the mega panel asks for — the two dropdowns are one
+         behaviour now, and each yields to the other as the pointer changes
+         subject. Click still works, and is still a real link elsewhere. */
+      (function(){
+        const link=document.querySelector('.util a[href$="search.html"]');
+        const desk=matchMedia('(min-width:72em) and (hover:hover) and (pointer:fine)');
+        if(!link) return;
+        let t;
+        link.addEventListener('mouseenter',()=>{
+          if(!desk.matches || location.pathname.endsWith('/search.html')) return;
+          clearTimeout(t); t=setTimeout(open,140);
+        });
+        link.addEventListener('mouseleave',()=>clearTimeout(t));
+      })();
     }
 
     /* ---- the page, running the same matcher -------------------------- */
@@ -1105,6 +1121,18 @@
        link, or the utilities — Search, Account, Bag — is a change of subject,
        and the panel was staying open under the pointer because the whole
        journey happens inside .nav, whose mouseleave never fires. */
+    /* changing subject also dismisses a search the reader has not begun to
+       use — hover opened it, hover moves on, it steps back. Anything typed
+       keeps the panel: a drifting pointer must never cost a query. */
+    const yieldSearch=()=>{
+      const sq=document.getElementById('srchq');
+      if(window.SSsearch && sq && !sq.value.trim()
+         && document.getElementById('srch').classList.contains('open'))
+        window.SSsearch.close();
+    };
+    [...links.querySelectorAll('a')].forEach(a=>{
+      a.addEventListener('mouseenter',yieldSearch);
+    });
     [...links.querySelectorAll('a:not([data-mega])')].forEach(a=>{
       a.addEventListener('mouseenter',wantClose);
       a.addEventListener('focus',()=>{ if(open) wantClose(); });
