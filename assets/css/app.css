@@ -3010,3 +3010,23 @@ a,button,summary,label,input,select,textarea,[role="button"]{
   .rail>*{break-inside:avoid}
   section{break-inside:avoid-page}
 }
+
+/* ------------------------------------------------- sticky PDP add-to-bag -- */
+/* Phone only. Fixed to the bottom edge — the thumb zone — with the chosen
+   size and price restated so the button never asks for a decision the reader
+   cannot see. Hidden entirely on desktop, where the buy block is one glance
+   away; and for reduced motion it appears without the slide. */
+.pdpbar{position:fixed;left:0;right:0;bottom:0;z-index:var(--z-sticky);
+  display:flex;align-items:center;gap:var(--s-3);
+  background:var(--ivory);border-top:1px solid var(--line);
+  padding:var(--s-2) var(--gutter) calc(var(--s-2) + env(safe-area-inset-bottom,0px));
+  transform:translateY(102%);transition:transform var(--d-quick) var(--settle)}
+.pdpbar.on{transform:none}
+.pdpbar .t{min-width:0;flex:1;display:flex;flex-direction:column;gap:.1rem}
+.pdpbar .t b{font-family:var(--font-display);font-weight:400;font-size:var(--t-0);
+  color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pdpbar .t span{font-family:var(--font-sans);font-size:var(--t-xs);
+  letter-spacing:var(--track-label);text-transform:uppercase;color:var(--txt-2)}
+.pdpbar .btn{flex:none;min-height:2.75rem}
+@media (min-width:64rem){ .pdpbar{display:none} }
+@media (prefers-reduced-motion:reduce){ .pdpbar{transition:none} }

@@ -1,0 +1,7 @@
+User-agent: *
+Disallow: /404
+Disallow: /account
+Disallow: /bag
+Disallow: /checkout
+Disallow: /confirmation
+Sitemap: https://sidestory-rho.vercel.app/sitemap.xml

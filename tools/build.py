@@ -9,7 +9,7 @@ so a stale stylesheet can never be served against fresh markup.
 
     python3 tools/build.py
 """
-import hashlib, html, os, re, sys
+import hashlib, html, json, os, re, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import photos
 
@@ -434,7 +434,17 @@ def upgrade_images(html):
     return re.sub(r"<img\b[^>]*>", one, html)
 
 
-def head(title, desc, css, body_attr=""):
+# The deployed origin. Canonicals and social cards need absolute URLs, and
+# Vercel serves cleanUrls, so the canonical form of product-hotel-lobby.html
+# is /product-hotel-lobby — one URL per page, not two.
+SITE_URL = "https://sidestory-rho.vercel.app"
+
+
+def canonical_url(slug):
+    return SITE_URL + ("/" if slug == "index" else "/" + slug)
+
+
+def head(title, desc, css, body_attr="", slug=None, og_image=None, jsonld=None):
     links = "\n".join(f'<link rel="stylesheet" href="{fp(c)}">' for c in css)
     # Descriptions are written as prose, and prose has ampersands and quotation
     # marks in it. Both were going into an attribute raw — tolerated by a
@@ -445,6 +455,22 @@ def head(title, desc, css, body_attr=""):
         s = re.sub(r"&(?!#?\w+;)", "&amp;", s)
         return s.replace("<", "&lt;").replace('"', "&quot;")
     title, desc = attr(title), attr(desc)
+    # Every page gets a canonical and a social card; pages that know their
+    # own photograph pass it, the rest fall back to the hero flatlay.
+    seo = ""
+    if slug is not None:
+        url = canonical_url(slug)
+        img = SITE_URL + "/" + (og_image or "assets/img/hero.jpg")
+        seo = (f'<link rel="canonical" href="{url}">\n'
+               f'<meta property="og:site_name" content="Side Story Parfums">\n'
+               f'<meta property="og:type" content="website">\n'
+               f'<meta property="og:title" content="{title}">\n'
+               f'<meta property="og:description" content="{desc}">\n'
+               f'<meta property="og:url" content="{url}">\n'
+               f'<meta property="og:image" content="{img}">\n'
+               f'<meta name="twitter:card" content="summary_large_image">\n')
+        if jsonld:
+            seo += '<script type="application/ld+json">' + json.dumps(jsonld, separators=(",", ":")) + '</script>\n'
     return f"""<!doctype html>
 <html lang="en-GB">
 <head>
@@ -453,7 +479,7 @@ def head(title, desc, css, body_attr=""):
 <script>document.documentElement.className+=" js"</script>
 <title>{title} · Side Story — Parfums &amp; Oils</title>
 <meta name="description" content="{desc}">
-<meta name="theme-color" content="#2B2E2D">
+{seo}<meta name="theme-color" content="#2B2E2D">
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="favicon.ico" sizes="any">
 <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
@@ -670,7 +696,7 @@ def show_copy():
       <div class="spec"><b>Stone</b><span>{p['origin']}</span></div>
       <div class="cta"><button class="btn btn-ink" onclick="addToBag('{p['slug']}','full',this)">Add to bag &mdash; &pound;160</button>
         <a class="btn btn-ghostink" href="story-{p['slug']}.html">Read the story</a></div>
-      <p class="re">Complimentary UK delivery &middot; sample cost redeemed</p>"""
+      <p class="re">Complimentary UK delivery over &pound;{FREE_GBP} &middot; signed for, two to four working days</p>"""
 
 
 def style_row():
@@ -883,13 +909,11 @@ DRAWER = f"""<div class="scrim" id="scrim" onclick="closeDrawer()"></div>
        aria-labelledby="drawer-title" hidden>
   <div class="dhead"><span id="drawer-title">Your bag &mdash; <span data-bagcount>0</span></span><button onclick="closeDrawer()">Close</button></div>
   <div id="ditems"></div>
-  <label class="tryfirst"><input type="checkbox" checked>
-    <div><b>Try a second story first</b><span>A complimentary 2ml of another story &mdash; its argument &mdash; tucked into the parcel.</span></div></label>
   <p class="thresh" id="thresh">Complimentary delivery at &pound;{FREE_GBP}</p>
   <div class="tbar"><div class="tfill" id="tfill"></div></div>
   <div class="dtot"><span>Subtotal</span><b id="dtotal">&pound;0</b></div>
   <a class="btn btn-ink" href="checkout.html">Checkout</a>
-  <p class="dfine">Tax included &middot; sample cost redeemed</p>
+  <p class="dfine">Tax included &middot; complimentary UK delivery over &pound;{FREE_GBP}</p>
 </aside>
 """
 
@@ -1247,8 +1271,8 @@ def search_overlay():
 """
 
 
-def page(slug, title, desc, body, current=None, css=("assets/css/fonts.css", "assets/css/app.css"), body_attr=""):
-    out = head(title, desc, css, body_attr) + topbar(current or (slug + ".html")) \
+def page(slug, title, desc, body, current=None, css=("assets/css/fonts.css", "assets/css/app.css"), body_attr="", og_image=None, jsonld=None):
+    out = head(title, desc, css, body_attr, slug=slug, og_image=og_image, jsonld=jsonld) + topbar(current or (slug + ".html")) \
         + '<main id="main">\n' + body.strip() + "\n</main>\n" \
         + footer() + DRAWER + search_overlay() \
         + f'<script>window.SS_CAT={catalogue_json()};</script>\n' \
@@ -1369,7 +1393,14 @@ def build():
     written["index"] = page("index", "Short narratives + deliberate scents",
         "Crafted with fine & broad-ranging ingredients, the scents inspire nostalgia, expression and memory. "
         "100ml £160 beneath a hand-carved stone lid, 7.5ml £40, samples £5.",
-        home_body, current="index.html")
+        home_body, current="index.html",
+        jsonld={"@context": "https://schema.org", "@graph": [
+            {"@type": "Organization", "name": "Side Story Parfums",
+             "url": SITE_URL, "logo": SITE_URL + "/assets/img/logo.svg"},
+            {"@type": "WebSite", "name": "Side Story Parfums", "url": SITE_URL,
+             "potentialAction": {"@type": "SearchAction",
+               "target": SITE_URL + "/search?q={search_term_string}",
+               "query-input": "required name=search_term_string"}}]})
 
     # ---- 02 collection, and one per size ---------------------------------
     #   One product per fragrance with three variants, so the size collections
@@ -1554,16 +1585,20 @@ def build():
         <button data-size="sample" data-price="5">Sample &mdash; &pound;5</button>
       </div>
 
-      <label class="tryfirst"><input type="checkbox" checked>
-        <div><b>Try a second story first &mdash; complimentary</b>
-          <span>A 2ml of {second['name']} &mdash; {second['feeling'].lower()} &mdash; tucked into the parcel.</span></div></label>
-
       <div class="cta">
         <button class="btn btn-ink" data-size="100ml" onclick="addToBag('{p['slug']}',this.dataset.size,this)">Add to bag &mdash; &pound;160</button>
         <button class="btn btn-ghostink applepay" onclick="addToBag('{p['slug']}',document.querySelector('.pdp .cta .btn-ink').dataset.size||'100ml',this)"><svg class="i-apple" viewBox="0 0 384 512" aria-hidden="true" focusable="false"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.931.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/></svg> Apple Pay</button>
       </div>
       <p class="re"><span data-sizeline>Hand-carved stone lid, and the nine printed pages, in the box.</span></p>
-      <p class="re">Complimentary UK delivery &middot; sample cost redeemed</p>
+      <p class="re">Complimentary UK delivery over &pound;{FREE_GBP} &middot; signed for, two to four working days</p>
+
+      <!-- On a phone the Add button has scrolled away by the second screen of
+           a long page. This bar carries it; the controller shows it only once
+           the real button is gone and hides it again on the way back up. -->
+      <div class="pdpbar" id="pdpbar" hidden>
+        <div class="t"><b>{p['name']}</b><span data-barprice>&pound;160 &middot; 100 ml</span></div>
+        <button class="btn btn-ink" data-size="100ml" onclick="addToBag('{p['slug']}',this.dataset.size,this)">Add to bag</button>
+      </div>
 
       <div class="acc">
             <details open><summary>The story</summary><div class="body">{ch['summary']} <br><br>{p['story']}, in nine pages, printed and boxed with the bottle; the digital edition arrives with your confirmation.</div></details>
@@ -1586,7 +1621,18 @@ def build():
         </div>
       </div>
     </section>
-    """, current="collection.html", body_attr=f' data-slug="{p["slug"]}"')
+    """, current="collection.html", body_attr=f' data-slug="{p["slug"]}"',
+        og_image="assets/img/" + p["img"] + "-card.jpg",
+        jsonld={
+            "@context": "https://schema.org", "@type": "Product",
+            "name": p["name"], "brand": {"@type": "Brand", "name": "Side Story Parfums"},
+            "description": f"{p['name']} eau de parfum — {p['style']} {p['theme']}.",
+            "image": SITE_URL + "/assets/img/" + p["img"] + "-card.jpg",
+            "url": canonical_url("product-" + p["slug"]),
+            "offers": [{"@type": "Offer", "price": str(z["price"]), "priceCurrency": "GBP",
+                        "availability": "https://schema.org/InStock",
+                        "url": canonical_url("product-" + p["slug"]) + "?size=" + z["key"]}
+                       for z in SIZES]})
 
     # ---- 04 samples ------------------------------------------------------
     written["samples"] = page("samples", "Samples & The Discovery Set",
@@ -1625,47 +1671,10 @@ def build():
 </section>
 """)
 
-    # ---- 05 gifting ------------------------------------------------------
-    written["gifting"] = page("gifting", "Gifting",
-        "Gift-ready always, with a complimentary Dedication typeset on the story's flyleaf.", f"""
-<section class="banner">
-  <img src="{fp('assets/img/unboxing.jpg')}" alt="A Side Story parcel, ready to give">
-  <div class="c">
-    <p class="k">Kept &amp; given</p>
-    <h1>A story is a serious gift.</h1>
-    <p>Every parcel arrives gift-ready and there is no plastic in the box. A 100ml brings its stone lid and its printed story; a 7.5ml comes in its printed sleeve. Add the Dedication and a line of yours is typeset on the flyleaf.</p>
-  </div>
-</section>
-
-<section class="band">
-  <div class="inner">
-    {crumbs(("Home", "index.html"), "Gifting")}
-    <div class="grid-2">
-      <div>
-        <p class="k">The Dedication</p>
-        <h2>One line, typeset on the flyleaf.</h2>
-        <p>Complimentary with any bottle. Write up to sixty characters and we set them in Cormorant italic on the first page of the story, then send the same dedication as a digital edition to whoever you choose, on the morning you choose.</p>
-        <div class="dedication">for A. &mdash; who was late</div>
-        <p>No engraving, no marking of the stone &mdash; the lid stays exactly as the block cut it.</p>
-      </div>
-      <div>
-        <p class="k">Choosing for someone else</p>
-        <h2>When you are not sure.</h2>
-        <p>Send The Discovery Set instead. Seven miniatures, seven first pages, &pound;38 &mdash; and the credit transfers to them, not to you, so they choose their own bottle.</p>
-        <div class="tagrow">
-          <a href="samples.html">The Discovery Set &mdash; &pound;38</a>
-          <a href="collection.html">A full bottle &mdash; &pound;160</a>
-        </div>
-      </div>
-    </div>
-    <div class="grid-3">
-      <div class="tile"><h3>Dated delivery</h3><p>Choose the morning it should land. We hold the parcel and the digital edition until then.</p></div>
-      <div class="tile"><h3>No prices in the box</h3><p>The invoice goes to you, by email. Nothing in the parcel mentions what it cost.</p></div>
-      <div class="tile"><h3>Extended returns</h3><p>Gifts bought in November and December may be exchanged until the end of January.</p></div>
-    </div>
-  </div>
-</section>
-""")
+    # ---- 05 gifting: removed. The house offers neither gifting nor
+    # customisation, nothing has linked here since the nav rename, and a live
+    # page selling a service that does not exist is a refund conversation
+    # waiting to happen.
 
     # ---- 06 our house ----------------------------------------------------
     written["our-house"] = page("our-house", "Our Story",
@@ -1875,10 +1884,8 @@ def build():
             "story-" + q["slug"], q["name"],
             f"{q['name']} — the story that became the fragrance. Written by {c['author']}.",
             story_body, current="stories.html")
-        if q["slug"] == FEATURED:
-            written["story"] = page("story", q["name"],
-                f"{q['name']} — the story that became the fragrance. Written by {c['author']}.",
-                story_body, current="stories.html")
+        # story.html (the old ?s= page) is gone: it was a byte-identical copy
+        # of the featured story at a second URL, which is duplicate content.
 
     # ---- 09 share your story --------------------------------------------
     #   Frame: P15 "Share your story" (171:2803). Copy is the frame's own.
@@ -1892,13 +1899,16 @@ def build():
         ("IV",  "One becomes a fragrance",
          "Published under your name in the printed edition, with the first bottle of the run sent to you."),
     ]
+    # FILLER — the postbag ran three invented letters attributed to named
+    # members of the public, which is fabricated social proof. Swap in real,
+    # permissioned submissions before launch.
     POSTBAG = [
-        ("With Grasse", "verde", "The Bakery at Five", "Marta L. &middot; Lisbon",
-         "It was still dark when the ovens went on, and the whole street smelled of it before anyone was awake. I have never been happier than I was at that hour, poor and warm and covered in flour."),
-        ("With Grasse", "verde", "Ward 9, Christmas Eve", "Tom H. &middot; Leeds",
-         "Antiseptic, cheap tinsel, and someone&rsquo;s satsuma. Twenty years on I cannot peel one without being nineteen again, holding my mother&rsquo;s hand and pretending to be brave."),
-        ("Shortlisted", "brass", "His Jumper", "Priya S. &middot; Glasgow",
-         "He left it on the back of my chair in October and never asked for it. By March it had stopped smelling of him, and that was the actual ending &mdash; not the argument."),
+        ("FILLER", "verde", "Lorem ipsum dolor", "FILLER &middot; name to come",
+         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."),
+        ("FILLER", "verde", "Sit amet consectetur", "FILLER &middot; name to come",
+         "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."),
+        ("FILLER", "brass", "Adipiscing elit", "FILLER &middot; name to come",
+         "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."),
     ]
     SMALLPRINT = [
         ("It stays yours", "You keep the copyright to everything you send. Always."),
@@ -2001,7 +2011,7 @@ def build():
   <div class="inner">
     <p class="k">From the postbag</p>
     <h2>What people have already sent us.</h2>
-    <p class="pintro">Published with permission. Three of these are with Grasse now.</p>
+    <p class="pintro">FILLER &mdash; real, permissioned submissions to come.</p>
     <div class="pnotes">
 {post_html}
     </div>
@@ -2076,15 +2086,15 @@ def build():
 
     # ---- 12 account ------------------------------------------------------
     written["account"] = page("account", "Account",
-        "Your orders, your dedications, and the stories you have unlocked.", f"""
+        "Your orders and the stories you have unlocked.", f"""
 <div class="inner">
   {crumbs(("Home", "index.html"), "Account")}
-  <div class="phead"><p class="k">Account</p><h1>Welcome back.</h1></div>
+  <div class="phead"><p class="k">Account &middot; FILLER &mdash; demo preview</p><h1>Welcome back.</h1>
+    <p class="lede">FILLER &mdash; the orders and editions below are sample data, shown so the layout can be judged. Accounts arrive with the launch.</p></div>
   <div class="acct">
     <nav class="acctnav" aria-label="Account">
       <a href="account.html" aria-current="page">Orders</a>
       <a href="account.html">Your stories</a>
-      <a href="account.html">Dedications</a>
       <a href="account.html">Addresses</a>
       <a href="account.html">Details</a>
       <a href="index.html">Sign out</a>
@@ -2095,7 +2105,7 @@ def build():
         <table class="table" role="table">
           <thead><tr role="row"><th role="columnheader" scope="col">Order</th><th role="columnheader" scope="col">Placed</th><th role="columnheader" scope="col">Contents</th><th role="columnheader" scope="col">Status</th><th role="columnheader" scope="col">Total</th></tr></thead>
           <tbody>
-            <tr role="row"><td role="cell" data-label="Order">SS-2114</td><td role="cell" data-label="Placed">28 July 2026</td><td role="cell" data-label="Contents">Sunday Service, 100ml &middot; Dedication</td><td role="cell" data-label="Status">Preparing</td><td role="cell" data-label="Total">&pound;160</td></tr>
+            <tr role="row"><td role="cell" data-label="Order">SS-2114</td><td role="cell" data-label="Placed">28 July 2026</td><td role="cell" data-label="Contents">Sunday Service, 100ml</td><td role="cell" data-label="Status">Preparing</td><td role="cell" data-label="Total">&pound;160</td></tr>
             <tr role="row"><td role="cell" data-label="Order">SS-1980</td><td role="cell" data-label="Placed">2 May 2026</td><td role="cell" data-label="Contents">The Discovery Set</td><td role="cell" data-label="Status">Delivered</td><td role="cell" data-label="Total">&pound;38</td></tr>
             <tr role="row"><td role="cell" data-label="Order">SS-1642</td><td role="cell" data-label="Placed">14 February 2026</td><td role="cell" data-label="Contents">Hotel Lobby, 100ml</td><td role="cell" data-label="Status">Delivered</td><td role="cell" data-label="Total">&pound;160</td></tr>
           </tbody>
@@ -2125,8 +2135,6 @@ def build():
         <p>Your bag is empty. The shelf is seven stories long.</p>
         <div class="tagrow"><a href="collection.html">See the fragrances</a><a href="samples.html">Begin with samples</a></div>
       </div></div>
-      <label class="tryfirst"><input type="checkbox" checked>
-        <div><b>Add a Dedication &mdash; complimentary</b><span>A line of yours, typeset on the story&rsquo;s flyleaf, and sent again as a digital edition.</span></div></label>
     </div>
     <div class="summary">
       <h2 class="vh">Order summary</h2><h3>Summary</h3>
@@ -2171,6 +2179,7 @@ def build():
         <label class="field"><span>CVC</span><input inputmode="numeric"></label>
       </div>
       <div class="actions"><button class="btn btn-ink" type="submit">Pay &pound;0</button></div>
+      <p class="hint">Payment is handled by our payment processor &mdash; your card details never touch our servers. UK VAT included.</p>
       <p class="re">Demo only &mdash; no payment is taken and no card details are stored or transmitted.</p>
     </div>
     <div class="summary">
@@ -2199,7 +2208,7 @@ def build():
       <h2 class="vh">What happens next</h2>
       <div class="tile"><h3>Read while you wait</h3><p>The digital edition of your story is already in your account.</p><p><a class="ul" href="stories.html">Read the stories</a></p></div>
       <div class="tile"><h3>Track the parcel</h3><p>We will write again the moment it leaves the bindery.</p><p><a class="ul" href="account.html">See the order</a></p></div>
-      <div class="tile"><h3>Your Dedication</h3><p>Typeset and proofed by hand before the story goes to press.</p><p><a class="ul" href="account.html">Review the line</a></p></div>
+      <div class="tile"><h3>The digital edition</h3><p>Every story in your parcel, unlocked in your account and sent with your confirmation email.</p></div>
     </div>
   </div>
 </section>
@@ -2238,15 +2247,17 @@ def build():
   {crumbs(("Home", "index.html"), "Stockists")}
   <div class="phead"><p class="k">In person</p><h1>Where to smell them first.</h1>
     <p class="lede">A short list, kept short on purpose. Every stockist below carries the full seven and the printed editions.</p></div>
+  <!-- FILLER: the five stockists here were invented — real department stores,
+       no actual relationship. Swap in the true list before launch. -->
   <div class="grid-3">
     <h2 class="vh">Where to find us</h2>
-      <div class="tile"><h3>Liberty London</h3><p>Regent Street, W1B 5AH<br>Beauty Hall, ground floor<br>&amp; liberty.co.uk</p></div>
-    <div class="tile"><h3>Le Bon March&eacute;</h3><p>24 Rue de S&egrave;vres, Paris 75007<br>Parfums rares, first floor</p></div>
-    <div class="tile"><h3>The Shop, Grasse</h3><p>12 Rue Marcel Journet<br>By appointment, Tuesdays and Thursdays</p></div>
+      <div class="tile"><h3>FILLER &mdash; stockist to come</h3><p>Lorem ipsum dolor sit amet<br>Consectetur adipiscing elit</p></div>
+    <div class="tile"><h3>FILLER &mdash; stockist to come</h3><p>Lorem ipsum dolor sit amet<br>Consectetur adipiscing elit</p></div>
+    <div class="tile"><h3>FILLER &mdash; stockist to come</h3><p>Lorem ipsum dolor sit amet<br>Consectetur adipiscing elit</p></div>
   </div>
   <div class="grid-3">
-    <div class="tile"><h3>Bergdorf Goodman</h3><p>754 Fifth Avenue, New York<br>Beauty, level two</p></div>
-    <div class="tile"><h3>Lane Crawford</h3><p>IFC Mall, Hong Kong<br>Beauty, level one</p></div>
+    <div class="tile"><h3>FILLER &mdash; stockist to come</h3><p>Lorem ipsum dolor sit amet<br>Consectetur adipiscing elit</p></div>
+    <div class="tile"><h3>FILLER &mdash; stockist to come</h3><p>Lorem ipsum dolor sit amet<br>Consectetur adipiscing elit</p></div>
     <div class="tile"><h3>Become a stockist</h3><p>We are careful about this. Write to us and tell us about the shop.</p><p><a class="ul" href="contact.html">Get in touch</a></p></div>
   </div>
 </div>
@@ -2265,7 +2276,7 @@ def build():
         <label class="field"><span>Email</span><input type="email" required></label>
       </div>
       <label class="field"><span>What is it about?</span>
-        <select><option>An order</option><option>A return</option><option>Gifting</option><option>Stockists &amp; press</option><option>Something else</option></select></label>
+        <select><option>An order</option><option>A return</option><option>Stockists &amp; press</option><option>Something else</option></select></label>
       <label class="field"><span>Message</span><textarea required></textarea></label>
       <div class="actions"><button class="btn btn-ink" type="submit">Send</button></div>
     </div>
@@ -2345,6 +2356,24 @@ def build():
   </div>
 </div>
 """, current="index.html")
+
+    # ---- robots + sitemap ------------------------------------------------
+    # Generated from what was actually written, so a page cannot ship without
+    # appearing here or appear here without shipping. Checkout-flow and
+    # account pages are crawlable dead weight and are kept out.
+    PRIVATE = {"bag", "checkout", "confirmation", "account", "404", "search"}
+    # search stays crawlable — the home page's SearchAction points at it —
+    # it just does not belong in the sitemap
+    with open(os.path.join(ROOT, "robots.txt"), "w") as f:
+        f.write("User-agent: *\n"
+                + "".join(f"Disallow: /{p}\n" for p in sorted(PRIVATE - {"search"}))
+                + f"Sitemap: {SITE_URL}/sitemap.xml\n")
+    with open(os.path.join(ROOT, "sitemap.xml"), "w") as f:
+        f.write('<?xml version="1.0" encoding="UTF-8"?>\n'
+                '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+                + "".join(f"  <url><loc>{canonical_url(k)}</loc></url>\n"
+                          for k in sorted(written) if k not in PRIVATE)
+                + "</urlset>\n")
 
     return written
 

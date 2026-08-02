@@ -8,7 +8,10 @@ for (const W of [390, 1440]) {
   p.on('console',m=>{if(m.type()==='error')errs.push(m.text());});
   await p.goto('http://localhost:8802/index.html',{waitUntil:'networkidle'});
   console.log('\n'+W);
-  ok('no free-delivery foot line', await p.evaluate(()=>!/complimentary UK delivery/.test(document.body.textContent)));
+  // the removed line was the .seven footnote; the drawer (shared chrome on
+  // every page) legitimately states the threshold, so scope the check
+  ok('no free-delivery foot line', await p.evaluate(()=>!document.querySelector('.seven .foot')
+    && !/complimentary UK delivery/.test(document.querySelector('main').textContent)));
   ok('no gifting panel', await p.evaluate(()=>!document.getElementById('gifting') && !/Add a dedication/.test(document.body.textContent)));
   const g = await p.evaluate(()=>{const el=document.getElementById('set');if(!el)return null;
     const r=el.getBoundingClientRect(), img=el.querySelector('img'), btn=el.querySelector('button');

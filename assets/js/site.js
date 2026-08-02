@@ -231,6 +231,23 @@
      only once it can actually play, and pauses when it leaves; if it never
      plays, or the reader has asked for less motion, the photograph beneath is
      already there and stays. */
+  /* Sticky add-to-bag on the phone PDP. The real button scrolls away by the
+     second screen of a nine-screen page; the bar takes over exactly when the
+     button's own block leaves the viewport, and stands down when it returns —
+     two buttons for the same act are never on screen together. */
+  (function(){
+    const bar=document.getElementById('pdpbar');
+    const cta=document.querySelector('.pdp .cta');
+    if(!bar||!cta||!('IntersectionObserver' in window)) return;
+    const io=new IntersectionObserver(es=>es.forEach(e=>{
+      const below=e.boundingClientRect.top<0;   /* only once it has gone UP */
+      const on=!e.isIntersecting&&below;
+      bar.hidden=!on;
+      requestAnimationFrame(()=>bar.classList.toggle('on',on));
+    }));
+    io.observe(cta);
+  })();
+
   const films=document.querySelectorAll('.storyband > video[data-src]');
   if(films.length && !matchMedia('(prefers-reduced-motion: reduce)').matches){
     /* The photograph under a film is a different picture, not its first
@@ -720,6 +737,12 @@
     }
     const incl=document.querySelector('[data-sizeline]');
     if(v&&incl) incl.textContent=v.incl;
+    const bar=document.getElementById('pdpbar');
+    if(bar&&price){
+      const bb=bar.querySelector('button'), bp=bar.querySelector('[data-barprice]');
+      if(bb) bb.dataset.size=key;
+      if(bp) bp.textContent='£'+price+' · '+(v&&v.label?v.label:'100 ml');
+    }
   }
   document.querySelectorAll('.sizes').forEach(row=>{
     row.addEventListener('click',e=>pickSize(row,e.target.closest('button')));
@@ -932,44 +955,9 @@
     groups.forEach(g=>{ if(g.mode==='one') applyOne(g); });
   });
 
-  /* PDP gallery + size selector (rebuilt markup) */
-  window.pdpSwap=(btn,src)=>{
-    const main=document.getElementById('pdpmain'); if(!main) return;
-    btn.parentElement.querySelectorAll('button').forEach(b=>b.removeAttribute('aria-current'));
-    btn.setAttribute('aria-current','true');
-    main.style.opacity=0;
-    setTimeout(()=>{swapFromThumb(main,btn,src);main.style.opacity=1;},180);
-  };
-  /* One product per fragrance; the variant is chosen by the button, or by the
-     ?size= on the link that brought you here, which is how the shop-by-size
-     collections open on the right one. */
-  function pickSize(row,b,scroll){
-    if(!b) return;
-    row.querySelectorAll('button').forEach(x=>x.removeAttribute('aria-current'));
-    b.setAttribute('aria-current','true');
-    const key=b.dataset.size||'100ml';
-    const price=b.dataset.price||(b.textContent.match(/£(\d+)/)||[])[1];
-    const add=document.querySelector('.pdp .cta .btn-ink');
-    if(add&&price){ add.textContent='Add to bag — £'+price; add.dataset.size=key; }
-    const slug=document.body.dataset.slug;
-    const v=slug && CAT[slug] && CAT[slug].sizes && CAT[slug].sizes[key];
-    const main=document.getElementById('pdpmain');
-    if(v&&main&&v.main&&main.src.indexOf(v.main)<0){
-      main.style.opacity=0;
-      setTimeout(()=>{swapPicture(main,v.main,v.mainset);main.style.opacity=1;},180);
-      document.querySelectorAll('.gal .strip button').forEach(x=>x.removeAttribute('aria-current'));
-    }
-    const incl=document.querySelector('[data-sizeline]');
-    if(v&&incl) incl.textContent=v.incl;
-  }
-  document.querySelectorAll('.sizes').forEach(row=>{
-    row.addEventListener('click',e=>pickSize(row,e.target.closest('button')));
-    const want=new URLSearchParams(location.search).get('size');
-    if(want){
-      const b=row.querySelector('button[data-size="'+want.replace(/[^a-z0-9-]/gi,'')+'"]');
-      if(b) pickSize(row,b);
-    }
-  });
+  /* A second, byte-identical copy of the PDP gallery + size block stood
+     here — same window.pdpSwap assignment, same .sizes listeners, everything
+     bound twice. Same disease as the twin shelf controllers, same cure. */
   /* The shelf controller that used to stand here was a second, older copy of
      the one above: same selector, same handlers, both bound. Every size tap
      and every scent tap ran twice, and settle() — which dims the grid, waits
