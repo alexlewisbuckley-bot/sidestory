@@ -23,7 +23,7 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="assets/fonts/libre-caslon-text-latin-400-normal.woff2">
 <link rel="preload" as="font" type="font/woff2" crossorigin href="assets/fonts/montserrat-latin-500-normal.woff2">
 <link rel="stylesheet" href="assets/css/fonts.css?v=ced2d124">
-<link rel="stylesheet" href="assets/css/app.css?v=6e493fd1">
+<link rel="stylesheet" href="assets/css/app.css?v=8d5b47e0">
 </head><body data-slug="hotel-lobby">
 <a class="skip" href="#main">Skip to content</a>
 <div class="enter-veil" aria-hidden="true"></div>
@@ -127,10 +127,10 @@
       <blockquote>&ldquo;It was a&nbsp;ten minutes before 8pm when he arrived&hellip;&rdquo; &mdash; nine pages of anticipation&nbsp;+ attraction.</blockquote>
 
       <p class="fieldlabel">Size</p>
-      <div class="sizes">
-        <button aria-current="true" data-size="100ml" data-price="160">100 ml &mdash; &pound;160</button>
-        <button data-size="7-5ml" data-price="40">7.5 ml &mdash; &pound;40</button>
-        <button data-size="sample" data-price="5">Sample &mdash; &pound;5</button>
+      <div class="sizes" role="radiogroup" aria-label="Size">
+        <button aria-current="true" data-size="100ml" data-price="160"><span class="szl">100 ml</span><span class="szp">&pound;160</span><span class="szi">The printed story is in the box</span></button>
+        <button data-size="7-5ml" data-price="40"><span class="szl">7.5 ml</span><span class="szp">&pound;40</span><span class="szi">Printed sleeve, no story</span></button>
+        <button data-size="sample" data-price="5"><span class="szl">Sample &mdash; 2 ml</span><span class="szp">&pound;5</span><span class="szi">2ml, and its opening page</span></button>
       </div>
 
       <div class="cta">
@@ -146,10 +146,10 @@
            changing your mind never means scrolling back up. Its size buttons
            drive the real row; one controller, one state. -->
       <div class="pdpbar" id="pdpbar" hidden>
-        <div class="barsizes sizes" role="group" aria-label="Size">
-          <button aria-current="true" data-size="100ml">100 ml</button>
-          <button data-size="7-5ml">7.5 ml</button>
-          <button data-size="sample">Sample</button>
+        <div class="barsizes sizes" role="radiogroup" aria-label="Size">
+          <button aria-current="true" data-size="100ml" data-price="160"><span class="szl">100 ml</span><span class="szp">&pound;160</span><span class="szi">The printed story is in the box</span></button>
+          <button data-size="7-5ml" data-price="40"><span class="szl">7.5 ml</span><span class="szp">&pound;40</span><span class="szi">Printed sleeve, no story</span></button>
+          <button data-size="sample" data-price="5"><span class="szl">Sample</span><span class="szp">&pound;5</span><span class="szi">2ml, and its opening page</span></button>
         </div>
         <div class="r">
           <div class="t"><b>Hotel Lobby</b><span data-barprice>&pound;160 &middot; 100 ml</span></div>

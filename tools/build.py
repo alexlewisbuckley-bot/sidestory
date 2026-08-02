@@ -1494,7 +1494,23 @@ def build():
             % (' aria-current="true"' if i == 0 else "", u, u, alts[i] if i < len(alts) else "View %d" % (i + 1))
             for i, u in enumerate(gal))
         ch = CHAPTERS[p["slug"]]
-        second = next(q for q in PRODUCTS if q["slug"] != p["slug"])
+        # The size selector, generated from SIZES so the labels, prices and
+        # what's-included lines are the catalogue's own. Rendered twice: full
+        # rows in the buy column, and the same buttons compressed to chips in
+        # the sticky bar — one control, one state, two densities. The rows
+        # replaced three underlined text marks that read as decoration on a
+        # phone; a bordered row with a radio dot and a price is unmistakably
+        # a choice.
+        def _size_btn(z, i, pad, bar=False):
+            # the chip is a third of a phone; "Sample — 2 ml" only fits the row
+            name = z["label"] if bar or z["key"] != "sample" else "Sample &mdash; 2 ml"
+            return (pad + '<button%s data-size="%s" data-price="%d">'
+                    '<span class="szl">%s</span><span class="szp">&pound;%d</span>'
+                    '<span class="szi">%s</span></button>'
+                    % (' aria-current="true"' if i == 0 else "", z["key"], z["price"],
+                       name, z["price"], z["incl"]))
+        size_rows = "\n".join(_size_btn(z, i, "        ") for i, z in enumerate(SIZES))
+        bar_rows = "\n".join(_size_btn(z, i, "          ", bar=True) for i, z in enumerate(SIZES))
         # The pyramid is the note list Alex supplied, one tier per row. It used
         # to be three invented sensory lines with a second invented line
         # annotating each — six pieces of copy per fragrance, none of it ours,
@@ -1579,10 +1595,8 @@ def build():
       <blockquote>&ldquo;{openline(p)}&hellip;&rdquo; &mdash; nine pages of {p['theme'].lower()}.</blockquote>
 
       <p class="fieldlabel">Size</p>
-      <div class="sizes">
-        <button aria-current="true" data-size="100ml" data-price="160">100 ml &mdash; &pound;160</button>
-        <button data-size="7-5ml" data-price="40">7.5 ml &mdash; &pound;40</button>
-        <button data-size="sample" data-price="5">Sample &mdash; &pound;5</button>
+      <div class="sizes" role="radiogroup" aria-label="Size">
+{size_rows}
       </div>
 
       <div class="cta">
@@ -1598,10 +1612,8 @@ def build():
            changing your mind never means scrolling back up. Its size buttons
            drive the real row; one controller, one state. -->
       <div class="pdpbar" id="pdpbar" hidden>
-        <div class="barsizes sizes" role="group" aria-label="Size">
-          <button aria-current="true" data-size="100ml">100 ml</button>
-          <button data-size="7-5ml">7.5 ml</button>
-          <button data-size="sample">Sample</button>
+        <div class="barsizes sizes" role="radiogroup" aria-label="Size">
+{bar_rows}
         </div>
         <div class="r">
           <div class="t"><b>{p['name']}</b><span data-barprice>&pound;160 &middot; 100 ml</span></div>
