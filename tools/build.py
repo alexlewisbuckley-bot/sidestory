@@ -677,8 +677,9 @@ def style_row():
 def gift_module(kicker="Kept &amp; given",
                 head="A story is a serious gift.",
                 body="Every parcel arrives gift-ready &mdash; the stone lid, the printed story, no plastic in the box. Add the Dedication: a line of yours, typeset on the story&rsquo;s flyleaf, and sent again as a digital edition.",
-                extras=True, ident="gifting"):
-    """The gifting panel, on the homepage and on Our Story.
+                extras=True, ident="gifting",
+                img="assets/img/unboxing.jpg", tail=None):
+    """The wide image-and-copy panel, on the homepage and on Our Story.
 
     Written once. The last time a block appeared on two pages it was
     hand-copied — the homepage's seven cards against the catalogue — and the
@@ -690,12 +691,13 @@ def gift_module(kicker="Kept &amp; given",
     The panel is the same object on both pages and the copy is an argument
     to it, not a second copy of the markup — so a change to the layout still
     only has to be made once."""
-    tail = """    <div class="ded">for A. &mdash; who was late</div>
+    if tail is None:
+        tail = """    <div class="ded">for A. &mdash; who was late</div>
     <div class="cta"><a class="btn btn-ivory" href="collection.html">Explore gifting</a>
       <a class="btn btn-ghost" href="share.html">Add a dedication</a></div>
 """ if extras else ""
     return f"""<section class="gift{' bare' if not extras else ''}" id="{ident}">
-  <img src="{fp('assets/img/unboxing.jpg')}" alt="" loading="lazy">
+  <img src="{fp(img)}" alt="" loading="lazy">
   <div class="fade"></div>
   <div class="c rev">
     <p class="k">{kicker}</p>
@@ -1296,7 +1298,21 @@ def build():
                   + "\n".join(product_card(p) for p in PRODUCTS)
                   + "\n" + '<article class="promo rev">\n        <p class="k">Undecided?</p><h3>The Discovery Set</h3>\n        <p>All seven stories in miniature — read them on your own skin. £38, credited against your first full bottle.</p>\n        <div><button class="btn btn-ghost btn-sm" onclick="addToBag(\'set\',\'full\',this)">Begin the set</button></div>\n      </article>' + "\n    </div>")
     home_body = home_body.replace("<!--SS_CARDS-->", home_cards)
-    home_body = home_body.replace("<!--SS_GIFT-->", gift_module())
+    # The panel here used to sell gifting and the Dedication. The house does
+    # neither, so it sells the one thing a first-time reader should actually
+    # buy: the set. Copy is lifted from samples.html rather than written
+    # again, so the two cannot disagree about the price or the credit.
+    home_body = home_body.replace("<!--SS_GIFT-->", gift_module(
+        kicker="The discovery set",
+        head="Read first. Decide later.",
+        body="All seven stories in miniature &mdash; 2ml of each, and the opening page of every one. "
+             "Wear one a day for a week; when you choose a full bottle, the &pound;38 comes off in full. "
+             "No code, no expiry, no conditions.",
+        ident="set",
+        img="assets/img/set-first-lines.jpg",
+        tail="""    <div class="cta"><button class="btn btn-ivory" onclick="addToBag('set','full',this)">Add the set &mdash; &pound;38</button>
+      <a class="btn btn-ghost" href="samples.html">What&rsquo;s in it</a></div>
+"""))
     home_body = home_body.replace("<!--SS_STYLES-->", style_row())
     home_body = home_body.replace("<!--SS_SHOW-->", show_copy())
     home_body = home_body.replace("<!--SS_MAKING-->", making_section())
