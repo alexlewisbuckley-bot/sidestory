@@ -2914,7 +2914,10 @@ footer .fbot a,footer .legal a,footer .fcopy a,
   .legal a{margin-block:-.35rem}
   .ffield input,.ffield textarea,.field input,.field textarea,.news input{
     min-height:2.75rem;padding-block:.5rem}
-  .ul,.crumb a,.card .price a,.re a,.rd,.sizes button{
+  /* .sizes button used to be in this list — the tap-target stretch existed
+     for the old inline text marks. The bordered rows have real height, and
+     the negative margin was stacking them into each other on a phone. */
+  .ul,.crumb a,.card .price a,.re a,.rd{
     padding-block:.72rem;margin-block:-.72rem}
   input[type=checkbox],input[type=radio],
   .tryfirst input,.consent input{width:1.5rem;height:1.5rem;margin:0;flex:none}
