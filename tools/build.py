@@ -1592,12 +1592,21 @@ def build():
       <p class="re"><span data-sizeline>Hand-carved stone lid, and the nine printed pages, in the box.</span></p>
       <p class="re">Complimentary UK delivery over &pound;{FREE_GBP} &middot; signed for, two to four working days</p>
 
-      <!-- On a phone the Add button has scrolled away by the second screen of
-           a long page. This bar carries it; the controller shows it only once
-           the real button is gone and hides it again on the way back up. -->
+      <!-- On a phone the Add button starts below the fold and is gone by the
+           second screen. The bar stands in for it whenever the real button is
+           not on screen — including on arrival — and carries the size row, so
+           changing your mind never means scrolling back up. Its size buttons
+           drive the real row; one controller, one state. -->
       <div class="pdpbar" id="pdpbar" hidden>
-        <div class="t"><b>{p['name']}</b><span data-barprice>&pound;160 &middot; 100 ml</span></div>
-        <button class="btn btn-ink" data-size="100ml" onclick="addToBag('{p['slug']}',this.dataset.size,this)">Add to bag</button>
+        <div class="barsizes sizes" role="group" aria-label="Size">
+          <button aria-current="true" data-size="100ml">100 ml</button>
+          <button data-size="7-5ml">7.5 ml</button>
+          <button data-size="sample">Sample</button>
+        </div>
+        <div class="r">
+          <div class="t"><b>{p['name']}</b><span data-barprice>&pound;160 &middot; 100 ml</span></div>
+          <button class="btn btn-ink" data-size="100ml" onclick="addToBag('{p['slug']}',this.dataset.size,this)">Add to bag</button>
+        </div>
       </div>
 
       <div class="acc">

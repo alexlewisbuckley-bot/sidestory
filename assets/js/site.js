@@ -239,10 +239,16 @@
     const bar=document.getElementById('pdpbar');
     const cta=document.querySelector('.pdp .cta');
     if(!bar||!cta||!('IntersectionObserver' in window)) return;
+    /* the bar stands in whenever the real button is off screen, in either
+       direction — which on a phone includes the moment the page arrives,
+       since the buy block starts below the fold. The two are never visible
+       together. */
     const io=new IntersectionObserver(es=>es.forEach(e=>{
-      const below=e.boundingClientRect.top<0;   /* only once it has gone UP */
-      const on=!e.isIntersecting&&below;
+      const on=!e.isIntersecting;
       bar.hidden=!on;
+      /* the page gets the bar's height back at its foot, so the footer's
+         last links are never permanently underneath it */
+      document.documentElement.classList.toggle('haspdpbar',on);
       requestAnimationFrame(()=>bar.classList.toggle('on',on));
     }));
     io.observe(cta);
@@ -721,10 +727,16 @@
      collections open on the right one. */
   function pickSize(row,b,scroll){
     if(!b) return;
-    row.querySelectorAll('button').forEach(x=>x.removeAttribute('aria-current'));
-    b.setAttribute('aria-current','true');
     const key=b.dataset.size||'100ml';
-    const price=b.dataset.price||(b.textContent.match(/£(\d+)/)||[])[1];
+    /* every size row on the page — the buy column's and the sticky bar's —
+       shows the same selection, whichever of them was tapped */
+    document.querySelectorAll('.sizes').forEach(r=>{
+      r.querySelectorAll('button').forEach(x=>x.removeAttribute('aria-current'));
+      const m=r.querySelector('button[data-size="'+key+'"]');
+      if(m) m.setAttribute('aria-current','true');
+    });
+    const src=document.querySelector('.sizes button[data-price][data-size="'+key+'"]')||b;
+    const price=src.dataset.price||(src.textContent.match(/£(\d+)/)||[])[1];
     const add=document.querySelector('.pdp .cta .btn-ink');
     if(add&&price){ add.textContent='Add to bag — £'+price; add.dataset.size=key; }
     const slug=document.body.dataset.slug;
@@ -739,7 +751,7 @@
     if(v&&incl) incl.textContent=v.incl;
     const bar=document.getElementById('pdpbar');
     if(bar&&price){
-      const bb=bar.querySelector('button'), bp=bar.querySelector('[data-barprice]');
+      const bb=bar.querySelector('.r .btn-ink'), bp=bar.querySelector('[data-barprice]');
       if(bb) bb.dataset.size=key;
       if(bp) bp.textContent='£'+price+' · '+(v&&v.label?v.label:'100 ml');
     }
