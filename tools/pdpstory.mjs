@@ -12,8 +12,8 @@ for (const s of SLUGS) {
       words: ex.textContent.trim().split(/\s+/).length,
       links: [...new Set(links)] };
   });
-  ok(`${s}: excerpt is 2–3 paragraphs`, r.n>=2 && r.n<=3, r);
-  ok(`${s}: excerpt is an opening, not the chapter`, r.words<=250, r);
+  ok(`${s}: excerpt is one or two paragraphs`, r.n>=1 && r.n<=2, r);
+  ok(`${s}: excerpt is an opening, not the chapter`, r.words>=45 && r.words<=140, r);
   ok(`${s}: every story link is its own`, r.links.length>0 && r.links.every(h=>h===`story-${s}.html`), r.links);
 }
 // no page anywhere may use the query-string route, which nothing reads
@@ -28,6 +28,14 @@ await p.goto('http://localhost:8802/product-road-trip.html', { waitUntil:'networ
 await p.click('.chapter .go a'); await p.waitForTimeout(700);
 ok('the CTA lands on that fragrance’s story', await p.evaluate(()=>
   location.pathname.endsWith('/story-road-trip.html') && /Road Trip/.test(document.title)));
+// the one fragrance with no commissioned story is visibly a gap, and the six
+// that have one carry no filler at all
+for (const s of SLUGS) {
+  await p.goto(`http://localhost:8802/product-${s}.html`, { waitUntil:'domcontentloaded' });
+  const filler = await p.evaluate(()=>/FILLER|Lorem ipsum|to be credited/i.test(document.querySelector('main').textContent));
+  ok(`${s}: ${s==='sibling-rivalry' ? 'marked as missing' : 'carries no placeholder'}`,
+     filler === (s === 'sibling-rivalry'), {filler});
+}
 await b.close();
 console.log(fails ? `\n${fails} FAILURES` : '\nall PDP story checks pass');
 process.exit(fails?1:0);

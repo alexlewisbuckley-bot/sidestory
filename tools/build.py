@@ -129,16 +129,22 @@ CHAPTERS = {
     stone_title="Nero Marquina, cut once.",
     stone_body="Quarried at Markina-Xemein, its veining decided by nature alone \u2014 your lid\u2019s pattern exists on no other bottle, and will not be cut again."),
 
+  # SIBLING RIVALRY — NO STORY SUPPLIED. Everything below marked FILLER is
+  # placeholder Latin standing in for copy that does not exist yet: this was
+  # the one fragrance with no commissioned text, and what stood here before
+  # was invented to fill the hole, which is worse than an obvious gap because
+  # it reads as finished. The author credit is a placeholder too. Replace the
+  # whole block when the real chapter arrives; nothing else references it.
   "sibling-rivalry": dict(
-    pull="He had been winning the same argument since 1994.", pullref="From Sibling Rivalry, Chapter IV",
-    numeral="II", chapter="Chapter I of IX", title="Two brothers, one kitchen.", author="Nell Ferreira",
-    paras=["There is a particular silence that only a brother can make, and she had been listening to it for thirty years. It arrived with the kettle, sat down uninvited, and waited to be contradicted.",
-           "The kitchen had not changed. The argument had not changed. Only the two of them had, and not in the places that would have helped."],
-    scent="grapefruit cut with smoke \u2014 sharp first, then unwilling to leave",
-    caption="the chapter, photographed as it was written \u2014 the table, the kettle, the unfinished sentence",
-    margins=[("Opening","grapefruit, bitten not peeled","\u2014 the first thing either of them says"),
-             ("Heart","vetiver, green and unbothered","\u2014 neither of them apologises"),
-             ("Base","birch smoke, faint tar","\u2014 and still nobody leaves the room")],
+    pull="Sed ut perspiciatis unde omnis iste natus error sit voluptatem.", pullref="FILLER \u2014 story to come",
+    numeral="II", chapter="Chapter I of IX", title="Lorem ipsum dolor sit amet.", author="[author to be credited]",
+    paras=["Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+           "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."],
+    scent="FILLER \u2014 scent line to come",
+    caption="FILLER \u2014 caption to come",
+    margins=[("Opening","grapefruit, bitten not peeled","FILLER \u2014 line to come"),
+             ("Heart","vetiver, green and unbothered","FILLER \u2014 line to come"),
+             ("Base","birch smoke, faint tar","FILLER \u2014 line to come")],
     stone_title="Leopard Salome, cut once.",
     stone_body="A brecciated marble whose fracture lines were set long before anyone thought to quarry it \u2014 the seam on your lid runs in one direction only, and once."),
 
@@ -502,16 +508,19 @@ def align_logo(src, dst, edge):
     return dst
 
 
-def excerpt_paras(paras, cap=230, lo=2, hi=3):
+def excerpt_paras(paras, cap=130, lo=1, hi=2):
     """The opening of a chapter, not the chapter.
 
     The product page was printing all of it — up to four hundred words of
     fiction between the buy button and the notes, which is a page you scroll
     past rather than read, and it left the story page with nothing to offer.
-    Two or three paragraphs, whichever fits under the cap, so the block has
-    roughly the same weight on all seven pages instead of one showing a
-    hundred words and another four hundred. Always at least two, because one
-    paragraph is a caption rather than an opening."""
+
+    The cap is what governs, not the paragraph count: these paragraphs run
+    anywhere from 23 to 125 words, so "the first two" is 59 words on one
+    fragrance and 200 on another, and the section changes size as you move
+    between them. Whole paragraphs up to 130 words gives every one of the
+    seven between 59 and 128 — one paragraph where the opening is long, two
+    where it is short, and the same weight on the page either way."""
     out, n = [], 0
     for p in paras:
         w = len(p.split())
