@@ -2245,7 +2245,7 @@ def build():
     <div>
       <div id="baglines"><div class="empty"><p class="k">Nothing here yet</p>
         <p>Your bag is empty. The shelf is seven stories long.</p>
-        <div class="tagrow"><a href="collection.html">See the fragrances</a><a href="samples.html">Begin with samples</a></div>
+        <div class="tagrow"><a href="collection.html">See the fragrances</a><a href="collection-samples.html">Shop samples</a></div>
       </div></div>
     </div>
     <div class="summary">
