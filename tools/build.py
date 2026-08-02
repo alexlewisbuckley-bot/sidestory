@@ -269,17 +269,8 @@ CHAPTERS = {
 
 }
 
-JOURNAL = [
-    dict(slug="ten-to-eight", kicker="Campaign · 5 min read", img="p-third-date-1.jpg",
-         title="Ten to Eight — the autumn story, on film",
-         sub="Shot in a Lisbon hotel that asked not to be named."),
-    dict(slug="story-first", kicker="Founders · 4 min read", img="founders.jpg",
-         title="Why we write the story before the scent",
-         sub="On briefs, fiction, and arguments worth keeping."),
-    dict(slug="cutting-verde-jade", kicker="Atelier · 6 min read", img="stone-shelf.jpg",
-         title="Cutting Verde Jade — a lid diary",
-         sub="Six weeks, one seam, and the cut that decided the season."),
-]
+# The Atelier Journal is gone — the house is not running a blog, and its
+# three posts were invented anyway.
 
 
 # ------------------------------------------------------- running order ----
@@ -334,7 +325,7 @@ FOOTER_COLS = [
                        ("collection-samples.html", "Samples"),
                        ("samples.html", "Discovery Sets")]),
     ("The House",     [("our-house.html", "Our Story"), ("our-house.html#making", "The Making"),
-                       ("our-house.html#stones", "The Stones"), ("journal.html", "Atelier Journal")]),
+                       ("our-house.html#stones", "The Stones")]),
     ("The Practical", [("shipping.html", "Shipping &amp; Returns"), ("stockists.html", "Stockists"),
                        ("contact.html", "Contact"), ("faq.html", "FAQ")]),
 ]
@@ -850,7 +841,6 @@ def topbar(current):
           <a class="ml" href="stories.html">The stories</a>
           <a class="ml" href="our-house.html#making">The making</a>
           <a class="ml" href="our-house.html#stones">The stones</a>
-          <a class="ml" href="journal.html">Atelier journal</a>
         </div>
         <a class="feature" href="product-hotel-lobby.html">
           <img src="{fp('assets/img/p-hotel-lobby-card.jpg')}" alt="Hotel Lobby eau de parfum" loading="lazy">
@@ -1246,10 +1236,6 @@ def search_index():
     add("The Discovery Set", "All seven in miniature — £38", "Shop",
         "samples.html", "discovery set sets sampler starter bundle try first gift present")
 
-    for j in JOURNAL:
-        add(j["title"], j["sub"], "Journal", f'journal.html#{j["slug"]}', j["kicker"])
-    add("Atelier journal", "Campaigns, founders' notes, and lid diaries", "Journal",
-        "journal.html", "blog news writing articles")
 
     add("Your Stories", "The seven commissioned stories, in full", "The house",
         "stories.html", "read fiction writers")
@@ -2141,27 +2127,7 @@ def build():
 </section>
 """)
 
-    # ---- 10 journal ------------------------------------------------------
-    posts = "\n".join(f"""      <a class="post rev" href="journal.html">
-        <img src="{fp('assets/img/' + j['img'])}" alt="" loading="lazy">
-        <p class="k">{j['kicker']}</p><h3>{j['title']}</h3><p>{j['sub']}</p></a>""" for j in JOURNAL)
-    written["journal"] = page("journal", "Atelier Journal",
-        "Notes from the house — campaigns, commissions, and the cutting of the stone.", f"""
-<section class="band">
-  <div class="inner">
-    {crumbs(("Home", "index.html"), "Atelier Journal")}
-    <div class="phead">
-      <p class="k">The atelier journal</p>
-      <h1>Notes from the house.</h1>
-      <p class="lede">What we are reading, shooting and cutting. Published when there is something worth saying, which is not often.</p>
-    </div>
-    <h2 class="vh">Journal</h2>
-    <div class="posts">
-{posts}
-    </div>
-  </div>
-</section>
-""")
+    # ---- 10 journal: removed with the JOURNAL data above -----------------
 
     # ---- 11 search -------------------------------------------------------
     written["search"] = page("search", "Search",

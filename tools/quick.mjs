@@ -7,7 +7,7 @@ const srv=http.createServer((rq,rs)=>{let p=decodeURIComponent(rq.url.split('?')
  rs.writeHead(200,{'Content-Type':MIME[path.extname(f)]||'application/octet-stream'});rs.end(fs.readFileSync(f))});
 await new Promise(r=>srv.listen(8901,r));
 const b=await chromium.launch({executablePath:'/opt/pw-browsers/chromium'});
-const PAGES=['index.html','collection.html','product-hotel-lobby.html','our-house.html','journal.html','bag.html','stories.html'];
+const PAGES=['index.html','collection.html','product-hotel-lobby.html','our-house.html','bag.html','stories.html'];
 const W=[320,390,768,1024,1440,1920,2560];
 let bad=0;
 for(const w of W){
