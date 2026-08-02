@@ -1,4 +1,50 @@
 {
+"atelier-bench.jpg": {
+"avif": [
+[
+480,
+"atelier-bench-480.avif"
+],
+[
+960,
+"atelier-bench-960.avif"
+],
+[
+1600,
+"atelier-bench-1600.avif"
+]
+],
+"h": 1067,
+"jpg": [
+[
+480,
+"atelier-bench-480.jpg"
+],
+[
+960,
+"atelier-bench-960.jpg"
+],
+[
+1600,
+"atelier-bench-1600.jpg"
+]
+],
+"w": 1600,
+"webp": [
+[
+480,
+"atelier-bench-480.webp"
+],
+[
+960,
+"atelier-bench-960.webp"
+],
+[
+1600,
+"atelier-bench-1600.webp"
+]
+]
+},
 "founders.jpg": {
 "avif": [
 [

@@ -81,6 +81,7 @@ EDITORIAL = [
     # keeps its own width rather than being pulled down to the 1200 the
     # smaller editorial plates use
     ("share-hero",      "share-hero.jpg",     1950, None),
+    ("atelier-bench",   "atelier-bench.jpg",  1600, None),
 ]
 
 # Story plates. Supplied editorial photography, one per fragrance, used

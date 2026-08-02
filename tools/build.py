@@ -600,7 +600,7 @@ def atelier_section():
     <h2>Ateliers Journey</h2>
     <div class="grid-2">
       <figure><img class="figfull" src="{fp('assets/img/founders.jpg')}" alt="The workshop" loading="lazy"><figcaption class="hint">FILLER &mdash; caption to come</figcaption></figure>
-      <figure><img class="figfull" src="{fp('assets/img/stone-shelf.jpg')}" alt="Stone and glass on the bench" loading="lazy"><figcaption class="hint">FILLER &mdash; caption to come</figcaption></figure>
+      <figure><img class="figfull" style="object-position:center 34%" src="{fp('assets/img/atelier-bench.jpg')}" alt="A Road Trip bottle on a workbench beside a glazed jar and a twin-lens camera" loading="lazy"><figcaption class="hint">FILLER &mdash; caption to come</figcaption></figure>
     </div>
     <div class="cols cols-2">
       <p>We create fragrances based on stories, rather than stories composed for arbitrary fragrances. Perfume should be one of life&rsquo;s unremitting addictions, one that necessitates feeding, and one that lasts until the next day, like it did on our grandmothers.</p>
