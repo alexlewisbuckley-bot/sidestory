@@ -9,29 +9,29 @@ for (const W of [390, 768, 1024, 1440, 1920]) {
   await p.evaluate(()=>document.querySelectorAll('.rev').forEach(e=>e.classList.add('in')));
   await p.waitForTimeout(1400);
   console.log('\n'+W);
-  const f = await p.evaluate(()=>{const cs=[...document.querySelectorAll('.feel')];
-    const r=c=>c.getBoundingClientRect();
-    const rows={}; cs.forEach(c=>{const t=Math.round(r(c).top); rows[t]=(rows[t]||0)+1;});
-    return {n:cs.length, rows:Object.values(rows),
-      first:cs[0]&&{name:cs[0].querySelector('.fn').textContent.trim(),
-        chipTop:Math.round(cs[0].querySelector('.chip').getBoundingClientRect().top),
-        nameTop:Math.round(cs[0].querySelector('.fn').getBoundingClientRect().top),
-        h3:cs[0].querySelector('h3').textContent.trim(),
-        ft:cs[0].querySelector('.ft').textContent.trim()},
-      // do all cards in a row share a bottom?
-      ftBottoms:[...new Set(cs.map(c=>Math.round(c.querySelector('.ft').getBoundingClientRect().bottom)))].length,
-      wideLast: cs.length>1 && Math.abs(r(cs[cs.length-1]).width - r(cs[0]).width*2 - 8) < 24,
-      heights: Object.values(cs.reduce((a,c)=>{const t=Math.round(r(c).top);
-        (a[t]=a[t]||new Set()).add(Math.round(r(c).height)); return a;},{})).map(s=>s.size),
-      clipped:cs.some(c=>c.scrollWidth>c.clientWidth+1||c.scrollHeight>c.clientHeight+1)};});
-  console.log('  feel '+JSON.stringify(f));
-  ok('all seven styles', f.n===7, f);
-  ok('name sits on the chip line', f.first && Math.abs(f.first.chipTop-f.first.nameTop)<14, f.first);
-  ok('name is first in the card', f.first && /HOTEL LOBBY/i.test(f.first.name), f.first);
-  ok('no card clips its content', !f.clipped, f);
-  if (W>=1150) ok('seven across on wide', f.rows.length===1 && f.rows[0]===7, f.rows);
-  ok('no half-empty orphan row', f.rows.length===1 || f.rows[f.rows.length-1]>1 || f.wideLast, f);
-  ok('cards in a row share a height', f.heights.every(h=>h===1), f.heights);
+  // the style index: seven ruled rows, generated from the style data
+  const f = await p.evaluate(()=>{
+    const rows=[...document.querySelectorAll('.sty')];
+    const r=el=>el.getBoundingClientRect();
+    return { n:rows.length,
+      first: rows[0]&&{ name:rows[0].querySelector('.styname').textContent.trim(),
+        who:rows[0].querySelector('.stywho').textContent.trim(),
+        count:rows[0].querySelector('.stycount').textContent.trim(),
+        chips:rows[0].querySelectorAll('.stychips i').length,
+        href:rows[0].getAttribute('href') },
+      heights: rows.map(x=>Math.round(r(x).height)),
+      overlap: rows.some((x,i)=>i&&r(x).top<r(rows[i-1]).bottom-1),
+      clipped: rows.some(x=>x.scrollWidth>x.clientWidth+1) };
+  });
+  console.log('  sty '+JSON.stringify(f));
+  ok('seven styles', f.n===7, f);
+  ok('Woods leads with its four', f.first && f.first.name==='Woods'
+     && /4 stories/i.test(f.first.count) && f.first.chips===4
+     && f.first.href==='collection.html?scent=woods', f.first);
+  ok('member names present', f.first && /Hotel Lobby/.test(f.first.who), f.first);
+  ok('rows do not overlap', !f.overlap, f);
+  ok('no row clips', !f.clipped, f);
+  ok('rows are thumb-height on touch', W>=900 || f.heights.every(h=>h>=44), f.heights);
 
   const c = await p.evaluate(()=>{const qs=[...document.querySelectorAll('.cred')];
     return {n:qs.length,

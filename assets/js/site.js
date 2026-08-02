@@ -187,11 +187,20 @@
   const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)');
   function settle(grid, mutate){
     if(!grid || REDUCED.matches){ mutate(); return; }
+    /* A queue, not a swap. This used to clearTimeout the previous call and
+       drop its mutation — fine when calls were a keystroke apart, and
+       exactly wrong at init, where paint() queues the card-hiding and
+       applyOne() queues the size imagery in the same tick: the second call
+       silently discarded the first, which is why ?scent= arrived pressed
+       but unfiltered. Every queued mutation now runs, in order, on the one
+       debounced beat. */
+    grid.__pending = grid.__pending || [];
+    grid.__pending.push(mutate);
     if(grid.__settling){ clearTimeout(grid.__settling); }
     grid.classList.add('sorting');
     grid.__settling = setTimeout(()=>{
-      mutate();
-      grid.__settling = null;
+      const q = grid.__pending; grid.__pending = []; grid.__settling = null;
+      q.forEach(f=>f());
       requestAnimationFrame(()=>grid.classList.remove('sorting'));
     }, 100);   /* --d-instant, the same beat the grid dims over */
   }
@@ -977,6 +986,18 @@
         b.setAttribute('aria-expanded', String(sheet.classList.contains('open')))); },0);
     });
 
+    /* ?scent=woods (or woods,floral) arrives pre-filtered — it is how the
+       homepage's style index opens the shelf on one family. Unknown values
+       are ignored rather than wedged into state. */
+    (function(){
+      const want=new URLSearchParams(location.search).get('scent');
+      const g=groups.get('family');
+      if(!want||!g) return;
+      want.split(',').forEach(v=>{
+        v=v.replace(/[^a-z]/g,'');
+        if(g.btns.some(b=>b.dataset.value===v)) g.chosen.add(v);
+      });
+    })();
     paint();
     groups.forEach(g=>{ if(g.mode==='one') applyOne(g); });
   });

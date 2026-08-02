@@ -875,50 +875,46 @@ button:disabled,[aria-disabled="true"]{cursor:default}
 .feelings{background:var(--plaster)}
 .feelings .sub{font-family:var(--font-serif);font-style:italic;font-size:var(--t-md);
   color:var(--txt-2);max-width:var(--measure);margin-top:var(--s-4)}
-/* Seven cards, not five — and seven is the worst count a grid can be handed.
-   auto-fit stretched the orphan row to double width at every middle size, so
-   this is flex with fixed track widths and a centred last row: 2-up, then
-   4-up (4 + 3, centred), then all seven across. The lone seventh card at
-   2-up takes the full width rather than sitting half-empty beside nothing. */
-.feelrow{display:flex;flex-wrap:wrap;justify-content:center;
-  gap:var(--s-2);margin-top:var(--s-5)}
-/* This card used to lift a quarter of a rem and drop a shadow, and its stone
-   chip grew by 45% under the cursor. Both are gestures from product UI, and
-   neither is a thing any fragrance house does to a piece of editorial. The
-   card now simply warms its ground, which is the same acknowledgement the
-   rest of the site gives — quiet, and on a surface rather than in space. */
-.feel{display:flex;flex-direction:column;background:var(--ivory);padding:var(--s-4)}
-/* The name leads, on the chip's own line: a colour with nothing attached to
-   it is a decoration, and the reader is here to choose a bottle. */
-.feel .fn{display:flex;align-items:center;gap:.5rem;min-width:0;
-  font-family:var(--font-sans);font-weight:500;font-size:var(--t-xs);
-  letter-spacing:var(--track-label);text-transform:uppercase;color:var(--ink);
-  transition:color var(--d-quick) var(--settle)}
-.feel:hover .fn,.feel:focus-visible .fn{color:var(--brass-text)}
-.feel .chip{flex:none;width:.5625rem;height:.5625rem;margin:0}
-.feel h3{font-family:var(--font-display);font-size:var(--t-1);line-height:1.15;
-  margin-top:var(--s-4);color:var(--ink);text-wrap:balance}
-/* margin-top:auto floors the theme line, so seven cards of unequal wrap still
-   land their last line together. */
-.feel .ft{margin-top:auto;padding-top:var(--s-3);
-  font-family:var(--font-script);font-weight:300;font-size:var(--t-sm);
-  line-height:1.4;color:var(--txt-2)}
-/* The track widths come last on purpose. They were above the base rules and
-   lost every tie to source order, which left exactly one card — the seventh,
-   the only one specific enough to win — four pixels out of step with its
-   row. Breakpoints after the thing they modify. */
-.feel{flex:0 1 auto;width:calc((100% - var(--s-2)) / 2)}
-.feel:last-child:nth-child(odd){width:100%}
-@media (min-width:35rem){
-  .feel,.feel:last-child:nth-child(odd){width:calc((100% - 3 * var(--s-2)) / 4)}
-}
-@media (min-width:71.875rem){
-  .feelrow{gap:var(--s-1)}
-  .feel,.feel:last-child:nth-child(odd){width:calc((100% - 6 * var(--s-1)) / 7);
-    padding:var(--s-3)}
-  /* seven tracks is the tightest the row ever gets */
-  .feel h3,.feel:last-child:nth-child(odd) h3{margin-top:var(--s-3)}
-  .feel .ft,.feel:last-child:nth-child(odd) .ft{padding-top:var(--s-2)}
+/* Begin with a style, as an index. Seven product cards stood here — the
+   shelf again, smaller, under a heading that promised styles. This is the
+   styles themselves, set like a table of contents: the family word in
+   display type, the member stones, the count, the members' names, and the
+   whole row one full-width link into the pre-filtered collection.
+
+   Mobile-first: one column of ruled rows, each a whole-hand target, the
+   name row and the who-line stacked. From 64rem the who-line moves beside
+   the name and the arrow takes the right edge — same list, wider paper. */
+.styindex{display:flex;flex-direction:column;margin-top:var(--s-5);
+  border-top:1px solid var(--line)}
+.sty{position:relative;display:grid;grid-template-columns:minmax(0,1fr) auto;
+  align-items:center;column-gap:var(--s-4);row-gap:.35rem;
+  padding:var(--s-4) 0;border-bottom:1px solid var(--line);
+  transition:background var(--d-quick) var(--settle)}
+.styname{grid-column:1;font-family:var(--font-display);font-size:var(--t-3);
+  line-height:1.1;color:var(--ink);transition:color var(--d-quick) var(--settle)}
+.stymeta{grid-column:2;grid-row:1;justify-self:end;display:flex;align-items:center;
+  gap:var(--s-3)}
+.stychips{display:flex;align-items:center}
+.stychips i{width:.6875rem;height:.6875rem;border-radius:50%;flex:none;
+  border:1.5px solid var(--plaster)}
+.stychips i+i{margin-left:-.25rem}
+.stycount{font-family:var(--font-sans);font-weight:500;font-size:var(--t-xs);
+  letter-spacing:var(--track-label);text-transform:uppercase;color:var(--txt-2);
+  white-space:nowrap}
+.stywho{grid-column:1/3;font-family:var(--font-script);font-weight:300;
+  font-size:var(--t-sm);line-height:1.5;color:var(--txt-2)}
+.styarrow{display:none}
+.sty:hover .styname,.sty:focus-visible .styname{color:var(--brass-text)}
+@media (min-width:64rem){
+  .sty{grid-template-columns:14rem minmax(0,1fr) auto auto;
+    column-gap:var(--s-5);padding-block:var(--s-4)}
+  .styname{font-size:var(--t-2)}
+  .stywho{grid-column:2;grid-row:1}
+  .stymeta{grid-column:3;grid-row:1}
+  .styarrow{display:block;grid-column:4;grid-row:1;
+    font-family:var(--font-sans);color:var(--txt-2);
+    transition:transform var(--d-quick) var(--settle),color var(--d-quick) var(--settle)}
+  .sty:hover .styarrow{transform:translateX(.35rem);color:var(--brass-text)}
 }
 .feelings .note{margin-top:var(--s-5);font-family:var(--font-sans);font-weight:500;
   font-size:var(--t-xs);letter-spacing:var(--track-label);text-transform:uppercase;color:var(--txt-2);

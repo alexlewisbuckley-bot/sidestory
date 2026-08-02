@@ -701,25 +701,34 @@ def show_copy():
 
 
 def style_row():
-    """All seven styles, from the product data.
+    """Begin with a style, as an index of the styles themselves.
 
-    These were five hand-written cards naming a feeling each — Anticipation,
-    Comfort, Escape, Devotion, Mischief — none of which came from Alex and
-    four of which disagreed with the themes he has now supplied. They are the
-    supplied Style line now, generated, so they cannot drift from the shelf
-    again.
+    The last version was seven product cards under a heading that said
+    "style" — the same shelf again, smaller. But the reader this section is
+    for has NOT chosen a bottle; offering bottles is the thing that was not
+    working. The families are the unit now (the same ones the shelf's filter
+    runs on), set as a table of contents: the style word in display type,
+    the stones of the stories that carry it, the count, and the whole row a
+    link into the collection already filtered to that family — ?scent= is
+    read by the shelf controller. One column on a phone, where each row is a
+    full-width thumb target; the same list, ruled, on a desktop.
 
-    Two of the seven used to be missing, because the row was written as five
-    cards and the slice was never revisited when the shelf became a shelf of
-    seven. It reads the whole list now. The stone chip sits on the same line
-    as the name, because a colour with no name attached is a decoration —
-    the reader is choosing a bottle, and the bottle should say so first."""
-    return "\n".join(
-        '      <a class="feel rev" href="product-%s.html">'
-        '<p class="fn"><span class="chip" style="background:%s"></span>%s</p>'
-        '<h3>%s</h3><p class="ft">%s</p></a>'
-        % (p["slug"], p["swatch"], p["name"], p["style"], p["theme"])
-        for p in PRODUCTS)
+    Generated from FAMILIES + the products' own style lines, so a new style
+    or a filled-in FILLER changes this section without anyone touching it."""
+    rows = []
+    for f in FAMILIES:
+        members = [p for p in PRODUCTS if f["key"] in style_families(p)]
+        chips = "".join('<i style="background:%s"></i>' % p["swatch"] for p in members)
+        names = " &middot; ".join(p["name"] for p in members)
+        rows.append(
+            '      <a class="sty rev" href="collection.html?scent=%s">\n'
+            '        <span class="styname">%s</span>\n'
+            '        <span class="stymeta"><span class="stychips" aria-hidden="true">%s</span>'
+            '<span class="stycount">%s</span></span>\n'
+            '        <span class="stywho">%s</span>\n'
+            '        <span class="styarrow" aria-hidden="true">&rarr;</span>\n'
+            '      </a>' % (f["key"], f["label"], chips, f["hint"], names))
+    return "\n".join(rows)
 
 
 def gift_module(kicker="Kept &amp; given",
