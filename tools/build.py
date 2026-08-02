@@ -1510,7 +1510,6 @@ def build():
                     % (' aria-current="true"' if i == 0 else "", z["key"], z["price"],
                        name, z["price"], z["incl"]))
         size_rows = "\n".join(_size_btn(z, i, "        ") for i, z in enumerate(SIZES))
-        bar_rows = "\n".join(_size_btn(z, i, "          ", bar=True) for i, z in enumerate(SIZES))
         # The pyramid is the note list Alex supplied, one tier per row. It used
         # to be three invented sensory lines with a second invented line
         # annotating each — six pieces of copy per fragrance, none of it ours,
@@ -1608,13 +1607,9 @@ def build():
 
       <!-- On a phone the Add button starts below the fold and is gone by the
            second screen. The bar stands in for it whenever the real button is
-           not on screen — including on arrival — and carries the size row, so
-           changing your mind never means scrolling back up. Its size buttons
-           drive the real row; one controller, one state. -->
+           not on screen — including on arrival — and restates the chosen size
+           and price so it never asks for a decision the reader cannot see. -->
       <div class="pdpbar" id="pdpbar" hidden>
-        <div class="barsizes sizes" role="radiogroup" aria-label="Size">
-{bar_rows}
-        </div>
         <div class="r">
           <div class="t"><b>{p['name']}</b><span data-barprice>&pound;160 &middot; 100 ml</span></div>
           <button class="btn btn-ink" data-size="100ml" onclick="addToBag('{p['slug']}',this.dataset.size,this)">Add to bag</button>

@@ -23,7 +23,7 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="assets/fonts/libre-caslon-text-latin-400-normal.woff2">
 <link rel="preload" as="font" type="font/woff2" crossorigin href="assets/fonts/montserrat-latin-500-normal.woff2">
 <link rel="stylesheet" href="assets/css/fonts.css?v=ced2d124">
-<link rel="stylesheet" href="assets/css/app.css?v=7d4b77c6">
+<link rel="stylesheet" href="assets/css/app.css?v=6e82c032">
 </head><body data-slug="hotel-lobby">
 <a class="skip" href="#main">Skip to content</a>
 <div class="enter-veil" aria-hidden="true"></div>
@@ -142,15 +142,9 @@
 
       <!-- On a phone the Add button starts below the fold and is gone by the
            second screen. The bar stands in for it whenever the real button is
-           not on screen — including on arrival — and carries the size row, so
-           changing your mind never means scrolling back up. Its size buttons
-           drive the real row; one controller, one state. -->
+           not on screen — including on arrival — and restates the chosen size
+           and price so it never asks for a decision the reader cannot see. -->
       <div class="pdpbar" id="pdpbar" hidden>
-        <div class="barsizes sizes" role="radiogroup" aria-label="Size">
-          <button aria-current="true" data-size="100ml" data-price="160"><span class="szl">100 ml</span><span class="szp">&pound;160</span><span class="szi">The printed story is in the box</span></button>
-          <button data-size="7-5ml" data-price="40"><span class="szl">7.5 ml</span><span class="szp">&pound;40</span><span class="szi">Printed sleeve, no story</span></button>
-          <button data-size="sample" data-price="5"><span class="szl">Sample</span><span class="szp">&pound;5</span><span class="szi">2ml, and its opening page</span></button>
-        </div>
         <div class="r">
           <div class="t"><b>Hotel Lobby</b><span data-barprice>&pound;160 &middot; 100 ml</span></div>
           <button class="btn btn-ink" data-size="100ml" onclick="addToBag('hotel-lobby',this.dataset.size,this)">Add to bag</button>
