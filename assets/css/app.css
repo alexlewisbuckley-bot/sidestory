@@ -2175,35 +2175,6 @@ input:user-invalid,textarea:user-invalid{border-color:var(--text-error)}
 .pull{font-family:var(--font-display);font-size:var(--t-3);line-height:1.45;
   text-align:center;max-width:36ch;margin:var(--s-6) auto;color:var(--ink)}
 
-/* --- the founder's letter, and the promise -------------------------------
-   A signature is not a paragraph. It sits in the script face the story pages
-   already use for an author's hand, with the space above it that a signature
-   has on paper and none of the leading of the prose it follows. */
-.signoff{font-family:var(--font-script);font-weight:300;font-style:italic;
-  font-size:var(--t-1);color:var(--txt-2);margin-top:var(--s-5) !important}
-
-/* The picture in the margin column, above the notes. It keeps the aside's
-   width and the portrait's own proportion rather than the 16/9 the figures in
-   a row use — a person is not a landscape. */
-.asidefig{margin-bottom:var(--s-5)}
-.asidefig .figfull{aspect-ratio:4/5}
-
-/* Three claims of roughly equal weight: one measure each, so none of them
-   runs to a hundred characters while another sits at forty. Below 64em they
-   stack, because three columns of prose on a phone is one word per line. */
-.promise{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--s-5);
-  margin-top:var(--s-5)}
-@media (min-width:64em){
-  .promise{grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--s-6)}
-}
-.band .promise p{margin-top:0;max-width:44ch}
-/* the closing line is a statement, not a fourth column */
-.band .promise+.pull{margin-top:var(--s-6)}
-
-/* a single plate at the end of a section, at the width of the section */
-.wide{margin-top:var(--s-6)}
-.wide .figfull{aspect-ratio:21/9}
-
 /* ------------------------------------------------------------- forms --- */
 .form{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--s-5);padding-block:var(--s-5) var(--s-7)}
 @media (min-width:64em){ .form{grid-template-columns:minmax(0,1.3fr) minmax(0,.7fr);gap:var(--s-6);align-items:start} }

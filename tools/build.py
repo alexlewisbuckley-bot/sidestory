@@ -272,7 +272,7 @@ NAV_LINKS = [
     ("share.html",      "Share Yours"),
     ("samples.html",    "Samples"),
     ("gifting.html",    "Gifting"),
-    ("our-house.html",  "Our Story"),
+    ("our-house.html",  "Our House"),
 ]
 
 FOOTER_COLS = [
@@ -447,39 +447,6 @@ def _path_bbox(d):
     if not xs:
         return None
     return min(xs), min(ys), max(xs), max(ys)
-
-
-def placeholder(name, label, w=1200, h=1500):
-    """A photograph that has not been taken yet, drawn rather than borrowed.
-
-    The alternative is standing in another product's photograph, which is how
-    a page ships with the wrong picture on it — it looks finished, so nobody
-    looks again. This is plaster with a hairline frame and the brief written
-    on it, at the aspect ratio the real image needs, so the layout is honest
-    at the right proportions and the gap is impossible to miss."""
-    # Darker than plaster and darker than ivory, because it has to separate
-    # from both — the first version was two shades off the band behind it and
-    # read as an empty gap rather than as a missing photograph, which is the
-    # one thing a placeholder must not do.
-    path = "assets/img/ph-%s.svg" % name
-    cap = max(15, w // 40)
-    open(os.path.join(ROOT, path), "w").write(
-        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 %d %d" '
-        'width="%d" height="%d" role="img" aria-label="%s">\n'
-        '  <rect width="100%%" height="100%%" fill="#DCD8CD"/>\n'
-        '  <rect x="%d" y="%d" width="%d" height="%d" fill="none" '
-        'stroke="#2B2E2D" stroke-opacity=".34" stroke-width="%d"/>\n'
-        '  <text x="50%%" y="46%%" text-anchor="middle" fill="#2B2E2D" fill-opacity=".55" '
-        'font-family="Montserrat,Helvetica,Arial,sans-serif" font-weight="500" font-size="%d" '
-        'letter-spacing="%0.1f">PHOTOGRAPHY TO COME</text>\n'
-        '  <text x="50%%" y="56%%" text-anchor="middle" fill="#2B2E2D" fill-opacity=".8" '
-        'font-family="Georgia,Times New Roman,serif" font-size="%d" '
-        'font-style="italic">%s</text>\n'
-        '</svg>\n'
-        % (w, h, w, h, label,
-           w // 40, w // 40, w - w // 20, h - w // 20, max(1, w // 700),
-           cap, cap * 0.24, max(22, w // 24), label))
-    return path
 
 
 def align_logo(src, dst, edge):
@@ -961,17 +928,12 @@ def search_index():
         "stories.html", "read fiction writers")
     add("Share Yours", "Send us the story a scent belongs to", "The house",
         "share.html", "submit write postbag community")
-    add("Our Story", "Sandalwood, a question about which stories run through a life, and a house built on it", "The house",
-        "our-house.html", "about founders history brand rana our house")
-    add("The Making", "Begun in Grasse, Provence, alongside a network of independent artisans", "The house",
-        "our-house.html#making", "process craft perfumer grasse provence artisans soda glass")
-    add("The Stones", "Marble lids, cut by hand in Italy, no two alike", "The house",
-        "our-house.html#stones", "marble lid carving quarry italy nero calacatta verde rosso giallo")
-    add("Our Promise", "Clean ingredients, farm-to-fragrance, no plastic in the packaging", "The house",
-        "our-house.html#promise",
-        "sustainability sustainable natural synthetics recyclable recycled plastic free ethics standards sillage")
-    add("Perfumers", "Jacques Chabert, Argeville, and fine materials from Grasse", "The house",
-        "our-house.html#perfumers", "perfumer noses chabert argeville raw materials luxury accessible price")
+    add("Our House", "How Side Story works, and why the story comes first", "The house",
+        "our-house.html", "about founders history brand")
+    add("The Making", "Brief, story, scent, stone — in that order", "The house",
+        "our-house.html#making", "process craft perfumer grasse")
+    add("The Stones", "Seven marbles, one lid each", "The house",
+        "our-house.html#stones", "marble lid carving quarry nero calacatta verde rosso giallo")
 
     add("Shipping & Returns", "Delivery times, costs, and the 30-day return", "Practical",
         "shipping.html", "delivery postage refund exchange tracking free")
@@ -1405,105 +1367,58 @@ def build():
 """)
 
     # ---- 06 our house ----------------------------------------------------
-    # ---- 06 our story ----------------------------------------------------
-    #   Rewritten from Rana's copy. Two things had to survive the rewrite:
-    #   the #making and #stones anchors, which the header panel and the footer
-    #   link to from all thirty-seven pages, and the four stone swatches,
-    #   which are product fact rather than prose.
-    ph_portrait = placeholder("rana", "Rana, in the studio", 1000, 1250)
-    # each is drawn at the ratio its slot actually uses, so object-fit:cover
-    # has nothing to crop — the first version was 4:3 in a 21:9 frame and the
-    # words "photography to come" were cut off the top and bottom of it
-    ph_atelier  = placeholder("atelier", "The century-old facility, Grasse", 1400, 788)
-    ph_lids     = placeholder("lids", "Marble lids, cut by hand in Italy", 1470, 630)
-    written["our-house"] = page("our-house", "Our Story",
-        "It began with sandalwood, and a question about which stories run through a life. "
-        "Written in Grasse, bottled in soda glass, sealed under hand-carved marble.", f"""
+    written["our-house"] = page("our-house", "Our House",
+        "A fragrance house that writes the story first — nine pages of commissioned fiction, then the perfume to keep it.", f"""
 <section class="banner">
-  <img src="{fp('assets/img/founders.jpg')}" alt="The studio in Grasse">
+  <img src="{fp('assets/img/founders.jpg')}" alt="The founders in the studio">
   <div class="c">
-    <p class="k">Our story</p>
-    <h1>It&rsquo;s a story left behind in an elevator, or carried gently on a breeze.</h1>
-    <p>The kiss of fragrance on a lapel, in the yellowed pages of a diary, or folded into a handkerchief.</p>
+    <p class="k">The house</p>
+    <h1>We write the story first.</h1>
+    <p>Nine pages of fiction, commissioned and paid for before a single note is weighed &mdash; then a perfume composed to keep it.</p>
   </div>
 </section>
 
 <section class="band">
   <div class="inner">
-    {crumbs(("Home", "index.html"), "Our Story")}
+    {crumbs(("Home", "index.html"), "Our House")}
     <div class="artgrid">
       <div class="col">
-        <p class="k">Founder</p>
-        <p class="dropcap">My childhood memories are tinged with the scent of sandalwood. My grandfather owned plantations in India, which were the source of the soft, balsamic wood my childhood toys and trinkets were made from. Today, sandalwood is my Proustian madeleine: it instantly transports me to another time and place. I&rsquo;m obsessed with sensory experiences like these.</p>
-        <p>I thought deeply about the different stories that ran through our lives and how they had impacted our senses, such as work, love, companionships, pleasure, travel. Since then, everything has been about capturing a story in a fragrance, and creating something that would evoke and transport a wearer to their own version of that story.</p>
-        <p class="signoff">Rana.</p>
+        <p class="dropcap">Side Story began with an argument about briefs. Every fragrance house we had worked with started from a mood board &mdash; a page of adjectives, a photograph of a beach, a competitor to beat. We wanted to start from something a person had actually written, and had been paid properly to write.</p>
+        <p>So we commission novelists. They are given a feeling, a length, and no notes at all on scent. When the nine pages come back we send them to Grasse, and the perfumer works to the writing &mdash; to the hour of day in it, the room, the weather, the thing left unsaid.</p>
+        <p>The result goes into a bottle with the story printed alongside it, on cotton paper, in an edition that matches the run. The lid is cut from a single block of stone, so the veining on yours has never existed before and will not again.</p>
       </div>
       <div class="artaside">
-        <figure class="asidefig">
-          <img class="figfull" src="{fp(ph_portrait)}" alt="Rana in the studio" loading="lazy" width="1000" height="1250">
-        </figure>
-        <p class="marginnote">Sandalwood is my Proustian madeleine.<small>Where it began</small></p>
-        <p class="marginnote">A story in a fragrance &mdash; and a wearer transported to their own version of it.<small>What we are for</small></p>
+        <p class="marginnote">Seven writers. Seven stones. One perfumer.<small>The house, in short</small></p>
+        <p class="marginnote">Every writer is paid a fee and a royalty on the fragrance their story becomes.<small>How we commission</small></p>
       </div>
     </div>
   </div>
 </section>
 
-<section class="band tint" id="promise">
-  <div class="inner">
-    <p class="k">Our promise</p>
-    <h2>None of these elements are ever compromised.</h2>
-    <div class="promise">
-      <p>We take responsibility in ensuring that the high standards we set for ourselves are maintained, from the craftsmanship behind the bottle and packaging, the balance and sillage of the scents, and to the quality and sustainability of the ingredients.</p>
-      <p>All Side Story fragrances begin with clean, natural ingredients. A &lsquo;farm-to-fragrance&rsquo; approach preserves the character of each of our botanicals. We only use synthetics when they are the most sustainable option available. Each bottle and lid was crafted by hand in Italy and can be recycled or reused. We never use plastic in our packaging.</p>
-      <p>Our parfums are created to last. Each scent will linger on the body or on a garment, leaving a captivating memory of the wearer in their wake. Inspired by stories, the fragrances stand outside time, unconstrained by seasons or trends.</p>
-    </div>
-    <p class="pull">It is never perfume for perfume&rsquo;s sake.</p>
-  </div>
-</section>
-
-<section class="band" id="making">
+<section class="band tint" id="making">
   <div class="inner">
     <p class="k">The making</p>
-    <h2>Begun in Grasse, Provence.</h2>
-    <p>Each bottle of Side Story perfume begins its journey in Grasse, Provence, and is produced alongside a network of independent artisans. The fragrances are bottled in soda glass and sealed with hand-carved marble lids. Our century-old production facility, farmers, distillers, compounders, stonemasons, label makers, and designers are scattered across the globe.</p>
+    <h2>Begun in Grasse. Finished by hand.</h2>
     <div class="grid-3">
       <figure><img class="figfull" src="{fp('assets/img/plants.jpg')}" alt="Jasmine outside Mougins" loading="lazy"><figcaption class="hint">jasmine outside Mougins, first light</figcaption></figure>
-      <figure><img class="figfull" src="{fp(ph_atelier)}" alt="The production facility" loading="lazy" width="1400" height="788"><figcaption class="hint">the century-old facility, at work</figcaption></figure>
-      <figure><img class="figfull" src="{fp('assets/img/spine.jpg')}" alt="Stone meeting glass" loading="lazy"><figcaption class="hint">stone meets glass &mdash; soda glass, refillable</figcaption></figure>
+      <figure><img class="figfull" src="{fp('assets/img/founders.jpg')}" alt="The two of us, working" loading="lazy"><figcaption class="hint">the two of us, arguing a story into its final line</figcaption></figure>
+      <figure><img class="figfull" src="{fp('assets/img/spine.jpg')}" alt="Stone meeting glass" loading="lazy"><figcaption class="hint">stone meets glass &mdash; recycled, refillable</figcaption></figure>
     </div>
-  </div>
-</section>
-
-<section class="band tint" id="perfumers">
-  <div class="inner">
-    <div class="artgrid">
-      <div class="col">
-        <p class="k">Perfumers</p>
-        <h2>Luxury, within reach.</h2>
-        <p>Side Story strikes a fine balance between luxury and accessibility that is largely missing in the perfume market. On one hand, we use fine raw materials from Grasse, Provence, and other exceptional sources, and we collaborate with skilled master perfumers such as Jacques Chabert and Argeville who elevate the concept behind each fragrance to a form of high art.</p>
-        <p>On the other, each of our &lsquo;stories&rsquo; is meant to resonate with consumers on a universal level, and we have consciously decided to price the fragrances at a more reachable price than brands with similarly high manufacturing standards.</p>
-      </div>
-      <div class="artaside">
-        <p class="marginnote">Jacques Chabert &middot; Argeville<small>Master perfumers</small></p>
-        <p class="marginnote">Raw materials from Grasse, Provence, and other exceptional sources.<small>What goes in</small></p>
-      </div>
-    </div>
+    <p>Composed by Jacques Chabert with the house in Grasse &middot; written by seven commissioned novelists &middot; stone cut in Liguria &middot; bottled and bound in the United Kingdom.</p>
   </div>
 </section>
 
 <section class="band" id="stones">
   <div class="inner">
     <p class="k">The stones</p>
-    <h2>Crafted by hand in Italy.</h2>
-    <p>Each lid is cut from a block chosen for its seam, not its evenness. We do not select for consistency and we do not correct the veining, which means the lid on your bottle is the only one of its kind. It lifts free of the glass, is heavy on purpose, and can be recycled or reused.</p>
+    <h2>No two lids repeat.</h2>
+    <p>Each lid is cut from a block chosen for its seam, not its evenness. We do not select for consistency and we do not correct the veining, which means the lid on your bottle is the only one of its kind. It lifts free of the glass and is heavy on purpose.</p>
     <div class="matrow spaced rail" tabindex="0" role="group" aria-label="Materials &mdash; scroll sideways">
       <div class="mat"><div class="sw sw-nero"><em>nero marquina</em></div><b>Nero Marquina</b><i>raking light, wet-polished vein</i></div>
       <div class="mat"><div class="sw sw-pale"><em>calacatta</em></div><b>Calacatta</b><i>a single grey seam, off-centre</i></div>
       <div class="mat"><div class="sw sw-verde"><em>verde jade</em></div><b>Verde Jade</b><i>green under the polish, almost black</i></div>
       <div class="mat"><div class="sw sw-rosso"><em>rosso francia</em></div><b>Rosso Francia</b><i>warm, veined like an old map</i></div>
     </div>
-    <figure class="wide"><img class="figfull" src="{fp(ph_lids)}" alt="Marble lids being cut" loading="lazy" width="1470" height="630"><figcaption class="hint">lids, cut by hand in Italy</figcaption></figure>
   </div>
 </section>
 """)
