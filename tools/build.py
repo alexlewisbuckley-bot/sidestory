@@ -502,6 +502,25 @@ def align_logo(src, dst, edge):
     return dst
 
 
+def excerpt_paras(paras, cap=230, lo=2, hi=3):
+    """The opening of a chapter, not the chapter.
+
+    The product page was printing all of it — up to four hundred words of
+    fiction between the buy button and the notes, which is a page you scroll
+    past rather than read, and it left the story page with nothing to offer.
+    Two or three paragraphs, whichever fits under the cap, so the block has
+    roughly the same weight on all seven pages instead of one showing a
+    hundred words and another four hundred. Always at least two, because one
+    paragraph is a caption rather than an opening."""
+    out, n = [], 0
+    for p in paras:
+        w = len(p.split())
+        if len(out) >= hi: break
+        if len(out) >= lo and n + w > cap: break
+        out.append(p); n += w
+    return out
+
+
 def spine_section(current=None):
     """The seven, as a row of stone colours. On a story page it marks the one
     being read; anywhere else it is simply the shelf, which is what makes it
@@ -1231,13 +1250,13 @@ def build():
         second = next(q for q in PRODUCTS if q["slug"] != p["slug"])
         pyramid = "\n".join(
             f"      <div><b>{a}</b><em>{b}</em><i>{c}</i></div>" for a, b, c in ch["margins"])
-        paras = "\n".join(f"        <p>{t}</p>" for t in ch["paras"])
+        paras = "\n".join(f"        <p>{t}</p>" for t in excerpt_paras(ch["paras"]))
         bands = f"""
     <section class="storyband">
       <img src="{fp('assets/img/' + p['img'] + '-2.jpg') if len(gal) > 1 else fp('assets/img/unboxing.jpg')}" alt="">
       <div class="c">
         <blockquote>&ldquo;{ch['pull']}&rdquo;</blockquote>
-        <p>{ch['pullref']} &middot; <a href="story.html?s={p['slug']}">Read the full story</a></p>
+        <p>{ch['pullref']} &middot; <a href="story-{p['slug']}.html">Read the full story</a></p>
       </div>
     </section>
 
@@ -1253,7 +1272,7 @@ def build():
           </div>
           <p class="scent">{ch['scent']}</p>
           <div class="go">
-            <a class="btn btn-ghostink" href="story.html?s={p['slug']}">Read chapter one</a>
+            <a class="btn btn-ghostink" href="story-{p['slug']}.html">Read the full story</a>
             <small>The full story ships in the box</small>
           </div>
         </div>
@@ -1876,7 +1895,7 @@ def build():
       <h2 class="sechead">Your stories</h2>
       <p class="hint">Digital editions unlocked by your orders. They stay in your account whatever happens to the paper.</p>
       <div class="tagrow">
-        <a href="story.html?s=sunday-service">Sunday Service</a>
+        <a href="story-sunday-service.html">Sunday Service</a>
         <a href="stories.html">Hotel Lobby</a>
         <a href="stories.html">The First Lines &mdash; seven openings</a>
       </div>
