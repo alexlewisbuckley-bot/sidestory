@@ -1278,6 +1278,8 @@ def product_card(p, reveal=True):
 # stays if the file is slow, blocked, or the reader has asked for less motion.
 STORY_FILM = {
     "hotel-lobby": "https://cdn.shopify.com/videos/c/o/v/5ed609fbb758465785fa28bbe7706264.mp4",
+    "pillow-talk": "https://cdn.shopify.com/videos/c/o/v/1b0f3a71f5e8482186211527f13198cb.mp4",
+    "sunday-service": "https://cdn.shopify.com/videos/c/o/v/da03d65c57264c91882acb2f5f947d66.mp4",
 }
 
 

@@ -20,7 +20,7 @@ const read = p => p.evaluate(()=>{const s=document.querySelector('.storyband');
     bandBottom:Math.round(s.getBoundingClientRect().bottom) }; });
 
 // ---- only Hotel Lobby carries a film ------------------------------------
-for (const [slug, want] of [['hotel-lobby',1],['sunday-service',0],['road-trip',0],['pillow-talk',0]]) {
+for (const [slug, want] of [['hotel-lobby',1],['pillow-talk',1],['sunday-service',1],['road-trip',0],['third-date',0],['4pm-matinee',0]]) {
   const p = await (await b.newContext({viewport:{width:1440,height:900}})).newPage();
   await p.goto(`http://localhost:8802/product-${slug}.html`,{waitUntil:'domcontentloaded'});
   const n = await p.evaluate(()=>({v:document.querySelectorAll('.storyband video').length,
@@ -30,54 +30,54 @@ for (const [slug, want] of [['hotel-lobby',1],['sunday-service',0],['road-trip',
 }
 
 // ---- the film plays: the photograph must never be seen -------------------
-{
+for (const SLUG of ['hotel-lobby','pillow-talk','sunday-service']) {
   const ctx = await b.newContext({viewport:{width:1440,height:900}});
   await ctx.route('**/*.mp4', r=>r.fulfill({status:200, contentType:'video/webm', body:CLIP}));
   const p = await ctx.newPage();
   const reqs=[]; p.on('request',r=>{ if(/\.mp4/.test(r.url())) reqs.push(1); });
-  await p.goto('http://localhost:8802/product-hotel-lobby.html',{waitUntil:'load'});
+  await p.goto(`http://localhost:8802/product-${SLUG}.html`,{waitUntil:'load'});
   const t0 = await read(p);
-  ok('the still starts hidden under a film', t0.hasfilm && t0.imgOp===0, t0);
-  ok('the film starts hidden too', t0.vidOp===0 || t0.ready, t0);
-  ok('same depth as the still', t0.z===t0.imgZ, t0);
+  ok(SLUG+': the still starts hidden under a film', t0.hasfilm && t0.imgOp===0, t0);
+  ok(SLUG+': the film starts hidden too', t0.vidOp===0 || t0.ready, t0);
+  ok(SLUG+': same depth as the still', t0.z===t0.imgZ, t0);
   await p.waitForTimeout(1800);
   const t1 = await read(p);
   console.log('  playing '+JSON.stringify(t1));
-  ok('the film comes up', t1.ready && t1.vidOp===1 && t1.playing, t1);
-  ok('the photograph is never revealed', !t1.nofilm && t1.imgOp===0, t1);
+  ok(SLUG+': the film comes up', t1.ready && t1.vidOp===1 && t1.playing, t1);
+  ok(SLUG+': the photograph is never revealed', !t1.nofilm && t1.imgOp===0, t1);
   await p.waitForTimeout(2200);
   const t2 = await read(p);
-  ok('it loops rather than stopping', t2.playing, t2);
-  ok('one request, not one per frame', reqs.length===1, reqs.length);
+  ok(SLUG+': it loops rather than stopping', t2.playing, t2);
+  ok(SLUG+': one request, not one per frame', reqs.length===1, reqs.length);
   await ctx.close();
 }
 
 // ---- the film cannot come: the photograph must take over -----------------
-{
+for (const SLUG of ['hotel-lobby','pillow-talk','sunday-service']) {
   const ctx = await b.newContext({viewport:{width:1440,height:900}});
   await ctx.route('**/*.mp4', r=>r.abort());
   const p = await ctx.newPage();
-  await p.goto('http://localhost:8802/product-hotel-lobby.html',{waitUntil:'load'});
+  await p.goto(`http://localhost:8802/product-${SLUG}.html`,{waitUntil:'load'});
   await p.waitForTimeout(2000);
   const s = await read(p);
   console.log('  failed  '+JSON.stringify(s));
-  ok('a dead film falls back to the photograph', s.nofilm && s.imgOp===1 && s.imgLoaded, s);
-  ok('the band is never a black rectangle', s.imgOp===1 || s.vidOp===1, s);
+  ok(SLUG+': a dead film falls back to the photograph', s.nofilm && s.imgOp===1 && s.imgLoaded, s);
+  ok(SLUG+': the band is never a black rectangle', s.imgOp===1 || s.vidOp===1, s);
   await ctx.close();
 }
 
 // ---- reduced motion: no film at all, photograph immediately -------------
-{
+for (const SLUG of ['hotel-lobby','pillow-talk','sunday-service']) {
   const ctx = await b.newContext({viewport:{width:1440,height:900}, reducedMotion:'reduce'});
   const p = await ctx.newPage(); const reqs=[];
   p.on('request',r=>{ if(/\.mp4/.test(r.url())) reqs.push(r.url()); });
-  await p.goto('http://localhost:8802/product-hotel-lobby.html',{waitUntil:'load'});
+  await p.goto(`http://localhost:8802/product-${SLUG}.html`,{waitUntil:'load'});
   await p.evaluate(()=>document.querySelector('.storyband').scrollIntoView());
   await p.waitForTimeout(1200);
-  ok('reduced motion: never requested', reqs.length===0, reqs);
+  ok(SLUG+' reduced motion: never requested', reqs.length===0, reqs);
   const s = await read(p);
-  ok('reduced motion: the photograph, at once', s.imgOp===1, s);
-  ok('reduced motion: no video box', await p.evaluate(()=>
+  ok(SLUG+' reduced motion: the photograph, at once', s.imgOp===1, s);
+  ok(SLUG+' reduced motion: no video box', await p.evaluate(()=>
     getComputedStyle(document.querySelector('.storyband video')).display==='none'));
   await ctx.close();
 }
@@ -86,7 +86,7 @@ for (const [slug, want] of [['hotel-lobby',1],['sunday-service',0],['road-trip',
 const WANT = {390:439, 768:532, 1440:468, 1920:562};
 for (const [W,H] of [[390,844],[768,1024],[1440,900],[1920,1080]]) {
   const p = await (await b.newContext({viewport:{width:W,height:H}})).newPage();
-  for (const slug of ['hotel-lobby','road-trip','sunday-service']) {
+  for (const slug of ['hotel-lobby','pillow-talk','sunday-service','road-trip']) {
     await p.goto(`http://localhost:8802/product-${slug}.html`,{waitUntil:'networkidle'});
     const s = await read(p);
     ok(`${W} ${slug}: band is ~${WANT[W]}px`, Math.abs(s.bandH-WANT[W])<=6, {got:s.bandH,want:WANT[W]});
