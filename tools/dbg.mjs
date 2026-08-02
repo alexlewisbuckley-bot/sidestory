@@ -1,0 +1,10 @@
+import { chromium } from 'playwright';
+const b = await chromium.launch({ executablePath:'/opt/pw-browsers/chromium' });
+const p = await (await b.newContext({viewport:{width:1440,height:1000},deviceScaleFactor:2})).newPage();
+await p.goto('http://localhost:8802/index.html',{waitUntil:'networkidle'});
+await p.hover('.links a[data-mega]'); await p.waitForTimeout(600);
+await p.locator('#mega').screenshot({ path:'/tmp/mega.png' });
+await p.goto('http://localhost:8802/product-hotel-lobby.html',{waitUntil:'networkidle'});
+await p.locator('.pdp').scrollIntoViewIfNeeded(); await p.waitForTimeout(500);
+await p.screenshot({ path:'/tmp/pdp-top.png', clip:{x:0,y:0,width:1440,height:1000} });
+await b.close(); console.log('ok');

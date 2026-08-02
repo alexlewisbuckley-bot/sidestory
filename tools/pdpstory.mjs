@@ -28,13 +28,20 @@ await p.goto('http://localhost:8802/product-road-trip.html', { waitUntil:'networ
 await p.click('.chapter .go a'); await p.waitForTimeout(700);
 ok('the CTA lands on that fragrance’s story', await p.evaluate(()=>
   location.pathname.endsWith('/story-road-trip.html') && /Road Trip/.test(document.title)));
-// the one fragrance with no commissioned story is visibly a gap, and the six
-// that have one carry no filler at all
+// The story itself is real on six of the seven, so the excerpt must be clean
+// on those and Latin on Sibling Rivalry. Everything that is not the story —
+// notes, scent line, wear line, caption, stone note, author — is awaiting
+// Alex's copy on all seven and must be visibly marked on all seven.
 for (const s of SLUGS) {
   await p.goto(`http://localhost:8802/product-${s}.html`, { waitUntil:'domcontentloaded' });
-  const filler = await p.evaluate(()=>/FILLER|Lorem ipsum|to be credited/i.test(document.querySelector('main').textContent));
-  ok(`${s}: ${s==='sibling-rivalry' ? 'marked as missing' : 'carries no placeholder'}`,
-     filler === (s === 'sibling-rivalry'), {filler});
+  const r = await p.evaluate(()=>({
+    excerptFiller: /FILLER|Lorem ipsum/i.test(document.querySelector('.excerpt').textContent),
+    pageFiller: (document.querySelector('main').textContent.match(/FILLER/g)||[]).length,
+    byline: /to be credited/.test(document.querySelector('.byline').textContent),
+  }));
+  ok(`${s}: story text ${s==='sibling-rivalry' ? 'is marked missing' : 'is the real story'}`,
+     r.excerptFiller === (s === 'sibling-rivalry'), r);
+  ok(`${s}: the copy still awaiting Alex is marked`, r.pageFiller >= 3 && r.byline, r);
 }
 await b.close();
 console.log(fails ? `\n${fails} FAILURES` : '\nall PDP story checks pass');

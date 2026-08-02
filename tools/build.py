@@ -75,33 +75,40 @@ def fp(path):
 
 PRODUCTS = [
     dict(slug="hotel-lobby",    name="Hotel Lobby",    stone="Nero Marquina",  swatch="var(--stone-hotel-lobby)",
-         notes="woods, spice, green",        story="Story I",   feeling="Anticipation",
+         notes="Woods. Green.",        story="Story I",   feeling="Anticipation",
          line="It was a ten minutes before 8pm when he arrived, and its resplendence never failed to catch him off guard.",
-         img="p-hotel-lobby", badge="Bestseller", read="5 min", family="woods", wear="woods warmed by a polished bar"),
+         img="p-hotel-lobby", badge="Bestseller", read="5 min", family="woods", wear="FILLER \u2014 wear line to come", theme="Anticipation + Attraction", style="Woods. Green.", origin="Nero Marquina, Basque Country",
+         top="Fig Leaf / Oud", mid="Pepper / Patchouli / Cypriol", base="Sandalwood / Coconut / Vanilla"),
     dict(slug="sibling-rivalry", name="Sibling Rivalry", stone="Leopard Salome", swatch="var(--stone-sibling-rivalry)",
-         notes="grapefruit, vetiver, smoke", story="Story II",  feeling="Mischief",
+         notes="FILLER \u2014 style to come", story="Story II",  feeling="FILLER",
          line="There is a particular silence that only a brother can make, and she had been listening to it for thirty years.",
-         img="p-sibling-rivalry", badge="", read="6 min", family="citrus", wear="grapefruit cut with woodsmoke"),
+         img="p-sibling-rivalry", badge="", read="6 min", family="citrus", wear="FILLER \u2014 wear line to come", theme="FILLER \u2014 story theme to come", style="FILLER \u2014 style to come", origin="FILLER \u2014 stone origin to come",
+         top="FILLER \u2014 top notes to come", mid="FILLER \u2014 middle notes to come", base="FILLER \u2014 base notes to come"),
     dict(slug="pillow-talk",    name="Pillow Talk",    stone="Calacatta",      swatch="var(--stone-pillow-talk)",
-         notes="musk, powder, warm skin",    story="Story III", feeling="Comfort",
+         notes="Powder. Citrus. Spice.",    story="Story III", feeling="Intimacy",
          line="They had been awake for hours, unspooling the sweet trivialities of their personal histories in sleepy whispers.",
-         img="p-pillow-talk", badge="", read="4 min", family="powder", wear="warm skin under cool linen"),
+         img="p-pillow-talk", badge="", read="4 min", family="powder", wear="FILLER \u2014 wear line to come", theme="Intimacy + Desire", style="Powder. Citrus. Spice.", origin="Calacatta, Tuscany",
+         top="Bergamot / Orange / Cinnamon", mid="Ylang Ylang / Orris / Amyris Bark", base="Gaiacwood / Patchouli / Peru Balsam / Musk"),
     dict(slug="sunday-service", name="Sunday Service", stone="Verde Jade",     swatch="var(--stone-sunday-service)",
-         notes="incense, linen, morning air", story="Story IV", feeling="Devotion",
+         notes="Spice. Floral. Woods.", story="Story IV", feeling="Introspection",
          line="The drive from the city to the country always felt like rolling back time.",
-         img="p-sunday-service", badge="", read="7 min", family="incense", wear="cold air held in church oak"),
+         img="p-sunday-service", badge="", read="7 min", family="incense", wear="FILLER \u2014 wear line to come", theme="Introspection + Reflection", style="Spice. Floral. Woods.", origin="Verde Jade, Rajasthan",
+         top="Saffron / Pepper", mid="Rose / Patchouli", base="Ciste Labdanum / Frankincense / Gurjum Balsam"),
     dict(slug="third-date",     name="Third Date",     stone="Rosso Levanto",  swatch="var(--stone-third-date)",
-         notes="plum, tobacco, candlelight",  story="Story V",  feeling="Attraction",
+         notes="Green. Floral.",  story="Story V",  feeling="Fervour",
          line="She hardly knew him, of course—tonight was only the third date. But there was such familiarity between them.",
-         img="p-third-date", badge="", read="5 min", family="amber", wear="orange blossom over well-worn leather"),
+         img="p-third-date", badge="", read="5 min", family="amber", wear="FILLER \u2014 wear line to come", theme="Fervour + Connection", style="Green. Floral.", origin="Rosso Levanto, Liguria",
+         top="Plum / Ginger", mid="Tuberose / Patchouli", base="Vanilla / Musk"),
     dict(slug="road-trip",      name="Road Trip",      stone="Rosso Francia",  swatch="var(--stone-road-trip)",
-         notes="amber, leather, warm wind",   story="Story VI", feeling="Escape",
+         notes="Amber. Woods.",   story="Story VI", feeling="Escaping",
          line="They knew where they were going, but neither seemed to mind the impromptu detour along the way.",
-         img="p-road-trip", badge="New story", read="6 min", family="amber", wear="warm leather and wind off an open window"),
+         img="p-road-trip", badge="New story", read="6 min", family="amber", wear="FILLER \u2014 wear line to come", theme="Escaping + Dreaming", style="Amber. Woods.", origin="Rosso Francia, Languedoc",
+         top="Petitgrain (bitter orange) / Peach", mid="Neroli / Pepper / Clary Sage", base="Vetiver / Sandalwood / Coconut / Vanilla"),
     dict(slug="4pm-matinee",    name="4pm Matinee",    stone="Giallo Siena",   swatch="var(--stone-4pm-matinee)",
-         notes="citrus, velvet, dark rooms",  story="Story VII", feeling="Solitude",
+         notes="Green. Woods. Amber.",  story="Story VII", feeling="Ambition",
          line="She came to the afternoon matinee alone. She liked the rush of independence when the ticket seller looked around for a date.",
-         img="p-4pm-matinee", badge="", read="5 min", family="citrus", wear="soft velvet in a darkened theatre"),
+         img="p-4pm-matinee", badge="", read="5 min", family="citrus", wear="FILLER \u2014 wear line to come", theme="Ambition + Realisation", style="Green. Woods. Amber.", origin="Giallo Siena, Tuscany",
+         top="Bergamot / Cardamom / Nutmeg / Thyme", mid="Geranium / Lavender", base="Vanilla / Styrax / Vetiver / Musk"),
 ]
 BY_SLUG = {p["slug"]: p for p in PRODUCTS}
 
@@ -112,7 +119,7 @@ CHAPTERS = {
   "hotel-lobby": dict(
     pull="The bar was the kind of place Hemingway might have lingered a little too long.",
     pullref="From Hotel Lobby, Chapter I",
-    numeral="I", chapter="Chapter I of IX", title="Ten minutes before eight.", author="Morgan Childs",
+    numeral="I", chapter="Chapter I of IX", title="Ten minutes before eight.", author="[author to be credited]",
     paras=[
       "It was a ten minutes before 8pm when he arrived. He had been there before, but its resplendence never failed to catch him off guard. Modish floors patterned in ebony and ivory marble, deep armchairs in dark, buttery leather, a chocolate Steinway piano, and the amber lights of old-world libraries. The bar was the kind of place Hemingway might have lingered a little too long, lights glittering on the crystal and glass. Hushed conversations, each one layering the next.",
       "He perched on the edge of an armchair to wait, eyes darting about the lobby in anticipation. He checked his watch. Still early.",
@@ -121,13 +128,13 @@ CHAPTERS = {
       "He watched the elevator doors close behind them and then checked his watch \u2014 still a few minutes. A familiar song drifted from the piano. Something from an old romantic, a melody that his father loved and his mother sang to herself in the kitchen. They would have looked at home here. Like a puff of smoke, the lyrics seemed briefly tangible in the air \u2014 something something, gave me a thrill \u2014 and then dissipated, leaving only the fragrance of their wistfulness behind.",
       "Suddenly, a warm voice spoke his name, pulling him out of his reverie and back into the hotel lobby. He looked up to see the face he came for, as familiar as the notes on the piano, and every bit as beguiling. He smiled, rising with purpose and posture. The evening had begun.",
     ],
-    scent="antique bergamot poured over ice \u2014 ebony marble, buttery leather, amber light",
-    caption="the chapter, photographed as it was written \u2014 box, liner, and the bar\u2019s low light",
-    margins=[("Opening","cold air through the revolving door","\u2014 he checks his watch, still early"),
-             ("Heart","dark buttery leather, warmed by the room","\u2014 almost sixty years"),
-             ("Base","amber light on crystal and glass","\u2014 the evening had begun")],
+    scent="FILLER \u2014 scent line to come",
+    caption="FILLER \u2014 caption to come",
+    margins=[("Opening","FILLER \u2014 note to come","FILLER \u2014 line to come"),
+             ("Heart","FILLER \u2014 note to come","FILLER \u2014 line to come"),
+             ("Base","FILLER \u2014 note to come","FILLER \u2014 line to come")],
     stone_title="Nero Marquina, cut once.",
-    stone_body="Quarried at Markina-Xemein, its veining decided by nature alone \u2014 your lid\u2019s pattern exists on no other bottle, and will not be cut again."),
+    stone_body="FILLER \u2014 stone note to come"),
 
   # SIBLING RIVALRY — NO STORY SUPPLIED. Everything below marked FILLER is
   # placeholder Latin standing in for copy that does not exist yet: this was
@@ -142,17 +149,17 @@ CHAPTERS = {
            "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."],
     scent="FILLER \u2014 scent line to come",
     caption="FILLER \u2014 caption to come",
-    margins=[("Opening","grapefruit, bitten not peeled","FILLER \u2014 line to come"),
-             ("Heart","vetiver, green and unbothered","FILLER \u2014 line to come"),
-             ("Base","birch smoke, faint tar","FILLER \u2014 line to come")],
+    margins=[("Opening","FILLER \u2014 note to come","FILLER \u2014 line to come"),
+             ("Heart","FILLER \u2014 note to come","FILLER \u2014 line to come"),
+             ("Base","FILLER \u2014 note to come","FILLER \u2014 line to come")],
     stone_title="Leopard Salome, cut once.",
-    stone_body="A brecciated marble whose fracture lines were set long before anyone thought to quarry it \u2014 the seam on your lid runs in one direction only, and once."),
+    stone_body="FILLER \u2014 stone note to come"),
 
   # Pillow Talk — copy supplied by Alex, 1 Aug. Paragraphs verbatim.
   "pillow-talk": dict(
     pull="It was only Saturday, and neither had anywhere they had to be.",
     pullref="From Pillow Talk, Chapter I",
-    numeral="III", chapter="Chapter I of IX", title="Scout\u2019s honor.", author="Iris Vandeleur",
+    numeral="III", chapter="Chapter I of IX", title="Scout\u2019s honor.", author="[author to be credited]",
     paras=[
       "They had been awake for hours, drifting in and out of consciousness, unspooling the sweet trivialities of their personal histories in sleepy whispers, and between stolen kisses. Just before noon, he arose to make coffee, making her promise that she\u2019d be in the exact same place when he returned. They would continue the conversation. She raised three fingers in mock solemnity: scout\u2019s honor, she said.",
       "He brought the little bowls of black coffee into the bedroom with a pitcher of cream. She liked to watch her cup become a canvas, the cream and coffee mingling like watercolours before blending into rich caramel. She was waiting in the bed next to the open window, the down duvet ruffled around her like a snow drift. The bed linens were cool against her skin, crisp and clean, the satin white illuminating her face, her violet eyes, her tousled hair.",
@@ -161,19 +168,19 @@ CHAPTERS = {
       "He felt her watching him and shifted his gaze back to the bed, narrowing his eyes in faux accusation. As he approached her, she began to giggle, unable to contain her delight, and he matched her laughter with a silly grin. Smitten, neither could believe their good fortune.",
       "Morning light spilled into the bedroom and the melody escaped out of the window and down to they city below. It was only Saturday, and neither had anywhere they had to be. They both knew they might linger there for hours, or the whole day, or two, dissolving into conversation, and pleasure, and one another, as naturally as cream into coffee.",
     ],
-    scent="black coffee and cream, cool linen and powdery skin \u2014 a Saturday with nowhere to be",
-    caption="the chapter, photographed as it was written \u2014 linen, the open window, the cup half-turned",
-    margins=[("Opening","black coffee, and cream folded into it","\u2014 the dance of dark and light"),
-             ("Heart","cool linen, crisp against the skin","\u2014 the duvet like a snow drift"),
-             ("Base","fresh powdery skin, and morning light","\u2014 neither had anywhere to be")],
+    scent="FILLER \u2014 scent line to come",
+    caption="FILLER \u2014 caption to come",
+    margins=[("Opening","FILLER \u2014 note to come","FILLER \u2014 line to come"),
+             ("Heart","FILLER \u2014 note to come","FILLER \u2014 line to come"),
+             ("Base","FILLER \u2014 note to come","FILLER \u2014 line to come")],
     stone_title="Calacatta, cut once.",
-    stone_body="One grey seam through a white field, running off-centre because the block decided so \u2014 the lid on your bottle is the only one that will carry that line."),
+    stone_body="FILLER \u2014 stone note to come"),
 
   # Sunday Service — copy supplied by Alex, 1 Aug. Paragraphs verbatim.
   "sunday-service": dict(
     pull="The music was the same. The cool, oaky air of the church was the same.",
     pullref="From Sunday Service, Chapter I",
-    numeral="IV", chapter="Chapter I of IX", title="Rolling back time.", author="Morgan Childs",
+    numeral="IV", chapter="Chapter I of IX", title="Rolling back time.", author="[author to be credited]",
     paras=[
       "The drive from the city to the country always felt like rolling back time. The summer faded the colour of the tall grass along the narrow road and inspired a symphony of cicadas and grasshoppers, but the plains of wheat, the cattle and horses, the sunsets and moons on the horizon were always the same, month after month, year after year, just as they had been when he was a boy. Now the leaves were dense and green, hanging heavy over the road and mottling the light on his dashboard. Soon they’d fade and fall, and the cycle would continue.",
       "He passed by the rusted tower and remembered climbing its iron legs with his friends so they could dangle their feet over the ledge, perched high above the town. Rounding the pond, he remembered roughhousing with his classmates and tossing each other in to the still, cold water. He thought back—as he often did—to his first love and their first kiss, sitting side-by-side on the dock, hands trembling, hearts racing.",
@@ -181,19 +188,19 @@ CHAPTERS = {
       "His sister had already taken her place at the altar when he arrived, bouncing his pretty niece on her hip in the christening gown they had both worn years ago. As he slipped into the pew, he noted how soft the wood felt beneath his fingers, polished and worn from so many years of human touch. But the music was the same. The cool, oaky air of the church was the same. The smell—ageing paper, freshly mown grass—just the same. As much as time was hurtling by, it felt in the moment that nothing had changed.",
       "And yet. As he rose for the first hymn, he touched the ring in his pocket. Past and present came together in that smooth gold loop. There in the place that made him, he traced it round and round, over and over again.",
     ],
-    scent="church oak and beeswax — cold air held in clean linen",
-    caption="the chapter, photographed as it was written — stone, polish, and the last of the lilies",
-    margins=[("Opening","cold water, cut grass, iron on the hands","— the pond, the dock, the first kiss"),
-             ("Heart","linen dried outdoors — the smell of being fifteen","— the tower, and the iron legs of it"),
-             ("Base","church oak, beeswax polish, ageing paper","— the music was the same")],
+    scent="FILLER \u2014 scent line to come",
+    caption="FILLER \u2014 caption to come",
+    margins=[("Opening","FILLER \u2014 note to come","FILLER \u2014 line to come"),
+             ("Heart","FILLER \u2014 note to come","FILLER \u2014 line to come"),
+             ("Base","FILLER \u2014 note to come","FILLER \u2014 line to come")],
     stone_title="Verde Jade, cut once.",
-    stone_body="Green under the polish and almost black away from the light — quarried in a seam that gives perhaps a dozen lids a year, and never the same twice."),
+    stone_body="FILLER \u2014 stone note to come"),
 
   # Third Date — copy supplied by Alex, 1 Aug. Paragraphs verbatim.
   "third-date": dict(
     pull="There was such familiarity between them, as if they’d known each other a lifetime ago and were simply catching up.",
     pullref="From Third Date, Chapter I",
-    numeral="V", chapter="Chapter I of IX", title="Only the third date.", author="Nell Ferreira",
+    numeral="V", chapter="Chapter I of IX", title="Only the third date.", author="[author to be credited]",
     paras=[
       "What did she like about him? Her friends wanted to know. She raised her tea to her lips as she paused to think, then smiled, feeling rather sheepish. How could she choose any one thing and not list them all? She hardly knew him, of course—tonight was only the third date. But there was such familiarity between them, as if they’d known each other a lifetime ago and were simply catching up.",
       "Across the city, he stood over the bathroom sink brushing his teeth, thinking of her, and noticed something he hadn’t experienced in years: butterflies in his stomach. He shook his head to himself, laughing. They hardly knew each other, yet she’d already made a giddy fool of him. He could hardly wait to see her again.",
@@ -202,19 +209,19 @@ CHAPTERS = {
       "He was not one to notice the scent of a cut flower, typically, yet recently he’d become attuned to these subtle pleasures. He realised that he’d become acutely observant. The oxidised cufflinks on the elder gentleman that lives in his building, for one. The choir of birdsong emanating from the autumnal foliage, competing with the rustling of leaves. The soft, yet cracked, feel of leather on his well-worn boots. Amused that he’d gotten himself lost in so many little details, since he was not much of a daydreamer, he was hardly one to get lost in a reverie.",
       "Then he felt a delicate hand on his shoulder, and he suddenly understood why.",
     ],
-    scent="orange blossom cut and set on the table, over soft, well-worn leather",
-    caption="the chapter, photographed as it was written — the vase, the table, the third evening",
-    margins=[("Opening","orange blossom, cut and set on the table","— the most bewitching scent"),
-             ("Heart","oxidised brass and autumn foliage","— he had become acutely observant"),
-             ("Base","soft, cracked leather, well worn","— and he suddenly understood why")],
+    scent="FILLER \u2014 scent line to come",
+    caption="FILLER \u2014 caption to come",
+    margins=[("Opening","FILLER \u2014 note to come","FILLER \u2014 line to come"),
+             ("Heart","FILLER \u2014 note to come","FILLER \u2014 line to come"),
+             ("Base","FILLER \u2014 note to come","FILLER \u2014 line to come")],
     stone_title="Rosso Levanto, cut once.",
-    stone_body="Deep red run through with white — a stone that looks composed and is entirely accidental. Your lid’s pattern was decided in the block, not by us."),
+    stone_body="FILLER \u2014 stone note to come"),
 
   # Road Trip — copy supplied by Alex, 1 Aug. Paragraphs verbatim.
   "road-trip": dict(
     pull="Maybe they would return to the map, steer themselves back to their itinerary. Maybe.",
     pullref="From Road Trip, Chapter I",
-    numeral="VI", chapter="Chapter I of IX", title="The impromptu detour.", author="Iris Vandeleur",
+    numeral="VI", chapter="Chapter I of IX", title="The impromptu detour.", author="[author to be credited]",
     paras=[
       "They knew where they were going, but neither seemed to mind the impromptu detour along the way. Undulating fields of sage and lavender tumbled out into the distance before them, the car drifting over the landscape like a ship on the open sea. Uninterrupted sky stretched in every direction.",
       "Leaning back in her seat, she sank her teeth into a ripe peach and remembered the afternoons she used to spend in the backyard as a child, lying on the grass, watching the clouds carousel across the sky. She rarely took the time to look up now, but when she did, she recognised that familiar sense of calm: an old friend that came to visit in the moments when she let herself pause for simple pleasures.",
@@ -224,19 +231,19 @@ CHAPTERS = {
       "Her hand reached over, brushing his knee. He took it, letting her fingers intertwine with his for just a moment before returning to the steering wheel. She sang along to the music softly, under her breath, charmingly off-key, pulling her bare feet up to the glove compartment and tapping along to the beat. He smiled to himself, and she pretended not to notice.",
       "She pulled her sunglasses down and sunk deeper into the seat. The sun on the horizon bathed the hills in gold. Maybe they would return to the map, steer themselves back to their itinerary. Maybe.",
     ],
-    scent="sage and lavender, a ripe peach and warm leather — the road with the windows down",
-    caption="the chapter, photographed as it was written — the road, the light, the detour taken",
-    margins=[("Opening","sage and lavender, tumbling to the distance","— the detour neither of them minded"),
-             ("Heart","a ripe peach, and warm wind through the window","— the music spills out into the air"),
-             ("Base","sun-warmed leather, and gold on the hills","— maybe they would return to the map")],
+    scent="FILLER \u2014 scent line to come",
+    caption="FILLER \u2014 caption to come",
+    margins=[("Opening","FILLER \u2014 note to come","FILLER \u2014 line to come"),
+             ("Heart","FILLER \u2014 note to come","FILLER \u2014 line to come"),
+             ("Base","FILLER \u2014 note to come","FILLER \u2014 line to come")],
     stone_title="Rosso Francia, cut once.",
-    stone_body="A warm red seamed with white, cut from a block that will not repeat — the lid on your bottle is the only one carrying that line."),
+    stone_body="FILLER \u2014 stone note to come"),
 
   # 4pm Matinee — copy supplied by Alex, 1 Aug. Paragraphs verbatim.
   "4pm-matinee": dict(
     pull="She’d never been afraid of striking out on her own. She’d never been afraid of going to the movies alone.",
     pullref="From 4pm Matinee, Chapter I",
-    numeral="VII", chapter="Chapter I of IX", title="Just me.", author="Morgan Childs",
+    numeral="VII", chapter="Chapter I of IX", title="Just me.", author="[author to be credited]",
     paras=[
       "She came to the afternoon matinee alone. She liked the rush of independence she got when the ticket seller looked around for a date. “Just me,” she’d say with a playful smile. She took a seat in the middle of the theatre and sank down into the soft velvet chair, folding over the edges of her ticket in anticipation.",
       "From the moment she was a little girl, she adored the movies. She loved the ritual of going to the theatre: the music in the lobby, the smell of buttered popcorn, the hush of the crowd when the lights went down. But as she got older, she began to long to be a part of the experience. She wanted to feel the heat of the studio lights on her face and the rumble of applause beneath her feet. To captivate an audience with her laugh, or bring them to tears. She wanted to stretch beyond her shyness, filling the darkened theatre with her wit and grace.",
@@ -245,13 +252,13 @@ CHAPTERS = {
       "She couldn’t know that she’d succeed, but she never doubted it, either. Chasing her dream felt as natural as breathing air. It wasn’t a matter of choice. She had to become the star she knew herself to be.",
       "And once she’d achieved it—the fame, the acclaim—she’d attribute her success to her girlish gumption. She’d never been afraid of striking out on her own. She’d never been afraid of going to the movies alone.",
     ],
-    scent="buttered popcorn and soft velvet — the hush of a darkened theatre at four in the afternoon",
-    caption="the chapter, photographed as it was written — the ticket, the velvet, the dark",
-    margins=[("Opening","the music in the lobby, buttered popcorn","— just me, she’d say"),
-             ("Heart","soft velvet, sunk into","— the hush when the lights went down"),
-             ("Base","warm dust and studio light","— the star she knew herself to be")],
+    scent="FILLER \u2014 scent line to come",
+    caption="FILLER \u2014 caption to come",
+    margins=[("Opening","FILLER \u2014 note to come","FILLER \u2014 line to come"),
+             ("Heart","FILLER \u2014 note to come","FILLER \u2014 line to come"),
+             ("Base","FILLER \u2014 note to come","FILLER \u2014 line to come")],
     stone_title="Giallo Siena, cut once.",
-    stone_body="Ochre shot through with white, quarried in Tuscany — no two lids repeat, and the block decides, not us."),
+    stone_body="FILLER \u2014 stone note to come"),
 
 }
 
@@ -266,6 +273,26 @@ JOURNAL = [
          title="Cutting Verde Jade — a lid diary",
          sub="Six weeks, one seam, and the cut that decided the season."),
 ]
+
+
+# ------------------------------------------------------- running order ----
+# Alex's numbering, and the only place it is written down. The shelf order,
+# the roman numerals on the story pages, the "Story N" label on every card and
+# the prev/next at the foot of each chapter all read from this list, so they
+# cannot disagree with each other the way they did — Hotel Lobby was Story I
+# on its card and cited as Chapter IV in its own pull quote.
+STORY_ORDER = ["hotel-lobby", "sunday-service", "sibling-rivalry", "third-date",
+               "road-trip", "4pm-matinee", "pillow-talk"]
+ROMAN = ["I", "II", "III", "IV", "V", "VI", "VII"]
+assert sorted(STORY_ORDER) == sorted(p["slug"] for p in PRODUCTS), "running order must name every fragrance once"
+PRODUCTS.sort(key=lambda p: STORY_ORDER.index(p["slug"]))
+BY_SLUG = {p["slug"]: p for p in PRODUCTS}
+for _i, _p in enumerate(PRODUCTS):
+    _p["story"] = "Story " + ROMAN[_i]
+    _c = CHAPTERS[_p["slug"]]
+    _c["numeral"] = ROMAN[_i]
+    if not _c["pullref"].startswith("FILLER"):
+        _c["pullref"] = "From %s, Chapter %s" % (_p["name"], ROMAN[_i])
 
 # ------------------------------------------------------------- chrome ----
 
@@ -282,7 +309,7 @@ NAV_LINKS = [
 ]
 
 FOOTER_COLS = [
-    ("The Shelf",     [("collection.html", "The Fragrances"), ("samples.html", "The First Lines"),
+    ("The Shelf",     [("collection.html", "The Fragrances"), ("samples.html", "The Discovery Set"),
                        ("samples.html", "Samples"), ("gifting.html", "Gifting")]),
     ("The House",     [("our-house.html", "Our Story"), ("our-house.html#making", "The Making"),
                        ("our-house.html#stones", "The Stones"), ("journal.html", "Atelier Journal")]),
@@ -427,7 +454,6 @@ ANNOUNCEMENTS = [
     "Complimentary delivery over &pound;%d / AED&nbsp;%d" % (FREE_GBP, FREE_AED),
     "A second story&rsquo;s sample, complimentary with every bottle",
     "Every 100&nbsp;ml under a hand-carved stone lid, with its printed story",
-    "Thirty days to return an unopened bottle",
 ]
 
 
@@ -552,6 +578,22 @@ def spine_section(current=None):
 </section>"""
 
 
+def style_row():
+    """The five styles, from the product data.
+
+    These were five hand-written cards naming a feeling each — Anticipation,
+    Comfort, Escape, Devotion, Mischief — none of which came from Alex and
+    four of which disagreed with the themes he has now supplied. They are the
+    supplied Style line now, generated, so they cannot drift from the shelf
+    again."""
+    return "\n".join(
+        '      <a class="feel rev" href="product-%s.html">'
+        '<span class="chip" style="background:%s"></span>'
+        '<h3>%s</h3><p>%s &mdash; %s</p></a>'
+        % (p["slug"], p["swatch"], p["style"], p["theme"], p["name"])
+        for p in PRODUCTS[:5])
+
+
 def gift_module(kicker="Kept &amp; given",
                 head="A story is a serious gift.",
                 body="Every parcel arrives gift-ready &mdash; the stone lid, the printed story, no plastic in the box. Add the Dedication: a line of yours, typeset on the story&rsquo;s flyleaf, and sent again as a digital edition.",
@@ -609,6 +651,11 @@ def announcement():
 
 
 def topbar(current):
+    # the panel used to offer five ways to slice the shelf; there are seven
+    # fragrances, so the shelf itself is the shorter list
+    storylinks = "\n".join(
+        '          <a class="ml" href="product-%s.html">%s</a>' % (p["slug"], p["name"])
+        for p in PRODUCTS)
     cur = ' aria-current="page"'
     items = "\n      ".join(
         '<a href="%s"%s%s>%s</a>' % (href, ' data-mega="1"' if href == MEGA_FOR else "",
@@ -640,15 +687,11 @@ def topbar(current):
           <a class="ml" href="collection-100ml.html">100 ml &mdash; &pound;160</a>
           <a class="ml" href="collection-7-5ml.html">7.5 ml &mdash; &pound;40</a>
           <a class="ml" href="collection-samples.html">Samples &mdash; &pound;5</a>
-          <a class="ml" href="samples.html">The First Lines &mdash; &pound;38</a>
+          <a class="ml" href="samples.html">The Discovery Set &mdash; &pound;38</a>
         </div>
         <div>
-          <p class="fh">Shop</p>
-          <a class="ml" href="collection.html">All seven stories</a>
-          <a class="ml" href="collection.html#by-feeling">By feeling</a>
-          <a class="ml" href="collection.html#by-stone">By stone</a>
-          <a class="ml" href="samples.html">Samples &mdash; &pound;5</a>
-          <a class="ml" href="samples.html">The First Lines &mdash; &pound;38</a>
+          <p class="fh">Shop by stories</p>
+{storylinks}
         </div>
         <div>
           <p class="fh">Read</p>
@@ -661,8 +704,8 @@ def topbar(current):
           <img src="{fp('assets/img/p-hotel-lobby-card.jpg')}" alt="Hotel Lobby eau de parfum" loading="lazy">
           <span>Bestseller &mdash; Hotel Lobby, &pound;160</span></a>
         <a class="feature" href="samples.html">
-          <img src="{fp('assets/img/set-first-lines.jpg')}" alt="The First Lines discovery set" loading="lazy">
-          <span>Begin here &mdash; The First Lines, &pound;38</span></a>
+          <img src="{fp('assets/img/set-first-lines.jpg')}" alt="The Discovery Set discovery set" loading="lazy">
+          <span>Begin here &mdash; The Discovery Set, &pound;38</span></a>
       </div>
     </div>
     <div class="util">
@@ -678,7 +721,7 @@ def topbar(current):
     <div class="mpsizes">
       <a href="collection-100ml.html">100 ml<span>&pound;160</span></a>
       <a href="collection-7-5ml.html">7.5 ml<span>&pound;40</span></a>
-      <a href="samples.html">The First Lines<span>&pound;38</span></a>
+      <a href="samples.html">The Discovery Set<span>&pound;38</span></a>
       <a href="collection-samples.html">Samples<span>&pound;5</span></a>
     </div>
     <p class="mpfh">Explore</p>
@@ -738,7 +781,7 @@ DRAWER = f"""<div class="scrim" id="scrim" onclick="closeDrawer()"></div>
   <div class="tbar"><div class="tfill" id="tfill"></div></div>
   <div class="dtot"><span>Subtotal</span><b id="dtotal">&pound;0</b></div>
   <a class="btn btn-ink" href="checkout.html">Checkout</a>
-  <p class="dfine">Tax included &middot; 30&#8209;day returns &middot; sample cost redeemed</p>
+  <p class="dfine">Tax included &middot; sample cost redeemed</p>
 </aside>
 """
 
@@ -904,10 +947,37 @@ def catalogue_json():
                                 mainset=srcsets(size_main(p, z["key"])))
                                 for z in SIZES})
             for p in PRODUCTS}
-    data["set"] = dict(name="The First Lines", stone="", col="#3E5147",
+    data["set"] = dict(name="The Discovery Set", stone="", col="#3E5147",
                        notes="all seven in miniature", price=38,
                        img="assets/img/set-first-lines.jpg", href="samples.html")
     return json.dumps(data, ensure_ascii=False)
+
+
+def story_line(p, limit=118):
+    """The opening of the fragrance's own story, quoted rather than retold.
+
+    Two of the seven card lines were a tidied-up version of the real opening —
+    Hotel Lobby's story reads "It was a ten minutes before 8pm when he arrived.
+    He had been there before, but its resplendence never failed to catch him
+    off guard", and the card had spliced those two sentences into one that
+    appears nowhere in the book. Close enough to look right, not close enough
+    to be a quotation. This takes whole sentences off the front of the real
+    first paragraph instead, so the line on the shelf is a line from the
+    story."""
+    txt = CHAPTERS[p["slug"]]["paras"][0].strip()
+    out = ""
+    for m in re.finditer(r'.+?[.!?](?:["\u201d\u2019]?)(?:\s|$)', txt):
+        s = m.group(0).strip()
+        if out and len(out) + 1 + len(s) > limit:
+            break
+        out = (out + " " + s).strip()
+        if len(out) >= limit * 0.6:
+            break
+    if not out or len(out) > limit + 40:
+        # a single opening sentence longer than the card can hold: cut it at a
+        # word and mark the cut, rather than quietly quoting half a sentence
+        return txt[:limit].rsplit(" ", 1)[0].rstrip(" ,;:\u2014-") + "\u2026"
+    return out
 
 
 def openline(p, limit=58):
@@ -916,7 +986,7 @@ def openline(p, limit=58):
     Prefer the first sentence when it is short enough; otherwise fall back to
     the last word boundary before the limit. Never mid-word, which is what the
     old fixed slice was doing."""
-    t = p["line"].strip()
+    t = story_line(p).strip()
     m = re.match(r"(.{20,%d}?[.!?])(\s|$)" % limit, t)
     if m:
         return m.group(1)[:-1]
@@ -973,12 +1043,13 @@ def search_index():
         rows.append(dict(t=t, s=s, k=k, h=h, x=" " + " ".join(blob.split()) + " "))
 
     for p in PRODUCTS:
-        add(p["name"], f'{p["notes"]} · {p["stone"]}', "Fragrances",
+        add(p["name"], f'{p["style"]} · {p["origin"]}', "Fragrances",
             f'product-{p["slug"]}.html',
-            p["feeling"], p["family"], p["wear"], p["story"], "eau de parfum perfume bottle 100ml")
+            p["feeling"], p["family"], p["theme"], p["story"], p["top"], p["mid"], p["base"],
+            "eau de parfum perfume bottle 100ml notes")
     for p in PRODUCTS:
         add(f'{p["name"]} — the story', f'{p["story"]} · {p["feeling"]} · {p["read"]}', "Stories",
-            f'story-{p["slug"]}.html', p["line"], "short story fiction read")
+            f'story-{p["slug"]}.html', story_line(p), "short story fiction read")
 
     # Sizes are how a lot of people arrive — "100ml", "7.5", "travel size",
     # "2ml" — and none of those match "100 ml" on their own, because the space
@@ -995,7 +1066,7 @@ def search_index():
     add("Samples", "2 ml of any story — £5, redeemed against your first bottle", "Shop",
         "collection-samples.html",
         "2ml 2 ml sample samples try tester trial discovery decant vial smallest size price 5")
-    add("The First Lines", "All seven in miniature — £38", "Shop",
+    add("The Discovery Set", "All seven in miniature — £38", "Shop",
         "samples.html", "discovery set sampler starter gift bundle")
     add("Gifting", "Dedications, wrapping, and what to choose for whom", "Shop",
         "gifting.html", "present wrap dedication engraving christmas birthday")
@@ -1016,7 +1087,7 @@ def search_index():
     add("The Stones", "Seven marbles, one lid each", "The house",
         "our-house.html#stones", "marble lid carving quarry nero calacatta verde rosso giallo")
 
-    add("Shipping & Returns", "Delivery times, costs, and the 30-day return", "Practical",
+    add("Shipping & Returns", "Delivery times, costs and how returns work", "Practical",
         "shipping.html", "delivery postage refund exchange tracking free")
     add("Stockists", "Where to smell them in person", "Practical",
         "stockists.html", "shops stores counters find near")
@@ -1056,7 +1127,7 @@ def search_overlay():
         <p class="mpfh">Or start here</p>
         <div class="srchlist">
           <a href="collection.html"><span>All seven stories</span></a>
-          <a href="samples.html"><span>The First Lines</span><span class="sm">&pound;38</span></a>
+          <a href="samples.html"><span>The Discovery Set</span><span class="sm">&pound;38</span></a>
           <a href="gifting.html"><span>Gifting</span></a>
           <a href="stories.html"><span>Your Stories</span></a>
         </div>
@@ -1098,7 +1169,7 @@ def crumbs(*parts):
 
 def product_card(p, reveal=True):
     badge = f'<span class="badge">{p["badge"]}</span>' if p["badge"] else ""
-    return f"""      <article class="card{' rev' if reveal else ''}" data-slug="{p['slug']}" data-order="{PRODUCTS.index(p)}" data-feeling="{p['feeling']}" data-stone="{p['stone']}" data-note="{p['notes'].split(',')[0].strip()}" data-family="{p['family']}">
+    return f"""      <article class="card{' rev' if reveal else ''}" data-slug="{p['slug']}" data-order="{PRODUCTS.index(p)}" data-feeling="{p['feeling']}" data-stone="{p['stone']}" data-note="{p['style'].split('.')[0].strip()}" data-family="{p['family']}">
         <div class="ph"><a data-href href="product-{p['slug']}.html"><img data-shot src="{fp('assets/img/' + p['img'] + '-card.jpg')}" alt="{p['name']} eau de parfum" loading="lazy"></a>{badge}
           <div class="quick"><div class="r">
             <button class="btn btn-ink btn-sm" data-buy data-size="100ml" onclick="addToBag('{p['slug']}',this.dataset.size,this)">100 ml &mdash; &pound;160</button>
@@ -1111,7 +1182,7 @@ def product_card(p, reveal=True):
 
 
 PROMO_CARD = """      <article class="promo rev">
-        <p class="k">Undecided?</p><h3>The First Lines</h3>
+        <p class="k">Undecided?</p><h3>The Discovery Set</h3>
         <p>All seven stories in miniature &mdash; read them on your own skin. &pound;38, credited against your first full bottle.</p>
         <div><a class="btn btn-ghost btn-sm" href="samples.html">Begin the set</a></div>
       </article>"""
@@ -1143,9 +1214,10 @@ def build():
     # colours. It renders from product_card now, so it cannot drift again.
     home_cards = ('<div class="cards">\n'
                   + "\n".join(product_card(p) for p in PRODUCTS)
-                  + "\n" + '<article class="promo rev">\n        <p class="k">Undecided?</p><h3>The First Lines</h3>\n        <p>All seven stories in miniature — read them on your own skin. £38, credited against your first full bottle.</p>\n        <div><button class="btn btn-ghost btn-sm" onclick="addToBag(\'set\',\'full\',this)">Begin the set</button></div>\n      </article>' + "\n    </div>")
+                  + "\n" + '<article class="promo rev">\n        <p class="k">Undecided?</p><h3>The Discovery Set</h3>\n        <p>All seven stories in miniature — read them on your own skin. £38, credited against your first full bottle.</p>\n        <div><button class="btn btn-ghost btn-sm" onclick="addToBag(\'set\',\'full\',this)">Begin the set</button></div>\n      </article>' + "\n    </div>")
     home_body = home_body.replace("<!--SS_CARDS-->", home_cards)
     home_body = home_body.replace("<!--SS_GIFT-->", gift_module())
+    home_body = home_body.replace("<!--SS_STYLES-->", style_row())
     # the homepage fragment is hand-written, so the threshold has to be
     # substituted into it like everywhere else — it was the one place still
     # quoting £100 after the number moved
@@ -1257,8 +1329,13 @@ def build():
             for i, u in enumerate(gal))
         ch = CHAPTERS[p["slug"]]
         second = next(q for q in PRODUCTS if q["slug"] != p["slug"])
+        # The pyramid is the note list Alex supplied, one tier per row. It used
+        # to be three invented sensory lines with a second invented line
+        # annotating each — six pieces of copy per fragrance, none of it ours,
+        # and it disagreed with the Notes accordion further up the same page.
         pyramid = "\n".join(
-            f"      <div><b>{a}</b><em>{b}</em><i>{c}</i></div>" for a, b, c in ch["margins"])
+            f"      <div><b>{a}</b><em>{b}</em></div>"
+            for a, b in (("Top", p["top"]), ("Middle", p["mid"]), ("Base", p["base"])))
         paras = "\n".join(f"        <p>{t}</p>" for t in excerpt_paras(ch["paras"]))
         bands = f"""
     <section class="storyband">
@@ -1305,7 +1382,7 @@ def build():
 
     <section class="stoneband">
       <div class="inner">
-        <img src="{fp('assets/img/stone-shelf.jpg')}" alt="{p['stone']}, hand-cut in Liguria" loading="lazy">
+        <img src="{fp('assets/img/stone-shelf.jpg')}" alt="{p['origin']}, hand-cut" loading="lazy">
         <div>
           <p class="k">The stone</p>
           <h2>{ch['stone_title']}</h2>
@@ -1329,8 +1406,8 @@ def build():
         <div class="info">
           <p class="k">{p['story']} &middot; Eau de parfum</p>
       <h1>{p['name']}</h1>
-      <p class="sub"><span class="chip" style="background:{p['swatch']}"></span>{p['stone']} &middot; {p['notes']}</p>
-      <blockquote>&ldquo;{openline(p)}&hellip;&rdquo; &mdash; nine pages of {p['feeling'].lower()}, worn as {p['wear']}.</blockquote>
+      <p class="sub"><span class="chip" style="background:{p['swatch']}"></span>{p['origin']} &middot; {p['style']}</p>
+      <blockquote>&ldquo;{openline(p)}&hellip;&rdquo; &mdash; nine pages of {p['theme'].lower()}.</blockquote>
 
       <p class="fieldlabel">Size</p>
       <div class="sizes">
@@ -1348,13 +1425,13 @@ def build():
         <button class="btn btn-ghostink applepay" onclick="addToBag('{p['slug']}',document.querySelector('.pdp .cta .btn-ink').dataset.size||'100ml',this)"><svg class="i-apple" viewBox="0 0 384 512" aria-hidden="true" focusable="false"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.931.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/></svg> Apple Pay</button>
       </div>
       <p class="re"><span data-sizeline>Hand-carved stone lid, and the nine printed pages, in the box.</span></p>
-      <p class="re">Complimentary UK delivery &middot; 30&#8209;day returns &middot; sample cost redeemed</p>
+      <p class="re">Complimentary UK delivery &middot; sample cost redeemed</p>
 
       <div class="acc">
-            <details open><summary>The story</summary><div class="body">{p['name']} began as {p['story']}, commissioned from a novelist and printed on cotton paper before the first accord was weighed. Nine pages arrive with the bottle; the digital edition arrives with your confirmation.</div></details>
-            <details><summary>Notes</summary><div class="body">Top &mdash; bergamot, pink pepper. Heart &mdash; {p['notes']}. Base &mdash; vetiver, cedar, a little smoke. Composed in Grasse by Jacques Chabert.</div></details>
-            <details><summary>The stone</summary><div class="body">{p['stone']}, hand-cut in Liguria. Veining is decided by the block, so no two lids repeat. The lid lifts free of the glass and keeps its weight in the hand.</div></details>
-            <details><summary>Delivery &amp; returns</summary><div class="body">Complimentary UK delivery over &pound;{FREE_GBP}, otherwise &pound;5. Two to four working days, signed for. Unopened bottles may be returned within 30 days; samples are non-returnable but always credited.</div></details>
+            <details open><summary>The story</summary><div class="body">FILLER &mdash; story summary to come. {p['name']} is {p['story']}; nine pages arrive with the bottle and the digital edition arrives with your confirmation.</div></details>
+            <details><summary>Notes</summary><div class="body">Top &mdash; {p['top']}. Middle &mdash; {p['mid']}. Base &mdash; {p['base']}. FILLER &mdash; perfumer to be confirmed.</div></details>
+            <details><summary>The stone</summary><div class="body">{p['origin']}, hand-cut. Veining is decided by the block, so no two lids repeat. The lid lifts free of the glass and keeps its weight in the hand.</div></details>
+            <details><summary>Delivery &amp; returns</summary><div class="body">Complimentary UK delivery over &pound;{FREE_GBP}, otherwise &pound;5. Two to four working days, signed for. FILLER &mdash; returns window to come. Samples are non-returnable but always credited.</div></details>
           </div>
         </div>
       </div>
@@ -1374,13 +1451,13 @@ def build():
     """, current="collection.html", body_attr=f' data-slug="{p["slug"]}"')
 
     # ---- 04 samples ------------------------------------------------------
-    written["samples"] = page("samples", "Samples & The First Lines",
-        "The First Lines — all seven stories in miniature, £38 and credited against your first full bottle.", f"""
+    written["samples"] = page("samples", "Samples & The Discovery Set",
+        "The Discovery Set — all seven stories in miniature, £38 and credited against your first full bottle.", f"""
 <section class="banner">
-  <img src="{fp('assets/img/set-first-lines.jpg')}" alt="The First Lines discovery set">
+  <img src="{fp('assets/img/set-first-lines.jpg')}" alt="The Discovery Set discovery set">
   <div class="c">
     <p class="k">The discovery set</p>
-    <h1>The First Lines.</h1>
+    <h1>The Discovery Set.</h1>
     <p>All seven stories in miniature &mdash; 2ml of each, and the opening page of every one. &pound;38, credited in full against your first bottle.</p>
   </div>
 </section>
@@ -1436,9 +1513,9 @@ def build():
       <div>
         <p class="k">Choosing for someone else</p>
         <h2>When you are not sure.</h2>
-        <p>Send The First Lines instead. Seven miniatures, seven first pages, &pound;38 &mdash; and the credit transfers to them, not to you, so they choose their own bottle.</p>
+        <p>Send The Discovery Set instead. Seven miniatures, seven first pages, &pound;38 &mdash; and the credit transfers to them, not to you, so they choose their own bottle.</p>
         <div class="tagrow">
-          <a href="samples.html">The First Lines &mdash; &pound;38</a>
+          <a href="samples.html">The Discovery Set &mdash; &pound;38</a>
           <a href="collection.html">A full bottle &mdash; &pound;160</a>
         </div>
       </div>
@@ -1510,7 +1587,7 @@ def build():
     <p class="lede">Side Story strikes a fine balance between luxury and accessibility that is largely missing in the perfume market.</p>
     <div class="grid-2">
       <figure><img class="figfull" src="{fp('assets/img/stone-shelf.jpg')}" alt="Raw materials and a carved stone lid" loading="lazy"><figcaption class="hint">fine raw materials from Grasse, Provence</figcaption></figure>
-      <figure><img class="figfull" src="{fp('assets/img/set-first-lines.jpg')}" alt="The First Lines discovery set" loading="lazy"><figcaption class="hint">a more reachable price</figcaption></figure>
+      <figure><img class="figfull" src="{fp('assets/img/set-first-lines.jpg')}" alt="The Discovery Set discovery set" loading="lazy"><figcaption class="hint">a more reachable price</figcaption></figure>
     </div>
     <div class="cols cols-2">
       <p>On one hand, we use fine raw materials from Grasse, Provence, and other exceptional sources, and we collaborate with skilled master perfumers such as Jacques Chabert and Argeville who elevate the concept behind each fragrance to a form of high art.</p>
@@ -1532,7 +1609,7 @@ def build():
         <span class="plate"><img src="{fp(story_plate(q))}" alt="{q['name']}" loading="lazy"></span>
         <span class="sm"><i class="chip" style="background:{q['swatch']}"></i>{q['story']} &middot; {q['read']} read</span>
         <h3>{q['name']}</h3>
-        <p>{q['line']}</p>
+        <p>{story_line(q)}</p>
         <span class="rd">Read &rarr;</span></a>"""
         for q in PRODUCTS if q["slug"] != FEATURED)
 
@@ -1570,7 +1647,7 @@ def build():
 <section class="yset">
   <div class="inner">
     <h2>Undecided? Read three, then choose one.</h2>
-    <p>The First Lines &mdash; all seven in miniature, &pound;38, credited against your first bottle.</p>
+    <p>The Discovery Set &mdash; all seven in miniature, &pound;38, credited against your first bottle.</p>
     <a class="btn btn-ivory" href="samples.html">Begin the set</a>
   </div>
 </section>
@@ -1728,8 +1805,8 @@ def build():
   <div class="inner">
     <div class="c">
       <p class="k">Your stories &middot; an open call</p>
-      <h1>The eighth story hasn&rsquo;t been written yet.</h1>
-      <p class="lede">Seven fragrances began as fiction. The next one could begin with something that actually happened &mdash; to you. Send us the moment; we read every one.</p>
+      <h1>We base our scents on life&rsquo;s stories and narratives.</h1>
+      <p class="lede">Inspire us with yours, and write to us with as much or as little as you wish. A moment in time, an experience, an excerpt to a longer chapter. Those which we can capture into a scent, we will.</p>
       <div class="cta">
         <a class="btn btn-ivory" href="#tellus">Write yours</a>
         <a class="btn btn-ghost" href="#postbag">Read what others sent</a>
@@ -1740,9 +1817,9 @@ def build():
 
 <section class="invite">
   <div class="inner">
-    <p class="k">Why we are asking</p>
-    <h2>We have never made a fragrance from a marketing brief. We are not about to start.</h2>
-    <p>Every bottle we make was composed against nine pages of writing. Those pages have always come from our own writers &mdash; but the best moments we&rsquo;ve heard this year came from the people wearing them: a bakery at 5am, a hospital corridor at Christmas, a borrowed jumper that still smelled of someone. One of those deserves a bottle.</p>
+    <p class="k">Share your story</p>
+    <h2>A fine fragrance tells a story in a whisper, beckoning a listener to come closer.</h2>
+    <p>We catch wind of it indirectly: in stolen moments, chance encounters, strokes of serendipity. These side stories stimulate our senses and tease our imaginations. They are the prologues to adventures, romances, and life&rsquo;s little stories. They seduce and enchant, captivate and embolden, promising something not soon forgotten.</p>
   </div>
 </section>
 
@@ -1896,7 +1973,7 @@ def build():
           <thead><tr role="row"><th role="columnheader" scope="col">Order</th><th role="columnheader" scope="col">Placed</th><th role="columnheader" scope="col">Contents</th><th role="columnheader" scope="col">Status</th><th role="columnheader" scope="col">Total</th></tr></thead>
           <tbody>
             <tr role="row"><td role="cell" data-label="Order">SS-2114</td><td role="cell" data-label="Placed">28 July 2026</td><td role="cell" data-label="Contents">Sunday Service, 100ml &middot; Dedication</td><td role="cell" data-label="Status">Preparing</td><td role="cell" data-label="Total">&pound;160</td></tr>
-            <tr role="row"><td role="cell" data-label="Order">SS-1980</td><td role="cell" data-label="Placed">2 May 2026</td><td role="cell" data-label="Contents">The First Lines</td><td role="cell" data-label="Status">Delivered</td><td role="cell" data-label="Total">&pound;38</td></tr>
+            <tr role="row"><td role="cell" data-label="Order">SS-1980</td><td role="cell" data-label="Placed">2 May 2026</td><td role="cell" data-label="Contents">The Discovery Set</td><td role="cell" data-label="Status">Delivered</td><td role="cell" data-label="Total">&pound;38</td></tr>
             <tr role="row"><td role="cell" data-label="Order">SS-1642</td><td role="cell" data-label="Placed">14 February 2026</td><td role="cell" data-label="Contents">Hotel Lobby, 100ml</td><td role="cell" data-label="Status">Delivered</td><td role="cell" data-label="Total">&pound;160</td></tr>
           </tbody>
         </table>
@@ -1906,7 +1983,7 @@ def build():
       <div class="tagrow">
         <a href="story-sunday-service.html">Sunday Service</a>
         <a href="stories.html">Hotel Lobby</a>
-        <a href="stories.html">The First Lines &mdash; seven openings</a>
+        <a href="stories.html">The Discovery Set &mdash; seven openings</a>
       </div>
     </div>
   </div>
@@ -1935,7 +2012,7 @@ def build():
       <div class="srow"><span>Sample credit</span><span>&minus;&pound;5</span></div>
       <div class="srow total"><span>Total</span><span id="bagtotal">&pound;0</span></div>
       <a class="btn btn-ink cta-wide" href="checkout.html">Proceed to checkout</a>
-      <p class="re">Tax included &middot; 30&#8209;day returns &middot; Visa, Mastercard, Amex, Apple Pay</p>
+      <p class="re">Tax included &middot; Visa, Mastercard, Amex, Apple Pay</p>
     </div>
   </div>
 </div>
@@ -2008,7 +2085,7 @@ def build():
 
     # ---- 16-20 practical pages -------------------------------------------
     written["shipping"] = page("shipping", "Shipping & Returns",
-        "Delivery times, costs and the 30-day return policy.", f"""
+        "Delivery times, costs and how returns work.", f"""
 <div class="inner">
   {crumbs(("Home", "index.html"), "Shipping &amp; Returns")}
   <div class="phead"><p class="k">The practical</p><h1>Shipping &amp; returns.</h1>
@@ -2025,8 +2102,8 @@ def build():
     </table>
   </div>
   <div class="acc">
-    <details open><summary>Returns</summary><div class="body">Unopened bottles may be returned within thirty days of delivery for a full refund. Email contact@sidestoryparfums.com and we send a prepaid label. Refunds are issued to the original payment method within five working days of arrival.</div></details>
-    <details><summary>Samples</summary><div class="body">Samples and The First Lines are not returnable, for reasons we hope are obvious. The cost is always credited against your first full bottle instead.</div></details>
+    <details open><summary>Returns</summary><div class="body">FILLER &mdash; returns window to come. Unopened bottles may be returned for a full refund. Email contact@sidestoryparfums.com and we send a prepaid label. Refunds are issued to the original payment method within five working days of arrival.</div></details>
+    <details><summary>Samples</summary><div class="body">Samples and The Discovery Set are not returnable, for reasons we hope are obvious. The cost is always credited against your first full bottle instead.</div></details>
     <details><summary>Damaged in transit</summary><div class="body">Stone travels well but not perfectly. Photograph the parcel as it arrived and write to us the same week; we replace without argument.</div></details>
     <details><summary>Gifts</summary><div class="body">Gifts bought in November and December may be exchanged until 31 January. The invoice goes to the buyer by email &mdash; nothing in the parcel mentions price.</div></details>
   </div>
@@ -2097,7 +2174,7 @@ def build():
     <details open><summary>Is the story really written first?</summary><div class="body">Yes, and it is the whole point. A novelist is commissioned and paid before any brief goes to Grasse. The perfumer works to the finished pages &mdash; the hour of day in them, the room, the weather &mdash; not to a mood board.</div></details>
     <details><summary>What arrives in the box?</summary><div class="body">A 100ml arrives under its hand-carved stone lid, with the story printed on cotton paper in an edition matched to the run, and a 2ml sample of a second story. The 7.5ml and the samples arrive in a printed sleeve &mdash; no carved lid and no booklet at those sizes. No plastic anywhere in the parcel.</div></details>
     <details><summary>Are the lids really all different?</summary><div class="body">Every lid is cut from a block chosen for its seam. We do not select for consistency or correct the veining, so no two repeat. We do not engrave or mark them.</div></details>
-    <details><summary>How does the sample credit work?</summary><div class="body">Samples are &pound;5 and The First Lines is &pound;38. Whatever you spend on samples comes off your first full bottle &mdash; no code, no expiry, applied automatically at checkout.</div></details>
+    <details><summary>How does the sample credit work?</summary><div class="body">Samples are &pound;5 and The Discovery Set is &pound;38. Whatever you spend on samples comes off your first full bottle &mdash; no code, no expiry, applied automatically at checkout.</div></details>
     <details><summary>Can I refill a bottle?</summary><div class="body">Yes. Refills are &pound;120 and ship in a glass flacon; keep the stone and the glass. Send the empty back with the prepaid label and we reuse it.</div></details>
     <details><summary>Do you test on animals?</summary><div class="body">No, and neither do our suppliers. We do not sell in markets that require it.</div></details>
     <details><summary>Can I visit?</summary><div class="body">The Grasse shop is open by appointment on Tuesdays and Thursdays. Write to us and we will find an hour.</div></details>
@@ -2117,7 +2194,7 @@ def build():
       <p>We collect the minimum needed to send you a parcel and a story: name, address, email, and what you ordered. Payment details are handled by our payment processor and never touch our servers. We do not sell data and we do not share it with advertisers.</p>
       <p>You can ask us for a copy of everything we hold, or ask us to delete it, by writing to privacy@sidestoryparfums.com. We answer within thirty days.</p>
       <h2 class="sechead">Terms of sale</h2>
-      <p>Prices include UK VAT and are shown in pounds sterling. A contract is formed when we email to say the parcel has shipped. Unopened bottles may be returned within thirty days; samples are not returnable but are always credited.</p>
+      <p>Prices include UK VAT and are shown in pounds sterling. A contract is formed when we email to say the parcel has shipped. FILLER &mdash; returns window to come. Unopened bottles may be returned; samples are not returnable but are always credited.</p>
       <p>Nothing in these terms affects your statutory rights.</p>
       <h2 class="sechead">Cookies</h2>
       <p>This demo stores your bag in the browser session and nothing else. The published site would use strictly necessary cookies for the basket and checkout, and analytics only with consent.</p>

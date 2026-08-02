@@ -60,8 +60,8 @@ ok('idle suggestions shown', await p.evaluate(()=>!document.getElementById('srch
   && document.querySelectorAll('#srchidle .srchlist a').length >= 6));
 
 // typing produces results, live
-for (const [q, expect] of [['inc','Sunday Service'],['hotel','Hotel Lobby'],['gift','Gifting'],
-                           ['ship','Shipping'],['verde','Sunday Service'],['grapefruit','Sibling Rivalry']]) {
+for (const [q, expect] of [['sunday','Sunday Service'],['hotel','Hotel Lobby'],['gift','Gifting'],
+                           ['ship','Shipping'],['verde','Sunday Service'],['saffron','Sunday Service']]) {
   await p.fill('#srchq', q);
   await p.waitForTimeout(120);
   const r = await p.evaluate(()=>({
@@ -73,8 +73,8 @@ for (const [q, expect] of [['inc','Sunday Service'],['hotel','Hotel Lobby'],['gi
     live: document.getElementById('srchsr').textContent,
     aria: document.getElementById('srchq').getAttribute('aria-expanded') }));
   ok(`"${q}" → ${expect}`, r.shown && !r.idle && r.titles.some(t=>t.includes(expect)) && r.aria==='true', r);
-  if (q==='inc') ok('matched run is marked', r.marks > 0, r);
-  if (q==='inc') ok('result count announced', /result/.test(r.live), r);
+  if (q==='sunday') ok('matched run is marked', r.marks > 0, r);
+  if (q==='sunday') ok('result count announced', /result/.test(r.live), r);
 }
 
 // a group heading may never appear twice in one result set

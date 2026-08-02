@@ -18,6 +18,7 @@ for (const [w, h] of [[390, 844], [1440, 900]]) {
     return {
       groups: groups.length,
       items: groups[0].querySelectorAll('.anni').length,
+      spoken: [...groups[0].querySelectorAll('.anni')].filter(x=>x.getAttribute('aria-hidden')!=='true').length,
       identical: groups[0].innerHTML === groups[1].innerHTML,
       cloneHidden: groups[1].getAttribute('aria-hidden') === 'true',
       firstNotHidden: !groups[0].hasAttribute('aria-hidden'),
@@ -46,7 +47,7 @@ for (const [w, h] of [[390, 844], [1440, 900]]) {
   ok('the strip clips its own overflow', s.overflow, s);
   ok('the loop is linear and endless', s.anim === 'annroll' && s.iter === 'infinite' && s.timing === 'linear', s);
   ok('the speed is paced from the measured width', /^[0-9]+s$/.test(s.dur) && s.dur !== '40s', s);
-  ok('all four messages present', s.items === 4, s);
+  ok('every message present', s.spoken === 3, s);
   ok('no horizontal page overflow', !s.docOverflowX, s);
   ok('one line tall', s.annH < 52 && s.oneLine, s);
   ok('the threshold reaches the script', s.free === 40, s);
