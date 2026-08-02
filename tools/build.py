@@ -1372,9 +1372,9 @@ def build():
 <section class="banner">
   <img src="{fp('assets/img/founders.jpg')}" alt="The founders in the studio">
   <div class="c">
-    <p class="k">The house</p>
-    <h1>We write the story first.</h1>
-    <p>Nine pages of fiction, commissioned and paid for before a single note is weighed &mdash; then a perfume composed to keep it.</p>
+    <p class="k">Our story</p>
+    <h1>It&rsquo;s a story left behind in an elevator, or carried gently on a breeze.</h1>
+    <p>The kiss of fragrance on a lapel, in the yellowed pages of a diary, or folded into a handkerchief.</p>
   </div>
 </section>
 
@@ -1383,9 +1383,10 @@ def build():
     {crumbs(("Home", "index.html"), "Our House")}
     <div class="artgrid">
       <div class="col">
-        <p class="dropcap">Side Story began with an argument about briefs. Every fragrance house we had worked with started from a mood board &mdash; a page of adjectives, a photograph of a beach, a competitor to beat. We wanted to start from something a person had actually written, and had been paid properly to write.</p>
-        <p>So we commission novelists. They are given a feeling, a length, and no notes at all on scent. When the nine pages come back we send them to Grasse, and the perfumer works to the writing &mdash; to the hour of day in it, the room, the weather, the thing left unsaid.</p>
-        <p>The result goes into a bottle with the story printed alongside it, on cotton paper, in an edition that matches the run. The lid is cut from a single block of stone, so the veining on yours has never existed before and will not again.</p>
+        <p class="dropcap">My childhood memories are tinged with the scent of sandalwood. My grandfather owned plantations in India, which were the source of the soft, balsamic wood my childhood toys and trinkets were made from. Today, sandalwood is my Proustian madeleine: it instantly transports me to another time and place. I&rsquo;m obsessed with sensory experiences like these.</p>
+        <p>I thought deeply about the different stories that ran through our lives and how they had impacted our senses, such as work, love, companionships, pleasure, travel. Since then, everything has been about capturing a story in a fragrance, and creating something that would evoke and transport a wearer to their own version of that story.</p>
+        <p>Today, each bottle of Side Story perfume begins its journey in Grasse, Provence, and is produced alongside a network of independent artisans. The fragrances are bottled in soda glass and sealed with hand-carved marble lids. Our century-old production facility, farmers, distillers, compounders, stonemasons, label makers, and designers are scattered across the globe.</p>
+        <p class="signoff">Rana.</p>
       </div>
       <div class="artaside">
         <p class="marginnote">Seven writers. Seven stones. One perfumer.<small>The house, in short</small></p>
