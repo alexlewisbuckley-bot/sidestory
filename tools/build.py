@@ -659,19 +659,25 @@ def show_copy():
 
 
 def style_row():
-    """The five styles, from the product data.
+    """All seven styles, from the product data.
 
     These were five hand-written cards naming a feeling each — Anticipation,
     Comfort, Escape, Devotion, Mischief — none of which came from Alex and
     four of which disagreed with the themes he has now supplied. They are the
     supplied Style line now, generated, so they cannot drift from the shelf
-    again."""
+    again.
+
+    Two of the seven used to be missing, because the row was written as five
+    cards and the slice was never revisited when the shelf became a shelf of
+    seven. It reads the whole list now. The stone chip sits on the same line
+    as the name, because a colour with no name attached is a decoration —
+    the reader is choosing a bottle, and the bottle should say so first."""
     return "\n".join(
         '      <a class="feel rev" href="product-%s.html">'
-        '<span class="chip" style="background:%s"></span>'
-        '<h3>%s</h3><p>%s &mdash; %s</p></a>'
-        % (p["slug"], p["swatch"], p["style"], p["theme"], p["name"])
-        for p in PRODUCTS[:5])
+        '<p class="fn"><span class="chip" style="background:%s"></span>%s</p>'
+        '<h3>%s</h3><p class="ft">%s</p></a>'
+        % (p["slug"], p["swatch"], p["name"], p["style"], p["theme"])
+        for p in PRODUCTS)
 
 
 def gift_module(kicker="Kept &amp; given",
@@ -893,7 +899,7 @@ SIZES = [
          line="The same eau de parfum in a 7.5ml spray, in a printed sleeve."),
     dict(key="sample", label="Sample", short="2ml", price=5,
          incl="2ml, and its opening page",
-         line="2ml of the eau de parfum — the cost comes off your first bottle."),
+         line="2ml of the eau de parfum, in a printed sleeve with its opening page."),
 ]
 BY_SIZE = {z["key"]: z for z in SIZES}
 
@@ -1145,7 +1151,7 @@ def search_index():
     add("7.5 ml", "Travel size in a printed sleeve — £40", "Shop",
         "collection-7-5ml.html",
         "7.5ml 7.5 ml 75ml 7ml 7 5 small travel purse handbag mini miniature size price 40")
-    add("Samples", "2 ml of any story — £5, redeemed against your first bottle", "Shop",
+    add("Samples", "2 ml of any story — £5", "Shop",
         "collection-samples.html",
         "2ml 2 ml sample samples try tester trial discovery decant vial smallest size price 5")
     add("The Discovery Set", "All seven in miniature — £38", "Shop",
@@ -1265,7 +1271,7 @@ def product_card(p, reveal=True):
 
 PROMO_CARD = """      <article class="promo rev">
         <p class="k">Undecided?</p><h3>The Discovery Set</h3>
-        <p>All seven stories in miniature &mdash; read them on your own skin. &pound;38, credited against your first full bottle.</p>
+        <p>All seven stories in miniature &mdash; read them on your own skin. &pound;38.</p>
         <div><a class="btn btn-ghost btn-sm" href="samples.html">Begin the set</a></div>
       </article>"""
 
@@ -1296,7 +1302,7 @@ def build():
     # colours. It renders from product_card now, so it cannot drift again.
     home_cards = ('<div class="cards">\n'
                   + "\n".join(product_card(p) for p in PRODUCTS)
-                  + "\n" + '<article class="promo rev">\n        <p class="k">Undecided?</p><h3>The Discovery Set</h3>\n        <p>All seven stories in miniature — read them on your own skin. £38, credited against your first full bottle.</p>\n        <div><button class="btn btn-ghost btn-sm" onclick="addToBag(\'set\',\'full\',this)">Begin the set</button></div>\n      </article>' + "\n    </div>")
+                  + "\n" + '<article class="promo rev">\n        <p class="k">Undecided?</p><h3>The Discovery Set</h3>\n        <p>All seven stories in miniature — read them on your own skin. £38.</p>\n        <div><button class="btn btn-ghost btn-sm" onclick="addToBag(\'set\',\'full\',this)">Begin the set</button></div>\n      </article>' + "\n    </div>")
     home_body = home_body.replace("<!--SS_CARDS-->", home_cards)
     # The panel here used to sell gifting and the Dedication. The house does
     # neither, so it sells the one thing a first-time reader should actually
@@ -1306,8 +1312,7 @@ def build():
         kicker="The discovery set",
         head="Read first. Decide later.",
         body="All seven stories in miniature &mdash; 2ml of each, and the opening page of every one. "
-             "Wear one a day for a week; when you choose a full bottle, the &pound;38 comes off in full. "
-             "No code, no expiry, no conditions.",
+             "Wear one a day for a week, then choose the bottle you keep.",
         ident="set",
         img="assets/img/set-first-lines.jpg",
         tail="""    <div class="cta"><button class="btn btn-ivory" onclick="addToBag('set','full',this)">Add the set &mdash; &pound;38</button>
@@ -1344,8 +1349,8 @@ def build():
          "Seven stories, worn as scent.",
          "Each began as nine pages of fiction, commissioned before a single note was weighed. "
          "Eau de parfum in three sizes: 100ml at &pound;160 under a hand-carved stone lid with its "
-         "printed story in the box, 7.5ml at &pound;40 in a printed sleeve, and samples at &pound;5, "
-         "always redeemable against a full bottle."),
+         "printed story in the box, 7.5ml at &pound;40 in a printed sleeve, and samples at &pound;5 "
+         "in a printed sleeve with the story&rsquo;s opening page."),
         ("100ml", "collection-100ml", "100 ml", "The collection &middot; 100 ml",
          "Seven stories, at 100 ml.",
          "The full bottle, &pound;160. Hand-carved stone lid, and the nine printed pages in the box "
@@ -1356,7 +1361,7 @@ def build():
          "no printed story at this size &mdash; those belong to the 100ml."),
         ("sample", "collection-samples", "Samples", "The collection &middot; samples",
          "Seven stories, to try first.",
-         "2ml of any of the seven, &pound;5, and the cost comes off your first full bottle. "
+         "2ml of any of the seven, &pound;5. "
          "Sent in a printed sleeve with the story&rsquo;s opening page."),
     ]
     for key, slug, title, kicker, head, lede in SHELF:
@@ -1530,7 +1535,7 @@ def build():
             <details open><summary>The story</summary><div class="body">{ch['summary']} <br><br>{p['story']}, in nine pages, printed and boxed with the bottle; the digital edition arrives with your confirmation.</div></details>
             <details><summary>Notes</summary><div class="body"><div class="notelist"><p><b>Top</b><span>{p['top']}</span></p><p><b>Middle</b><span>{p['mid']}</span></p><p><b>Base</b><span>{p['base']}</span></p></div><p class="hint">FILLER &mdash; perfumer to be confirmed.</p></div></details>
             <details><summary>The stone</summary><div class="body">{p['origin']}, hand-cut. Veining is decided by the block, so no two lids repeat. The lid lifts free of the glass and keeps its weight in the hand.</div></details>
-            <details><summary>Delivery &amp; returns</summary><div class="body">Complimentary UK delivery over &pound;{FREE_GBP}, otherwise &pound;5. Two to four working days, signed for. FILLER &mdash; returns window to come. Samples are non-returnable but always credited.</div></details>
+            <details><summary>Delivery &amp; returns</summary><div class="body">Complimentary UK delivery over &pound;{FREE_GBP}, otherwise &pound;5. Two to four working days, signed for. FILLER &mdash; returns window to come. Samples are non-returnable.</div></details>
           </div>
         </div>
       </div>
@@ -1551,13 +1556,13 @@ def build():
 
     # ---- 04 samples ------------------------------------------------------
     written["samples"] = page("samples", "Samples & The Discovery Set",
-        "The Discovery Set — all seven stories in miniature, £38 and credited against your first full bottle.", f"""
+        "The Discovery Set — all seven stories in miniature, £38.", f"""
 <section class="banner">
   <img src="{fp('assets/img/set-first-lines.jpg')}" alt="The Discovery Set discovery set">
   <div class="c">
     <p class="k">The discovery set</p>
     <h1>The Discovery Set.</h1>
-    <p>All seven stories in miniature &mdash; 2ml of each, and the opening page of every one. &pound;38, credited in full against your first bottle.</p>
+    <p>All seven stories in miniature &mdash; 2ml of each, and the opening page of every one. &pound;38.</p>
   </div>
 </section>
 
@@ -1569,7 +1574,7 @@ def build():
         <p class="k">How it works</p>
         <h2>Read first. Decide later.</h2>
         <p>Fragrance is the only luxury bought blind, and we would rather you did not. The set arrives as seven 2ml vials in a stone-grey folder, each paired with the first page of the story it was written from.</p>
-        <p>Wear one a day for a week. When you choose a full bottle, the &pound;38 comes off &mdash; no code, no expiry, no conditions. A single sample is &pound;5 and works the same way.</p>
+        <p>Wear one a day for a week, then choose the bottle you keep. A single sample is &pound;5 and arrives the same way, with its opening page.</p>
         <div class="actions">
           <button class="btn btn-ink" onclick="addToBag('set','full',this)">Add the set &mdash; &pound;38</button>
           <a class="btn btn-ghostink" href="collection.html">Choose a single sample</a>
@@ -1580,7 +1585,7 @@ def build():
     <div class="grid-3">
       <div class="tile"><h3>Seven miniatures</h3><p>2ml of each fragrance, enough for a full day&rsquo;s wear and a second opinion.</p></div>
       <div class="tile"><h3>Seven first pages</h3><p>The opening page of every story, letterpressed on the same cotton paper as the full edition.</p></div>
-      <div class="tile"><h3>&pound;38, fully redeemable</h3><p>Credited against your first full bottle, automatically, whenever you come back.</p></div>
+      <div class="tile"><h3>&pound;38 for the set</h3><p>Seven 2ml vials and seven first pages, together in one stone-grey folder.</p></div>
     </div>
   </div>
 </section>
@@ -1731,7 +1736,7 @@ def build():
 <section class="yset">
   <div class="inner">
     <h2>Undecided? Read three, then choose one.</h2>
-    <p>The Discovery Set &mdash; all seven in miniature, &pound;38, credited against your first bottle.</p>
+    <p>The Discovery Set &mdash; all seven in miniature, &pound;38.</p>
     <a class="btn btn-ivory" href="samples.html">Begin the set</a>
   </div>
 </section>
@@ -2093,7 +2098,6 @@ def build():
       <h2 class="vh">Order summary</h2><h3>Summary</h3>
       <div class="srow"><span>Subtotal</span><span id="bagsub">&pound;0</span></div>
       <div class="srow"><span>Delivery</span><span>Complimentary</span></div>
-      <div class="srow"><span>Sample credit</span><span>&minus;&pound;5</span></div>
       <div class="srow total"><span>Total</span><span id="bagtotal">&pound;0</span></div>
       <a class="btn btn-ink cta-wide" href="checkout.html">Proceed to checkout</a>
       <p class="re">Tax included &middot; Visa, Mastercard, Amex, Apple Pay</p>
@@ -2187,7 +2191,7 @@ def build():
   </div>
   <div class="acc">
     <details open><summary>Returns</summary><div class="body">FILLER &mdash; returns window to come. Unopened bottles may be returned for a full refund. Email contact@sidestoryparfums.com and we send a prepaid label. Refunds are issued to the original payment method within five working days of arrival.</div></details>
-    <details><summary>Samples</summary><div class="body">Samples and The Discovery Set are not returnable, for reasons we hope are obvious. The cost is always credited against your first full bottle instead.</div></details>
+    <details><summary>Samples</summary><div class="body">Samples and The Discovery Set are not returnable, for reasons we hope are obvious.</div></details>
     <details><summary>Damaged in transit</summary><div class="body">Stone travels well but not perfectly. Photograph the parcel as it arrived and write to us the same week; we replace without argument.</div></details>
     <details><summary>Gifts</summary><div class="body">Gifts bought in November and December may be exchanged until 31 January. The invoice goes to the buyer by email &mdash; nothing in the parcel mentions price.</div></details>
   </div>
@@ -2258,7 +2262,6 @@ def build():
     <details open><summary>Is the story really written first?</summary><div class="body">Yes, and it is the whole point. A novelist is commissioned and paid before any brief goes to Grasse. The perfumer works to the finished pages &mdash; the hour of day in them, the room, the weather &mdash; not to a mood board.</div></details>
     <details><summary>What arrives in the box?</summary><div class="body">A 100ml arrives under its hand-carved stone lid, with the story printed on cotton paper in an edition matched to the run, and a 2ml sample of a second story. The 7.5ml and the samples arrive in a printed sleeve &mdash; no carved lid and no booklet at those sizes. No plastic anywhere in the parcel.</div></details>
     <details><summary>Are the lids really all different?</summary><div class="body">Every lid is cut from a block chosen for its seam. We do not select for consistency or correct the veining, so no two repeat. We do not engrave or mark them.</div></details>
-    <details><summary>How does the sample credit work?</summary><div class="body">Samples are &pound;5 and The Discovery Set is &pound;38. Whatever you spend on samples comes off your first full bottle &mdash; no code, no expiry, applied automatically at checkout.</div></details>
     <details><summary>Can I refill a bottle?</summary><div class="body">Yes. Refills are &pound;120 and ship in a glass flacon; keep the stone and the glass. Send the empty back with the prepaid label and we reuse it.</div></details>
     <details><summary>Do you test on animals?</summary><div class="body">No, and neither do our suppliers. We do not sell in markets that require it.</div></details>
     <details><summary>Can I visit?</summary><div class="body">The Grasse shop is open by appointment on Tuesdays and Thursdays. Write to us and we will find an hour.</div></details>
@@ -2278,7 +2281,7 @@ def build():
       <p>We collect the minimum needed to send you a parcel and a story: name, address, email, and what you ordered. Payment details are handled by our payment processor and never touch our servers. We do not sell data and we do not share it with advertisers.</p>
       <p>You can ask us for a copy of everything we hold, or ask us to delete it, by writing to privacy@sidestoryparfums.com. We answer within thirty days.</p>
       <h2 class="sechead">Terms of sale</h2>
-      <p>Prices include UK VAT and are shown in pounds sterling. A contract is formed when we email to say the parcel has shipped. FILLER &mdash; returns window to come. Unopened bottles may be returned; samples are not returnable but are always credited.</p>
+      <p>Prices include UK VAT and are shown in pounds sterling. A contract is formed when we email to say the parcel has shipped. FILLER &mdash; returns window to come. Unopened bottles may be returned; samples are not returnable.</p>
       <p>Nothing in these terms affects your statutory rights.</p>
       <h2 class="sechead">Cookies</h2>
       <p>This demo stores your bag in the browser session and nothing else. The published site would use strictly necessary cookies for the basket and checkout, and analytics only with consent.</p>

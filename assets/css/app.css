@@ -862,21 +862,51 @@ button:disabled,[aria-disabled="true"]{cursor:default}
 .feelings{background:var(--plaster)}
 .feelings .sub{font-family:var(--font-serif);font-style:italic;font-size:var(--t-md);
   color:var(--txt-2);max-width:var(--measure);margin-top:var(--s-4)}
-.feelrow{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,9.5rem),1fr));
+/* Seven cards, not five — and seven is the worst count a grid can be handed.
+   auto-fit stretched the orphan row to double width at every middle size, so
+   this is flex with fixed track widths and a centred last row: 2-up, then
+   4-up (4 + 3, centred), then all seven across. The lone seventh card at
+   2-up takes the full width rather than sitting half-empty beside nothing. */
+.feelrow{display:flex;flex-wrap:wrap;justify-content:center;
   gap:var(--s-2);margin-top:var(--s-5)}
 /* This card used to lift a quarter of a rem and drop a shadow, and its stone
    chip grew by 45% under the cursor. Both are gestures from product UI, and
    neither is a thing any fragrance house does to a piece of editorial. The
    card now simply warms its ground, which is the same acknowledgement the
    rest of the site gives — quiet, and on a surface rather than in space. */
-.feel{display:block;background:var(--ivory);padding:var(--s-4)}
-.feel h3{transition:color var(--d-quick) var(--settle)}
-.feel:hover h3,.feel:focus-visible h3{color:var(--brass-text)}
-.feel .chip{display:block;width:.5625rem;height:.5625rem;margin:0}
-.feel h3{font-family:var(--font-display);font-size:var(--t-1);
-  margin-top:var(--s-5);color:var(--ink)}
-.feel :where(p:not(.k)){font-family:var(--font-script);font-weight:300;font-size:var(--t-sm);
-  line-height:1.4;color:var(--txt-2);margin-top:.4em}
+.feel{display:flex;flex-direction:column;background:var(--ivory);padding:var(--s-4)}
+/* The name leads, on the chip's own line: a colour with nothing attached to
+   it is a decoration, and the reader is here to choose a bottle. */
+.feel .fn{display:flex;align-items:center;gap:.5rem;min-width:0;
+  font-family:var(--font-sans);font-weight:500;font-size:var(--t-xs);
+  letter-spacing:var(--track-label);text-transform:uppercase;color:var(--ink);
+  transition:color var(--d-quick) var(--settle)}
+.feel:hover .fn,.feel:focus-visible .fn{color:var(--brass-text)}
+.feel .chip{flex:none;width:.5625rem;height:.5625rem;margin:0}
+.feel h3{font-family:var(--font-display);font-size:var(--t-1);line-height:1.15;
+  margin-top:var(--s-4);color:var(--ink);text-wrap:balance}
+/* margin-top:auto floors the theme line, so seven cards of unequal wrap still
+   land their last line together. */
+.feel .ft{margin-top:auto;padding-top:var(--s-3);
+  font-family:var(--font-script);font-weight:300;font-size:var(--t-sm);
+  line-height:1.4;color:var(--txt-2)}
+/* The track widths come last on purpose. They were above the base rules and
+   lost every tie to source order, which left exactly one card — the seventh,
+   the only one specific enough to win — four pixels out of step with its
+   row. Breakpoints after the thing they modify. */
+.feel{flex:0 1 auto;width:calc((100% - var(--s-2)) / 2)}
+.feel:last-child:nth-child(odd){width:100%}
+@media (min-width:35rem){
+  .feel,.feel:last-child:nth-child(odd){width:calc((100% - 3 * var(--s-2)) / 4)}
+}
+@media (min-width:71.875rem){
+  .feelrow{gap:var(--s-1)}
+  .feel,.feel:last-child:nth-child(odd){width:calc((100% - 6 * var(--s-1)) / 7);
+    padding:var(--s-3)}
+  /* seven tracks is the tightest the row ever gets */
+  .feel h3,.feel:last-child:nth-child(odd) h3{margin-top:var(--s-3)}
+  .feel .ft,.feel:last-child:nth-child(odd) .ft{padding-top:var(--s-2)}
+}
 .feelings .note{margin-top:var(--s-5);font-family:var(--font-sans);font-weight:500;
   font-size:var(--t-xs);letter-spacing:var(--track-label);text-transform:uppercase;color:var(--txt-2);
   ;line-height:1.8}
@@ -973,18 +1003,36 @@ button:disabled,[aria-disabled="true"]{cursor:default}
 
 /* ----------------------------------------------------- 11 credentials --- */
 .creds{background:var(--ivory);border-top:1px solid var(--line)}
-/* two of the three credits open with an italic serif quote and the third with
-   a line of caps; aligning the boxes left the third's first line eight pixels
-   low. They align on the baseline the reader actually sees. */
-.credrow{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,16rem),1fr));
-  gap:var(--s-5);align-items:baseline}
-.cred{min-width:0}
-.cred :where(p:not(.k)){font-family:var(--font-serif);font-style:italic;font-size:var(--t-md);
-  line-height:1.7;color:var(--ink)}
-.cred b{font-family:var(--font-sans);font-weight:500;font-size:var(--t-xs);
-  letter-spacing:var(--track-label);text-transform:uppercase;color:var(--ink)}
-.cred small{display:block;margin-top:var(--s-2);font-family:var(--font-sans);
-  font-size:var(--t-xs);letter-spacing:var(--track-label);text-transform:uppercase;color:var(--txt-2)}
+/* This row was two italic quotes beside a line of caps about a stockist, on a
+   baseline grid, each column left-ragged at a different length — three
+   different objects pretending to be a set. It is three quotes now, of one
+   kind, each opening under its own hairline with a hanging quote mark, and
+   the stockist has been demoted to the line beneath, which is what it is. */
+.credrow{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,15rem),1fr));
+  gap:var(--s-4);margin-top:var(--s-5);align-items:stretch}
+.cred{min-width:0;display:flex;flex-direction:column;margin:0;
+  border-top:1px solid var(--line);padding-top:var(--s-4)}
+.cred blockquote{position:relative;margin:0;
+  font-family:var(--font-serif);font-style:italic;font-size:var(--t-md);
+  line-height:1.65;color:var(--ink);text-wrap:pretty;max-width:32ch}
+/* the mark hangs into the gutter so the first letter of every quote starts on
+   the same vertical as the hairline above it */
+.cred blockquote::before{content:"\201C";position:absolute;left:-.52em;top:-.06em;
+  font-size:1.6em;line-height:1;color:var(--brass-text);opacity:.5;
+  pointer-events:none}
+.cred blockquote::after{content:"\201D"}
+/* margin-top:auto floors the attributions together however the quotes wrap */
+.cred figcaption{margin-top:auto;padding-top:var(--s-4);font-family:var(--font-sans);
+  font-weight:500;font-size:var(--t-xs);letter-spacing:var(--track-label);
+  text-transform:uppercase;color:var(--txt-2)}
+.creds .credfoot{margin-top:var(--s-6);padding-top:var(--s-4);
+  border-top:1px solid var(--line);font-family:var(--font-sans);font-weight:500;
+  font-size:var(--t-xs);letter-spacing:var(--track-label);text-transform:uppercase;
+  color:var(--txt-2)}
+@media (max-width:47.9375rem){
+  .credrow{gap:var(--s-3)}
+  .cred{padding-top:var(--s-3)}
+}
 
 /* ------------------------------------------------------ 12 newsletter --- */
 .news{background:var(--sand);text-align:center;padding-block:var(--sec-sm)}

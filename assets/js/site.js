@@ -629,8 +629,11 @@
     renderBag(); setTimeout(openDrawer,420);
   };
   function renderBagPage(){
-    const wrap=document.getElementById('baglines'); if(!wrap) return;
-    wrap.innerHTML = bag.length? bag.map((i,ix)=>`<div class="line">
+    /* This used to bail whenever #baglines was absent, which is exactly the
+       case on checkout.html — so checkout read "Pay £0" for a full bag. Only
+       the line list depends on the list container; the totals never did. */
+    const wrap=document.getElementById('baglines');
+    if(wrap) wrap.innerHTML = bag.length? bag.map((i,ix)=>`<div class="line">
       <img src="${i.img}" alt="" width="112" height="112">
       <div><h3>${i.label}</h3><p class="meta">${i.meta}</p>
         <div class="act"><span class="meta">${money(i.price)}</span>
@@ -642,15 +645,15 @@
     /* a dedication belongs to something. With an empty bag the offer sat
        under the empty state offering to typeset a line onto no flyleaf. */
     document.querySelectorAll('.cart .tryfirst').forEach(el=>{ el.hidden=!bag.length; });
-    const cred=bag.some(i=>i.price===5)?5:0;
+    /* There is no sample credit. The bag used to deduct £5 whenever a sample
+       was in it, which was an offer the house does not make. */
     const set=(id,v)=>{const e=document.getElementById(id); if(e) e.textContent=v;};
     set('subtotal',money(total())); set('bagsub',money(total())); set('cosub',money(total()));
-    set('grandtotal',money(Math.max(0,total()-cred)));
-    set('bagtotal',money(Math.max(0,total()-cred)));
-    set('cototal',money(Math.max(0,total()-cred)));
-    const cr=document.getElementById('creditrow'); if(cr) cr.style.display=cred?'flex':'none';
+    set('grandtotal',money(total()));
+    set('bagtotal',money(total()));
+    set('cototal',money(total()));
     document.querySelectorAll('form [type=submit]').forEach(b=>{
-      if(/^Pay /.test(b.textContent)) b.textContent='Pay '+money(Math.max(0,total()-cred));
+      if(/^Pay /.test(b.textContent)) b.textContent='Pay '+money(total());
     });
   }
 
