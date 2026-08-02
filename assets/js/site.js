@@ -1080,6 +1080,9 @@
     const desk=matchMedia('(min-width:72em)');
     const set=v=>{
       if(v&&!desk.matches) return;
+      /* while any overlay is up — search, drawer, sheet, menu — the reader
+         is somewhere else, and hover must not summon the panel over it */
+      if(v&&document.documentElement.classList.contains('overlay-open')) return;
       if(v===open) return;
       open=v; if(v) mega.hidden=false;
       mega.classList.toggle('on',v);
