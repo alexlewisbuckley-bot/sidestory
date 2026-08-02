@@ -1098,6 +1098,19 @@
     });
     links.addEventListener('mouseleave',()=>clearTimeout(intentTimer));
     nav.addEventListener('mouseleave',wantClose);
+    /* The panel belongs to The Fragrances alone. Reaching any other primary
+       link, or the utilities — Search, Account, Bag — is a change of subject,
+       and the panel was staying open under the pointer because the whole
+       journey happens inside .nav, whose mouseleave never fires. */
+    [...links.querySelectorAll('a:not([data-mega])')].forEach(a=>{
+      a.addEventListener('mouseenter',wantClose);
+      a.addEventListener('focus',()=>{ if(open) wantClose(); });
+    });
+    const util=nav.querySelector('.util');
+    if(util){
+      util.addEventListener('mouseenter',wantClose);
+      util.addEventListener('focusin',()=>{ if(open) wantClose(); });
+    }
     mega.addEventListener('mouseenter',()=>clearTimeout(intentTimer));
     mega.addEventListener('mouseleave',wantClose);
     dim&&dim.addEventListener('click',wantClose);
