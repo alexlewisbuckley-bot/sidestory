@@ -682,10 +682,17 @@ button:disabled,[aria-disabled="true"]{cursor:default}
 .links a,.util a,.util button{font-family:var(--font-sans);font-weight:500;
   font-size:var(--t-xs);letter-spacing:var(--track-label);text-transform:uppercase;color:var(--txt);
   position:relative;white-space:nowrap;padding-block:.35em}
-.links a::after{content:"";position:absolute;left:0;bottom:0;width:100%;height:1px;
+.links a::after,.util>a::after,.util .bagbtn::after{
+  content:"";position:absolute;left:0;bottom:0;width:100%;height:1px;
   background:var(--ink);transform:scaleX(0);transform-origin:left;
   transition:transform var(--d-quick) var(--settle)}
-.links a:hover::after,.links a:focus-visible::after{transform:scaleX(1)}
+.links a:hover::after,.links a:focus-visible::after,
+.util>a:hover::after,.util>a:focus-visible::after,
+.util .bagbtn:hover::after,.util .bagbtn:focus-visible::after{transform:scaleX(1)}
+/* the utilities live on the same row as the primary links and had no hover
+   at all — same rule, drawn the same way */
+.util>a,.util .bagbtn{position:relative}
+.util .bagbtn{padding-bottom:1px}
 .util{margin-left:auto;display:flex;align-items:center;gap:clamp(0.875rem,1.9vw,1.875rem)}
 #bagcount{display:inline-block;transition:transform var(--d-quick) var(--settle)}
 #bagcount.tick{transform:translateY(-.35em)}
@@ -1840,12 +1847,15 @@ html.overlay-open,html.overlay-open body{overflow:hidden}
   min-height:3rem;padding-block:var(--space-3);cursor:pointer;list-style:none;
   font-family:var(--font-sans);font-weight:500;font-size:var(--t-xs);
   letter-spacing:var(--track-label);text-transform:uppercase;color:var(--ink)}
+.acc summary{transition:color var(--d-quick) var(--settle)}
+.acc summary:hover{color:var(--brass-text)}
+.acc summary:hover::after{opacity:1}
 .acc summary::-webkit-details-marker{display:none}
 /* The mark rotates from + to x rather than swapping glyphs — the same
    stroke, turned, and x is the honest affordance for "this closes it". */
 .acc summary::after{content:"+";font-family:var(--font-serif);font-size:var(--t-sm);
   line-height:1;font-weight:400;letter-spacing:0;opacity:var(--o-strong);
-  transition:transform var(--d-quick) var(--settle)}
+  transition:transform var(--d-quick) var(--settle),opacity var(--d-quick) var(--settle)}
 .acc details[open] summary::after{transform:rotate(45deg)}
 /* the height cannot be eased cross-browser without scaffolding, but the
    content can arrive like everything else here does — a breath of opacity
@@ -2800,8 +2810,14 @@ input:user-invalid,textarea:user-invalid{border-color:var(--text-error)}
 .gal .strip button,.show .thumbs button{position:relative;transition:opacity var(--d-quick) var(--settle)}
 .gal .strip button::after,.show .thumbs button::after{content:"";position:absolute;
   left:0;right:0;bottom:-.375rem;height:1px;background:var(--ink);
-  transform:scaleX(0);transform-origin:left;transition:transform var(--d-settled) var(--settle)}
+  transform:scaleX(0);transform-origin:left;transition:transform var(--d-settled) var(--settle);transition:transform var(--d-quick) var(--settle),opacity var(--d-quick) var(--settle)}
 .gal .strip button[aria-current]::after,.show .thumbs button[aria-current]::after{transform:scaleX(1)}
+/* hover lifts the plate to full ink and sketches the rule it would earn */
+.gal .strip button:hover,.show .thumbs button:hover{opacity:1}
+.gal .strip button:hover::after,.show .thumbs button:hover::after{
+  transform:scaleX(1);opacity:.35}
+.gal .strip button[aria-current]:hover::after,
+.show .thumbs button[aria-current]:hover::after{opacity:1}
 .gal .strip button,.show .thumbs button{border-color:transparent!important}
 
 /* --- F1 · footer link hover -------------------------------------------- */
