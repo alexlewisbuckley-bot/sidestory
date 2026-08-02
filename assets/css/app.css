@@ -302,6 +302,9 @@
   /* the sticky header's height, so anything that has to clear it — an anchor
      target, the shelf bar — can be told once rather than guess */
   --navh:5.5rem;
+  /* the announcement strip's height, fixed rather than measured, so the
+     hero can subtract it and land its bottom exactly on the fold */
+  --annh:2.75rem;
 
   /* ---------------------------------------------------------------------
      Tracking. One ladder, and it follows size rather than the author.
@@ -616,7 +619,8 @@ button:disabled,[aria-disabled="true"]{cursor:default}
    measured track width so the speed is the same on a phone and on a desktop —
    a fixed duration would race on a narrow screen and crawl on a wide one. */
 .ann{background:var(--ink);color:var(--ivory);
-  padding-block:var(--space-4);overflow:hidden;
+  height:var(--annh);display:flex;flex-direction:column;justify-content:center;
+  overflow:hidden;
   font-family:var(--font-sans);font-size:var(--t-2xs);
   letter-spacing:var(--track-label);text-transform:uppercase;line-height:1.3}
 .anntrack{display:flex;width:max-content;will-change:transform;
@@ -671,8 +675,13 @@ button:disabled,[aria-disabled="true"]{cursor:default}
 .burger{display:none}
 
 /* ------------------------------------------------------------- 02 hero -- */
+/* The first screen is the hero, exactly: viewport minus the ticker minus
+   the nav, so arriving shows neither a cropped scroll cue nor a sliver of
+   the next section. The 28rem floor covers short landscape viewports, where
+   filling "the rest of the screen" would leave no room for the copy —
+   there the hero simply extends past the fold, which is the lesser wrong. */
 .hero{position:relative;display:grid;align-items:end;isolation:isolate;
-  min-height:clamp(28rem,72svh,45rem);overflow:hidden}
+  min-height:max(28rem,calc(100svh - var(--chromeh,calc(var(--annh) + var(--navh)))));overflow:hidden}
 .hero>img,.hero>picture>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:var(--z-art);
   transform:scale(1.05);animation:kb var(--d-ambient) var(--settle) forwards}
 @keyframes kb{to{transform:scale(1)}}
@@ -1428,7 +1437,8 @@ html.overlay-open,html.overlay-open body{overflow:hidden}
 }
 
 /* very large screens: stop the hero art from growing without limit */
-@media (min-width:90em){ .hero{min-height:45rem} }
+/* the 90em cap that stood here re-fixed the hero at 45rem on exactly the
+   screens tall enough to make the fold calculation matter */
 
 @media (prefers-reduced-motion:reduce){
   *{animation-duration:.01ms !important;animation-iteration-count:1 !important;

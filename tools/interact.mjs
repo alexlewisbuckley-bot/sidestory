@@ -75,7 +75,7 @@ ok('filter sheet opens', await m.evaluate(()=>!document.querySelector('.sheet').
 ok('sheet carries both groups', await m.evaluate(()=>
   document.querySelectorAll('.sheet .sgroup').length===2
   && document.querySelectorAll('.sheet [data-filter="size"]').length===3
-  && document.querySelectorAll('.sheet [data-filter="family"]').length===5));
+  && document.querySelectorAll('.sheet [data-filter="family"]').length===7));
 await m.click('.sheet [data-filter="family"][data-value="citrus"]'); await m.waitForTimeout(300);
 ok('sheet row toggles tick', await m.evaluate(()=>
   document.querySelector('.sheet [data-value="citrus"]').getAttribute('aria-pressed')==='true'));

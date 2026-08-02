@@ -929,13 +929,46 @@ DRAWER = f"""<div class="scrim" id="scrim" onclick="closeDrawer()"></div>
 # option returns a real, small set — every product sits in exactly one family
 # and selecting more than one widens rather than narrows. Derived from the
 # note line each card already shows, which is what a shopper actually reads.
-FAMILIES = [
-    dict(key="woods",   label="Woods &amp; green"),
-    dict(key="citrus",  label="Citrus &amp; fresh"),
-    dict(key="powder",  label="Soft &amp; powdery"),
-    dict(key="incense", label="Spice &amp; incense"),
-    dict(key="amber",   label="Amber &amp; warm"),
-]
+# The scent families are read out of the Style lines Alex supplied — the
+# same words the cards print — so the filter can never disagree with the
+# shelf again. A fragrance belongs to every family its style names (Sunday
+# Service is Spice AND Floral AND Woods), which is how the reference houses
+# (Diptyque, Jo Malone, Le Labo) file a composed perfume. The old taxonomy
+# (Citrus & fresh, Soft & powdery, Spice & incense…) was invented, single-
+# valued, and filed four of the seven under families their styles never
+# mention. FILLER styles contribute nothing: Sibling Rivalry joins the
+# filters the day its style arrives, by editing the product line alone.
+_FAMILY_ORDER = ["Woods", "Green", "Floral", "Spice", "Amber", "Citrus", "Powder"]
+
+
+def style_families(p):
+    """The family keys one product belongs to, from its Style line."""
+    if p["style"].startswith("FILLER"):
+        return []
+    return [w.strip().lower() for w in p["style"].split(".") if w.strip()]
+
+
+def _build_families():
+    counts = {}
+    for p in PRODUCTS:
+        for f in style_families(p):
+            counts[f] = counts.get(f, 0) + 1
+    out = []
+    for name in _FAMILY_ORDER:
+        k = name.lower()
+        if k in counts:
+            out.append(dict(key=k, label=name,
+                            hint="%d %s" % (counts[k], "story" if counts[k] == 1 else "stories")))
+    # a style word outside the canonical order still gets a chip, at the end,
+    # rather than silently not existing
+    for k in counts:
+        if k not in [f["key"] for f in out]:
+            out.append(dict(key=k, label=k.capitalize(),
+                            hint="%d %s" % (counts[k], "story" if counts[k] == 1 else "stories")))
+    return out
+
+
+FAMILIES = _build_families()
 
 SIZES = [
     dict(key="100ml",  label="100 ml", short="100ml", price=160,
@@ -969,8 +1002,8 @@ FILTERS = [
          options=[dict(v=z["key"], label=z["label"], short=z["short"],
                        hint="&pound;%d &middot; %s" % (z["price"], z["incl"])) for z in SIZES]),
     dict(key="family", attr="family", label="Scent", mode="many",
-         note="Choose as many as you like. More families, more stories.",
-         options=[dict(v=f["key"], label=f["label"], short=f["label"], hint="") for f in FAMILIES]),
+         note="Choose as many as you like. A story appears under every family its style names.",
+         options=[dict(v=f["key"], label=f["label"], short=f["label"], hint=f["hint"]) for f in FAMILIES]),
 ]
 
 
@@ -1030,8 +1063,8 @@ def filter_sheet(active_size):
                 rows.append(
                     '          <button type="button" class="srow" aria-pressed="false"'
                     ' data-filter="%s" data-value="%s">'
-                    '<span class="slab">%s</span><i aria-hidden="true"></i></button>'
-                    % (g["key"], o["v"], o["label"]))
+                    '<span class="slab">%s%s</span><i aria-hidden="true"></i></button>'
+                    % (g["key"], o["v"], o["label"], hint))
         role = 'role="radiogroup"' if g["mode"] == "one" else 'role="group"'
         out.append(
             '      <section class="sgroup">\n'
@@ -1180,7 +1213,7 @@ def search_index():
     for p in PRODUCTS:
         add(p["name"], f'{p["style"]} · {p["origin"]}', "Fragrances",
             f'product-{p["slug"]}.html',
-            p["feeling"], p["family"], p["theme"], p["story"], p["top"], p["mid"], p["base"],
+            p["feeling"], " ".join(style_families(p)), p["theme"], p["story"], p["top"], p["mid"], p["base"],
             "eau de parfum perfume bottle 100ml notes")
     for p in PRODUCTS:
         add(f'{p["name"]} — the story', f'{p["story"]} · {p["feeling"]} · {p["read"]}', "Stories",
@@ -1302,7 +1335,7 @@ def crumbs(*parts):
 
 def product_card(p, reveal=True):
     badge = f'<span class="badge">{p["badge"]}</span>' if p["badge"] else ""
-    return f"""      <article class="card{' rev' if reveal else ''}" data-slug="{p['slug']}" data-order="{PRODUCTS.index(p)}" data-feeling="{p['feeling']}" data-stone="{p['stone']}" data-note="{p['style'].split('.')[0].strip()}" data-family="{p['family']}">
+    return f"""      <article class="card{' rev' if reveal else ''}" data-slug="{p['slug']}" data-order="{PRODUCTS.index(p)}" data-feeling="{p['feeling']}" data-stone="{p['stone']}" data-note="{p['style'].split('.')[0].strip()}" data-family="{' '.join(style_families(p))}">
         <div class="ph"><a data-href href="product-{p['slug']}.html"><img data-shot src="{fp('assets/img/' + p['img'] + '-card.jpg')}" alt="{p['name']} eau de parfum" loading="lazy"></a>{badge}
           <div class="quick"><div class="r">
             <button class="btn btn-ink btn-sm" data-buy data-size="100ml" onclick="addToBag('{p['slug']}',this.dataset.size,this)">100 ml &mdash; &pound;160</button>
@@ -1969,17 +2002,18 @@ def build():
         ("IV",  "One becomes a fragrance",
          "Published under your name in the printed edition, with the first bottle of the run sent to you."),
     ]
-    # FILLER — the postbag ran three invented letters attributed to named
-    # members of the public, which is fabricated social proof. Swap in real,
-    # permissioned submissions before launch.
+    # The postbag shows the stories that have actually been produced — a line
+    # from each, tagged Produced in green — rather than invented letters from
+    # invented members of the public. Generated from the catalogue, so a new
+    # story joins the moment its pull line does.
     POSTBAG = [
-        ("FILLER", "verde", "Lorem ipsum dolor", "FILLER &middot; name to come",
-         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."),
-        ("FILLER", "verde", "Sit amet consectetur", "FILLER &middot; name to come",
-         "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."),
-        ("FILLER", "brass", "Adipiscing elit", "FILLER &middot; name to come",
-         "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."),
-    ]
+        ("Produced", "verde", q["name"],
+         "%s &middot; %s" % (q["story"], q["theme"]),
+         CHAPTERS[q["slug"]]["pull"])
+        for q in PRODUCTS
+        if not CHAPTERS[q["slug"]]["pull"].startswith("FILLER")
+        and not q["theme"].startswith("FILLER")
+    ][:3]
     SMALLPRINT = [
         ("It stays yours", "You keep the copyright to everything you send. Always."),
         ("We ask before we publish", "Nothing appears on this site, in a box, or in a bottle without your written yes."),
@@ -2012,7 +2046,6 @@ def build():
       <p class="lede">Inspire us with yours, and write to us with as much or as little as you wish. A moment in time, an experience, an excerpt to a longer chapter. Those which we can capture into a scent, we will.</p>
       <div class="cta">
         <a class="btn btn-ivory" href="#tellus">Write yours</a>
-        <a class="btn btn-ghost" href="#postbag">Read what others sent</a>
       </div>
     </div>
   </div>
@@ -2081,7 +2114,7 @@ def build():
   <div class="inner">
     <p class="k">From the postbag</p>
     <h2>What people have already sent us.</h2>
-    <p class="pintro">FILLER &mdash; real, permissioned submissions to come.</p>
+    <p class="pintro">Every fragrance on the shelf began this way &mdash; a story first, produced later.</p>
     <div class="pnotes">
 {post_html}
     </div>

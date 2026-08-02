@@ -41,6 +41,17 @@
     });
   }
   addEventListener('scroll',onScroll,{passive:true}); onScroll();
+  /* The hero sizes itself to the viewport minus the chrome, and the nav's
+     real height wanders a few pixels with the viewport's width — enough for
+     a sliver of the next section to show under the fold. Measured once at
+     rest and on resize; never while the nav is shrunk, which is not the
+     state the fold is judged in. */
+  const setChrome=()=>{ if(collapsed) return;
+    const a=ann?ann.offsetHeight:0, n=nav?nav.offsetHeight:0;
+    if(a+n) document.documentElement.style.setProperty('--chromeh',(a+n)+'px'); };
+  setChrome();
+  addEventListener('resize',setChrome,{passive:true});
+  if(document.fonts&&document.fonts.ready) document.fonts.ready.then(setChrome);
 
   /* ---- the announcement ticker ---------------------------------------
      The CSS runs the loop; this only decides how fast. A fixed duration
@@ -853,7 +864,10 @@
         let on=true;
         groups.forEach(g=>{
           if(g.mode!=='many'||!g.chosen.size) return;
-          if(!g.chosen.has(cardVal(card,g.key))) on=false;
+          /* the card carries every family its style names, space-separated;
+             it survives if any chosen family is among them */
+          const vals=cardVal(card,g.key).split(/\s+/).filter(Boolean);
+          if(![...g.chosen].some(v=>vals.includes(v))) on=false;
         });
         if(on) shown++;
         return [card,!on];
