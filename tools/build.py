@@ -312,7 +312,7 @@ NAV_LINKS = [
     ("share.html",      "Share Yours"),
     ("samples.html",    "Samples"),
     ("gifting.html",    "Gifting"),
-    ("our-house.html",  "Our House"),
+    ("our-house.html",  "Our Story"),
 ]
 
 FOOTER_COLS = [
@@ -583,6 +583,79 @@ def spine_section(current=None):
     </div>
   </div>
 </section>"""
+
+
+def atelier_section():
+    """The house's position, in the two-column form Why Side Story uses.
+
+    Same components as that section — band, kicker, heading, .grid-2 of
+    figures and .cols-2 of prose — because it is the same shape of argument:
+    a claim, then two halves of it side by side. No new CSS."""
+    return f"""<section class="band" id="atelier">
+  <div class="inner">
+    <p class="k">FILLER &mdash; eyebrow to come</p>
+    <h2>Ateliers Journey</h2>
+    <div class="grid-2">
+      <figure><img class="figfull" src="{fp('assets/img/founders.jpg')}" alt="The workshop" loading="lazy"><figcaption class="hint">FILLER &mdash; caption to come</figcaption></figure>
+      <figure><img class="figfull" src="{fp('assets/img/stone-shelf.jpg')}" alt="Stone and glass on the bench" loading="lazy"><figcaption class="hint">FILLER &mdash; caption to come</figcaption></figure>
+    </div>
+    <div class="cols cols-2">
+      <p>We create fragrances based on stories, rather than stories composed for arbitrary fragrances. Perfume should be one of life&rsquo;s unremitting addictions, one that necessitates feeding, and one that lasts until the next day, like it did on our grandmothers.</p>
+      <p>We believe the best craftsmen work alone, with aged tools and in dimly lit workshops. We endorse cultural coalescence as the only way forward, favour fewer choices, less iteration and lengthier ownership, and are never guided by compulsions or passing trends.</p>
+    </div>
+  </div>
+</section>"""
+
+
+def making_section():
+    """The making, on Our Story and on the homepage.
+
+    The homepage had its own: three plates in a side-scrolling rail with
+    captions about arguing a story into its final line, and a credit naming
+    a perfumer, a writer and six countries — none of it Alex's, and all of
+    it contradicted by the section on Our Story that says what actually
+    happens. One section, written once, on both pages."""
+    return f"""<section class="band tint" id="making">
+  <div class="inner">
+    <p class="k">The making</p>
+    <h2>Begun in Grasse. Finished by hand.</h2>
+    <div class="grid-3">
+      <figure><img class="figfull" src="{fp('assets/img/plants.jpg')}" alt="Botanicals for the compositions" loading="lazy"><figcaption class="hint">clean botanicals, carefully composed</figcaption></figure>
+      <figure><img class="figfull" src="{fp('assets/img/founders.jpg')}" alt="The house at work" loading="lazy"><figcaption class="hint">crafted with intention</figcaption></figure>
+      <figure><img class="figfull" src="{fp('assets/img/spine.jpg')}" alt="Stone meeting glass" loading="lazy"><figcaption class="hint">made to last, designed to be reused</figcaption></figure>
+    </div>
+    <div class="cols cols-3">
+      <p>All Side Story fragrances begin with clean, natural ingredients, selected for their purity and character. Our farm-to-fragrance approach preserves every botanical, using synthetics only when they provide the most sustainable solution, without compromising the integrity of each scent.</p>
+      <p>Every bottle and lid is crafted by hand in Italy, designed to be treasured long after the fragrance is finished. Made from recyclable materials and presented in entirely plastic-free packaging, every detail reflects thoughtful design and enduring craftsmanship.</p>
+      <p>Every parfum is created to linger beautifully on skin and fabric, leaving a lasting impression long after it is worn. Inspired by stories instead of seasons or trends, each fragrance is composed with depth, purpose and timeless character.</p>
+    </div>
+  </div>
+</section>"""
+
+
+SHOW_SLUG = "hotel-lobby"          # the chapter of the season
+
+
+def show_copy():
+    """The homepage's featured chapter, from the product data.
+
+    It was hand-written: a style line reading "Woods, spice, green" months
+    after the shelf said something else, a stone credited correctly by luck, a
+    blockquote that rewrote the story's own opening — "It was ten minutes
+    before eight when she arrived", where the story says he did — and a link
+    to story.html, which is Sunday Service. Four separate ways for the most
+    prominent product block on the site to be wrong about the product."""
+    p = BY_SLUG[SHOW_SLUG]
+    ch = CHAPTERS[SHOW_SLUG]
+    return f"""      <p class="k">The chapter of the season</p>
+      <h2>{p['name']}</h2>
+      <blockquote>&ldquo;{ch['pull']}&rdquo;</blockquote>
+      <div class="spec"><b>Story</b><span>{p['theme']}</span></div>
+      <div class="spec"><b>Style</b><span>{p['style']}</span></div>
+      <div class="spec"><b>Stone</b><span>{p['origin']}</span></div>
+      <div class="cta"><button class="btn btn-ink" onclick="addToBag('{p['slug']}','full',this)">Add to bag &mdash; &pound;160</button>
+        <a class="btn btn-ghostink" href="story-{p['slug']}.html">Read the story</a></div>
+      <p class="re">Complimentary UK delivery &middot; sample cost redeemed</p>"""
 
 
 def style_row():
@@ -1087,8 +1160,8 @@ def search_index():
         "stories.html", "read fiction writers")
     add("Share Yours", "Send us the story a scent belongs to", "The house",
         "share.html", "submit write postbag community")
-    add("Our House", "How Side Story works, and why the story comes first", "The house",
-        "our-house.html", "about founders history brand")
+    add("Our Story", "Sandalwood, a grandfather's plantations, and a house built on what a scent brings back", "The house",
+        "our-house.html", "about founders history brand our house rana")
     add("The Making", "Brief, story, scent, stone — in that order", "The house",
         "our-house.html#making", "process craft perfumer grasse")
     add("The Stones", "Seven marbles, one lid each", "The house",
@@ -1225,6 +1298,9 @@ def build():
     home_body = home_body.replace("<!--SS_CARDS-->", home_cards)
     home_body = home_body.replace("<!--SS_GIFT-->", gift_module())
     home_body = home_body.replace("<!--SS_STYLES-->", style_row())
+    home_body = home_body.replace("<!--SS_SHOW-->", show_copy())
+    home_body = home_body.replace("<!--SS_MAKING-->", making_section())
+    home_body = home_body.replace("<!--SS_ATELIER-->", atelier_section())
     # the homepage fragment is hand-written, so the threshold has to be
     # substituted into it like everywhere else — it was the one place still
     # quoting £100 after the number moved
@@ -1436,7 +1512,7 @@ def build():
 
       <div class="acc">
             <details open><summary>The story</summary><div class="body">{ch['summary']} <br><br>{p['story']}, in nine pages, printed and boxed with the bottle; the digital edition arrives with your confirmation.</div></details>
-            <details><summary>Notes</summary><div class="body">Top &mdash; {p['top']}. Middle &mdash; {p['mid']}. Base &mdash; {p['base']}. FILLER &mdash; perfumer to be confirmed.</div></details>
+            <details><summary>Notes</summary><div class="body"><div class="notelist"><p><b>Top</b><span>{p['top']}</span></p><p><b>Middle</b><span>{p['mid']}</span></p><p><b>Base</b><span>{p['base']}</span></p></div><p class="hint">FILLER &mdash; perfumer to be confirmed.</p></div></details>
             <details><summary>The stone</summary><div class="body">{p['origin']}, hand-cut. Veining is decided by the block, so no two lids repeat. The lid lifts free of the glass and keeps its weight in the hand.</div></details>
             <details><summary>Delivery &amp; returns</summary><div class="body">Complimentary UK delivery over &pound;{FREE_GBP}, otherwise &pound;5. Two to four working days, signed for. FILLER &mdash; returns window to come. Samples are non-returnable but always credited.</div></details>
           </div>
@@ -1537,8 +1613,8 @@ def build():
 """)
 
     # ---- 06 our house ----------------------------------------------------
-    written["our-house"] = page("our-house", "Our House",
-        "A fragrance house that writes the story first — nine pages of commissioned fiction, then the perfume to keep it.", f"""
+    written["our-house"] = page("our-house", "Our Story",
+        "It began with sandalwood, and a question about which stories run through a life. Composed in Grasse, sealed under hand-carved marble.", f"""
 <section class="banner">
   <img src="{fp('assets/img/founders.jpg')}" alt="The founders in the studio">
   <div class="c">
@@ -1550,7 +1626,7 @@ def build():
 
 <section class="band">
   <div class="inner">
-    {crumbs(("Home", "index.html"), "Our House")}
+    {crumbs(("Home", "index.html"), "Our Story")}
     <div class="artgrid">
       <div class="col">
         <p class="dropcap">My childhood memories are tinged with the scent of sandalwood. My grandfather owned plantations in India, which were the source of the soft, balsamic wood my childhood toys and trinkets were made from. Today, sandalwood is my Proustian madeleine: it instantly transports me to another time and place. I&rsquo;m obsessed with sensory experiences like these.</p>
@@ -1570,22 +1646,7 @@ def build():
                  body="Ensuring that the high standards we set for ourselves are maintained, from the craftsmanship behind the bottle and packaging, the balance and sillage of the scents, and to the quality and sustainability of the ingredients. None of these elements are ever compromised.",
                  extras=False, ident="promise")}
 
-<section class="band tint" id="making">
-  <div class="inner">
-    <p class="k">The making</p>
-    <h2>Begun in Grasse. Finished by hand.</h2>
-    <div class="grid-3">
-      <figure><img class="figfull" src="{fp('assets/img/plants.jpg')}" alt="Botanicals for the compositions" loading="lazy"><figcaption class="hint">clean botanicals, carefully composed</figcaption></figure>
-      <figure><img class="figfull" src="{fp('assets/img/founders.jpg')}" alt="The house at work" loading="lazy"><figcaption class="hint">crafted with intention</figcaption></figure>
-      <figure><img class="figfull" src="{fp('assets/img/spine.jpg')}" alt="Stone meeting glass" loading="lazy"><figcaption class="hint">made to last, designed to be reused</figcaption></figure>
-    </div>
-    <div class="cols cols-3">
-      <p>All Side Story fragrances begin with clean, natural ingredients, selected for their purity and character. Our farm-to-fragrance approach preserves every botanical, using synthetics only when they provide the most sustainable solution, without compromising the integrity of each scent.</p>
-      <p>Every bottle and lid is crafted by hand in Italy, designed to be treasured long after the fragrance is finished. Made from recyclable materials and presented in entirely plastic-free packaging, every detail reflects thoughtful design and enduring craftsmanship.</p>
-      <p>Every parfum is created to linger beautifully on skin and fabric, leaving a lasting impression long after it is worn. Inspired by stories instead of seasons or trends, each fragrance is composed with depth, purpose and timeless character.</p>
-    </div>
-  </div>
-</section>
+{making_section()}
 
 <section class="band" id="stones">
   <div class="inner">

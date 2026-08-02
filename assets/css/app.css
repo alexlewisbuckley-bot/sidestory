@@ -850,7 +850,11 @@ button:disabled,[aria-disabled="true"]{cursor:default}
   background:linear-gradient(14deg,rgba(23,18,12,.66),rgba(23,18,12,0) 62%)}
 .campaign .c{color:var(--ivory);max-width:calc(52rem + var(--gutter) * 2);
   padding:var(--s-7) var(--gutter) var(--s-6)}
-.campaign h2{font-size:var(--t-4);line-height:1.35;max-width:24ch}
+/* 24ch set this quote in three lines and a hard <br> had been added to force
+   the break, which then fought the balancer. The measure is the thing that
+   decides how many lines there are: at 34ch it balances into two, and the
+   break moves with the copy instead of being pinned to a word. */
+.campaign h2{font-size:var(--t-4);line-height:1.35;max-width:34ch}
 .campaign .k{color:var(--ivory);opacity:var(--o-strong);letter-spacing:var(--track-kicker);margin-top:var(--s-4)}
 .campaign .k a{border-bottom:1px solid rgba(241,240,232,.5);padding-bottom:.2em}
 
@@ -1740,6 +1744,28 @@ html.overlay-open,html.overlay-open body{overflow:hidden}
 .acc details[open] summary::after{content:"\2013"}
 .acc :where(.body){padding-bottom:var(--space-4);font-family:var(--font-serif);
   font-size:var(--t-sm);line-height:1.66;color:var(--txt);max-width:52ch}
+
+/* A note pyramid read as a sentence — "Top — Saffron / Pepper. Middle — Rose
+   / Patchouli. Base — …" — is three lists pretending to be prose, and it wraps
+   wherever the measure happens to end rather than where a tier does. One row
+   per tier, the label in the interface face at a fixed column so the three
+   note lists start on the same vertical. */
+.notelist{display:grid;gap:var(--s-2)}
+.acc .notelist p{display:grid;grid-template-columns:5.5rem minmax(0,1fr);
+  gap:var(--s-3);align-items:baseline;margin:0}
+.acc .notelist b{font-family:var(--font-sans);font-weight:500;font-size:var(--t-2xs);
+  letter-spacing:var(--track-micro);text-transform:uppercase;color:var(--txt-2)}
+.acc .body .hint{margin-top:var(--s-3)}
+
+/* Safari paints its own focus ring on a summary that was opened with a mouse,
+   which is the same disagreement about :focus-visible that put a black box
+   round the scent filters. The ring stays for the keyboard, where it is the
+   only indication of where you are; it is square, because nothing else on
+   this site has a rounded corner. */
+.acc summary{border-radius:0}
+.acc summary:focus:not(:focus-visible){outline:none;box-shadow:none}
+.acc summary:focus-visible{outline:2px solid var(--ink);outline-offset:-2px;
+  border-radius:0;box-shadow:none}
 
 /* ============================================================ your stories
    Frames: P15 "Your Stories — index" (167:2473) and "Story — Sunday
