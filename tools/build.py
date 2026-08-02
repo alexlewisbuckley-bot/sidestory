@@ -502,6 +502,29 @@ def align_logo(src, dst, edge):
     return dst
 
 
+def gift_module():
+    """The gifting panel, on the homepage and on Our Story.
+
+    Written once. The last time a block appeared on two pages it was
+    hand-copied — the homepage's seven cards against the catalogue — and the
+    two drifted until one of them was pointing at image files the photo
+    pipeline had stopped producing. The id travels with it, which is correct:
+    ids are unique within a page, and a deep link to the gifting panel should
+    work on whichever page the reader is on."""
+    return f"""<section class="gift" id="gifting">
+  <img src="{fp('assets/img/unboxing.jpg')}" alt="" loading="lazy">
+  <div class="fade"></div>
+  <div class="c rev">
+    <p class="k">Kept &amp; given</p>
+    <h2>A story is a serious gift.</h2>
+    <p>Every parcel arrives gift-ready &mdash; the stone lid, the printed story, no plastic in the box. Add the Dedication: a line of yours, typeset on the story&rsquo;s flyleaf, and sent again as a digital edition.</p>
+    <div class="ded">for A. &mdash; who was late</div>
+    <div class="cta"><a class="btn btn-ivory" href="collection.html">Explore gifting</a>
+      <a class="btn btn-ghost" href="share.html">Add a dedication</a></div>
+  </div>
+</section>"""
+
+
 def announcement():
     """A continuous ticker rather than one fixed line.
 
@@ -1064,6 +1087,11 @@ def build():
                   + "\n".join(product_card(p) for p in PRODUCTS)
                   + "\n" + '<article class="promo rev">\n        <p class="k">Undecided?</p><h3>The First Lines</h3>\n        <p>All seven stories in miniature — read them on your own skin. £38, credited against your first full bottle.</p>\n        <div><button class="btn btn-ghost btn-sm" onclick="addToBag(\'set\',\'full\',this)">Begin the set</button></div>\n      </article>' + "\n    </div>")
     home_body = home_body.replace("<!--SS_CARDS-->", home_cards)
+    home_body = home_body.replace("<!--SS_GIFT-->", gift_module())
+    # the homepage fragment is hand-written, so the threshold has to be
+    # substituted into it like everywhere else — it was the one place still
+    # quoting £100 after the number moved
+    home_body = home_body.replace("<!--SS_FREE-->", str(FREE_GBP))
     home_body = re.sub(r'(href|src)="(assets/(?:img|css|js)/[^"?]+)"',
                        lambda m: '%s="%s"' % (m.group(1), fp(m.group(2))), home_body)
     # the gallery swaps images from an inline handler, so hash those paths too
@@ -1395,6 +1423,8 @@ def build():
     </div>
   </div>
 </section>
+
+{gift_module()}
 
 <section class="band tint" id="making">
   <div class="inner">
