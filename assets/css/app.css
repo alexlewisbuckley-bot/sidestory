@@ -2429,6 +2429,20 @@ input:user-invalid,textarea:user-invalid{border-color:var(--text-error)}
   text-transform:uppercase;color:var(--txt);line-height:2}
 .grid-2{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--s-5);margin-top:var(--s-5)}
 @media (min-width:52em){ .grid-2{grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--s-6)} }
+/* Paragraphs across the row rather than down one side of it.
+
+   A band's prose is capped at a reading measure, which is right when it is one
+   column of argument — but three consecutive paragraphs at that measure left
+   two thirds of a full-width section empty beside them. Set side by side they
+   fill the row and each still reads at a comfortable width, which running them
+   full-bleed would not: 1248px of ivory is about 140 characters a line. */
+.cols-3{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--s-5);
+  margin-top:var(--s-5)}
+@media (min-width:64em){
+  .cols-3{grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--s-6)}
+}
+.band .cols-3 p{margin-top:0;max-width:none}
+
 .grid-3{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--s-4);margin-top:var(--s-5)}
 @media (min-width:48em){ .grid-3{grid-template-columns:repeat(3,minmax(0,1fr))} }
 .figfull{width:100%;aspect-ratio:16/9;object-fit:cover}

@@ -1467,10 +1467,11 @@ def build():
       <figure><img class="figfull" src="{fp('assets/img/founders.jpg')}" alt="The house at work" loading="lazy"><figcaption class="hint">crafted with intention</figcaption></figure>
       <figure><img class="figfull" src="{fp('assets/img/spine.jpg')}" alt="Stone meeting glass" loading="lazy"><figcaption class="hint">made to last, designed to be reused</figcaption></figure>
     </div>
-    <p>All Side Story fragrances begin with clean, natural ingredients. A farm-to-fragrance approach preserves the character of each botanical, using synthetics only when they are the most sustainable choice. Composed in Grasse, each parfum is crafted to capture the essence of its ingredients without compromise.</p>
-    <p>Every bottle and lid is crafted by hand in Italy, designed to be recycled or reused, with packaging that is entirely free from plastic. Created to last, our parfums linger beautifully on skin and fabric, leaving a memorable impression long after they&rsquo;re worn.</p>
-    <p>Inspired by stories rather than seasons or trends, each fragrance is made with purpose.</p>
-    <p class="pull">It is never perfume for perfume&rsquo;s sake.</p>
+    <div class="cols-3">
+      <p>All Side Story fragrances begin with clean, natural ingredients. A farm-to-fragrance approach preserves the character of each botanical, using synthetics only when they are the most sustainable choice. Composed in Grasse, each parfum is crafted to capture the essence of its ingredients without compromise.</p>
+      <p>Every bottle and lid is crafted by hand in Italy, designed to be recycled or reused, with packaging that is entirely free from plastic. Created to last, our parfums linger beautifully on skin and fabric, leaving a memorable impression long after they&rsquo;re worn.</p>
+      <p>Inspired by stories rather than seasons or trends, each fragrance is made with purpose.</p>
+    </div>
   </div>
 </section>
 
