@@ -233,18 +233,28 @@
      already there and stays. */
   const films=document.querySelectorAll('.storyband > video[data-src]');
   if(films.length && !matchMedia('(prefers-reduced-motion: reduce)').matches){
+    /* The photograph under a film is a different picture, not its first
+       frame, so showing it and then dissolving it reads as a mistake. The
+       band paints on its own dark ground instead and the still is only
+       brought up if the film says it cannot come — on error, or when it has
+       had six seconds and still cannot play. */
+    const fallback=v=>{ const s=v.closest('.storyband'); if(s) s.classList.add('nofilm'); };
     const start=v=>{
       if(v.dataset.started) return; v.dataset.started='1';
       v.muted=true; v.playsInline=true;
-      v.addEventListener('canplay',()=>v.classList.add('ready'),{once:true});
+      const late=setTimeout(()=>fallback(v),6000);
+      v.addEventListener('canplay',()=>{ clearTimeout(late); v.classList.add('ready'); },{once:true});
+      v.addEventListener('error',()=>{ clearTimeout(late); fallback(v); },{once:true});
       v.src=v.dataset.src;
       const go=v.play(); if(go&&go.catch) go.catch(()=>{});
     };
+    /* Started well before the band arrives, so on any ordinary connection the
+       film is already playing by the time it is looked at. */
     const fio=new IntersectionObserver(es=>es.forEach(e=>{
       const v=e.target;
       if(e.isIntersecting){ start(v); if(v.paused){const g=v.play(); if(g&&g.catch) g.catch(()=>{});} }
       else if(v.dataset.started && !v.paused) v.pause();
-    }),{rootMargin:'200px 0px'});
+    }),{rootMargin:'900px 0px'});
     films.forEach(v=>fio.observe(v));
   }
 

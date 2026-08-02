@@ -1457,8 +1457,8 @@ def build():
         filmtag = ('\n      <video class="bandfilm" data-src="%s" muted loop playsinline '
                    'preload="none" aria-hidden="true" tabindex="-1"></video>' % film) if film else ""
         bands = f"""
-    <section class="storyband">
-      <img src="{fp('assets/img/' + p['img'] + '-2.jpg') if len(gal) > 1 else fp('assets/img/unboxing.jpg')}" alt="">{filmtag}
+    <section class="storyband{' hasfilm' if film else ''}">
+      <img src="{fp('assets/img/' + p['img'] + '-2.jpg') if len(gal) > 1 else fp('assets/img/unboxing.jpg')}" alt=""{' loading="lazy" fetchpriority="low"' if film else ''}>{filmtag}
       <div class="c">
         <blockquote>&ldquo;{ch['pull']}&rdquo;</blockquote>
         <p>{ch['pullref']} &middot; <a href="story-{p['slug']}.html">Read the full story</a></p>

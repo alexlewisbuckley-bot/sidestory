@@ -2747,18 +2747,31 @@ footer .cols a:hover,footer .cols a:focus-visible{opacity:1}
    ========================================================================== */
 
 /* --- story band: a quote held over the chapter's own photograph --------- */
+/* Taller than it was. At 20rem the quote had 117px of picture above it on a
+   laptop — not enough to read as a plate, too much to read as a rule. The
+   ceiling matches the Share hero's, so the two full-bleed bands on the site
+   stop at the same height. */
 .storyband{position:relative;display:grid;align-items:end;isolation:isolate;
-  min-height:clamp(20rem,42svh,30rem);overflow:hidden;color:var(--ivory)}
+  min-height:clamp(24rem,52svh,36rem);overflow:hidden;color:var(--ivory)}
 .storyband>img,.storyband>picture>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:var(--z-art)}
 /* The film sits on the still, at the same depth and later in source order, so
-   it covers it without ever replacing it. It fades in only once it can play —
-   a blocked CDN, a paused autoplay, a phone in low-power mode all leave the
-   photograph exactly where it was rather than a black rectangle. */
+   it covers it without ever replacing it. It fades in only once it can play. */
 .storyband>video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
   z-index:var(--z-art);opacity:0;transition:opacity var(--d-slow) var(--settle)}
 .storyband>video.ready{opacity:1}
+/* Where a film is coming, the photograph beneath it is not a first frame —
+   it is a different picture, and showing it for a second and then dissolving
+   it reads as a mistake. So the band paints on its own dark ground and the
+   still waits: it is only brought up if the film says it cannot play, or if
+   the reader has asked for less motion. */
+.storyband.hasfilm{background:
+  linear-gradient(170deg,#1d1a15 0%,#131109 62%,#0d0b07 100%)}
+.storyband.hasfilm>img,.storyband.hasfilm>picture>img{opacity:0;
+  transition:opacity var(--d-slow) var(--settle)}
+.storyband.hasfilm.nofilm>img,.storyband.hasfilm.nofilm>picture>img{opacity:1}
 @media (prefers-reduced-motion:reduce){
   .storyband>video{display:none}
+  .storyband.hasfilm>img,.storyband.hasfilm>picture>img{opacity:1;transition:none}
 }
 .storyband::after{content:"";position:absolute;inset:0;z-index:var(--z-behind);
   background:linear-gradient(8deg,rgba(20,17,12,.78),rgba(20,17,12,.10) 72%)}
