@@ -796,13 +796,18 @@ def topbar(current):
     # the whole reason the old one felt broken. A separate element also lets the
     # panel own its scrolling and its stacking without fighting the header row.
     #
-    # Explore drops anything the size block above it already carries. Stacked
-    # on a phone you see both lists at once, and Samples appeared twice and
-    # the set appeared twice under two different names — on the desktop the
-    # same overlap is invisible because the size block lives behind a hover.
-    mob = "\n        ".join(
+    # The panel's main list is the seven stories — the shelf itself, which is
+    # what a shopper opens the menu for. The site pages (The Fragrances, Your
+    # Stories, Share Yours, Our Story, Contact) move to the utility row at the
+    # foot; Search, Account and Journal left the panel at Alex's request, so
+    # the header's own Search stays visible at every width now.
+    mobstories = "\n      ".join(
+        '<a href="product-%s.html">%s</a>' % (p["slug"], p["name"])
+        for p in PRODUCTS)
+    mob = "\n      ".join(
         '<a href="%s"%s>%s</a>' % (href, cur if href == current else "", label)
-        for href, label in NAV_LINKS if href not in SIZE_HREFS)
+        for href, label in (list((h, l) for h, l in NAV_LINKS if h not in SIZE_HREFS)
+                            + [("contact.html", "Contact")]))
     megasizes = "\n".join(
         '          <a class="ml" href="%s">%s &mdash; %s</a>' % (h, label, price)
         for h, label, price in MENU_SIZES)
@@ -858,15 +863,12 @@ def topbar(current):
     <div class="mpsizes">
 {mobsizes}
     </div>
-    <p class="mpfh">Explore</p>
+    <p class="mpfh">Shop by stories</p>
     <div class="mplinks">
-      {mob}
+      {mobstories}
     </div>
     <div class="mputil">
-      <a href="search.html">Search</a>
-      <a href="account.html">Account</a>
-      <a href="journal.html">Journal</a>
-      <a href="contact.html">Contact</a>
+      {mob}
     </div>
   </div>
 </nav>

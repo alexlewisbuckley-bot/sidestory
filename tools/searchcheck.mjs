@@ -5,12 +5,9 @@ const b = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium' })
 const ctx = await b.newContext({ viewport:{width:W,height:H}, hasTouch:W<900, isMobile:W<900, deviceScaleFactor:2 });
 let fails = 0; const ok = (n,v,extra) => { if(!v) fails++; console.log((v?'PASS ':'FAIL ')+n+(v?'':'  '+JSON.stringify(extra||''))); };
 
-// below 360px the header drops Search and the phone menu carries it instead
+// the header carries Search at every width now — the phone menu no longer has it
 async function openSearch(pg){
-  const inHeader = await pg.locator('.util a[href="search.html"]').isVisible();
-  if(inHeader){ await pg.click('.util a[href="search.html"]'); return; }
-  await pg.click('.burger'); await pg.waitForTimeout(450);
-  await pg.click('#menupanel a[href="search.html"]');
+  await pg.click('.util a[href="search.html"]');
 }
 
 const p = await ctx.newPage();
@@ -140,16 +137,14 @@ s = await p.evaluate(()=>({ url:location.pathname,
 ok('a result navigates', /product-hotel-lobby/.test(s.url), s);
 ok('nothing left locked after navigating', !s.lock, s);
 
-// the phone menu's Search opens the panel too
+// the menu no longer carries Search; the header link must be visible even at 320
 if (W < 1150) {
-  await p.goto('http://localhost:8802/index.html', { waitUntil:'networkidle' });
-  await p.click('.burger'); await p.waitForTimeout(450);
-  await p.click('#menupanel a[href="search.html"]'); await p.waitForTimeout(600);
-  ok("the menu's Search opens the panel", await p.evaluate(()=>
-    document.getElementById('srch').classList.contains('open')
-    && !document.getElementById('menupanel').classList.contains('open')
-    && location.pathname.endsWith('/index.html')));
-  await p.keyboard.press('Escape'); await p.waitForTimeout(500);
+  const tiny = await ctx.browser().newContext({viewport:{width:320,height:700}, hasTouch:true, isMobile:true});
+  const tp = await tiny.newPage();
+  await tp.goto('http://localhost:8802/index.html', { waitUntil:'networkidle' });
+  ok('header Search visible at 320', await tp.locator('.util a[href="search.html"]').isVisible());
+  ok('no header overflow at 320', await tp.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));
+  await tiny.close();
 }
 
 // the page still works on its own, and reads ?q=

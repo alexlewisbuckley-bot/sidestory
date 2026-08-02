@@ -6,7 +6,7 @@ for (const [w,h,q] of [[390,844,''],[390,844,'incense'],[1440,900,''],[1440,900,
   await p.goto('http://localhost:8802/collection.html',{waitUntil:'networkidle'});
   const vis = await p.locator('.util a[href="search.html"]').isVisible();
   if(vis) await p.click('.util a[href="search.html"]');
-  else { await p.click('.burger'); await p.waitForTimeout(450); await p.click('#menupanel a[href="search.html"]'); }
+  else { await p.click('.util a[href="search.html"]'); }
   await p.waitForTimeout(600);
   if(q){ await p.fill('#srchq', q); await p.waitForTimeout(250); }
   await p.screenshot({ path:`/tmp/srch-${w}-${q||'idle'}.png` });

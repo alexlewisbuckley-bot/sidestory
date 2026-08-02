@@ -1312,8 +1312,11 @@ html.overlay-open,html.overlay-open body{overflow:hidden}
    which made six destinations read as six headlines and pushed the shop
    below the fold on a short phone. They are the same sans row as the sizes
    now — the panel is a list of places, not a title sequence. */
+/* 2.75rem rows, not 2.875 — eleven links stand in the panel now (four sizes
+   and seven stories) and the taller row put the utility line one thumb-flick
+   past an 844px screen. 44px is still comfortably past the 24px floor. */
 .mplinks a,.mpsizes a{display:flex;align-items:center;justify-content:space-between;
-  gap:var(--s-3);min-height:2.875rem;
+  gap:var(--s-3);min-height:2.75rem;
   font-family:var(--font-sans);font-size:var(--t-sm);line-height:1.3;color:var(--txt);
   border-bottom:1px solid rgba(43,46,45,.06);
   transition:color var(--d-quick) var(--settle)}
@@ -2929,13 +2932,9 @@ footer .fbot a,footer .legal a,footer .fcopy a,
   .util>a.u-account{display:none}
 }
 
-/* On a 320px screen the wordmark and the two remaining utilities are twelve
-   pixels apart and Search sits against Bag with no gap left in the clamp.
-   Search now has a home in the menu panel, so the header keeps the one
-   utility that has to be reachable from every scroll position. */
-@media (max-width:22.5em){
-  .util>a[href="search.html"]{display:none}
-}
+/* Search no longer has a home in the menu panel, so the header keeps it at
+   every width — on a 320px screen the wordmark's clamp absorbs the squeeze
+   rather than the reader losing search. */
 
 /* ==========================================================================
    The last layer — the things nobody names but everybody feels.
