@@ -410,6 +410,83 @@ ANNOUNCEMENTS = [
 ]
 
 
+def _path_bbox(d):
+    """Bounding box of one path. The mark uses M, L, H, V, C and Z only, and
+    every one of those takes its coordinates as x,y pairs except H and V, which
+    take a single axis — so the pairs cannot simply be read off the number
+    stream. Control points are included, which overstates a curve's box very
+    slightly and does not matter here: this is used to sort paths into two
+    bands that are sixty units apart."""
+    x = y = 0.0
+    xs, ys = [], []
+    for cmd, args in re.findall(r'([MLHVCZmlhvcz])([^MLHVCZmlhvcz]*)', d):
+        n = [float(v) for v in re.findall(r'-?\d*\.?\d+(?:e-?\d+)?', args)]
+        c = cmd.upper()
+        if c == 'H':
+            for v in n: x = v; xs.append(x); ys.append(y)
+        elif c == 'V':
+            for v in n: y = v; xs.append(x); ys.append(y)
+        elif c in ('M', 'L', 'C'):
+            for i in range(0, len(n) - 1, 2):
+                x, y = n[i], n[i + 1]; xs.append(x); ys.append(y)
+    if not xs:
+        return None
+    return min(xs), min(ys), max(xs), max(ys)
+
+
+def align_logo(src, dst, edge):
+    """The wordmark is a two-line lockup: SIDE STORY across the full width of
+    the artwork, and PARFUMS & OILS centred underneath it. In the header that
+    is right — it is a mark standing on its own, and a centred second line is
+    the whole point of a lockup.
+
+    In the footer it is not standing on its own. On a phone it sits at the top
+    of a hard-left column of links and the copyright line, so a centred second
+    line reads as a mark that has slipped; on a desktop the block is flush
+    right against the page edge, and the same centring leaves the second line
+    hanging a hundred and twenty pixels short of it. Both looked like a
+    mistake, for the same reason: the sub-line was not aligned to the edge its
+    own block was aligned to.
+
+    So the footer gets two derived files rather than one hand-drawn variant
+    beside the original. The lower band is found by its own geometry and
+    shifted until it meets the wordmark's left or right edge. If the mark is
+    ever redrawn, this re-derives the offset instead of carrying a stale
+    number that nobody will think to check.
+    """
+    svg = open(os.path.join(ROOT, src)).read()
+    paths = re.findall(r'<path [^>]*?d="([^"]+)"[^>]*/>', svg)
+    boxes = [(p, _path_bbox(p)) for p in paths]
+    boxes = [(p, b) for p, b in boxes if b]
+    if not boxes:
+        return src
+    # the gap between the two lines is the widest empty horizontal band
+    tops = sorted(b[1] for _, b in boxes)
+    mid = (min(b[3] for _, b in boxes) + max(b[1] for _, b in boxes)) / 2
+    lower = [(p, b) for p, b in boxes if b[1] >= mid]
+    upper = [(p, b) for p, b in boxes if b[1] < mid]
+    if not lower or not upper:
+        return src
+    if edge == "right":
+        shift = max(b[2] for _, b in lower) - max(b[2] for _, b in upper)
+    else:
+        shift = min(b[0] for _, b in lower) - min(b[0] for _, b in upper)
+    if abs(shift) <= 1:
+        return src
+    out = svg
+    for p, _ in lower:
+        out = out.replace('d="%s"' % p, 'd="%s" data-sub="1"' % p, 1)
+    # wrap every marked path in one translated group, in place
+    marked = re.findall(r'<path [^>]*data-sub="1"[^>]*/>', out)
+    for m in marked:
+        out = out.replace(m, '', 1)
+    out = out.replace('</svg>',
+                      '<g transform="translate(%.3f,0)">%s</g>\n</svg>'
+                      % (-shift, "".join(m.replace(' data-sub="1"', '') for m in marked)))
+    open(os.path.join(ROOT, dst), 'w').write(out)
+    return dst
+
+
 def announcement():
     """A continuous ticker rather than one fixed line.
 
@@ -523,6 +600,10 @@ def topbar(current):
 """
 
 
+FOOTER_LOGO = "assets/img/logo-ivory.svg"        # phone: flush left
+FOOTER_LOGO_R = "assets/img/logo-ivory.svg"      # desktop: flush right
+
+
 def footer():
     cols = "\n      ".join(
         '<div><p class="fh">%s</p>%s</div>' % (h, "".join(f'<a href="{u}">{t}</a>' for u, t in ls))
@@ -534,7 +615,9 @@ def footer():
     </div>
     <div class="fmid">
       <p class="fcopy">&copy; Side Story Parfums MMXXVI &middot; Made in Grasse</p>
-      <div class="fbrand"><img src="{fp('assets/img/logo-ivory.svg')}" alt="Side Story &mdash; Parfums &amp; Oils" width="300" height="68"></div>
+      <div class="fbrand"><picture>
+        <source media="(min-width:48em)" srcset="{fp(FOOTER_LOGO_R)}">
+        <img src="{fp(FOOTER_LOGO)}" alt="Side Story &mdash; Parfums &amp; Oils" width="300" height="68" decoding="async"></picture></div>
     </div>
     <div class="fbot">
       <div class="pay"><i>VISA</i><i>MC</i><i>AMEX</i><i><svg class="i-apple" viewBox="0 0 384 512" aria-hidden="true" focusable="false"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.931.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/></svg>Pay</i></div>
@@ -942,6 +1025,14 @@ PROMO_CARD = """      <article class="promo rev">
 
 def build():
     written = {}
+
+    # the footer's two lockups, both derived from the header's artwork: the
+    # sub-line meets whichever edge the block itself is aligned to
+    global FOOTER_LOGO, FOOTER_LOGO_R
+    FOOTER_LOGO = align_logo("assets/img/logo-ivory.svg",
+                             "assets/img/logo-ivory-left.svg", "left")
+    FOOTER_LOGO_R = align_logo("assets/img/logo-ivory.svg",
+                               "assets/img/logo-ivory-right.svg", "right")
 
     # ---- 01 home (body kept in tools/parts/home.html) --------------------
     # The fragment is authored with plain asset paths; fingerprint them here so

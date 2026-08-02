@@ -39,6 +39,33 @@ ok('the locale takes its own line', s.localeOwnLine, s);
 ok('every legal link still clears 24px', s.legalTaps.every(t=>t.w>=24&&t.h>=24), s.legalTaps);
 ok('no horizontal overflow', !s.docOverflowX, s);
 
+// the wordmark's two lines start on the same vertical, and on the same one
+// as everything else down the left edge of the footer
+const brand = await m.evaluate(async ()=>{
+  const img=document.querySelector('.fbrand img');
+  const src=img.getAttribute('src');
+  const txt=await (await fetch(src)).text();
+  const el=new Image();
+  await new Promise(r=>{ el.onload=r; el.src=URL.createObjectURL(new Blob([txt],{type:'image/svg+xml'})); });
+  const W=849,H=190,c=document.createElement('canvas'); c.width=W;c.height=H;
+  const g=c.getContext('2d'); g.drawImage(el,0,0,W,H);
+  const d=g.getImageData(0,0,W,H).data, ink=(x,y)=>d[(y*W+x)*4+3]>40;
+  const rows=[]; for(let y=0;y<H;y++){let n=0;for(let x=0;x<W;x++) if(ink(x,y))n++; rows.push(n);}
+  let split=0; for(let y=Math.floor(H*0.4);y<H*0.85;y++) if(rows[y]===0){split=y;break;}
+  const band=(a,z)=>{let min=W;for(let y=a;y<z;y++)for(let x=0;x<W;x++) if(ink(x,y)&&x<min){min=x;}return min;};
+  return { src, top:band(0,split), bot:band(split,H),
+    brandLeft:Math.round(document.querySelector('.fbrand').getBoundingClientRect().left),
+    linkLeft:Math.round(document.querySelector('footer .cols a').getBoundingClientRect().left),
+    copyLeft:Math.round(document.querySelector('.fcopy').getBoundingClientRect().left),
+    legalLeft:Math.round(document.querySelector('.legal a').getBoundingClientRect().left) };
+});
+console.log(JSON.stringify(brand));
+ok('the footer uses the left-aligned lockup', /logo-ivory-left/.test(brand.src), brand);
+ok('both lines of the wordmark start together', Math.abs(brand.top-brand.bot)<=2, brand);
+ok('the wordmark starts where the links do', brand.brandLeft===brand.linkLeft, brand);
+ok('one left edge down the whole footer',
+  new Set([brand.brandLeft,brand.linkLeft,brand.copyLeft,brand.legalLeft]).size===1, brand);
+
 // desktop untouched in kind
 const d = await (await b.newContext({viewport:{width:1440,height:900}})).newPage();
 await d.goto('http://localhost:8802/index.html',{waitUntil:'networkidle'});
@@ -56,6 +83,28 @@ ok('desktop footer nav keeps the serif', ds.navFont==='Libre Caslon Text', ds);
 ok('desktop footer nav keeps no rules', parseFloat(ds.navBorder)===0, ds);
 ok('desktop legal is three links, small', ds.legalCount===3 && ds.legalFs<9, ds);
 ok('desktop puts the locale beside them', ds.localeInline, ds);
+
+// the desktop block is flush right, so the sub-line meets the right edge
+const dbrand = await d.evaluate(async ()=>{
+  const img=document.querySelector('.fbrand img');
+  const src=img.currentSrc || img.src;
+  const txt=await (await fetch(src)).text();
+  const el=new Image();
+  await new Promise(r=>{ el.onload=r; el.src=URL.createObjectURL(new Blob([txt],{type:'image/svg+xml'})); });
+  const W=849,H=190,c=document.createElement('canvas'); c.width=W;c.height=H;
+  const g=c.getContext('2d'); g.drawImage(el,0,0,W,H);
+  const dd=g.getImageData(0,0,W,H).data, ink=(x,y)=>dd[(y*W+x)*4+3]>40;
+  const rows=[]; for(let y=0;y<H;y++){let n=0;for(let x=0;x<W;x++) if(ink(x,y))n++; rows.push(n);}
+  let split=0; for(let y=Math.floor(H*0.4);y<H*0.85;y++) if(rows[y]===0){split=y;break;}
+  const right=(a,z)=>{let max=0;for(let y=a;y<z;y++)for(let x=W-1;x>=0;x--) if(ink(x,y)&&x>max){max=x;break;}return max;};
+  return { src, top:right(0,split), bot:right(split,H),
+    brandRight:Math.round(document.querySelector('.fbrand').getBoundingClientRect().right),
+    innerRight:Math.round(document.querySelector('footer .cols').getBoundingClientRect().right) };
+});
+console.log(JSON.stringify(dbrand));
+ok('desktop serves the right-aligned lockup', /logo-ivory-right/.test(dbrand.src), dbrand);
+ok('both lines end together on desktop', Math.abs(dbrand.top-dbrand.bot)<=2, dbrand);
+ok('the wordmark ends where the columns do', Math.abs(dbrand.brandRight-dbrand.innerRight)<=1, dbrand);
 
 await b.close();
 console.log(fails?`\n${fails} FAILURES`:'\nall footer checks pass');
