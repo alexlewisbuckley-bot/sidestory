@@ -499,8 +499,9 @@ FREE_GBP = 40
 FREE_AED = 400
 
 ANNOUNCEMENTS = [
+    # the "second story's sample, complimentary" line went with the offer —
+    # the house does not include one
     "Complimentary delivery over &pound;%d / AED&nbsp;%d" % (FREE_GBP, FREE_AED),
-    "A second story&rsquo;s sample, complimentary with every bottle",
     "Every 100&nbsp;ml under a hand-carved stone lid, with its printed story",
 ]
 
@@ -1652,42 +1653,78 @@ def build():
                         "url": canonical_url("product-" + p["slug"]) + "?size=" + z["key"]}
                        for z in SIZES]})
 
-    # ---- 04 samples ------------------------------------------------------
-    written["samples"] = page("samples", "Samples & The Discovery Set",
-        "The Discovery Set — all seven stories in miniature, £38.", f"""
-<section class="banner">
-  <img src="{fp('assets/img/set-first-lines.jpg')}" alt="The Discovery Set discovery set">
-  <div class="c">
-    <p class="k">The discovery set</p>
-    <h1>The Discovery Set.</h1>
-    <p>All seven stories in miniature &mdash; 2ml of each, and the opening page of every one. &pound;38.</p>
-  </div>
-</section>
+    # ---- 04 samples: the Discovery Set as a product page -----------------
+    # This was an editorial page — banner, band, tiles — which made the one
+    # product a shopper is most likely to start with the only thing on the
+    # shelf without a product page. It is the PDP layout now: gallery and buy
+    # column, the accordion, the sticky bar, and the seven spines beneath.
+    set_gal = [(fp("assets/img/set-first-lines.jpg"), "The Discovery Set &mdash; seven miniatures in their folder"),
+               (fp("assets/img/unboxing.jpg"), "Opened, with the printed pages"),
+               (fp("assets/img/spine.jpg"), "The embossed folder")]
+    set_thumbs = "\n".join(
+        '<button%s onclick="pdpSwap(this,\'%s\')" aria-label="%s"><img src="%s" alt="" loading="lazy"></button>'
+        % (' aria-current="true"' if i == 0 else "", u, alt, u)
+        for i, (u, alt) in enumerate(set_gal))
+    set_lines = "\n".join(
+        f'            <p><b>{ROMAN[i]}</b><span>{q["name"]} &mdash; {q["style"].rstrip(".")}</span></p>'
+        for i, q in enumerate(PRODUCTS))
+    written["samples"] = page("samples", "The Discovery Set",
+        "The Discovery Set — all seven stories in miniature. 2ml of each, with the opening page of every story. £38.", f"""
+    <div class="inner">
+      {crumbs(("Home", "index.html"), ("The Fragrances", "collection.html"), "The Discovery Set")}
+      <div class="pdp">
+        <div class="gal">
+          <img class="main" id="pdpmain" src="{set_gal[0][0]}" alt="The Discovery Set &mdash; seven miniatures in their folder">
+          <div class="strip">{set_thumbs}</div>
+        </div>
+        <div class="info">
+          <p class="k">The seven stories &middot; in miniature</p>
+      <h1>The Discovery Set</h1>
+      <p class="sub">Seven &times; 2ml &middot; seven first pages &middot; one folder</p>
+      <blockquote>Fragrance is the only luxury bought blind, and we would rather you did not. Wear one a day for a week, then choose the bottle you keep.</blockquote>
 
-<section class="band">
-  <div class="inner">
-    {crumbs(("Home", "index.html"), "Samples")}
-    <div class="grid-2">
-      <div>
-        <p class="k">How it works</p>
-        <h2>Read first. Decide later.</h2>
-        <p>Fragrance is the only luxury bought blind, and we would rather you did not. The set arrives as seven 2ml vials in a stone-grey folder, each paired with the first page of the story it was written from.</p>
-        <p>Wear one a day for a week, then choose the bottle you keep. A single sample is &pound;5 and arrives the same way, with its opening page.</p>
-        <div class="actions">
-          <button class="btn btn-ink" onclick="addToBag('set','full',this)">Add the set &mdash; &pound;38</button>
-          <a class="btn btn-ghostink" href="collection.html">Choose a single sample</a>
+      <p class="fieldlabel">The set</p>
+      <div class="sizes">
+        <button aria-current="true" data-size="full" data-price="38"><span class="szl">Seven &times; 2 ml</span><span class="szp">&pound;38</span><span class="szi">Every story&rsquo;s opening page, letterpressed, in a stone-grey folder</span></button>
+      </div>
+
+      <div class="cta">
+        <button class="btn btn-ink" data-size="full" onclick="addToBag('set','full',this)">Add to bag &mdash; &pound;38</button>
+        <button class="btn btn-ghostink applepay" onclick="addToBag('set','full',this)"><svg class="i-apple" viewBox="0 0 384 512" aria-hidden="true" focusable="false"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.931.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/></svg> Apple Pay</button>
+      </div>
+      <p class="re">Complimentary UK delivery over &pound;{FREE_GBP} &middot; signed for, two to four working days</p>
+
+      <div class="acc">
+            <details open><summary>What&rsquo;s in the set</summary><div class="body"><div class="notelist">
+{set_lines}
+            </div></div></details>
+            <details><summary>How it works</summary><div class="body">The set arrives as seven 2ml vials in a stone-grey folder, each paired with the first page of the story it was written from. Wear one a day for a week, then choose the bottle you keep. A single sample is &pound;5 and arrives the same way, with its opening page.</div></details>
+            <details><summary>Delivery &amp; returns</summary><div class="body">Complimentary UK delivery over &pound;{FREE_GBP}, otherwise &pound;5. Two to four working days, signed for. FILLER &mdash; returns window to come. Samples are non-returnable.</div></details>
+      </div>
+
+      <div class="pdpbar" id="pdpbar" hidden>
+        <div class="r">
+          <div class="t"><b>The Discovery Set</b><span data-barprice>&pound;38 &middot; seven &times; 2 ml</span></div>
+          <button class="btn btn-ink" data-size="full" onclick="addToBag('set','full',this)">Add to bag</button>
         </div>
       </div>
-      <img class="figfull" src="{fp('assets/img/set-first-lines.jpg')}" alt="Seven miniatures in their folder" loading="lazy">
+        </div>
+      </div>
     </div>
-    <div class="grid-3">
-      <div class="tile"><h3>Seven miniatures</h3><p>2ml of each fragrance, enough for a full day&rsquo;s wear and a second opinion.</p></div>
-      <div class="tile"><h3>Seven first pages</h3><p>The opening page of every story, letterpressed on the same cotton paper as the full edition.</p></div>
-      <div class="tile"><h3>&pound;38 for the set</h3><p>Seven 2ml vials and seven first pages, together in one stone-grey folder.</p></div>
-    </div>
-  </div>
-</section>
-""")
+
+{spine_section()}
+""", current="samples.html",
+        og_image="assets/img/set-first-lines.jpg",
+        jsonld={
+            "@context": "https://schema.org", "@type": "Product",
+            "name": "The Discovery Set",
+            "brand": {"@type": "Brand", "name": "Side Story Parfums"},
+            "description": "All seven stories in miniature — 2ml of each, with the opening page of every story.",
+            "image": SITE_URL + "/assets/img/set-first-lines.jpg",
+            "url": canonical_url("samples"),
+            "offers": {"@type": "Offer", "price": "38", "priceCurrency": "GBP",
+                       "availability": "https://schema.org/InStock",
+                       "url": canonical_url("samples")}})
 
     # ---- 05 gifting: removed. The house offers neither gifting nor
     # customisation, nothing has linked here since the nav rename, and a live

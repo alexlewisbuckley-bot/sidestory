@@ -27,6 +27,7 @@ for (const [w, h] of [[390, 844], [1440, 900]]) {
       overflow: acs.overflow === 'hidden',
       anim: cs.animationName,
       dur: cs.animationDuration,
+      paced: t.style.getPropertyValue('--ann-dur') !== '',
       iter: cs.animationIterationCount,
       timing: cs.animationTimingFunction,
       widthsEqual: Math.abs(a.width - bg.width) < 1,
@@ -46,8 +47,11 @@ for (const [w, h] of [[390, 844], [1440, 900]]) {
   ok('labelled region, not a live region', s.region && s.notLive, s);
   ok('the strip clips its own overflow', s.overflow, s);
   ok('the loop is linear and endless', s.anim === 'annroll' && s.iter === 'infinite' && s.timing === 'linear', s);
-  ok('the speed is paced from the measured width', /^[0-9]+s$/.test(s.dur) && s.dur !== '40s', s);
-  ok('every message present', s.spoken === 3, s);
+  // dur !== 40s was a proxy for "the pacer ran", and with two messages the
+  // measured pace now lands on 40s by coincidence — assert the inline
+  // property the pacer sets instead
+  ok('the speed is paced from the measured width', /^[0-9]+s$/.test(s.dur) && s.paced, s);
+  ok('every message present', s.spoken === 2, s);
   ok('no horizontal page overflow', !s.docOverflowX, s);
   ok('one line tall', s.annH < 52 && s.oneLine, s);
   ok('the threshold reaches the script', s.free === 40, s);
