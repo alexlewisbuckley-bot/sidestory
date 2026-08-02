@@ -549,7 +549,10 @@ main>:first-child:is(.band,.seven):has(> .inner > .crumb){padding-top:0}
   letter-spacing:var(--track-label);text-transform:uppercase;
   min-height:var(--ctl-h);padding-inline:var(--ctl-px);padding-block:0;
   border:1px solid transparent;
-  transition:background var(--d-quick) var(--settle),color var(--d-quick) var(--settle),border-color var(--d-quick) var(--settle)}
+  transition:background var(--d-quick) var(--settle),color var(--d-quick) var(--settle),
+             border-color var(--d-quick) var(--settle),transform var(--d-instant) var(--settle)}
+/* the press is felt, not seen: one pixel down for the duration of the touch */
+.btn:active{transform:translateY(1px)}
 .btn-ivory{background:var(--ivory);color:var(--ink)}
 .btn-ivory:hover{background:var(--surface-raised)}
 .btn-ghost{border-color:rgba(241,240,232,.8);color:var(--ivory)}
@@ -574,9 +577,23 @@ button:disabled,[aria-disabled="true"]{cursor:default}
 .shelfbar .opts button:active,.sizes button:active{opacity:.5}
 .srow:active{background:rgba(43,46,45,.06)}
 
+/* The editorial link. At rest the rule is there, quietly; on hover it
+   leaves to the right and redraws from the left — one gesture, the same
+   line, like an eye re-reading. Two stacked underlines painted as
+   backgrounds, offset in time; no layout moves. */
 .ul{display:inline-block;font-family:var(--font-sans);font-weight:500;
   font-size:var(--t-xs);letter-spacing:var(--track-label);text-transform:uppercase;white-space:nowrap;
-  border-bottom:1px solid currentColor;padding-bottom:.2em}
+  padding-bottom:.2em;border-bottom:0;
+  background-image:linear-gradient(currentColor,currentColor),
+                   linear-gradient(currentColor,currentColor);
+  background-repeat:no-repeat;
+  background-position:left calc(100% - 0px), right calc(100% - 0px);
+  background-size:0% 1px, 100% 1px;
+  transition:background-size var(--d-quick) var(--settle) .12s,
+             color var(--d-quick) var(--settle)}
+.ul:hover,.ul:focus-visible{background-size:100% 1px, 0% 1px;
+  transition:background-size var(--d-quick) var(--settle) .12s,
+             color var(--d-quick) var(--settle)}
 
 /* -------------------------------------------------------------- reveal -- */
 /* The entrance owns opacity and transform for as long as it is happening, and
@@ -898,6 +915,11 @@ button:disabled,[aria-disabled="true"]{cursor:default}
 .stychips i{width:.6875rem;height:.6875rem;border-radius:50%;flex:none;
   border:1.5px solid var(--plaster)}
 .stychips i+i{margin-left:-.25rem}
+/* under the hand the stones ease apart — the family shows its members */
+.stychips i{transition:transform var(--d-quick) var(--settle)}
+.sty:hover .stychips i:nth-child(2){transform:translateX(2px)}
+.sty:hover .stychips i:nth-child(3){transform:translateX(4px)}
+.sty:hover .stychips i:nth-child(4){transform:translateX(6px)}
 .stycount{font-family:var(--font-sans);font-weight:500;font-size:var(--t-xs);
   letter-spacing:var(--track-label);text-transform:uppercase;color:var(--txt-2);
   white-space:nowrap}
@@ -1058,8 +1080,8 @@ button:disabled,[aria-disabled="true"]{cursor:default}
 .news input{flex:1 1 15rem;max-width:22rem;min-height:2.875rem;padding:0 0 .5rem;
   background:none;border:0;border-bottom:1px solid var(--txt-2);border-radius:0;
   color:var(--ink);text-align:center;
-  font-family:var(--font-serif);font-size:var(--t-sm)}
-.news input:focus{outline:none;border-bottom-color:var(--ink);border-bottom-width:2px}
+  font-family:var(--font-serif);font-size:var(--t-sm);transition:border-color var(--d-quick) var(--settle),box-shadow var(--d-quick) var(--settle)}
+.news input:focus{outline:none;border-bottom-color:var(--ink);box-shadow:0 1px 0 0 var(--ink)}
 .news .fine{margin-top:var(--s-4);font-family:var(--font-sans);font-size:var(--t-2xs);
   color:var(--txt-2);line-height:1.8}
 
@@ -1780,14 +1802,16 @@ html.overlay-open,html.overlay-open body{overflow:hidden}
   transition:border-color var(--d-quick) var(--settle)}
 .sizes button::before{content:"";grid-row:1/3;align-self:center;
   width:.8125rem;height:.8125rem;border-radius:50%;
-  border:1px solid var(--txt-2);background:transparent;
+  border:1px solid var(--txt-2);
+  background:radial-gradient(circle,var(--ink) 0 46%,transparent 52%) center/0% 0% no-repeat;
   transition:border-color var(--d-quick) var(--settle),
-             background var(--d-quick) var(--settle)}
+             background-size var(--d-quick) var(--settle)}
 .sizes button:hover{border-color:var(--ink)}
 .sizes button[aria-current]{border-color:var(--ink);
   box-shadow:inset 0 0 0 1px var(--ink)}
+/* the dot grows from the centre of the ring — commitment you can see land */
 .sizes button[aria-current]::before{border-color:var(--ink);
-  background:radial-gradient(circle,var(--ink) 0 46%,transparent 52%)}
+  background-size:100% 100%}
 .szl{font-family:var(--font-sans);font-weight:600;font-size:var(--t-2xs);
   letter-spacing:var(--track-micro);text-transform:uppercase;white-space:nowrap}
 .szp{grid-column:3;justify-self:end;font-family:var(--font-sans);font-weight:500;
@@ -1817,9 +1841,19 @@ html.overlay-open,html.overlay-open body{overflow:hidden}
   font-family:var(--font-sans);font-weight:500;font-size:var(--t-xs);
   letter-spacing:var(--track-label);text-transform:uppercase;color:var(--ink)}
 .acc summary::-webkit-details-marker{display:none}
+/* The mark rotates from + to x rather than swapping glyphs — the same
+   stroke, turned, and x is the honest affordance for "this closes it". */
 .acc summary::after{content:"+";font-family:var(--font-serif);font-size:var(--t-sm);
-  line-height:1;font-weight:400;letter-spacing:0;opacity:var(--o-strong)}
-.acc details[open] summary::after{content:"\2013"}
+  line-height:1;font-weight:400;letter-spacing:0;opacity:var(--o-strong);
+  transition:transform var(--d-quick) var(--settle)}
+.acc details[open] summary::after{transform:rotate(45deg)}
+/* the height cannot be eased cross-browser without scaffolding, but the
+   content can arrive like everything else here does — a breath of opacity
+   and four pixels of travel, and only when motion is welcome */
+@media (prefers-reduced-motion:no-preference){
+  .acc details[open] .body{animation:accin var(--d-settled) var(--settle)}
+}
+@keyframes accin{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
 .acc :where(.body){padding-bottom:var(--space-4);font-family:var(--font-serif);
   font-size:var(--t-sm);line-height:1.66;color:var(--txt);max-width:52ch}
 
@@ -2128,15 +2162,19 @@ html.overlay-open,html.overlay-open body{overflow:hidden}
   display:block;width:100%;margin-top:.35rem;padding:.55rem 0;
   border:0;border-bottom:1px solid var(--txt-2);border-radius:0;background:none;
   color:var(--ink);font-family:var(--font-sans);font-size:var(--t-sm);line-height:1.6;
-  transition:border-color var(--d-quick) var(--settle)}
+  transition:border-color var(--d-quick) var(--settle),
+             box-shadow var(--d-quick) var(--settle)}
 .field input,.field textarea,.field select{font-family:var(--font-serif);
   font-size:var(--t-md)}
 .ffield textarea,.field textarea{font-family:var(--font-serif);font-size:var(--t-md);
   line-height:1.68;min-height:11.5rem;resize:vertical;padding-top:.35rem}
+/* focus thickens the writing line without moving it: the second pixel is a
+   shadow easing in under the border, not a border-width jump reflowing the
+   field */
 .ffield input:focus,.ffield textarea:focus,
 .field input:focus,.field textarea:focus,.field select:focus{
-  outline:none;border-bottom-color:var(--ink);border-bottom-width:2px;
-  padding-bottom:calc(.55rem - 1px)}
+  outline:none;border-bottom-color:var(--ink);
+  box-shadow:0 1px 0 0 var(--ink)}
 .ffield ::placeholder,.field ::placeholder{color:var(--txt-2)}
 /* Every textarea keeps its box. A rule works under a single line because the
    line tells you where to write; under two hundred pixels of empty ivory it
@@ -2492,8 +2530,8 @@ input:user-invalid,textarea:user-invalid{border-color:var(--text-error)}
 .searchbar{display:flex;flex-wrap:wrap;gap:var(--s-2);margin-top:var(--s-4)}
 .searchbar input{flex:1 1 18rem;min-height:3.25rem;padding:0 0 .5rem;background:none;
   border:0;border-bottom:1px solid var(--txt-2);border-radius:0;color:var(--ink);
-  font-family:var(--font-serif);font-size:var(--t-md)}
-.searchbar input:focus{outline:none;border-bottom-color:var(--ink);border-bottom-width:2px}
+  font-family:var(--font-serif);font-size:var(--t-md);transition:border-color var(--d-quick) var(--settle),box-shadow var(--d-quick) var(--settle)}
+.searchbar input:focus{outline:none;border-bottom-color:var(--ink);box-shadow:0 1px 0 0 var(--ink)}
 /* Renamed off `.chips`, which the shelf bar also used: this rule's
    margin-top:16px was leaking into the scent group and pushing it eight
    pixels below the size group it is meant to sit level with. Same class of
@@ -2923,7 +2961,7 @@ footer .fbot a,footer .legal a,footer .fcopy a,
      the menu's group label. */
   footer .cols a{margin-bottom:0;
     font-family:var(--font-sans);font-size:var(--t-sm);line-height:1.35;
-    min-height:2.875rem;
+    min-height:2.75rem;   /* the menu's rows moved to 2.75rem; these follow */
     border-bottom:1px solid rgba(241,240,232,.12)}
   /* no rule above the first link: the menu does not have one either, and the
      heading is already doing the work of opening the group */
