@@ -1458,11 +1458,11 @@ def build():
 <section class="seven">
   <div class="inner">
     {crumbs(("Home", "index.html"), ("The Fragrances", "collection.html"), title) if key else crumbs(("Home", "index.html"), "The Fragrances")}
-    <div class="phead">
-      <p class="k">{kicker}</p>
-      <h1>{head}</h1>
-      <p class="lede">{lede}</p>
-    </div>
+    <!-- The kicker/headline/lede block stood between the reader and the
+         shelf on every collection page — three paragraphs to scroll past to
+         reach the first bottle. The h1 stays for the crawler and the screen
+         reader; the browsing eye goes straight from the crumb to the shelf. -->
+    <h1 class="vh">{head}</h1>
     <div class="shelfbar" data-shelf-for=".cards">
       <button class="filterbtn" type="button" data-open-filters aria-haspopup="dialog"
               aria-expanded="false"><span>{ftitle}</span><span class="tally" data-tally hidden>0</span></button>

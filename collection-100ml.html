@@ -119,11 +119,11 @@
 <section class="seven">
   <div class="inner">
     <p class="crumb"><a href="index.html">Home</a> / <a href="collection.html">The Fragrances</a> / 100 ml</p>
-    <div class="phead">
-      <p class="k">The collection &middot; 100 ml</p>
-      <h1>Seven stories, at 100&nbsp;ml.</h1>
-      <p class="lede">The full bottle, &pound;160. Hand-carved stone lid, and the nine printed pages in the box &mdash; the only size that carries&nbsp;both.</p>
-    </div>
+    <!-- The kicker/headline/lede block stood between the reader and the
+         shelf on every collection page — three paragraphs to scroll past to
+         reach the first bottle. The h1 stays for the crawler and the screen
+         reader; the browsing eye goes straight from the crumb to the shelf. -->
+    <h1 class="vh">Seven stories, at 100&nbsp;ml.</h1>
     <div class="shelfbar" data-shelf-for=".cards">
       <button class="filterbtn" type="button" data-open-filters aria-haspopup="dialog"
               aria-expanded="false"><span>Size &amp; scent</span><span class="tally" data-tally hidden>0</span></button>
