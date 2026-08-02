@@ -502,7 +502,10 @@ def align_logo(src, dst, edge):
     return dst
 
 
-def gift_module():
+def gift_module(kicker="Kept &amp; given",
+                head="A story is a serious gift.",
+                body="Every parcel arrives gift-ready &mdash; the stone lid, the printed story, no plastic in the box. Add the Dedication: a line of yours, typeset on the story&rsquo;s flyleaf, and sent again as a digital edition.",
+                extras=True, ident="gifting"):
     """The gifting panel, on the homepage and on Our Story.
 
     Written once. The last time a block appeared on two pages it was
@@ -510,18 +513,23 @@ def gift_module():
     two drifted until one of them was pointing at image files the photo
     pipeline had stopped producing. The id travels with it, which is correct:
     ids are unique within a page, and a deep link to the gifting panel should
-    work on whichever page the reader is on."""
-    return f"""<section class="gift" id="gifting">
+    work on whichever page the reader is on.
+
+    The panel is the same object on both pages and the copy is an argument
+    to it, not a second copy of the markup — so a change to the layout still
+    only has to be made once."""
+    tail = """    <div class="ded">for A. &mdash; who was late</div>
+    <div class="cta"><a class="btn btn-ivory" href="collection.html">Explore gifting</a>
+      <a class="btn btn-ghost" href="share.html">Add a dedication</a></div>
+""" if extras else ""
+    return f"""<section class="gift{' bare' if not extras else ''}" id="{ident}">
   <img src="{fp('assets/img/unboxing.jpg')}" alt="" loading="lazy">
   <div class="fade"></div>
   <div class="c rev">
-    <p class="k">Kept &amp; given</p>
-    <h2>A story is a serious gift.</h2>
-    <p>Every parcel arrives gift-ready &mdash; the stone lid, the printed story, no plastic in the box. Add the Dedication: a line of yours, typeset on the story&rsquo;s flyleaf, and sent again as a digital edition.</p>
-    <div class="ded">for A. &mdash; who was late</div>
-    <div class="cta"><a class="btn btn-ivory" href="collection.html">Explore gifting</a>
-      <a class="btn btn-ghost" href="share.html">Add a dedication</a></div>
-  </div>
+    <p class="k">{kicker}</p>
+    <h2>{head}</h2>
+    <p>{body}</p>
+{tail}  </div>
 </section>"""
 
 
@@ -1424,7 +1432,9 @@ def build():
   </div>
 </section>
 
-{gift_module()}
+{gift_module(kicker="Our promise", head="We take responsibility",
+                 body="Ensuring that the high standards we set for ourselves are maintained, from the craftsmanship behind the bottle and packaging, the balance and sillage of the scents, and to the quality and sustainability of the ingredients. None of these elements are ever compromised.",
+                 extras=False, ident="promise")}
 
 <section class="band tint" id="making">
   <div class="inner">
