@@ -503,7 +503,11 @@
         overlayOpen(panel, {scrim});
         /* overlayOpen focuses the dialog; the one place a control should take
            focus instead is a search field, where the keyboard is the point */
-        setTimeout(()=>{ q.focus(); q.select(); }, 90);
+        /* select() on iOS raises the selection UI over an empty field —
+           desktop keeps the convenience, touch just gets the caret */
+        setTimeout(()=>{ q.focus();
+          if(matchMedia('(hover:hover) and (pointer:fine)').matches) q.select();
+        }, 90);
       };
       const close = () => overlayClose(panel);
       window.SSsearch = {open, close};

@@ -39,7 +39,11 @@ s = await p.evaluate(()=>{ const el=document.getElementById('srch'), r=el.getBou
 console.log('  open ' + JSON.stringify(s));
 ok('did not navigate', s.url === new URL(before).pathname, s.url);
 ok('panel open and painted', s.open && s.op > 0.99, s);
-ok('sits at the header edge', Math.abs(s.top - s.navBottom) <= 1, s);
+// below the desktop breakpoint search is a full-screen takeover from the top
+// edge — the standard mobile pattern; the dropdown hangs from the header only
+// on desktop
+if (W >= 1150) ok('sits at the header edge', Math.abs(s.top - s.navBottom) <= 1, s);
+else ok('full-screen takeover from the top edge', s.top === 0 && s.bottom >= s.vh - 1, s);
 ok('never past the viewport', s.bottom <= s.vh + 1, s);
 ok('field takes focus', s.focus === 'srchq', s);
 ok('page scroll locked', s.lock, s);

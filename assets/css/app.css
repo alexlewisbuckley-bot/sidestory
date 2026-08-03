@@ -2457,6 +2457,30 @@ input:user-invalid,textarea:user-invalid{border-color:var(--text-error)}
              transform var(--d-quick) var(--settle),
              visibility var(--d-quick) var(--settle)}
 .srch.open{opacity:1;visibility:visible;transform:none}
+/* On anything smaller than the desktop, search is a full-screen takeover —
+   the standard mobile pattern — not a dropdown pinned under the header.
+   The dropdown hung from a measured nav-bottom, and iOS pans the visual
+   viewport when the keyboard rises, so the panel was left floating below a
+   header that had moved. From the top edge there is nothing to detach from.
+   It sits above the header, needs no scrim, and slides up from below the
+   fold's edge rather than down. */
+@media (max-width:71.875em){
+  .srch{top:0;bottom:0;max-height:none;height:100dvh;
+    z-index:var(--z-overlay);border-bottom:0;box-shadow:none;
+    transform:translate3d(0,.75rem,0)}
+  .srch.open{transform:none}
+  .srchin{padding-top:calc(var(--s-4) + env(safe-area-inset-top))}
+  .srchscrim{display:none}
+}
+/* iOS zooms the page when a focused control's text is under 16px. Every
+   text control on a touch screen gets a 16px floor — a floor, not a
+   ceiling: the search field's 20px serif stays 20px, and each family keeps
+   its own size where that size already clears the bar. */
+@media (pointer:coarse){
+  .ffield input,.ffield textarea,.news input{font-size:max(1rem,var(--t-sm))}
+  .field input,.field textarea,.field select,.searchbar input{
+    font-size:max(1rem,var(--t-md))}
+}
 .srchin{padding:var(--s-4) var(--gutter);
   padding-bottom:calc(var(--s-6) + env(safe-area-inset-bottom))}
 
