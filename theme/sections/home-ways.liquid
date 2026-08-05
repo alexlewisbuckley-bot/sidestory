@@ -1,0 +1,142 @@
+<section class="ways">
+  <div class="inner">
+    <div class="rev"><p class="k">{{ section.settings.s6 }}</p><h2 class="d sechead">{{ section.settings.s7 }}</h2></div>
+    <div class="wayrow">
+      <a class="way rev" href="{{ section.settings.s4 }}">{% if section.settings.s1 %}<img alt="{{ section.settings.s1.alt | escape }}" src="{{ section.settings.s1 | image_url: width: 1600 }}" loading="lazy">{% else %}<picture><source type="image/avif" srcset="https://sidestory-rho.vercel.app/assets/img/set-first-lines-480.avif?v=c30d6b35 480w, https://sidestory-rho.vercel.app/assets/img/set-first-lines-960.avif?v=2c50c630 960w" sizes="100vw"><source type="image/webp" srcset="https://sidestory-rho.vercel.app/assets/img/set-first-lines-480.webp?v=7f39b1dc 480w, https://sidestory-rho.vercel.app/assets/img/set-first-lines-960.webp?v=ca48dc4a 960w" sizes="100vw"><img src="https://sidestory-rho.vercel.app/assets/img/set-first-lines.jpg?v=56fb700f" alt="" loading="lazy" decoding="async" width="1200" height="800" srcset="https://sidestory-rho.vercel.app/assets/img/set-first-lines-480.jpg?v=09fd8910 480w, https://sidestory-rho.vercel.app/assets/img/set-first-lines-960.jpg?v=af5a91f0 960w" sizes="100vw"></picture>{% endif %}
+        <div class="b"><p class="k">{{ section.settings.s8 }}</p><h3>{{ section.settings.s9 }}</h3>
+        <p>{{ section.settings.s10 }}</p>
+        <span class="go">{{ section.settings.s17 }}</span></div></a>
+      <a class="way rev" href="{{ section.settings.s5 }}">{% if section.settings.s2 %}<img alt="{{ section.settings.s2.alt | escape }}" src="{{ section.settings.s2 | image_url: width: 1600 }}" loading="lazy">{% else %}<picture><source type="image/avif" srcset="https://sidestory-rho.vercel.app/assets/img/plants-480.avif?v=1fde4be5 480w, https://sidestory-rho.vercel.app/assets/img/plants-960.avif?v=3765d682 960w" sizes="100vw"><source type="image/webp" srcset="https://sidestory-rho.vercel.app/assets/img/plants-480.webp?v=49eadac5 480w, https://sidestory-rho.vercel.app/assets/img/plants-960.webp?v=5ad5650e 960w" sizes="100vw"><img src="https://sidestory-rho.vercel.app/assets/img/plants.jpg?v=058397f4" alt="" loading="lazy" decoding="async" width="1200" height="800" srcset="https://sidestory-rho.vercel.app/assets/img/plants-480.jpg?v=3895ade1 480w, https://sidestory-rho.vercel.app/assets/img/plants-960.jpg?v=c541aad4 960w" sizes="100vw"></picture>{% endif %}
+        <div class="b"><p class="k">{{ section.settings.s11 }}</p><h3>{{ section.settings.s12 }}</h3>
+        <p>{{ section.settings.s13 }}</p>
+        <span class="go">{{ section.settings.s18 }}</span></div></a>
+      <a class="way rev" href="#styles">{% if section.settings.s3 %}<img alt="{{ section.settings.s3.alt | escape }}" src="{{ section.settings.s3 | image_url: width: 1600 }}" loading="lazy">{% else %}<picture><source type="image/avif" srcset="https://sidestory-rho.vercel.app/assets/img/founders-480.avif?v=e4758b8c 480w, https://sidestory-rho.vercel.app/assets/img/founders-960.avif?v=072fede8 960w, https://sidestory-rho.vercel.app/assets/img/founders-1600.avif?v=787feb2e 1600w" sizes="100vw"><source type="image/webp" srcset="https://sidestory-rho.vercel.app/assets/img/founders-480.webp?v=1b8aa762 480w, https://sidestory-rho.vercel.app/assets/img/founders-960.webp?v=57b4a5fd 960w, https://sidestory-rho.vercel.app/assets/img/founders-1600.webp?v=9809c80f 1600w" sizes="100vw"><img src="https://sidestory-rho.vercel.app/assets/img/founders.jpg?v=b4fe6c2f" alt="" loading="lazy" decoding="async" width="1600" height="828" srcset="https://sidestory-rho.vercel.app/assets/img/founders-480.jpg?v=90a401f5 480w, https://sidestory-rho.vercel.app/assets/img/founders-960.jpg?v=6ab03efc 960w, https://sidestory-rho.vercel.app/assets/img/founders-1600.jpg?v=c53f60c3 1600w" sizes="100vw"></picture>{% endif %}
+        <div class="b"><p class="k">{{ section.settings.s14 }}</p><h3>{{ section.settings.s15 }}</h3>
+        <p>{{ section.settings.s16 }}</p>
+        <span class="go">{{ section.settings.s19 }}</span></div></a>
+    </div>
+  </div>
+</section>
+{% schema %}
+{
+ "name": "Three ways in",
+ "settings": [
+  {
+   "type": "image_picker",
+   "id": "s1",
+   "label": "Image (blank = current)"
+  },
+  {
+   "type": "image_picker",
+   "id": "s2",
+   "label": "Image (blank = current) 2"
+  },
+  {
+   "type": "image_picker",
+   "id": "s3",
+   "label": "Image (blank = current) 3"
+  },
+  {
+   "type": "text",
+   "id": "s4",
+   "label": "Link URL",
+   "default": "/collections/the-fragrances"
+  },
+  {
+   "type": "text",
+   "id": "s5",
+   "label": "Link URL 2",
+   "default": "/collections/the-fragrances"
+  },
+  {
+   "type": "text",
+   "id": "s6",
+   "label": "Text",
+   "default": "For the undecided"
+  },
+  {
+   "type": "text",
+   "id": "s7",
+   "label": "Heading",
+   "default": "Three ways&nbsp;in."
+  },
+  {
+   "type": "text",
+   "id": "s8",
+   "label": "Text 2",
+   "default": "The set"
+  },
+  {
+   "type": "text",
+   "id": "s9",
+   "label": "Sub-heading",
+   "default": "The Discovery&nbsp;Set"
+  },
+  {
+   "type": "textarea",
+   "id": "s10",
+   "label": "Text 3",
+   "default": "All seven, 2ml each \u2014 the whole shelf on your skin. \u00a330, and a week of wearing before you choose."
+  },
+  {
+   "type": "text",
+   "id": "s11",
+   "label": "Text 4",
+   "default": "By nose"
+  },
+  {
+   "type": "text",
+   "id": "s12",
+   "label": "Sub-heading 2",
+   "default": "Begin with your&nbsp;taste"
+  },
+  {
+   "type": "textarea",
+   "id": "s13",
+   "label": "Text 5",
+   "default": "Woods or citrus, linen or velvet \u2014 tell us two moments you love; we suggest one story and send its sample."
+  },
+  {
+   "type": "text",
+   "id": "s14",
+   "label": "Text 6",
+   "default": "By style"
+  },
+  {
+   "type": "text",
+   "id": "s15",
+   "label": "Sub-heading 3",
+   "default": "Begin with a&nbsp;style"
+  },
+  {
+   "type": "textarea",
+   "id": "s16",
+   "label": "Text 7",
+   "default": "Woods or florals, green or amber \u2014 choose what you want more of and we\u2019ll open the story written around it."
+  },
+  {
+   "type": "text",
+   "id": "s17",
+   "label": "Label",
+   "default": "Begin the set \u2014 \u00a330 \u2192"
+  },
+  {
+   "type": "text",
+   "id": "s18",
+   "label": "Label 2",
+   "default": "Browse by note \u2192"
+  },
+  {
+   "type": "text",
+   "id": "s19",
+   "label": "Label 3",
+   "default": "Choose by style \u2192"
+  }
+ ],
+ "presets": [
+  {
+   "name": "Three ways in"
+  }
+ ]
+}
+{% endschema %}

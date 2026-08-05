@@ -1,0 +1,117 @@
+<section class="tellus" id="tellus">
+  <div class="inner">
+    <div class="hd">
+      <p class="k">{{ section.settings.s2 }}</p>
+      <h2>{{ section.settings.s3 }}</h2>
+    </div>
+    <form class="sform" onsubmit="event.preventDefault();this.hidden=true;var d=this.parentNode.querySelector('.formdone');d.hidden=false;d.setAttribute('tabindex','-1');d.focus();">
+      <label class="ffield"><span>Your story&rsquo;s title</span>
+        <input name="title" placeholder="e.g. The Bakery at Five" required></label>
+      <label class="ffield"><span>Where and when</span>
+        <input name="when" placeholder="e.g. Lisbon, the winter I turned thirty" required></label>
+      <label class="ffield tall"><span>The moment &mdash; up to 500 words</span>
+        <textarea name="story" data-count placeholder="It was still dark when the ovens went on, and the whole street smelled of it before anyone was awake&hellip;" required></textarea></label>
+      <p class="count"><span data-countout>0</span> / 500 words</p>
+      <div class="frow2">
+        <label class="ffield"><span>Your name</span><input name="name" required></label>
+        <label class="ffield"><span>Email</span><input type="email" name="email" required></label>
+      </div>
+      <div class="consent">
+        <label><input type="checkbox" required>
+          <span>I&rsquo;m happy for Side Story to read my story, and to contact me about it. You keep the copyright &mdash; we will ask again, in writing, before anything is published or set to scent.</span></label>
+        <button class="btn btn-ink" type="submit">Send your story</button>
+      </div>
+    </form>
+    <div class="formdone" hidden>
+      <div class="r"></div>
+      <p class="k">{{ section.settings.s4 }}</p>
+      <h2>{{ section.settings.s5 }}</h2>
+      <p>{{ section.settings.s6 }}</p>
+      <p><a class="ul" href="{{ section.settings.s1 }}">{{ section.settings.s11 }}</a></p>
+    </div>
+    <aside class="looking">
+      <p class="k">{{ section.settings.s7 }}</p>
+      <p>{{ section.settings.s8 }}</p>
+      <p class="k">{{ section.settings.s9 }}</p>
+      <p class="not">{{ section.settings.s10 }}</p>
+    </aside>
+  </div>
+</section>
+{% schema %}
+{
+ "name": "Tellus",
+ "settings": [
+  {
+   "type": "text",
+   "id": "s1",
+   "label": "Link URL",
+   "default": "/pages/stories"
+  },
+  {
+   "type": "text",
+   "id": "s2",
+   "label": "Text",
+   "default": "Send your story"
+  },
+  {
+   "type": "text",
+   "id": "s3",
+   "label": "Heading",
+   "default": "Tell us the&nbsp;moment."
+  },
+  {
+   "type": "text",
+   "id": "s4",
+   "label": "Text 2",
+   "default": "Received"
+  },
+  {
+   "type": "text",
+   "id": "s5",
+   "label": "Heading 2",
+   "default": "It&rsquo;s in the&nbsp;postbag."
+  },
+  {
+   "type": "textarea",
+   "id": "s6",
+   "label": "Text 3",
+   "default": "Someone here will read it &mdash; a person, not a filter &mdash; and you will hear from us within the month, whichever way it goes. Thank you for trusting us with it."
+  },
+  {
+   "type": "text",
+   "id": "s7",
+   "label": "Text 4",
+   "default": "What we are looking for"
+  },
+  {
+   "type": "textarea",
+   "id": "s8",
+   "label": "Text 5",
+   "default": "Air, weather, rooms, hands, hours. The specific over the sweeping &mdash; one Tuesday beats a whole decade."
+  },
+  {
+   "type": "text",
+   "id": "s9",
+   "label": "Text 6",
+   "default": "And what we are not"
+  },
+  {
+   "type": "textarea",
+   "id": "s10",
+   "label": "Text 7",
+   "default": "Product reviews, note lists, or anything you would call content. Write it as though no one is buying."
+  },
+  {
+   "type": "text",
+   "id": "s11",
+   "label": "Link label",
+   "default": "Read the seven"
+  }
+ ],
+ "presets": [
+  {
+   "name": "Tellus"
+  }
+ ]
+}
+{% endschema %}

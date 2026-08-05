@@ -1,0 +1,113 @@
+
+<div class="inner">
+  <p class="crumb"><a href="{{ section.settings.s1 }}">{{ section.settings.s13 }}</a> / Legal</p>
+  <div class="phead"><p class="k">{{ section.settings.s2 }}</p><h1>{{ section.settings.s3 }}</h1>
+    <p class="lede">{{ section.settings.s4 }}</p></div>
+  <div class="artgrid">
+    <div class="col">
+      <h2 class="sechead">{{ section.settings.s5 }}</h2>
+      <p>{{ section.settings.s6 }}</p>
+      <p>{{ section.settings.s7 }}</p>
+      <h2 class="sechead">{{ section.settings.s8 }}</h2>
+      <p>{{ section.settings.s9 }}</p>
+      <p>{{ section.settings.s10 }}</p>
+      <h2 class="sechead">{{ section.settings.s11 }}</h2>
+      <p>{{ section.settings.s12 }}</p>
+    </div>
+    <div class="artaside">
+      <p class="marginnote">Last reviewed &mdash; placeholder<small>This is demo copy</small></p>
+      <p class="marginnote">privacy@sidestoryparfums.com<small>Data requests</small></p>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+ "name": "Legal content",
+ "settings": [
+  {
+   "type": "text",
+   "id": "s1",
+   "label": "Link URL",
+   "default": "/"
+  },
+  {
+   "type": "text",
+   "id": "s2",
+   "label": "Text",
+   "default": "Legal"
+  },
+  {
+   "type": "text",
+   "id": "s3",
+   "label": "Heading",
+   "default": "Privacy, terms &amp;&nbsp;cookies."
+  },
+  {
+   "type": "textarea",
+   "id": "s4",
+   "label": "Text 2",
+   "default": "Placeholder text for the demo. The published site would carry policies reviewed by counsel; nothing below should be relied&nbsp;on."
+  },
+  {
+   "type": "text",
+   "id": "s5",
+   "label": "Heading 2",
+   "default": "Privacy"
+  },
+  {
+   "type": "textarea",
+   "id": "s6",
+   "label": "Text 3",
+   "default": "We collect the minimum needed to send you a parcel and a story: name, address, email, and what you ordered. Payment details are handled by our payment processor and never touch our servers. We do not sell data and we do not share it with advertisers."
+  },
+  {
+   "type": "textarea",
+   "id": "s7",
+   "label": "Text 4",
+   "default": "You can ask us for a copy of everything we hold, or ask us to delete it, by writing to privacy@sidestoryparfums.com. We answer within thirty days."
+  },
+  {
+   "type": "text",
+   "id": "s8",
+   "label": "Heading 3",
+   "default": "Terms of&nbsp;sale"
+  },
+  {
+   "type": "textarea",
+   "id": "s9",
+   "label": "Text 5",
+   "default": "Prices include UK VAT and are shown in pounds sterling. A contract is formed when we email to say the parcel has shipped. FILLER &mdash; returns window to come. Unopened bottles may be returned; samples are not returnable."
+  },
+  {
+   "type": "text",
+   "id": "s10",
+   "label": "Text 6",
+   "default": "Nothing in these terms affects your statutory rights."
+  },
+  {
+   "type": "text",
+   "id": "s11",
+   "label": "Heading 4",
+   "default": "Cookies"
+  },
+  {
+   "type": "textarea",
+   "id": "s12",
+   "label": "Text 7",
+   "default": "This demo stores your bag in the browser session and nothing else. The published site would use strictly necessary cookies for the basket and checkout, and analytics only with consent."
+  },
+  {
+   "type": "text",
+   "id": "s13",
+   "label": "Link label",
+   "default": "Home"
+  }
+ ],
+ "presets": [
+  {
+   "name": "Legal content"
+  }
+ ]
+}
+{% endschema %}

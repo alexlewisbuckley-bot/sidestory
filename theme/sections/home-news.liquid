@@ -1,0 +1,76 @@
+<section class="news">
+  <div class="inner rev">
+    <h2>{{ section.settings.s2 }}</h2>
+    <p class="s">{{ section.settings.s3 }}</p>
+    <form id="newsform"><input type="email" placeholder="your@email.com" required aria-label="Email">
+      <button class="btn btn-ink" type="submit">Subscribe</button></form>
+    <p class="fine">{{ section.settings.s4 }}</p>
+    <div class="formdone" hidden>
+      <div class="r"></div>
+      <p class="k">{{ section.settings.s5 }}</p>
+      <h2>{{ section.settings.s6 }}</h2>
+      <p>{{ section.settings.s7 }}</p>
+      <p><a class="ul" href="{{ section.settings.s1 }}">{{ section.settings.s8 }}</a></p>
+    </div>
+  </div>
+</section>
+{% schema %}
+{
+ "name": "Newsletter",
+ "settings": [
+  {
+   "type": "text",
+   "id": "s1",
+   "label": "Link URL",
+   "default": "/pages/stories"
+  },
+  {
+   "type": "text",
+   "id": "s2",
+   "label": "Heading",
+   "default": "Undecided is a&nbsp;fine place to&nbsp;begin."
+  },
+  {
+   "type": "text",
+   "id": "s3",
+   "label": "Text",
+   "default": "One letter a month \u2014 a new chapter, first readings, and nothing else."
+  },
+  {
+   "type": "text",
+   "id": "s4",
+   "label": "Text 2",
+   "default": "One letter a month. Unsubscribe any time \u2014 your address is never shared."
+  },
+  {
+   "type": "text",
+   "id": "s5",
+   "label": "Text 3",
+   "default": "Subscribed"
+  },
+  {
+   "type": "text",
+   "id": "s6",
+   "label": "Heading 2",
+   "default": "The first letter is on its&nbsp;way."
+  },
+  {
+   "type": "textarea",
+   "id": "s7",
+   "label": "Text 4",
+   "default": "One letter a month \u2014 a new chapter, first readings, and nothing else. Unsubscribe from the foot of any of them; your address is never shared."
+  },
+  {
+   "type": "text",
+   "id": "s8",
+   "label": "Link label",
+   "default": "Read the seven while you wait"
+  }
+ ],
+ "presets": [
+  {
+   "name": "Newsletter"
+  }
+ ]
+}
+{% endschema %}

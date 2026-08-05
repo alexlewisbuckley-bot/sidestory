@@ -1,0 +1,55 @@
+<section class="house">
+  <div class="inner rev">
+    <p class="k">{{ section.settings.s3 }}</p>
+    <h2>{{ section.settings.s4 }}</h2>
+    <div class="row"><a href="{{ section.settings.s1 }}">{{ section.settings.s5 }}</a><a href="{{ section.settings.s2 }}">{{ section.settings.s6 }}</a></div>
+  </div>
+</section>
+{% schema %}
+{
+ "name": "Quote band",
+ "settings": [
+  {
+   "type": "text",
+   "id": "s1",
+   "label": "Link URL",
+   "default": "/pages/stories"
+  },
+  {
+   "type": "text",
+   "id": "s2",
+   "label": "Link URL 2",
+   "default": "/pages/our-story"
+  },
+  {
+   "type": "text",
+   "id": "s3",
+   "label": "Text",
+   "default": "Our story"
+  },
+  {
+   "type": "textarea",
+   "id": "s4",
+   "label": "Heading",
+   "default": "I thought deeply about the different stories that ran through our lives and how they had impacted our senses, such as work, love, companionships, pleasure, travel."
+  },
+  {
+   "type": "text",
+   "id": "s5",
+   "label": "Link label",
+   "default": "The Stories"
+  },
+  {
+   "type": "text",
+   "id": "s6",
+   "label": "Link label 2",
+   "default": "Our Story"
+  }
+ ],
+ "presets": [
+  {
+   "name": "Quote band"
+  }
+ ]
+}
+{% endschema %}

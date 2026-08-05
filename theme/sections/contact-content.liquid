@@ -1,0 +1,105 @@
+
+<div class="inner">
+  <p class="crumb"><a href="{{ section.settings.s1 }}">{{ section.settings.s9 }}</a> / Contact</p>
+  <div class="phead"><p class="k">{{ section.settings.s3 }}</p><h1>{{ section.settings.s4 }}</h1>
+    <p class="lede">{{ section.settings.s5 }}</p></div>
+  <form class="form" onsubmit="event.preventDefault();this.hidden=true;var d=this.parentNode.querySelector('.formdone');d.hidden=false;d.setAttribute('tabindex','-1');d.focus();">
+    <div>
+      <div class="row2">
+        <label class="field"><span>Name</span><input required></label>
+        <label class="field"><span>Email</span><input type="email" required></label>
+      </div>
+      <label class="field"><span>What is it about?</span>
+        <select><option>An order</option><option>A return</option><option>Stockists &amp; press</option><option>Something else</option></select></label>
+      <label class="field"><span>Message</span><textarea required></textarea></label>
+      <div class="actions"><button class="btn btn-ink" type="submit">Send</button></div>
+    </div>
+    <div class="aside-card">
+      <h2 class="vh">How to reach&nbsp;us</h2>
+      <h3>Directly</h3>
+      <p>contact@sidestoryparfums.com<br>+44 20 7946 0114<br>Monday to Friday, 9&ndash;5 UK</p>
+      <p>Side Story Parfums<br>Unit 4, The Bindery<br>London E2 8HD</p>
+      <p>Press and wholesale: press@sidestoryparfums.com</p>
+    </div>
+  </form>
+  <div class="formdone" hidden>
+    <div class="r"></div>
+    <p class="k">{{ section.settings.s6 }}</p>
+    <h2>{{ section.settings.s7 }}</h2>
+    <p>{{ section.settings.s8 }}</p>
+    <p><a class="ul" href="{{ section.settings.s2 }}">{{ section.settings.s10 }}</a></p>
+  </div>
+</div>
+
+{% schema %}
+{
+ "name": "Contact content",
+ "settings": [
+  {
+   "type": "text",
+   "id": "s1",
+   "label": "Link URL",
+   "default": "/"
+  },
+  {
+   "type": "text",
+   "id": "s2",
+   "label": "Link URL 2",
+   "default": "/pages/faq"
+  },
+  {
+   "type": "text",
+   "id": "s3",
+   "label": "Text",
+   "default": "Contact"
+  },
+  {
+   "type": "text",
+   "id": "s4",
+   "label": "Heading",
+   "default": "Write to the&nbsp;house."
+  },
+  {
+   "type": "textarea",
+   "id": "s5",
+   "label": "Text 2",
+   "default": "Two people read this inbox. You will hear back within two working days, from one of&nbsp;them."
+  },
+  {
+   "type": "text",
+   "id": "s6",
+   "label": "Text 3",
+   "default": "Received"
+  },
+  {
+   "type": "text",
+   "id": "s7",
+   "label": "Heading 2",
+   "default": "It has&nbsp;arrived."
+  },
+  {
+   "type": "textarea",
+   "id": "s8",
+   "label": "Text 4",
+   "default": "Two people read this inbox and one of them will write back, within two working days. If it is about an order, quoting the order number will get you a faster answer."
+  },
+  {
+   "type": "text",
+   "id": "s9",
+   "label": "Link label",
+   "default": "Home"
+  },
+  {
+   "type": "text",
+   "id": "s10",
+   "label": "Link label 2",
+   "default": "Read the questions we are asked most"
+  }
+ ],
+ "presets": [
+  {
+   "name": "Contact content"
+  }
+ ]
+}
+{% endschema %}

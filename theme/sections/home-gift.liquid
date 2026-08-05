@@ -1,0 +1,58 @@
+<section class="gift" id="set">
+  {% if section.settings.s1 %}<img alt="{{ section.settings.s1.alt | escape }}" src="{{ section.settings.s1 | image_url: width: 1600 }}" loading="lazy">{% else %}<picture><source type="image/avif" srcset="https://sidestory-rho.vercel.app/assets/img/set-first-lines-480.avif?v=c30d6b35 480w, https://sidestory-rho.vercel.app/assets/img/set-first-lines-960.avif?v=2c50c630 960w" sizes="100vw"><source type="image/webp" srcset="https://sidestory-rho.vercel.app/assets/img/set-first-lines-480.webp?v=7f39b1dc 480w, https://sidestory-rho.vercel.app/assets/img/set-first-lines-960.webp?v=ca48dc4a 960w" sizes="100vw"><img src="https://sidestory-rho.vercel.app/assets/img/set-first-lines.jpg?v=56fb700f" alt="" loading="lazy" decoding="async" width="1200" height="800" srcset="https://sidestory-rho.vercel.app/assets/img/set-first-lines-480.jpg?v=09fd8910 480w, https://sidestory-rho.vercel.app/assets/img/set-first-lines-960.jpg?v=af5a91f0 960w" sizes="100vw"></picture>{% endif %}
+  <div class="fade"></div>
+  <div class="c rev">
+    <p class="k">{{ section.settings.s3 }}</p>
+    <h2>{{ section.settings.s4 }}</h2>
+    <p>{{ section.settings.s5 }}</p>
+    <div class="cta"><button class="btn btn-ivory" onclick="addToBag('set','full',this)">Add the set &mdash; &pound;30</button>
+      <a class="btn btn-ghost" href="{{ section.settings.s2 }}">{{ section.settings.s6 }}</a></div>
+  </div>
+</section>
+{% schema %}
+{
+ "name": "Gifting",
+ "settings": [
+  {
+   "type": "image_picker",
+   "id": "s1",
+   "label": "Image (blank = current)"
+  },
+  {
+   "type": "text",
+   "id": "s2",
+   "label": "Link URL",
+   "default": "/products/discovery-set"
+  },
+  {
+   "type": "text",
+   "id": "s3",
+   "label": "Text",
+   "default": "The discovery set"
+  },
+  {
+   "type": "text",
+   "id": "s4",
+   "label": "Heading",
+   "default": "Read first. Decide&nbsp;later."
+  },
+  {
+   "type": "textarea",
+   "id": "s5",
+   "label": "Text 2",
+   "default": "All seven stories in miniature &mdash; 2ml of each, and the opening page of every one. Wear one a day for a week, then choose the bottle you keep."
+  },
+  {
+   "type": "text",
+   "id": "s6",
+   "label": "Link label",
+   "default": "What&rsquo;s in it"
+  }
+ ],
+ "presets": [
+  {
+   "name": "Gifting"
+  }
+ ]
+}
+{% endschema %}

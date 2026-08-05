@@ -1,0 +1,72 @@
+
+<div class="inner">
+  <p class="crumb"><a href="{{ section.settings.s1 }}">{{ section.settings.s4 }}</a> / FAQ</p>
+  <div class="phead"><p class="k">{{ section.settings.s2 }}</p><h1>{{ section.settings.s3 }}</h1></div>
+  <div class="acc narrow qa">
+    {% for block in section.blocks %}<details{% if block.settings.b1 %} open{% endif %} {{ block.shopify_attributes }}><summary>{{ block.settings.b3 }}</summary><div class="body">{{ block.settings.b2 }}</div></details>{% endfor %}
+  </div>
+</div>
+
+{% schema %}
+{
+ "name": "Faq content",
+ "settings": [
+  {
+   "type": "text",
+   "id": "s1",
+   "label": "Link URL",
+   "default": "/"
+  },
+  {
+   "type": "text",
+   "id": "s2",
+   "label": "Text",
+   "default": "The practical"
+  },
+  {
+   "type": "text",
+   "id": "s3",
+   "label": "Heading",
+   "default": "The questions we are actually&nbsp;asked."
+  },
+  {
+   "type": "text",
+   "id": "s4",
+   "label": "Link label",
+   "default": "Home"
+  }
+ ],
+ "blocks": [
+  {
+   "type": "item",
+   "name": "FAQ item",
+   "settings": [
+    {
+     "type": "checkbox",
+     "id": "b1",
+     "label": "Open by default",
+     "default": true
+    },
+    {
+     "type": "html",
+     "id": "b2",
+     "label": "Answer",
+     "default": "Yes, and it is the whole point. A novelist is commissioned and paid before any brief goes to Grasse. The perfumer works to the finished pages &mdash; the hour of day in them, the room, the weather &mdash; not to a mood board."
+    },
+    {
+     "type": "text",
+     "id": "b3",
+     "label": "Question",
+     "default": "Is the story really written first?"
+    }
+   ]
+  }
+ ],
+ "max_blocks": 25,
+ "presets": [
+  {
+   "name": "Faq content"
+  }
+ ]
+}
+{% endschema %}

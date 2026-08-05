@@ -1,0 +1,109 @@
+<section class="howworks">
+  <span class="ghost" aria-hidden="true">{{ section.settings.s14 }}</span>
+  <div class="inner">
+    <p class="k">{{ section.settings.s1 }}</p>
+    <h2>{{ section.settings.s2 }}</h2>
+    <div class="hsteps">
+      <div class="hstep"><em>I</em><h3>{{ section.settings.s3 }}</h3><p>{{ section.settings.s4 }}</p></div>
+      <div class="hstep"><em>{{ section.settings.s5 }}</em><h3>{{ section.settings.s6 }}</h3><p>{{ section.settings.s7 }}</p></div>
+      <div class="hstep"><em>{{ section.settings.s8 }}</em><h3>{{ section.settings.s9 }}</h3><p>{{ section.settings.s10 }}</p></div>
+      <div class="hstep"><em>{{ section.settings.s11 }}</em><h3>{{ section.settings.s12 }}</h3><p>{{ section.settings.s13 }}</p></div>
+    </div>
+  </div>
+</section>
+{% schema %}
+{
+ "name": "Howworks",
+ "settings": [
+  {
+   "type": "text",
+   "id": "s1",
+   "label": "Text",
+   "default": "How it works"
+  },
+  {
+   "type": "text",
+   "id": "s2",
+   "label": "Heading",
+   "default": "Four steps, one&nbsp;bottle."
+  },
+  {
+   "type": "text",
+   "id": "s3",
+   "label": "Sub-heading",
+   "default": "Write it&nbsp;plainly"
+  },
+  {
+   "type": "textarea",
+   "id": "s4",
+   "label": "Text 2",
+   "default": "No more than 500 words. A moment, not a memoir &mdash; where you were, who was there, what the air was doing."
+  },
+  {
+   "type": "text",
+   "id": "s5",
+   "label": "Label",
+   "default": "II"
+  },
+  {
+   "type": "text",
+   "id": "s6",
+   "label": "Sub-heading 2",
+   "default": "We read&nbsp;everything"
+  },
+  {
+   "type": "text",
+   "id": "s7",
+   "label": "Text 3",
+   "default": "Every submission is read by the house. You will hear from us either way, within a month."
+  },
+  {
+   "type": "text",
+   "id": "s8",
+   "label": "Label 2",
+   "default": "III"
+  },
+  {
+   "type": "text",
+   "id": "s9",
+   "label": "Sub-heading 3",
+   "default": "A shortlist goes to&nbsp;Grasse"
+  },
+  {
+   "type": "textarea",
+   "id": "s10",
+   "label": "Text 4",
+   "default": "Four stories a year are sent to Jacques Chabert and the Argeville noses to be read aloud, unattributed."
+  },
+  {
+   "type": "text",
+   "id": "s11",
+   "label": "Label 3",
+   "default": "IV"
+  },
+  {
+   "type": "text",
+   "id": "s12",
+   "label": "Sub-heading 4",
+   "default": "One becomes a&nbsp;fragrance"
+  },
+  {
+   "type": "textarea",
+   "id": "s13",
+   "label": "Text 5",
+   "default": "Published under your name in the printed edition, with the first bottle of the run sent to you."
+  },
+  {
+   "type": "text",
+   "id": "s14",
+   "label": "Label 4",
+   "default": "Eighth"
+  }
+ ],
+ "presets": [
+  {
+   "name": "Howworks"
+  }
+ ]
+}
+{% endschema %}

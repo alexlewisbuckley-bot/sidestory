@@ -1,0 +1,37 @@
+<section class="invite">
+  <div class="inner">
+    <p class="k">{{ section.settings.s1 }}</p>
+    <h2>{{ section.settings.s2 }}</h2>
+    <p>{{ section.settings.s3 }}</p>
+  </div>
+</section>
+{% schema %}
+{
+ "name": "Invite",
+ "settings": [
+  {
+   "type": "text",
+   "id": "s1",
+   "label": "Text",
+   "default": "Share your story"
+  },
+  {
+   "type": "textarea",
+   "id": "s2",
+   "label": "Heading",
+   "default": "A fine fragrance tells a&nbsp;story in a&nbsp;whisper, beckoning a&nbsp;listener to come&nbsp;closer."
+  },
+  {
+   "type": "textarea",
+   "id": "s3",
+   "label": "Text 2",
+   "default": "We catch wind of it indirectly: in stolen moments, chance encounters, strokes of serendipity. These side stories stimulate our senses and tease our imaginations. They are the prologues to adventures, romances, and life&rsquo;s little stories. They seduce and enchant, captivate and embolden, promising something not soon forgotten."
+  }
+ ],
+ "presets": [
+  {
+   "name": "Invite"
+  }
+ ]
+}
+{% endschema %}

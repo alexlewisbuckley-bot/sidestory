@@ -1,0 +1,91 @@
+<section class="hero">
+  <div class="shots" aria-hidden="true">
+    {% if section.settings.s1 %}<img class="on" alt="{{ section.settings.s1.alt | escape }}" src="{{ section.settings.s1 | image_url: width: 1600 }}" loading="lazy">{% else %}<picture><source type="image/avif" srcset="https://sidestory-rho.vercel.app/assets/img/hero-480.avif?v=431921f6 480w, https://sidestory-rho.vercel.app/assets/img/hero-960.avif?v=a35ba89a 960w, https://sidestory-rho.vercel.app/assets/img/hero-1600.avif?v=4d67a908 1600w" sizes="100vw"><source type="image/webp" srcset="https://sidestory-rho.vercel.app/assets/img/hero-480.webp?v=019d3ef6 480w, https://sidestory-rho.vercel.app/assets/img/hero-960.webp?v=389a6862 960w, https://sidestory-rho.vercel.app/assets/img/hero-1600.webp?v=06746608 1600w" sizes="100vw"><img class="on" src="https://sidestory-rho.vercel.app/assets/img/hero.jpg?v=ec26e51c" alt="" fetchpriority="high" decoding="async" width="1800" height="1124" srcset="https://sidestory-rho.vercel.app/assets/img/hero-480.jpg?v=f6447b45 480w, https://sidestory-rho.vercel.app/assets/img/hero-960.jpg?v=dda53cb4 960w, https://sidestory-rho.vercel.app/assets/img/hero-1600.jpg?v=026e2bca 1600w" sizes="100vw"></picture>{% endif %}
+    {% if section.settings.s2 %}<img alt="{{ section.settings.s2.alt | escape }}" src="{{ section.settings.s2 | image_url: width: 1600 }}" loading="lazy">{% else %}<picture><source type="image/avif" srcset="https://sidestory-rho.vercel.app/assets/img/stone-shelf-480.avif?v=f02e336a 480w, https://sidestory-rho.vercel.app/assets/img/stone-shelf-960.avif?v=e6e96135 960w, https://sidestory-rho.vercel.app/assets/img/stone-shelf-1600.avif?v=ebfb9f0b 1600w" sizes="100vw"><source type="image/webp" srcset="https://sidestory-rho.vercel.app/assets/img/stone-shelf-480.webp?v=9b545910 480w, https://sidestory-rho.vercel.app/assets/img/stone-shelf-960.webp?v=17f62665 960w, https://sidestory-rho.vercel.app/assets/img/stone-shelf-1600.webp?v=5a1373c3 1600w" sizes="100vw"><img src="https://sidestory-rho.vercel.app/assets/img/stone-shelf.jpg?v=5168998a" alt="" loading="lazy" decoding="async" width="1800" height="1200" srcset="https://sidestory-rho.vercel.app/assets/img/stone-shelf-480.jpg?v=22c8f221 480w, https://sidestory-rho.vercel.app/assets/img/stone-shelf-960.jpg?v=8c40db6e 960w, https://sidestory-rho.vercel.app/assets/img/stone-shelf-1600.jpg?v=2f49b4ad 1600w" sizes="100vw"></picture>{% endif %}
+  </div>
+  <div class="dots" role="tablist" aria-label="Hero images">
+    <button role="tab" aria-current="true" aria-label="First image"></button>
+    <button role="tab" aria-label="Second image"></button>
+  </div>
+  <div class="veil"></div>
+  <div class="copy">
+    <p class="k">{{ section.settings.s5 }}</p>
+    <h1>{{ section.settings.s6 }}</h1>
+    <p>{{ section.settings.s7 }}</p>
+    <div class="cta">
+      <a class="btn btn-ivory" href="{{ section.settings.s3 }}">{{ section.settings.s9 }}</a>
+      <a class="btn btn-ghost wide" href="{{ section.settings.s4 }}">{{ section.settings.s10 }}</a>
+    </div>
+  </div>
+  <div class="cue"><s></s><em>{{ section.settings.s8 }}</em></div>
+</section>
+{% schema %}
+{
+ "name": "Hero",
+ "settings": [
+  {
+   "type": "image_picker",
+   "id": "s1",
+   "label": "Image (blank = current)"
+  },
+  {
+   "type": "image_picker",
+   "id": "s2",
+   "label": "Image (blank = current) 2"
+  },
+  {
+   "type": "text",
+   "id": "s3",
+   "label": "Link URL",
+   "default": "/collections/the-fragrances"
+  },
+  {
+   "type": "text",
+   "id": "s4",
+   "label": "Link URL 2",
+   "default": "/collections/the-fragrances?size=sample"
+  },
+  {
+   "type": "text",
+   "id": "s5",
+   "label": "Text",
+   "default": "Side Story \u2014 Luxury Parfums"
+  },
+  {
+   "type": "text",
+   "id": "s6",
+   "label": "Heading",
+   "default": "Short narratives&nbsp;+ deliberate scents."
+  },
+  {
+   "type": "textarea",
+   "id": "s7",
+   "label": "Text 2",
+   "default": "Crafted with fine &amp; broad-ranging ingredients, the scents inspire nostalgia, expression and memory."
+  },
+  {
+   "type": "text",
+   "id": "s8",
+   "label": "Label",
+   "default": "Scroll"
+  },
+  {
+   "type": "text",
+   "id": "s9",
+   "label": "Link label",
+   "default": "Shop the seven"
+  },
+  {
+   "type": "text",
+   "id": "s10",
+   "label": "Link label 2",
+   "default": "Shop samples \u2014 \u00a35"
+  }
+ ],
+ "presets": [
+  {
+   "name": "Hero"
+  }
+ ]
+}
+{% endschema %}

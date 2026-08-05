@@ -1,0 +1,105 @@
+<section class="show">
+  <div class="inner">
+    <picture><source type="image/avif" srcset="https://sidestory-rho.vercel.app/assets/img/unboxing-480.avif?v=f40a926a 480w, https://sidestory-rho.vercel.app/assets/img/unboxing-960.avif?v=2d937597 960w" sizes="100vw"><source type="image/webp" srcset="https://sidestory-rho.vercel.app/assets/img/unboxing-480.webp?v=814595e2 480w, https://sidestory-rho.vercel.app/assets/img/unboxing-960.webp?v=fe9bf68a 960w" sizes="100vw"><img class="big rev" id="showbig" src="https://sidestory-rho.vercel.app/assets/img/unboxing.jpg?v=01cf3ed0" alt="Hotel Lobby, boxed with its printed story" loading="lazy" decoding="async" width="1400" height="933" srcset="https://sidestory-rho.vercel.app/assets/img/unboxing-480.jpg?v=e910b36a 480w, https://sidestory-rho.vercel.app/assets/img/unboxing-960.jpg?v=e08fa10b 960w" sizes="100vw"></picture>
+    <div class="thumbs rev">
+      <button aria-current="true" onclick="showSwap(this,'https://sidestory-rho.vercel.app/assets/img/unboxing.jpg?v=01cf3ed0')"><picture><source type="image/avif" srcset="https://sidestory-rho.vercel.app/assets/img/unboxing-480.avif?v=f40a926a 480w, https://sidestory-rho.vercel.app/assets/img/unboxing-960.avif?v=2d937597 960w" sizes="100vw"><source type="image/webp" srcset="https://sidestory-rho.vercel.app/assets/img/unboxing-480.webp?v=814595e2 480w, https://sidestory-rho.vercel.app/assets/img/unboxing-960.webp?v=fe9bf68a 960w" sizes="100vw"><img src="https://sidestory-rho.vercel.app/assets/img/unboxing.jpg?v=01cf3ed0" alt="Boxed with its printed story" loading="lazy" decoding="async" width="1400" height="933" srcset="https://sidestory-rho.vercel.app/assets/img/unboxing-480.jpg?v=e910b36a 480w, https://sidestory-rho.vercel.app/assets/img/unboxing-960.jpg?v=e08fa10b 960w" sizes="100vw"></picture></button>
+      <button onclick="showSwap(this,'https://sidestory-rho.vercel.app/assets/img/p-hotel-lobby-1.jpg?v=55d5bc8c')"><picture><source type="image/avif" srcset="https://sidestory-rho.vercel.app/assets/img/p-hotel-lobby-1-480.avif?v=388f5fd6 480w" sizes="100vw"><source type="image/webp" srcset="https://sidestory-rho.vercel.app/assets/img/p-hotel-lobby-1-480.webp?v=17139e72 480w" sizes="100vw"><img src="https://sidestory-rho.vercel.app/assets/img/p-hotel-lobby-1.jpg?v=55d5bc8c" alt="The bottle" loading="lazy" decoding="async" width="649" height="648" srcset="https://sidestory-rho.vercel.app/assets/img/p-hotel-lobby-1-480.jpg?v=62233e28 480w" sizes="100vw"></picture></button>
+      <button onclick="showSwap(this,'https://sidestory-rho.vercel.app/assets/img/spine.jpg?v=6fc84392')"><picture><source type="image/avif" srcset="https://sidestory-rho.vercel.app/assets/img/spine-480.avif?v=0dfcbd88 480w, https://sidestory-rho.vercel.app/assets/img/spine-960.avif?v=597e68ec 960w" sizes="100vw"><source type="image/webp" srcset="https://sidestory-rho.vercel.app/assets/img/spine-480.webp?v=693f8f2e 480w, https://sidestory-rho.vercel.app/assets/img/spine-960.webp?v=5cf34603 960w" sizes="100vw"><img src="https://sidestory-rho.vercel.app/assets/img/spine.jpg?v=6fc84392" alt="The embossed box" loading="lazy" decoding="async" width="1200" height="800" srcset="https://sidestory-rho.vercel.app/assets/img/spine-480.jpg?v=34f64303 480w, https://sidestory-rho.vercel.app/assets/img/spine-960.jpg?v=ac7ff882 960w" sizes="100vw"></picture></button>
+    </div>
+    <div class="copy rev">
+      <p class="k">{{ section.settings.s2 }}</p>
+      <h2>{{ section.settings.s3 }}</h2>
+      <blockquote>{{ section.settings.s4 }}</blockquote>
+      <div class="spec"><b>{{ section.settings.s5 }}</b><span>{{ section.settings.s9 }}</span></div>
+      <div class="spec"><b>{{ section.settings.s6 }}</b><span>{{ section.settings.s10 }}</span></div>
+      <div class="spec"><b>{{ section.settings.s7 }}</b><span>{{ section.settings.s11 }}</span></div>
+      <div class="cta"><button class="btn btn-ink" onclick="addToBag('hotel-lobby','full',this)">Add to bag &mdash; &pound;160</button>
+        <a class="btn btn-ghostink" href="{{ section.settings.s1 }}">{{ section.settings.s12 }}</a></div>
+      <p class="re">{{ section.settings.s8 }}</p>
+    </div>
+  </div>
+</section>
+{% schema %}
+{
+ "name": "Gallery",
+ "settings": [
+  {
+   "type": "text",
+   "id": "s1",
+   "label": "Link URL",
+   "default": "/pages/story-hotel-lobby"
+  },
+  {
+   "type": "text",
+   "id": "s2",
+   "label": "Text",
+   "default": "The chapter of the season"
+  },
+  {
+   "type": "text",
+   "id": "s3",
+   "label": "Heading",
+   "default": "Hotel Lobby"
+  },
+  {
+   "type": "textarea",
+   "id": "s4",
+   "label": "Quote",
+   "default": "&ldquo;The bar was the kind of place Hemingway might have lingered a&nbsp;little too long.&rdquo;"
+  },
+  {
+   "type": "text",
+   "id": "s5",
+   "label": "Label",
+   "default": "Story"
+  },
+  {
+   "type": "text",
+   "id": "s6",
+   "label": "Label 2",
+   "default": "Style"
+  },
+  {
+   "type": "text",
+   "id": "s7",
+   "label": "Label 3",
+   "default": "Stone"
+  },
+  {
+   "type": "text",
+   "id": "s8",
+   "label": "Text 2",
+   "default": "Complimentary UK delivery over &pound;30 &middot; signed for, two to four working days"
+  },
+  {
+   "type": "text",
+   "id": "s9",
+   "label": "Label 4",
+   "default": "Anticipation + Attraction"
+  },
+  {
+   "type": "text",
+   "id": "s10",
+   "label": "Label 5",
+   "default": "Woods. Green."
+  },
+  {
+   "type": "text",
+   "id": "s11",
+   "label": "Label 6",
+   "default": "Nero Marquina, Basque Country"
+  },
+  {
+   "type": "text",
+   "id": "s12",
+   "label": "Link label",
+   "default": "Read the story"
+  }
+ ],
+ "presets": [
+  {
+   "name": "Gallery"
+  }
+ ]
+}
+{% endschema %}

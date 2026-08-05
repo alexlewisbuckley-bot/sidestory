@@ -1,0 +1,139 @@
+<section class="postbag" id="postbag">
+  <div class="inner">
+    <p class="k">{{ section.settings.s2 }}</p>
+    <h2>{{ section.settings.s3 }}</h2>
+    <p class="pintro">{{ section.settings.s4 }}</p>
+    <div class="pnotes">
+      <article class="pnote">
+        <span class="tag verde">{{ section.settings.s14 }}</span>
+        <h3>{{ section.settings.s5 }}</h3>
+        <p class="who">{{ section.settings.s6 }}</p>
+        <blockquote>{{ section.settings.s7 }}</blockquote></article>
+      <article class="pnote">
+        <span class="tag verde">{{ section.settings.s15 }}</span>
+        <h3>{{ section.settings.s8 }}</h3>
+        <p class="who">{{ section.settings.s9 }}</p>
+        <blockquote>{{ section.settings.s10 }}</blockquote></article>
+      <article class="pnote">
+        <span class="tag verde">{{ section.settings.s16 }}</span>
+        <h3>{{ section.settings.s11 }}</h3>
+        <p class="who">{{ section.settings.s12 }}</p>
+        <blockquote>{{ section.settings.s13 }}</blockquote></article>
+    </div>
+    <a class="ul" href="{{ section.settings.s1 }}">{{ section.settings.s17 }}</a>
+  </div>
+</section>
+{% schema %}
+{
+ "name": "Postbag",
+ "settings": [
+  {
+   "type": "text",
+   "id": "s1",
+   "label": "Link URL",
+   "default": "/pages/stories"
+  },
+  {
+   "type": "text",
+   "id": "s2",
+   "label": "Text",
+   "default": "From the postbag"
+  },
+  {
+   "type": "text",
+   "id": "s3",
+   "label": "Heading",
+   "default": "What people have already sent&nbsp;us."
+  },
+  {
+   "type": "text",
+   "id": "s4",
+   "label": "Text 2",
+   "default": "Every fragrance on the shelf began this way &mdash; a story first, produced later."
+  },
+  {
+   "type": "text",
+   "id": "s5",
+   "label": "Sub-heading",
+   "default": "Hotel Lobby"
+  },
+  {
+   "type": "text",
+   "id": "s6",
+   "label": "Text 3",
+   "default": "Story I &middot; Anticipation + Attraction"
+  },
+  {
+   "type": "textarea",
+   "id": "s7",
+   "label": "Quote",
+   "default": "&ldquo;The bar was the kind of place Hemingway might have lingered a&nbsp;little too long.&rdquo;"
+  },
+  {
+   "type": "text",
+   "id": "s8",
+   "label": "Sub-heading 2",
+   "default": "Sunday Service"
+  },
+  {
+   "type": "text",
+   "id": "s9",
+   "label": "Text 4",
+   "default": "Story II &middot; Introspection + Reflection"
+  },
+  {
+   "type": "text",
+   "id": "s10",
+   "label": "Quote 2",
+   "default": "&ldquo;The music was the same. The cool, oaky air of the church was the same.&rdquo;"
+  },
+  {
+   "type": "text",
+   "id": "s11",
+   "label": "Sub-heading 3",
+   "default": "Third Date"
+  },
+  {
+   "type": "text",
+   "id": "s12",
+   "label": "Text 5",
+   "default": "Story IV &middot; Fervour + Connection"
+  },
+  {
+   "type": "textarea",
+   "id": "s13",
+   "label": "Quote 3",
+   "default": "&ldquo;There was such familiarity between them, as if they\u2019d known each other a&nbsp;lifetime ago and were simply catching up.&rdquo;"
+  },
+  {
+   "type": "text",
+   "id": "s14",
+   "label": "Label",
+   "default": "Produced"
+  },
+  {
+   "type": "text",
+   "id": "s15",
+   "label": "Label 2",
+   "default": "Produced"
+  },
+  {
+   "type": "text",
+   "id": "s16",
+   "label": "Label 3",
+   "default": "Produced"
+  },
+  {
+   "type": "text",
+   "id": "s17",
+   "label": "Link label",
+   "default": "Read the full postbag &rarr;"
+  }
+ ],
+ "presets": [
+  {
+   "name": "Postbag"
+  }
+ ]
+}
+{% endschema %}

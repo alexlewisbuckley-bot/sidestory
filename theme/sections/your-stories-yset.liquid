@@ -1,0 +1,43 @@
+<section class="yset">
+  <div class="inner">
+    <h2>{{ section.settings.s2 }}</h2>
+    <p>{{ section.settings.s3 }}</p>
+    <a class="btn btn-ivory" href="{{ section.settings.s1 }}">{{ section.settings.s4 }}</a>
+  </div>
+</section>
+{% schema %}
+{
+ "name": "Yset",
+ "settings": [
+  {
+   "type": "text",
+   "id": "s1",
+   "label": "Link URL",
+   "default": "/products/discovery-set"
+  },
+  {
+   "type": "text",
+   "id": "s2",
+   "label": "Heading",
+   "default": "Undecided? Read three, then choose&nbsp;one."
+  },
+  {
+   "type": "text",
+   "id": "s3",
+   "label": "Text",
+   "default": "The Discovery Set &mdash; all seven in miniature, &pound;30."
+  },
+  {
+   "type": "text",
+   "id": "s4",
+   "label": "Link label",
+   "default": "Begin the set"
+  }
+ ],
+ "presets": [
+  {
+   "name": "Yset"
+  }
+ ]
+}
+{% endschema %}

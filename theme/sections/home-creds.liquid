@@ -1,0 +1,56 @@
+<section class="creds" aria-labelledby="creds-h">
+  <div class="inner">
+    <p class="k rev" id="creds-h">{{ section.settings.s1 }}</p>
+    <div class="credrow">
+      {% for block in section.blocks %}<figure class="cred rev" {{ block.shopify_attributes }}>
+        <blockquote>{{ block.settings.b1 }}</blockquote>
+        <figcaption>{{ block.settings.b2 }}</figcaption></figure>{% endfor %}
+    </div>
+    <p class="credfoot rev">{{ section.settings.s2 }}</p>
+  </div>
+</section>
+{% schema %}
+{
+ "name": "Press quotes",
+ "settings": [
+  {
+   "type": "text",
+   "id": "s1",
+   "label": "Text",
+   "default": "In the press"
+  },
+  {
+   "type": "text",
+   "id": "s2",
+   "label": "Text 2",
+   "default": "FILLER \u2014 stockist line to come"
+  }
+ ],
+ "blocks": [
+  {
+   "type": "item",
+   "name": "Quote",
+   "settings": [
+    {
+     "type": "text",
+     "id": "b1",
+     "label": "Quote",
+     "default": "The most literate thing to happen to British perfume in a&nbsp;decade."
+    },
+    {
+     "type": "text",
+     "id": "b2",
+     "label": "Caption",
+     "default": "FILLER \u2014 attribution to come"
+    }
+   ]
+  }
+ ],
+ "max_blocks": 25,
+ "presets": [
+  {
+   "name": "Press quotes"
+  }
+ ]
+}
+{% endschema %}

@@ -1,0 +1,65 @@
+<section class="band">
+  <div class="inner">
+    <p class="crumb"><a href="{{ section.settings.s1 }}">{{ section.settings.s6 }}</a> / Our Story</p>
+    <div class="artgrid">
+      <div class="col">
+        <p class="dropcap">{{ section.settings.s2 }}</p>
+        <p>{{ section.settings.s3 }}</p>
+        <p>{{ section.settings.s4 }}</p>
+        <p class="signoff">{{ section.settings.s5 }}</p>
+      </div>
+      <div class="artaside">
+        <p class="marginnote">Seven writers. Seven stones. One perfumer.<small>The house, in short</small></p>
+        <p class="marginnote">Every writer is paid a fee and a royalty on the fragrance their story becomes.<small>How we commission</small></p>
+      </div>
+    </div>
+  </div>
+</section>
+{% schema %}
+{
+ "name": "Story band",
+ "settings": [
+  {
+   "type": "text",
+   "id": "s1",
+   "label": "Link URL",
+   "default": "/"
+  },
+  {
+   "type": "textarea",
+   "id": "s2",
+   "label": "Text",
+   "default": "My childhood memories are tinged with the scent of sandalwood. My grandfather owned plantations in India, which were the source of the soft, balsamic wood my childhood toys and trinkets were made from. Today, sandalwood is my Proustian madeleine: it instantly transports me to another time and place. I&rsquo;m obsessed with sensory experiences like these."
+  },
+  {
+   "type": "textarea",
+   "id": "s3",
+   "label": "Text 2",
+   "default": "I thought deeply about the different stories that ran through our lives and how they had impacted our senses, such as work, love, companionships, pleasure, travel. Since then, everything has been about capturing a story in a fragrance, and creating something that would evoke and transport a wearer to their own version of that story."
+  },
+  {
+   "type": "textarea",
+   "id": "s4",
+   "label": "Text 3",
+   "default": "Today, each bottle of Side Story perfume begins its journey in Grasse, Provence, and is produced alongside a network of independent artisans. The fragrances are bottled in soda glass and sealed with hand-carved marble lids. Our century-old production facility, farmers, distillers, compounders, stonemasons, label makers, and designers are scattered across the globe."
+  },
+  {
+   "type": "text",
+   "id": "s5",
+   "label": "Text 4",
+   "default": "Rana."
+  },
+  {
+   "type": "text",
+   "id": "s6",
+   "label": "Link label",
+   "default": "Home"
+  }
+ ],
+ "presets": [
+  {
+   "name": "Story band"
+  }
+ ]
+}
+{% endschema %}

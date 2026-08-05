@@ -1,0 +1,66 @@
+{
+ "sections": {
+  "your-stories-ysintro": {
+   "type": "your-stories-ysintro",
+   "settings": {
+    "s1": "Your stories",
+    "s2": "Seven stories. Read one on&nbsp;us.",
+    "s3": "Every fragrance we make began as fiction, commissioned before a&nbsp;single note was weighed. Read them here in full &mdash; the printed edition arrives in the&nbsp;box."
+   }
+  },
+  "your-stories-yfeat": {
+   "type": "your-stories-yfeat",
+   "settings": {
+    "s2": "/pages/story-sunday-service",
+    "s3": "Story II &middot; 7 min read",
+    "s4": "Sunday Service",
+    "s5": "&ldquo;The music was the same. The cool, oaky air of the church was the same.&rdquo;",
+    "s6": "Read the story &rarr;"
+   }
+  },
+  "your-stories-ygrid": {
+   "type": "your-stories-ygrid",
+   "settings": {
+    "s7": "/pages/story-hotel-lobby",
+    "s8": "/pages/story-sibling-rivalry",
+    "s9": "/pages/story-third-date",
+    "s10": "/pages/story-road-trip",
+    "s11": "/pages/story-4pm-matinee",
+    "s12": "/pages/story-pillow-talk",
+    "s13": "Hotel Lobby",
+    "s14": "It was a ten minutes before 8pm when he arrived.",
+    "s15": "Sibling Rivalry",
+    "s16": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    "s17": "Third Date",
+    "s18": "What did she like about him? Her friends wanted to know.",
+    "s19": "Road Trip",
+    "s20": "They knew where they were going, but neither seemed to mind the impromptu detour along the way.",
+    "s21": "4pm Matinee",
+    "s22": "She came to the afternoon matinee alone.",
+    "s23": "Pillow Talk",
+    "s24": "They had been awake for hours, drifting in and out of consciousness, unspooling the sweet trivialities of their\u2026",
+    "s25": "Read &rarr;",
+    "s26": "Read &rarr;",
+    "s27": "Read &rarr;",
+    "s28": "Read &rarr;",
+    "s29": "Read &rarr;",
+    "s30": "Read &rarr;"
+   }
+  },
+  "your-stories-yset": {
+   "type": "your-stories-yset",
+   "settings": {
+    "s1": "/products/discovery-set",
+    "s2": "Undecided? Read three, then choose&nbsp;one.",
+    "s3": "The Discovery Set &mdash; all seven in miniature, &pound;30.",
+    "s4": "Begin the set"
+   }
+  }
+ },
+ "order": [
+  "your-stories-ysintro",
+  "your-stories-yfeat",
+  "your-stories-ygrid",
+  "your-stories-yset"
+ ]
+}

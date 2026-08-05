@@ -1,0 +1,22 @@
+{
+ "sections": {
+  "contact-content": {
+   "type": "contact-content",
+   "settings": {
+    "s1": "/",
+    "s2": "/pages/faq",
+    "s3": "Contact",
+    "s4": "Write to the&nbsp;house.",
+    "s5": "Two people read this inbox. You will hear back within two working days, from one of&nbsp;them.",
+    "s6": "Received",
+    "s7": "It has&nbsp;arrived.",
+    "s8": "Two people read this inbox and one of them will write back, within two working days. If it is about an order, quoting the order number will get you a faster answer.",
+    "s9": "Home",
+    "s10": "Read the questions we are asked most"
+   }
+  }
+ },
+ "order": [
+  "contact-content"
+ ]
+}

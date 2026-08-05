@@ -1,0 +1,91 @@
+<section class="band tint" id="making">
+  <div class="inner">
+    <p class="k">{{ section.settings.s4 }}</p>
+    <h2>{{ section.settings.s5 }}</h2>
+    <div class="grid-3">
+      <figure>{% if section.settings.s1 %}<img class="figfull" alt="{{ section.settings.s1.alt | escape }}" src="{{ section.settings.s1 | image_url: width: 1600 }}" loading="lazy">{% else %}<picture><source type="image/avif" srcset="https://sidestory-rho.vercel.app/assets/img/plants-480.avif?v=1fde4be5 480w, https://sidestory-rho.vercel.app/assets/img/plants-960.avif?v=3765d682 960w" sizes="100vw"><source type="image/webp" srcset="https://sidestory-rho.vercel.app/assets/img/plants-480.webp?v=49eadac5 480w, https://sidestory-rho.vercel.app/assets/img/plants-960.webp?v=5ad5650e 960w" sizes="100vw"><img class="figfull" src="https://sidestory-rho.vercel.app/assets/img/plants.jpg?v=058397f4" alt="Botanicals for the compositions" loading="lazy" decoding="async" width="1200" height="800" srcset="https://sidestory-rho.vercel.app/assets/img/plants-480.jpg?v=3895ade1 480w, https://sidestory-rho.vercel.app/assets/img/plants-960.jpg?v=c541aad4 960w" sizes="100vw"></picture>{% endif %}<figcaption class="hint">{{ section.settings.s6 }}</figcaption></figure>
+      <figure>{% if section.settings.s2 %}<img class="figfull" alt="{{ section.settings.s2.alt | escape }}" src="{{ section.settings.s2 | image_url: width: 1600 }}" loading="lazy">{% else %}<picture><source type="image/avif" srcset="https://sidestory-rho.vercel.app/assets/img/founders-480.avif?v=e4758b8c 480w, https://sidestory-rho.vercel.app/assets/img/founders-960.avif?v=072fede8 960w, https://sidestory-rho.vercel.app/assets/img/founders-1600.avif?v=787feb2e 1600w" sizes="100vw"><source type="image/webp" srcset="https://sidestory-rho.vercel.app/assets/img/founders-480.webp?v=1b8aa762 480w, https://sidestory-rho.vercel.app/assets/img/founders-960.webp?v=57b4a5fd 960w, https://sidestory-rho.vercel.app/assets/img/founders-1600.webp?v=9809c80f 1600w" sizes="100vw"><img class="figfull" src="https://sidestory-rho.vercel.app/assets/img/founders.jpg?v=b4fe6c2f" alt="The house at work" loading="lazy" decoding="async" width="1600" height="828" srcset="https://sidestory-rho.vercel.app/assets/img/founders-480.jpg?v=90a401f5 480w, https://sidestory-rho.vercel.app/assets/img/founders-960.jpg?v=6ab03efc 960w, https://sidestory-rho.vercel.app/assets/img/founders-1600.jpg?v=c53f60c3 1600w" sizes="100vw"></picture>{% endif %}<figcaption class="hint">{{ section.settings.s7 }}</figcaption></figure>
+      <figure>{% if section.settings.s3 %}<img class="figfull" alt="{{ section.settings.s3.alt | escape }}" src="{{ section.settings.s3 | image_url: width: 1600 }}" loading="lazy">{% else %}<picture><source type="image/avif" srcset="https://sidestory-rho.vercel.app/assets/img/spine-480.avif?v=0dfcbd88 480w, https://sidestory-rho.vercel.app/assets/img/spine-960.avif?v=597e68ec 960w" sizes="100vw"><source type="image/webp" srcset="https://sidestory-rho.vercel.app/assets/img/spine-480.webp?v=693f8f2e 480w, https://sidestory-rho.vercel.app/assets/img/spine-960.webp?v=5cf34603 960w" sizes="100vw"><img class="figfull" src="https://sidestory-rho.vercel.app/assets/img/spine.jpg?v=6fc84392" alt="Stone meeting glass" loading="lazy" decoding="async" width="1200" height="800" srcset="https://sidestory-rho.vercel.app/assets/img/spine-480.jpg?v=34f64303 480w, https://sidestory-rho.vercel.app/assets/img/spine-960.jpg?v=ac7ff882 960w" sizes="100vw"></picture>{% endif %}<figcaption class="hint">{{ section.settings.s8 }}</figcaption></figure>
+    </div>
+    <div class="cols cols-3">
+      <p>{{ section.settings.s9 }}</p>
+      <p>{{ section.settings.s10 }}</p>
+      <p>{{ section.settings.s11 }}</p>
+    </div>
+  </div>
+</section>
+{% schema %}
+{
+ "name": "Story band",
+ "settings": [
+  {
+   "type": "image_picker",
+   "id": "s1",
+   "label": "Image (blank = current)"
+  },
+  {
+   "type": "image_picker",
+   "id": "s2",
+   "label": "Image (blank = current) 2"
+  },
+  {
+   "type": "image_picker",
+   "id": "s3",
+   "label": "Image (blank = current) 3"
+  },
+  {
+   "type": "text",
+   "id": "s4",
+   "label": "Text",
+   "default": "The making"
+  },
+  {
+   "type": "text",
+   "id": "s5",
+   "label": "Heading",
+   "default": "Begun in Grasse. Finished by&nbsp;hand."
+  },
+  {
+   "type": "text",
+   "id": "s6",
+   "label": "Caption",
+   "default": "clean botanicals, carefully composed"
+  },
+  {
+   "type": "text",
+   "id": "s7",
+   "label": "Caption 2",
+   "default": "crafted with intention"
+  },
+  {
+   "type": "text",
+   "id": "s8",
+   "label": "Caption 3",
+   "default": "made to last, designed to be reused"
+  },
+  {
+   "type": "textarea",
+   "id": "s9",
+   "label": "Text 2",
+   "default": "All Side Story fragrances begin with clean, natural ingredients, selected for their purity and character. Our farm-to-fragrance approach preserves every botanical, using synthetics only when they provide the most sustainable solution, without compromising the integrity of each scent."
+  },
+  {
+   "type": "textarea",
+   "id": "s10",
+   "label": "Text 3",
+   "default": "Every bottle and lid is crafted by hand in Italy, designed to be treasured long after the fragrance is finished. Made from recyclable materials and presented in entirely plastic-free packaging, every detail reflects thoughtful design and enduring craftsmanship."
+  },
+  {
+   "type": "textarea",
+   "id": "s11",
+   "label": "Text 4",
+   "default": "Every parfum is created to linger beautifully on skin and fabric, leaving a lasting impression long after it is worn. Inspired by stories instead of seasons or trends, each fragrance is composed with depth, purpose and timeless character."
+  }
+ ],
+ "presets": [
+  {
+   "name": "Story band"
+  }
+ ]
+}
+{% endschema %}

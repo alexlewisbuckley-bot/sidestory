@@ -1,0 +1,448 @@
+
+<section class="shead">
+  <div class="inner">
+    <p class="crumb"><a href="{{ section.settings.s4 }}">{{ section.settings.s51 }}</a> / <a href="{{ section.settings.s5 }}">{{ section.settings.s52 }}</a> / Road Trip</p>
+    <div class="c">
+      <p class="k"><i class="chip" style="background:var(--stone-road-trip)"></i>Your stories &middot; Story V &middot; Rosso Francia</p>
+      <h1>{{ section.settings.s16 }}</h1>
+      <p class="by">{{ section.settings.s17 }}</p>
+    </div>
+  </div>
+</section>
+
+<section class="splate">
+  {% if section.settings.s1 %}<img alt="{{ section.settings.s1.alt | escape }}" src="{{ section.settings.s1 | image_url: width: 1600 }}" loading="lazy">{% else %}<picture><source type="image/avif" srcset="https://sidestory-rho.vercel.app/assets/img/story-road-trip-480.avif?v=112950e1 480w, https://sidestory-rho.vercel.app/assets/img/story-road-trip-960.avif?v=202a61b2 960w, https://sidestory-rho.vercel.app/assets/img/story-road-trip-1600.avif?v=f615ad1b 1600w" sizes="100vw"><source type="image/webp" srcset="https://sidestory-rho.vercel.app/assets/img/story-road-trip-480.webp?v=a61785ac 480w, https://sidestory-rho.vercel.app/assets/img/story-road-trip-960.webp?v=c1cd9852 960w, https://sidestory-rho.vercel.app/assets/img/story-road-trip-1600.webp?v=6b3eddbd 1600w" sizes="100vw"><img src="https://sidestory-rho.vercel.app/assets/img/story-road-trip.jpg?v=3a092aaa" alt="Road Trip" decoding="async" width="1800" height="960" srcset="https://sidestory-rho.vercel.app/assets/img/story-road-trip-480.jpg?v=50e1ef44 480w, https://sidestory-rho.vercel.app/assets/img/story-road-trip-960.jpg?v=937c4e62 960w, https://sidestory-rho.vercel.app/assets/img/story-road-trip-1600.jpg?v=5abfa396 1600w" sizes="100vw"></picture>{% endif %}
+</section>
+
+<section class="sbody">
+  <div class="inner">
+    <div class="scol">
+      <p class="dropcap">{{ section.settings.s18 }}</p>
+      <p>{{ section.settings.s19 }}</p>
+      <p>{{ section.settings.s20 }}</p>
+      <p>{{ section.settings.s21 }}</p>
+    </div>
+    <aside class="saside">
+        <p class="marginnote">FILLER — note to come<small>In the margin &mdash; 01 of 09</small></p>
+        <p class="marginnote">FILLER — note to come<small>In the margin &mdash; 03 of 09</small></p>
+        <p class="marginnote">FILLER — note to come<small>In the margin &mdash; 05 of 09</small></p>
+    </aside>
+    <blockquote class="spull">{{ section.settings.s22 }}</blockquote>
+    <div class="scol">
+      <p>{{ section.settings.s23 }}</p>
+      <p>{{ section.settings.s24 }}</p>
+      <p>{{ section.settings.s25 }}</p>
+      <p class="sig">{{ section.settings.s26 }}</p>
+    </div>
+    <figure class="sfig">
+      {% if section.settings.s2 %}<img alt="{{ section.settings.s2.alt | escape }}" src="{{ section.settings.s2 | image_url: width: 1600 }}" loading="lazy">{% else %}<picture><source type="image/avif" srcset="https://sidestory-rho.vercel.app/assets/img/story-road-trip-480.avif?v=112950e1 480w, https://sidestory-rho.vercel.app/assets/img/story-road-trip-960.avif?v=202a61b2 960w, https://sidestory-rho.vercel.app/assets/img/story-road-trip-1600.avif?v=f615ad1b 1600w" sizes="100vw"><source type="image/webp" srcset="https://sidestory-rho.vercel.app/assets/img/story-road-trip-480.webp?v=a61785ac 480w, https://sidestory-rho.vercel.app/assets/img/story-road-trip-960.webp?v=c1cd9852 960w, https://sidestory-rho.vercel.app/assets/img/story-road-trip-1600.webp?v=6b3eddbd 1600w" sizes="100vw"><img src="https://sidestory-rho.vercel.app/assets/img/story-road-trip.jpg?v=3a092aaa" alt="Road Trip" loading="lazy" decoding="async" width="1800" height="960" srcset="https://sidestory-rho.vercel.app/assets/img/story-road-trip-480.jpg?v=50e1ef44 480w, https://sidestory-rho.vercel.app/assets/img/story-road-trip-960.jpg?v=937c4e62 960w, https://sidestory-rho.vercel.app/assets/img/story-road-trip-1600.jpg?v=5abfa396 1600w" sizes="100vw"></picture>{% endif %}
+    </figure>
+  </div>
+</section>
+
+<section class="sbecame stone-road-trip">
+  <div class="inner">
+    <div class="c">
+      <p class="k">{{ section.settings.s27 }}</p>
+      <h2>{{ section.settings.s28 }}</h2>
+      <p class="lede">{{ section.settings.s29 }}</p>
+      <div class="notes">
+          <div class="nrow"><b>{{ section.settings.s30 }}</b><span>{{ section.settings.s53 }}</span></div>
+          <div class="nrow"><b>{{ section.settings.s31 }}</b><span>{{ section.settings.s54 }}</span></div>
+          <div class="nrow"><b>{{ section.settings.s32 }}</b><span>{{ section.settings.s55 }}</span></div>
+      </div>
+      <div class="actions">
+        <button class="btn btn-ivory" onclick="addToBag('road-trip','full',this)">Shop Road Trip &mdash; &pound;160</button>
+        <a class="btn btn-ghost" href="{{ section.settings.s6 }}">{{ section.settings.s56 }}</a>
+      </div>
+    </div>
+  </div>
+  {% if section.settings.s3 %}<img class="plate" alt="{{ section.settings.s3.alt | escape }}" src="{{ section.settings.s3 | image_url: width: 1600 }}" loading="lazy">{% else %}<picture><source type="image/avif" srcset="https://sidestory-rho.vercel.app/assets/img/p-road-trip-hero-480.avif?v=c33ee77d 480w" sizes="(min-width:68em) 400px, (min-width:40em) 46vw, 92vw"><source type="image/webp" srcset="https://sidestory-rho.vercel.app/assets/img/p-road-trip-hero-480.webp?v=5abac57c 480w" sizes="(min-width:68em) 400px, (min-width:40em) 46vw, 92vw"><img class="plate" src="https://sidestory-rho.vercel.app/assets/img/p-road-trip-hero.jpg?v=125b813d" alt="" loading="lazy" decoding="async" width="833" height="833" srcset="https://sidestory-rho.vercel.app/assets/img/p-road-trip-hero-480.jpg?v=677879a1 480w" sizes="(min-width:68em) 400px, (min-width:40em) 46vw, 92vw"></picture>{% endif %}
+</section>
+
+<section class="snav">
+  <div class="inner">
+    <a class="prev" href="{{ section.settings.s7 }}">
+      <span class="k">{{ section.settings.s57 }}</span>
+      <b>{{ section.settings.s33 }}</b>
+      <em>{{ section.settings.s34 }}</em></a>
+    <a class="next" href="{{ section.settings.s8 }}">
+      <span class="k">{{ section.settings.s58 }}</span>
+      <b>{{ section.settings.s35 }}</b>
+      <em>{{ section.settings.s36 }}</em></a>
+  </div>
+</section>
+
+<section class="sseven">
+  <div class="inner">
+    <p class="k">{{ section.settings.s37 }}</p>
+    <h2>{{ section.settings.s38 }}</h2>
+    <div class="svs">
+        <a class="sv" href="{{ section.settings.s9 }}"><i style="background:var(--stone-hotel-lobby)"></i><em>I</em><b>{{ section.settings.s39 }}</b></a>
+        <a class="sv" href="{{ section.settings.s10 }}"><i style="background:var(--stone-sunday-service)"></i><em>{{ section.settings.s40 }}</em><b>{{ section.settings.s41 }}</b></a>
+        <a class="sv" href="{{ section.settings.s11 }}"><i style="background:var(--stone-sibling-rivalry)"></i><em>{{ section.settings.s42 }}</em><b>{{ section.settings.s43 }}</b></a>
+        <a class="sv" href="{{ section.settings.s12 }}"><i style="background:var(--stone-third-date)"></i><em>{{ section.settings.s44 }}</em><b>{{ section.settings.s45 }}</b></a>
+        <a class="sv on" href="{{ section.settings.s13 }}"><i style="background:var(--stone-road-trip)"></i><em>V</em><b>{{ section.settings.s46 }}</b><small>You are reading</small></a>
+        <a class="sv" href="{{ section.settings.s14 }}"><i style="background:var(--stone-4pm-matinee)"></i><em>{{ section.settings.s47 }}</em><b>{{ section.settings.s48 }}</b></a>
+        <a class="sv" href="{{ section.settings.s15 }}"><i style="background:var(--stone-pillow-talk)"></i><em>{{ section.settings.s49 }}</em><b>{{ section.settings.s50 }}</b></a>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+ "name": "Story Road Trip content",
+ "settings": [
+  {
+   "type": "image_picker",
+   "id": "s1",
+   "label": "Image (blank = current)"
+  },
+  {
+   "type": "image_picker",
+   "id": "s2",
+   "label": "Image (blank = current) 2"
+  },
+  {
+   "type": "image_picker",
+   "id": "s3",
+   "label": "Image (blank = current) 3"
+  },
+  {
+   "type": "text",
+   "id": "s4",
+   "label": "Link URL",
+   "default": "/"
+  },
+  {
+   "type": "text",
+   "id": "s5",
+   "label": "Link URL 2",
+   "default": "/pages/stories"
+  },
+  {
+   "type": "text",
+   "id": "s6",
+   "label": "Link URL 3",
+   "default": "/products/road-trip"
+  },
+  {
+   "type": "text",
+   "id": "s7",
+   "label": "Link URL 4",
+   "default": "/pages/story-third-date"
+  },
+  {
+   "type": "text",
+   "id": "s8",
+   "label": "Link URL 5",
+   "default": "/pages/story-4pm-matinee"
+  },
+  {
+   "type": "text",
+   "id": "s9",
+   "label": "Link URL 6",
+   "default": "/pages/story-hotel-lobby"
+  },
+  {
+   "type": "text",
+   "id": "s10",
+   "label": "Link URL 7",
+   "default": "/pages/story-sunday-service"
+  },
+  {
+   "type": "text",
+   "id": "s11",
+   "label": "Link URL 8",
+   "default": "/pages/story-sibling-rivalry"
+  },
+  {
+   "type": "text",
+   "id": "s12",
+   "label": "Link URL 9",
+   "default": "/pages/story-third-date"
+  },
+  {
+   "type": "text",
+   "id": "s13",
+   "label": "Link URL 10",
+   "default": "/pages/story-road-trip"
+  },
+  {
+   "type": "text",
+   "id": "s14",
+   "label": "Link URL 11",
+   "default": "/pages/story-4pm-matinee"
+  },
+  {
+   "type": "text",
+   "id": "s15",
+   "label": "Link URL 12",
+   "default": "/pages/story-pillow-talk"
+  },
+  {
+   "type": "text",
+   "id": "s16",
+   "label": "Heading",
+   "default": "Road Trip"
+  },
+  {
+   "type": "textarea",
+   "id": "s17",
+   "label": "Text",
+   "default": "Written by [author to be credited] &middot; 6 min read &middot; the story that became a fragrance"
+  },
+  {
+   "type": "textarea",
+   "id": "s18",
+   "label": "Text 2",
+   "default": "They knew where they were going, but neither seemed to mind the impromptu detour along the way. Undulating fields of sage and lavender tumbled out into the distance before them, the car drifting over the landscape like a ship on the open sea. Uninterrupted sky stretched in every direction."
+  },
+  {
+   "type": "textarea",
+   "id": "s19",
+   "label": "Text 3",
+   "default": "Leaning back in her seat, she sank her teeth into a ripe peach and remembered the afternoons she used to spend in the backyard as a child, lying on the grass, watching the clouds carousel across the sky. She rarely took the time to look up now, but when she did, she recognised that familiar sense of calm: an old friend that came to visit in the moments when she let herself pause for simple pleasures."
+  },
+  {
+   "type": "textarea",
+   "id": "s20",
+   "label": "Text 4",
+   "default": "It was good to be away from the city\u2014finally\u2014in a place where the air was crisp, where there were no schedules or obligations. It was easy to be present there, to breathe in the moment and let the feeling of being free release the tension of a long winter."
+  },
+  {
+   "type": "textarea",
+   "id": "s21",
+   "label": "Text 5",
+   "default": "From the driver\u2019s seat, he noticed her lean back - with a long, contented sigh. He shifted his attention, just for a moment, away from the vast stretch of highway ahead of them and toward his passenger. Her nose and cheeks had picked up a bit of colour since they had left home. The wind had tousled her hair. He told her she looked pretty, and she laughed a little, embarrassed, but hardly protesting."
+  },
+  {
+   "type": "textarea",
+   "id": "s22",
+   "label": "Quote",
+   "default": "&ldquo;Maybe they would return to the map, steer themselves back to their itinerary. Maybe.&rdquo;"
+  },
+  {
+   "type": "textarea",
+   "id": "s23",
+   "label": "Text 6",
+   "default": "She twisted the knob of the radio until the static dissipated and they heard a song they had both loved as children\u2014one neither had heard in years, yet still remembered. Turn up the volume, he said, eyes fixated on the long road ahead. She rolled down the windows, and the music spilled out into the early-evening air."
+  },
+  {
+   "type": "textarea",
+   "id": "s24",
+   "label": "Text 7",
+   "default": "Her hand reached over, brushing his knee. He took it, letting her fingers intertwine with his for just a moment before returning to the steering wheel. She sang along to the music softly, under her breath, charmingly off-key, pulling her bare feet up to the glove compartment and tapping along to the beat. He smiled to himself, and she pretended not to notice."
+  },
+  {
+   "type": "textarea",
+   "id": "s25",
+   "label": "Text 8",
+   "default": "She pulled her sunglasses down and sunk deeper into the seat. The sun on the horizon bathed the hills in gold. Maybe they would return to the map, steer themselves back to their itinerary. Maybe."
+  },
+  {
+   "type": "text",
+   "id": "s26",
+   "label": "Text 9",
+   "default": "&mdash; [.t.b.c."
+  },
+  {
+   "type": "text",
+   "id": "s27",
+   "label": "Text 10",
+   "default": "The scent this became"
+  },
+  {
+   "type": "text",
+   "id": "s28",
+   "label": "Heading 2",
+   "default": "Road Trip"
+  },
+  {
+   "type": "text",
+   "id": "s29",
+   "label": "Text 11",
+   "default": "FILLER \u2014 scent line to come, beneath a&nbsp;lid of Rosso&nbsp;Francia."
+  },
+  {
+   "type": "text",
+   "id": "s30",
+   "label": "Label",
+   "default": "Opening"
+  },
+  {
+   "type": "text",
+   "id": "s31",
+   "label": "Label 2",
+   "default": "Heart"
+  },
+  {
+   "type": "text",
+   "id": "s32",
+   "label": "Label 3",
+   "default": "Base"
+  },
+  {
+   "type": "text",
+   "id": "s33",
+   "label": "Label 4",
+   "default": "Third Date"
+  },
+  {
+   "type": "text",
+   "id": "s34",
+   "label": "Label 5",
+   "default": "Green. Floral."
+  },
+  {
+   "type": "text",
+   "id": "s35",
+   "label": "Label 6",
+   "default": "4pm Matinee"
+  },
+  {
+   "type": "text",
+   "id": "s36",
+   "label": "Label 7",
+   "default": "Green. Woods. Amber."
+  },
+  {
+   "type": "text",
+   "id": "s37",
+   "label": "Text 12",
+   "default": "All seven stories"
+  },
+  {
+   "type": "text",
+   "id": "s38",
+   "label": "Heading 3",
+   "default": "Seven to read. Seven to&nbsp;wear."
+  },
+  {
+   "type": "text",
+   "id": "s39",
+   "label": "Label 8",
+   "default": "Hotel Lobby"
+  },
+  {
+   "type": "text",
+   "id": "s40",
+   "label": "Label 9",
+   "default": "II"
+  },
+  {
+   "type": "text",
+   "id": "s41",
+   "label": "Label 10",
+   "default": "Sunday Service"
+  },
+  {
+   "type": "text",
+   "id": "s42",
+   "label": "Label 11",
+   "default": "III"
+  },
+  {
+   "type": "text",
+   "id": "s43",
+   "label": "Label 12",
+   "default": "Sibling Rivalry"
+  },
+  {
+   "type": "text",
+   "id": "s44",
+   "label": "Label 13",
+   "default": "IV"
+  },
+  {
+   "type": "text",
+   "id": "s45",
+   "label": "Label 14",
+   "default": "Third Date"
+  },
+  {
+   "type": "text",
+   "id": "s46",
+   "label": "Label 15",
+   "default": "Road Trip"
+  },
+  {
+   "type": "text",
+   "id": "s47",
+   "label": "Label 16",
+   "default": "VI"
+  },
+  {
+   "type": "text",
+   "id": "s48",
+   "label": "Label 17",
+   "default": "4pm Matinee"
+  },
+  {
+   "type": "text",
+   "id": "s49",
+   "label": "Label 18",
+   "default": "VII"
+  },
+  {
+   "type": "text",
+   "id": "s50",
+   "label": "Label 19",
+   "default": "Pillow Talk"
+  },
+  {
+   "type": "text",
+   "id": "s51",
+   "label": "Link label",
+   "default": "Home"
+  },
+  {
+   "type": "text",
+   "id": "s52",
+   "label": "Link label 2",
+   "default": "Your Stories"
+  },
+  {
+   "type": "text",
+   "id": "s53",
+   "label": "Label 20",
+   "default": "FILLER \u2014 note to come"
+  },
+  {
+   "type": "text",
+   "id": "s54",
+   "label": "Label 21",
+   "default": "FILLER \u2014 note to come"
+  },
+  {
+   "type": "text",
+   "id": "s55",
+   "label": "Label 22",
+   "default": "FILLER \u2014 note to come"
+  },
+  {
+   "type": "text",
+   "id": "s56",
+   "label": "Link label 3",
+   "default": "Sample &mdash; &pound;5"
+  },
+  {
+   "type": "text",
+   "id": "s57",
+   "label": "Label 23",
+   "default": "&larr; Previous story"
+  },
+  {
+   "type": "text",
+   "id": "s58",
+   "label": "Label 24",
+   "default": "Next story &rarr;"
+  }
+ ],
+ "presets": [
+  {
+   "name": "Story Road Trip content"
+  }
+ ]
+}
+{% endschema %}

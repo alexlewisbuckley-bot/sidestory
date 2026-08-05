@@ -1,0 +1,122 @@
+
+<div class="inner">
+  <p class="crumb"><a href="{{ section.settings.s1 }}">{{ section.settings.s14 }}</a> / Stockists</p>
+  <div class="phead"><p class="k">{{ section.settings.s3 }}</p><h1>{{ section.settings.s4 }}</h1>
+    <p class="lede">{{ section.settings.s5 }}</p></div>
+  <!-- FILLER: the five stockists here were invented — real department stores,
+       no actual relationship. Swap in the true list before launch. -->
+  <div class="grid-3">
+    <h2 class="vh">{{ section.settings.s6 }}</h2>
+      <div class="tile"><h3>{{ section.settings.s7 }}</h3><p>Lorem ipsum dolor sit amet<br>Consectetur adipiscing elit</p></div>
+    <div class="tile"><h3>{{ section.settings.s8 }}</h3><p>Lorem ipsum dolor sit amet<br>Consectetur adipiscing elit</p></div>
+    <div class="tile"><h3>{{ section.settings.s9 }}</h3><p>Lorem ipsum dolor sit amet<br>Consectetur adipiscing elit</p></div>
+  </div>
+  <div class="grid-3">
+    <div class="tile"><h3>{{ section.settings.s10 }}</h3><p>Lorem ipsum dolor sit amet<br>Consectetur adipiscing elit</p></div>
+    <div class="tile"><h3>{{ section.settings.s11 }}</h3><p>Lorem ipsum dolor sit amet<br>Consectetur adipiscing elit</p></div>
+    <div class="tile"><h3>{{ section.settings.s12 }}</h3><p>{{ section.settings.s13 }}</p><p><a class="ul" href="{{ section.settings.s2 }}">{{ section.settings.s15 }}</a></p></div>
+  </div>
+</div>
+
+{% schema %}
+{
+ "name": "Stockists content",
+ "settings": [
+  {
+   "type": "text",
+   "id": "s1",
+   "label": "Link URL",
+   "default": "/"
+  },
+  {
+   "type": "text",
+   "id": "s2",
+   "label": "Link URL 2",
+   "default": "/pages/contact"
+  },
+  {
+   "type": "text",
+   "id": "s3",
+   "label": "Text",
+   "default": "In person"
+  },
+  {
+   "type": "text",
+   "id": "s4",
+   "label": "Heading",
+   "default": "Where to smell them&nbsp;first."
+  },
+  {
+   "type": "textarea",
+   "id": "s5",
+   "label": "Text 2",
+   "default": "A short list, kept short on purpose. Every stockist below carries the full seven and the printed editions."
+  },
+  {
+   "type": "text",
+   "id": "s6",
+   "label": "Heading 2",
+   "default": "Where to find&nbsp;us"
+  },
+  {
+   "type": "text",
+   "id": "s7",
+   "label": "Sub-heading",
+   "default": "FILLER &mdash; stockist to&nbsp;come"
+  },
+  {
+   "type": "text",
+   "id": "s8",
+   "label": "Sub-heading 2",
+   "default": "FILLER &mdash; stockist to&nbsp;come"
+  },
+  {
+   "type": "text",
+   "id": "s9",
+   "label": "Sub-heading 3",
+   "default": "FILLER &mdash; stockist to&nbsp;come"
+  },
+  {
+   "type": "text",
+   "id": "s10",
+   "label": "Sub-heading 4",
+   "default": "FILLER &mdash; stockist to&nbsp;come"
+  },
+  {
+   "type": "text",
+   "id": "s11",
+   "label": "Sub-heading 5",
+   "default": "FILLER &mdash; stockist to&nbsp;come"
+  },
+  {
+   "type": "text",
+   "id": "s12",
+   "label": "Sub-heading 6",
+   "default": "Become a&nbsp;stockist"
+  },
+  {
+   "type": "text",
+   "id": "s13",
+   "label": "Text 3",
+   "default": "We are careful about this. Write to us and tell us about the shop."
+  },
+  {
+   "type": "text",
+   "id": "s14",
+   "label": "Link label",
+   "default": "Home"
+  },
+  {
+   "type": "text",
+   "id": "s15",
+   "label": "Link label 2",
+   "default": "Get in touch"
+  }
+ ],
+ "presets": [
+  {
+   "name": "Stockists content"
+  }
+ ]
+}
+{% endschema %}

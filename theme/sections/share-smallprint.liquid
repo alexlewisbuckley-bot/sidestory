@@ -1,0 +1,77 @@
+<section class="smallprint">
+  <div class="inner">
+    <p class="k">{{ section.settings.s1 }}</p>
+    <div class="terms">
+      <div class="term"><h3>{{ section.settings.s2 }}</h3><p>{{ section.settings.s3 }}</p></div>
+      <div class="term"><h3>{{ section.settings.s4 }}</h3><p>{{ section.settings.s5 }}</p></div>
+      <div class="term"><h3>{{ section.settings.s6 }}</h3><p>{{ section.settings.s7 }}</p></div>
+      <div class="term"><h3>{{ section.settings.s8 }}</h3><p>{{ section.settings.s9 }}</p></div>
+    </div>
+  </div>
+</section>
+{% schema %}
+{
+ "name": "Smallprint",
+ "settings": [
+  {
+   "type": "text",
+   "id": "s1",
+   "label": "Text",
+   "default": "The small print, in plain English"
+  },
+  {
+   "type": "text",
+   "id": "s2",
+   "label": "Sub-heading",
+   "default": "It stays&nbsp;yours"
+  },
+  {
+   "type": "text",
+   "id": "s3",
+   "label": "Text 2",
+   "default": "You keep the copyright to everything you send. Always."
+  },
+  {
+   "type": "text",
+   "id": "s4",
+   "label": "Sub-heading 2",
+   "default": "We ask before we&nbsp;publish"
+  },
+  {
+   "type": "text",
+   "id": "s5",
+   "label": "Text 3",
+   "default": "Nothing appears on this site, in a box, or in a bottle without your written yes."
+  },
+  {
+   "type": "text",
+   "id": "s6",
+   "label": "Sub-heading 3",
+   "default": "No fee to enter, no&nbsp;purchase"
+  },
+  {
+   "type": "text",
+   "id": "s7",
+   "label": "Text 4",
+   "default": "You do not need to have bought anything. Open to anyone over 18."
+  },
+  {
+   "type": "text",
+   "id": "s8",
+   "label": "Sub-heading 4",
+   "default": "If yours is&nbsp;chosen"
+  },
+  {
+   "type": "textarea",
+   "id": "s9",
+   "label": "Text 5",
+   "default": "You are credited by name in the printed edition, sent the first bottle of the run, and paid a commission fee agreed with you beforehand."
+  }
+ ],
+ "presets": [
+  {
+   "name": "Smallprint"
+  }
+ ]
+}
+{% endschema %}

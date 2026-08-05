@@ -1,0 +1,79 @@
+<section class="band" id="stones">
+  <div class="inner">
+    <p class="k">{{ section.settings.s3 }}</p>
+    <h2>{{ section.settings.s4 }}</h2>
+    <p class="lede">{{ section.settings.s5 }}</p>
+    <div class="grid-2">
+      <figure>{% if section.settings.s1 %}<img class="figfull" alt="{{ section.settings.s1.alt | escape }}" src="{{ section.settings.s1 | image_url: width: 1600 }}" loading="lazy">{% else %}<picture><source type="image/avif" srcset="https://sidestory-rho.vercel.app/assets/img/stone-shelf-480.avif?v=f02e336a 480w, https://sidestory-rho.vercel.app/assets/img/stone-shelf-960.avif?v=e6e96135 960w, https://sidestory-rho.vercel.app/assets/img/stone-shelf-1600.avif?v=ebfb9f0b 1600w" sizes="100vw"><source type="image/webp" srcset="https://sidestory-rho.vercel.app/assets/img/stone-shelf-480.webp?v=9b545910 480w, https://sidestory-rho.vercel.app/assets/img/stone-shelf-960.webp?v=17f62665 960w, https://sidestory-rho.vercel.app/assets/img/stone-shelf-1600.webp?v=5a1373c3 1600w" sizes="100vw"><img class="figfull" src="https://sidestory-rho.vercel.app/assets/img/stone-shelf.jpg?v=5168998a" alt="Raw materials and a carved stone lid" loading="lazy" decoding="async" width="1800" height="1200" srcset="https://sidestory-rho.vercel.app/assets/img/stone-shelf-480.jpg?v=22c8f221 480w, https://sidestory-rho.vercel.app/assets/img/stone-shelf-960.jpg?v=8c40db6e 960w, https://sidestory-rho.vercel.app/assets/img/stone-shelf-1600.jpg?v=2f49b4ad 1600w" sizes="100vw"></picture>{% endif %}<figcaption class="hint">{{ section.settings.s6 }}</figcaption></figure>
+      <figure>{% if section.settings.s2 %}<img class="figfull" alt="{{ section.settings.s2.alt | escape }}" src="{{ section.settings.s2 | image_url: width: 1600 }}" loading="lazy">{% else %}<picture><source type="image/avif" srcset="https://sidestory-rho.vercel.app/assets/img/set-first-lines-480.avif?v=c30d6b35 480w, https://sidestory-rho.vercel.app/assets/img/set-first-lines-960.avif?v=2c50c630 960w" sizes="100vw"><source type="image/webp" srcset="https://sidestory-rho.vercel.app/assets/img/set-first-lines-480.webp?v=7f39b1dc 480w, https://sidestory-rho.vercel.app/assets/img/set-first-lines-960.webp?v=ca48dc4a 960w" sizes="100vw"><img class="figfull" src="https://sidestory-rho.vercel.app/assets/img/set-first-lines.jpg?v=56fb700f" alt="The Discovery Set discovery set" loading="lazy" decoding="async" width="1200" height="800" srcset="https://sidestory-rho.vercel.app/assets/img/set-first-lines-480.jpg?v=09fd8910 480w, https://sidestory-rho.vercel.app/assets/img/set-first-lines-960.jpg?v=af5a91f0 960w" sizes="100vw"></picture>{% endif %}<figcaption class="hint">{{ section.settings.s7 }}</figcaption></figure>
+    </div>
+    <div class="cols cols-2">
+      <p>{{ section.settings.s8 }}</p>
+      <p>{{ section.settings.s9 }}</p>
+    </div>
+  </div>
+</section>
+{% schema %}
+{
+ "name": "Story band",
+ "settings": [
+  {
+   "type": "image_picker",
+   "id": "s1",
+   "label": "Image (blank = current)"
+  },
+  {
+   "type": "image_picker",
+   "id": "s2",
+   "label": "Image (blank = current) 2"
+  },
+  {
+   "type": "text",
+   "id": "s3",
+   "label": "Text",
+   "default": "Why Side Story?"
+  },
+  {
+   "type": "text",
+   "id": "s4",
+   "label": "Heading",
+   "default": "Perfumers"
+  },
+  {
+   "type": "textarea",
+   "id": "s5",
+   "label": "Text 2",
+   "default": "Side Story strikes a&nbsp;fine balance between luxury and accessibility that is largely missing in the perfume&nbsp;market."
+  },
+  {
+   "type": "text",
+   "id": "s6",
+   "label": "Caption",
+   "default": "fine raw materials from Grasse, Provence"
+  },
+  {
+   "type": "text",
+   "id": "s7",
+   "label": "Caption 2",
+   "default": "a more reachable price"
+  },
+  {
+   "type": "textarea",
+   "id": "s8",
+   "label": "Text 3",
+   "default": "On one hand, we use fine raw materials from Grasse, Provence, and other exceptional sources, and we collaborate with skilled master perfumers such as Jacques Chabert and Argeville who elevate the concept behind each fragrance to a form of high art."
+  },
+  {
+   "type": "textarea",
+   "id": "s9",
+   "label": "Text 4",
+   "default": "On the other, each of our &lsquo;stories&rsquo; is meant to resonate with consumers on a universal level and we have consciously decided to price the fragrances at a more reachable price than brands with similarly high manufacturing standards."
+  }
+ ],
+ "presets": [
+  {
+   "name": "Story band"
+  }
+ ]
+}
+{% endschema %}

@@ -80,6 +80,227 @@ def read(name):
         return f.read()
 
 
+# ------------------------------------------------------------ sectionizer --
+# Turns baked page markup into OS 2.0 sections: every safe leaf text, link,
+# image and film URL becomes a schema setting whose value (the current
+# content) lives in the JSON template, so the theme editor is pre-filled
+# with the real site and every field is editable. Repeating units that are
+# structurally identical and image-free become blocks (add/remove/reorder).
+
+TEXT_TAGS = "h1|h2|h3|h4|p|blockquote|figcaption|summary|em|b|i"
+LABELS = {"h1": "Heading", "h2": "Heading", "h3": "Sub-heading",
+          "h4": "Sub-heading", "p": "Text", "blockquote": "Quote",
+          "figcaption": "Caption", "summary": "Question", "em": "Label",
+          "b": "Label", "i": "Small print", "span": "Label",
+          "a": "Link label"}
+SEC_NAMES = {"hero": "Hero", "strip": "Promo strip", "house": "Quote band",
+             "seven": "The seven grid", "show": "Gallery",
+             "atelier": "In the hand", "yfeat": "Featured story",
+             "feelings": "Style index", "ways": "Three ways in",
+             "band": "Story band", "gift": "Gifting", "creds": "Press quotes",
+             "news": "Newsletter", "making": "The making", "mater": "Materials",
+             "postbag": "Postbag", "reader": "Story text"}
+
+MASK_PAT = re.compile(
+    r"<script\b.*?</script>|<form\b.*?</form>|<button\b.*?</button>|<svg\b.*?</svg>",
+    re.S)
+
+
+class Ex:
+    """Collects settings + their current values while markup is rewritten."""
+    def __init__(self, scope):
+        self.scope = scope          # 'section' | 'block'
+        self.settings, self.values = [], {}
+        self.n = 0
+        self.roles = {}
+
+    def add(self, typ, role, value=None):
+        self.n += 1
+        sid = ("b" if self.scope == "block" else "s") + str(self.n)
+        self.roles[role] = self.roles.get(role, 0) + 1
+        label = role if self.roles[role] == 1 else f"{role} {self.roles[role]}"
+        st = {"type": typ, "id": sid, "label": label}
+        if value is not None and typ in ("text", "textarea", "html", "checkbox"):
+            st["default"] = value
+            self.values[sid] = value
+        self.settings.append(st)
+        return sid
+
+    def ref(self, sid):
+        return "{{ %s.settings.%s }}" % (self.scope, sid)
+
+
+def ex_pipeline(html, ex, toks):
+    """Rewrites one chunk of masked markup, harvesting editables into ex."""
+    # films
+    def vid(m):
+        sid = ex.add("text", "Film URL (mp4)", m.group(2))
+        return m.group(1) + ex.ref(sid) + m.group(3)
+    html = re.sub(r'(data-src=")([^"]+\.mp4[^"]*)(")', vid, html)
+
+    # responsive pictures -> optional image override, default markup kept
+    def pic(m):
+        orig = m.group(0)
+        img = re.search(r"<img\b[^>]*>", orig)
+        if img and " id=" in img.group(0):     # JS-controlled image, leave it
+            toks.append(orig)
+            return "\x00%d\x00" % (len(toks) - 1)
+        cls = re.search(r'class="([^"]*)"', img.group(0)) if img else None
+        sid = ex.add("image_picker", "Image (blank = current)")
+        sref = "%s.settings.%s" % (ex.scope, sid)
+        rep = ("{%% if %s %%}<img%s alt=\"{{ %s.alt | escape }}\" "
+               "src=\"{{ %s | image_url: width: 1600 }}\" loading=\"lazy\">"
+               "{%% else %%}%s{%% endif %%}"
+               % (sref, ' class="%s"' % cls.group(1) if cls else "",
+                  sref, sref, orig))
+        toks.append(rep)
+        return "\x00%d\x00" % (len(toks) - 1)
+    html = re.sub(r"<picture>.*?</picture>", pic, html, flags=re.S)
+    html = re.sub(r"<img\b[^>]*>", pic, html)
+
+    # link targets on real hrefs (not #anchors)
+    def href(m):
+        sid = ex.add("text", "Link URL", m.group(2))
+        return m.group(1) + ex.ref(sid) + m.group(3)
+    html = re.sub(r'(<a\b[^>]*?href=")([^"#{][^"]*)(")', href, html)
+
+    # leaf text elements (no child tags): the copy itself
+    def txt(m):
+        tag, attrs, text = m.group(1), m.group(2), m.group(3)
+        t = text.strip()
+        if len(t) < 2 or "\x00" in text:
+            return m.group(0)
+        typ = "textarea" if len(t) > 90 else "text"
+        sid = ex.add(typ, LABELS.get(tag, "Text"), t)
+        return "<%s%s>%s</%s>" % (tag, attrs, ex.ref(sid), tag)
+    html = re.sub(r"<(%s)\b([^>]*)>([^<>]+)</\1>" % TEXT_TAGS, txt, html)
+    html = re.sub(r"<(span|a)\b([^>]*)>([^<>]+)</\1>", txt, html)
+    return html
+
+
+def extract_unit(unit, ex, toks, spec):
+    """One repeating block unit through the same pipeline (order fixed so
+    setting ids align across structurally identical units)."""
+    if spec.get("faq"):
+        root = re.match(r"<details\b[^>]*>", unit)
+        is_open = " open" in root.group(0)
+        unit = unit.replace(root.group(0),
+                            "<details{% if block.settings." + "BOPEN" +
+                            " %} open{% endif %}>", 1)
+        sid = ex.add("checkbox", "Open by default", is_open)
+        unit = unit.replace("BOPEN", sid)
+
+        def body(m):
+            bid = ex.add("html", "Answer", m.group(1).strip())
+            return '<div class="body">%s</div>' % ex.ref(bid)
+        unit = re.sub(r'<div class="body">(.*?)</div>', body, unit, flags=re.S)
+    return ex_pipeline(unit, ex, toks)
+
+
+def blockify(html, spec, toks):
+    """Repeating units -> {% for block in section.blocks %}; returns
+    (html, blocks_schema, per_unit_values) or (html, None, None)."""
+    units = list(re.finditer(spec["pat"], html, re.S))
+    if len(units) < 2:
+        return html, None, None
+    bex = Ex("block")
+    markup = extract_unit(units[0].group(0), bex, toks, spec)
+    root = re.match(r"<[a-z]+\b[^>]*(?<!%)>", markup)
+    markup = markup.replace(root.group(0),
+                            root.group(0)[:-1] + " {{ block.shopify_attributes }}>", 1)
+    loop = ("{% for block in section.blocks %}" + markup + "{% endfor %}")
+    bvals = []
+    for u in units:
+        e2 = Ex("block")
+        extract_unit(u.group(0), e2, [], spec)
+        bvals.append(e2.values)
+    # splice as a mask token so the section-level pipeline can't touch the
+    # loop's own block.settings references
+    toks.append(loop)
+    html = (html[: units[0].start()] + "\x00%d\x00" % (len(toks) - 1)
+            + html[units[-1].end():])
+    schema = [{"type": "item", "name": spec["name"], "settings": bex.settings}]
+    return html, schema, bvals
+
+
+BLOCK_SPECS = {
+    ("home", "creds"): {"pat": r'<figure class="cred rev">.*?</figure>',
+                        "name": "Quote"},
+    ("faq", "*"): {"pat": r"<details\b.*?</details>", "name": "FAQ item",
+                   "faq": True},
+}
+
+
+def split_sections(inner):
+    chunks, pos = [], 0
+    for m in re.finditer(r"<section\b.*?</section>", inner, re.S):
+        pre = inner[pos:m.start()].strip()
+        if pre:
+            chunks.append(pre)
+        chunks.append(m.group(0))
+        pos = m.end()
+    rest = inner[pos:].strip()
+    if rest:
+        chunks.append(rest)
+    return chunks
+
+
+def sectionize(tpl_name, prefix, inner, split=True):
+    """Emit sections/<prefix>-*.liquid + templates/<tpl_name>.json."""
+    chunks = split_sections(inner) if split else [inner]
+    entries, seen = [], {}
+    for i, chunk in enumerate(chunks):
+        m = re.search(r'<section[^>]*class="([a-z]+)', chunk)
+        cls = m.group(1) if m else ("content" if not split else "part%d" % i)
+        seen[cls] = seen.get(cls, 0) + 1
+        stype = prefix + "-" + cls + ("" if seen[cls] == 1 else "-%d" % seen[cls])
+        name = SEC_NAMES.get(cls, cls.title())
+        if not split:
+            name = prefix.replace("-", " ").title() + " content"
+
+        masked, toks = [], []
+        def _m(mm):
+            toks.append(mm.group(0))
+            return "\x00%d\x00" % (len(toks) - 1)
+        body = MASK_PAT.sub(_m, chunk)
+
+        spec = BLOCK_SPECS.get((prefix, cls)) or BLOCK_SPECS.get((prefix, "*"))
+        blocks_schema = bvals = None
+        if spec:
+            body, blocks_schema, bvals = blockify(body, spec, toks)
+
+        ex = Ex("section")
+        body = ex_pipeline(body, ex, toks)
+        while re.search(r"\x00(\d+)\x00", body):
+            body = re.sub(r"\x00(\d+)\x00", lambda mm: toks[int(mm.group(1))], body)
+
+        schema = {"name": name[:25], "settings": ex.settings}
+        if blocks_schema:
+            schema["blocks"] = blocks_schema
+            schema["max_blocks"] = 25
+        schema["presets"] = [{"name": name[:25]}]
+        emit("sections/%s.liquid" % stype,
+             body + "\n{% schema %}\n" + json.dumps(schema, indent=1)
+             + "\n{% endschema %}\n")
+        entries.append((stype, ex.values, bvals))
+
+    sections, order = {}, []
+    for stype, values, bvals in entries:
+        sec = {"type": stype, "settings": values}
+        if bvals:
+            bl, bo = {}, []
+            for j, v in enumerate(bvals):
+                bid = "b%d" % (j + 1)
+                bl[bid] = {"type": "item", "settings": v}
+                bo.append(bid)
+            sec["blocks"] = bl
+            sec["block_order"] = bo
+        sections[stype] = sec
+        order.append(stype)
+    emit("templates/%s.json" % tpl_name,
+         json.dumps({"sections": sections, "order": order}, indent=1))
+
+
 def main_of(html):
     a = html.index('<main id="main">') + len('<main id="main">')
     return html[html.index("<main", 0):a], html[a:html.rindex("</main>")]
@@ -118,6 +339,7 @@ def build_theme():
     body_a = idx.index("<body")
     body_open = idx[body_a: idx.index(">", body_a) + 1]
     main_a = idx.index("<main")
+    main_open = idx[main_a: idx.index(">", main_a) + 1]
     chrome_top = idx[idx.index(">", body_a) + 1: main_a]
     tail = idx[idx.rindex("</main>") + 7: idx.rindex("</body>")]
     # the demo bag count becomes the real one at render
@@ -148,9 +370,12 @@ window.SS_FREE_CENTS = {{ 15000 }};
 </script>
 """
     layout = (head + body_open + chrome_top
-              + "\n{{ content_for_layout }}\n"
+              + "\n" + main_open + "{{ content_for_layout }}</main>\n"
               + tail + varmap
               + "<script src=\"{{ 'cart.js' | asset_url }}\" defer></script>\n"
+              + "<script>if(window.Shopify&&Shopify.designMode){"
+              + "document.addEventListener('shopify:section:load',"
+              + "function(){location.reload()});}</script>\n"
               + "</body></html>\n")
     # site.js loads in the tail; cart.js overrides its demo bag after it.
     emit("layout/theme.liquid", layout)
@@ -161,11 +386,25 @@ window.SS_FREE_CENTS = {{ 15000 }};
         _, inner = main_of(html)
         emit(f"templates/{tpl}", extra + inner)
 
-    template_from("index.html", "index.liquid")
     template_from("collection.html", "collection.liquid")
     template_from("bag.html", "cart.liquid")
     template_from("search.html", "search.liquid")
     template_from("404.html", "404.liquid")
+
+    # ---- sectioned templates (theme editor) -----------------------------
+    def inner_of(page):
+        html = map_assets(map_urls(read(page)))
+        return main_of(html)[1]
+
+    sectionize("index", "home", inner_of("index.html"), split=True)
+    sectionize("page.our-story", "our-story", inner_of("our-house.html"), split=True)
+    sectionize("page.stories", "your-stories", inner_of("stories.html"), split=True)
+    sectionize("page.share", "share", inner_of("share.html"), split=True)
+    for p in ["faq", "shipping", "stockists", "contact", "legal"]:
+        sectionize("page." + p, p, inner_of(p + ".html"), split=False)
+    for s in SLUGS:
+        sectionize("page.story-" + s, "story-" + s,
+                   inner_of(f"story-{s}.html"), split=False)
 
     # one product template, the exact page per handle
     cases = []
@@ -184,10 +423,8 @@ window.SS_FREE_CENTS = {{ 15000 }};
          "</script>\n{% case product.handle %}\n"
          + "\n".join(cases) + fallback + "{% endcase %}")
 
-    # content pages
-    src = {"our-story": "our-house.html"}
-    for p in PAGES:
-        template_from(src.get(p, p + ".html"), f"page.{p}.liquid")
+    # content pages are all sectioned JSON templates now; only the generic
+    # fallback for client-created pages stays classic.
     emit("templates/page.liquid",
          '<div class="inner"><div class="phead"><h1>{{ page.title }}</h1>'
          "</div>{{ page.content }}</div>")
@@ -203,7 +440,17 @@ window.SS_FREE_CENTS = {{ 15000 }};
          "<p>{{ gift_card.code | format_code }}</p></body></html>")
 
     # ---- assets ---------------------------------------------------------
-    emit("assets/app.css", read("assets/css/app.css"))
+    css = read("assets/css/app.css")
+    css += (
+        "\n/* Shopify section wrappers are layout-transparent, and the two\n"
+        "   main>:first-child rules get wrapper-aware twins. */\n"
+        "main>.shopify-section{display:contents}\n"
+        "main>.shopify-section:first-child>:is(.band,.house,.seven,.show,"
+        ".atelier,.feelings,.ways,.making,.mater,.journal,.creds):first-child"
+        "{padding-top:var(--space-7)}\n"
+        "main>.shopify-section:first-child>:is(.band,.seven):first-child"
+        ":has(> .inner > .crumb){padding-top:0}\n")
+    emit("assets/app.css", css)
     fonts = read("assets/css/fonts.css")
     fonts = re.sub(r'url\((["\']?)\.\./fonts/', r"url(\1", fonts)
     emit("assets/fonts.css", fonts)

@@ -1,0 +1,90 @@
+{
+ "sections": {
+  "our-story-banner": {
+   "type": "our-story-banner",
+   "settings": {
+    "s2": "Our story",
+    "s3": "It&rsquo;s a&nbsp;story left behind in an elevator, or carried gently on a&nbsp;breeze.",
+    "s4": "The kiss of fragrance on a lapel, in the yellowed pages of a diary, or folded into a handkerchief."
+   }
+  },
+  "our-story-band": {
+   "type": "our-story-band",
+   "settings": {
+    "s1": "/",
+    "s2": "My childhood memories are tinged with the scent of sandalwood. My grandfather owned plantations in India, which were the source of the soft, balsamic wood my childhood toys and trinkets were made from. Today, sandalwood is my Proustian madeleine: it instantly transports me to another time and place. I&rsquo;m obsessed with sensory experiences like these.",
+    "s3": "I thought deeply about the different stories that ran through our lives and how they had impacted our senses, such as work, love, companionships, pleasure, travel. Since then, everything has been about capturing a story in a fragrance, and creating something that would evoke and transport a wearer to their own version of that story.",
+    "s4": "Today, each bottle of Side Story perfume begins its journey in Grasse, Provence, and is produced alongside a network of independent artisans. The fragrances are bottled in soda glass and sealed with hand-carved marble lids. Our century-old production facility, farmers, distillers, compounders, stonemasons, label makers, and designers are scattered across the globe.",
+    "s5": "Rana.",
+    "s6": "Home"
+   }
+  },
+  "our-story-gift": {
+   "type": "our-story-gift",
+   "settings": {
+    "s2": "Our promise",
+    "s3": "We take responsibility",
+    "s4": "Ensuring that the high standards we set for ourselves are maintained, from the craftsmanship behind the bottle and packaging, the balance and sillage of the scents, and to the quality and sustainability of the ingredients. None of these elements are ever compromised."
+   }
+  },
+  "our-story-band-2": {
+   "type": "our-story-band-2",
+   "settings": {
+    "s4": "The making",
+    "s5": "Begun in Grasse. Finished by&nbsp;hand.",
+    "s6": "clean botanicals, carefully composed",
+    "s7": "crafted with intention",
+    "s8": "made to last, designed to be reused",
+    "s9": "All Side Story fragrances begin with clean, natural ingredients, selected for their purity and character. Our farm-to-fragrance approach preserves every botanical, using synthetics only when they provide the most sustainable solution, without compromising the integrity of each scent.",
+    "s10": "Every bottle and lid is crafted by hand in Italy, designed to be treasured long after the fragrance is finished. Made from recyclable materials and presented in entirely plastic-free packaging, every detail reflects thoughtful design and enduring craftsmanship.",
+    "s11": "Every parfum is created to linger beautifully on skin and fabric, leaving a lasting impression long after it is worn. Inspired by stories instead of seasons or trends, each fragrance is composed with depth, purpose and timeless character."
+   }
+  },
+  "our-story-band-3": {
+   "type": "our-story-band-3",
+   "settings": {
+    "s3": "Why Side Story?",
+    "s4": "Perfumers",
+    "s5": "Side Story strikes a&nbsp;fine balance between luxury and accessibility that is largely missing in the perfume&nbsp;market.",
+    "s6": "fine raw materials from Grasse, Provence",
+    "s7": "a more reachable price",
+    "s8": "On one hand, we use fine raw materials from Grasse, Provence, and other exceptional sources, and we collaborate with skilled master perfumers such as Jacques Chabert and Argeville who elevate the concept behind each fragrance to a form of high art.",
+    "s9": "On the other, each of our &lsquo;stories&rsquo; is meant to resonate with consumers on a universal level and we have consciously decided to price the fragrances at a more reachable price than brands with similarly high manufacturing standards."
+   }
+  },
+  "our-story-sseven": {
+   "type": "our-story-sseven",
+   "settings": {
+    "s1": "/pages/story-hotel-lobby",
+    "s2": "/pages/story-sunday-service",
+    "s3": "/pages/story-sibling-rivalry",
+    "s4": "/pages/story-third-date",
+    "s5": "/pages/story-road-trip",
+    "s6": "/pages/story-4pm-matinee",
+    "s7": "/pages/story-pillow-talk",
+    "s8": "All seven stories",
+    "s9": "Seven to read. Seven to&nbsp;wear.",
+    "s10": "Hotel Lobby",
+    "s11": "II",
+    "s12": "Sunday Service",
+    "s13": "III",
+    "s14": "Sibling Rivalry",
+    "s15": "IV",
+    "s16": "Third Date",
+    "s17": "Road Trip",
+    "s18": "VI",
+    "s19": "4pm Matinee",
+    "s20": "VII",
+    "s21": "Pillow Talk"
+   }
+  }
+ },
+ "order": [
+  "our-story-banner",
+  "our-story-band",
+  "our-story-gift",
+  "our-story-band-2",
+  "our-story-band-3",
+  "our-story-sseven"
+ ]
+}

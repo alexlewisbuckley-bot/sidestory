@@ -1,0 +1,25 @@
+{
+ "sections": {
+  "legal-content": {
+   "type": "legal-content",
+   "settings": {
+    "s1": "/",
+    "s2": "Legal",
+    "s3": "Privacy, terms &amp;&nbsp;cookies.",
+    "s4": "Placeholder text for the demo. The published site would carry policies reviewed by counsel; nothing below should be relied&nbsp;on.",
+    "s5": "Privacy",
+    "s6": "We collect the minimum needed to send you a parcel and a story: name, address, email, and what you ordered. Payment details are handled by our payment processor and never touch our servers. We do not sell data and we do not share it with advertisers.",
+    "s7": "You can ask us for a copy of everything we hold, or ask us to delete it, by writing to privacy@sidestoryparfums.com. We answer within thirty days.",
+    "s8": "Terms of&nbsp;sale",
+    "s9": "Prices include UK VAT and are shown in pounds sterling. A contract is formed when we email to say the parcel has shipped. FILLER &mdash; returns window to come. Unopened bottles may be returned; samples are not returnable.",
+    "s10": "Nothing in these terms affects your statutory rights.",
+    "s11": "Cookies",
+    "s12": "This demo stores your bag in the browser session and nothing else. The published site would use strictly necessary cookies for the basket and checkout, and analytics only with consent.",
+    "s13": "Home"
+   }
+  }
+ },
+ "order": [
+  "legal-content"
+ ]
+}

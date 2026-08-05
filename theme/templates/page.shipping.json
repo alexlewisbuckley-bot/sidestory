@@ -1,0 +1,21 @@
+{
+ "sections": {
+  "shipping-content": {
+   "type": "shipping-content",
+   "settings": {
+    "s1": "/",
+    "s2": "The practical",
+    "s3": "Shipping &amp;&nbsp;returns.",
+    "s4": "Everything ships signed-for and without plastic. If a&nbsp;bottle is not for you, thirty days is plenty of time to say&nbsp;so.",
+    "s5": "Returns",
+    "s6": "Samples",
+    "s7": "Damaged in transit",
+    "s8": "Gifts",
+    "s9": "Home"
+   }
+  }
+ },
+ "order": [
+  "shipping-content"
+ ]
+}

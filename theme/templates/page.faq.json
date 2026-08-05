@@ -1,0 +1,74 @@
+{
+ "sections": {
+  "faq-content": {
+   "type": "faq-content",
+   "settings": {
+    "s1": "/",
+    "s2": "The practical",
+    "s3": "The questions we are actually&nbsp;asked.",
+    "s4": "Home"
+   },
+   "blocks": {
+    "b1": {
+     "type": "item",
+     "settings": {
+      "b1": true,
+      "b2": "Yes, and it is the whole point. A novelist is commissioned and paid before any brief goes to Grasse. The perfumer works to the finished pages &mdash; the hour of day in them, the room, the weather &mdash; not to a mood board.",
+      "b3": "Is the story really written first?"
+     }
+    },
+    "b2": {
+     "type": "item",
+     "settings": {
+      "b1": false,
+      "b2": "A 100ml arrives under its hand-carved stone lid, with the story printed on cotton paper in an edition matched to the run, and a 2ml sample of a second story. The 7.5ml and the samples arrive in a printed sleeve &mdash; no carved lid and no booklet at those sizes. No plastic anywhere in the parcel.",
+      "b3": "What arrives in the box?"
+     }
+    },
+    "b3": {
+     "type": "item",
+     "settings": {
+      "b1": false,
+      "b2": "Every lid is cut from a block chosen for its seam. We do not select for consistency or correct the veining, so no two repeat. We do not engrave or mark them.",
+      "b3": "Are the lids really all different?"
+     }
+    },
+    "b4": {
+     "type": "item",
+     "settings": {
+      "b1": false,
+      "b2": "Yes. Refills are &pound;120 and ship in a glass flacon; keep the stone and the glass. Send the empty back with the prepaid label and we reuse it.",
+      "b3": "Can I refill a bottle?"
+     }
+    },
+    "b5": {
+     "type": "item",
+     "settings": {
+      "b1": false,
+      "b2": "No, and neither do our suppliers. We do not sell in markets that require it.",
+      "b3": "Do you test on animals?"
+     }
+    },
+    "b6": {
+     "type": "item",
+     "settings": {
+      "b1": false,
+      "b2": "The Grasse shop is open by appointment on Tuesdays and Thursdays. Write to us and we will find an hour.",
+      "b3": "Can I visit?"
+     }
+    }
+   },
+   "block_order": [
+    "b1",
+    "b2",
+    "b3",
+    "b4",
+    "b5",
+    "b6"
+   ]
+  }
+ },
+ "order": [
+  "faq-content"
+ ]
+}

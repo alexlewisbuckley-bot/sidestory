@@ -1,0 +1,27 @@
+{
+ "sections": {
+  "stockists-content": {
+   "type": "stockists-content",
+   "settings": {
+    "s1": "/",
+    "s2": "/pages/contact",
+    "s3": "In person",
+    "s4": "Where to smell them&nbsp;first.",
+    "s5": "A short list, kept short on purpose. Every stockist below carries the full seven and the printed editions.",
+    "s6": "Where to find&nbsp;us",
+    "s7": "FILLER &mdash; stockist to&nbsp;come",
+    "s8": "FILLER &mdash; stockist to&nbsp;come",
+    "s9": "FILLER &mdash; stockist to&nbsp;come",
+    "s10": "FILLER &mdash; stockist to&nbsp;come",
+    "s11": "FILLER &mdash; stockist to&nbsp;come",
+    "s12": "Become a&nbsp;stockist",
+    "s13": "We are careful about this. Write to us and tell us about the shop.",
+    "s14": "Home",
+    "s15": "Get in touch"
+   }
+  }
+ },
+ "order": [
+  "stockists-content"
+ ]
+}

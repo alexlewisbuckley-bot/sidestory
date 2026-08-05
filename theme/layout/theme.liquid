@@ -112,7 +112,7 @@
   </div>
 </nav>
 
-{{ content_for_layout }}
+<main id="main">{{ content_for_layout }}</main>
 
 <footer>
   <div class="inner">
@@ -200,4 +200,5 @@ window.SS_MONEY = {{ shop.money_format | json }};
 window.SS_FREE_CENTS = {{ 15000 }};
 </script>
 <script src="{{ 'cart.js' | asset_url }}" defer></script>
+<script>if(window.Shopify&&Shopify.designMode){document.addEventListener('shopify:section:load',function(){location.reload()});}</script>
 </body></html>

@@ -1,0 +1,90 @@
+<section class="atelier">
+  <div class="inner">
+    <div class="rev"><p class="k">{{ section.settings.s3 }}</p><h2 class="d sechead">{{ section.settings.s4 }}</h2></div>
+    <p class="lead rev">{{ section.settings.s5 }}</p>
+    <div class="row rail" tabindex="0" role="group" aria-label="The object, in three plates — scroll sideways">
+      <figure class="rev">{% if section.settings.s1 %}<img alt="{{ section.settings.s1.alt | escape }}" src="{{ section.settings.s1 | image_url: width: 1600 }}" loading="lazy">{% else %}<picture><source type="image/avif" srcset="https://sidestory-rho.vercel.app/assets/img/stone-shelf-480.avif?v=f02e336a 480w, https://sidestory-rho.vercel.app/assets/img/stone-shelf-960.avif?v=e6e96135 960w, https://sidestory-rho.vercel.app/assets/img/stone-shelf-1600.avif?v=ebfb9f0b 1600w" sizes="100vw"><source type="image/webp" srcset="https://sidestory-rho.vercel.app/assets/img/stone-shelf-480.webp?v=9b545910 480w, https://sidestory-rho.vercel.app/assets/img/stone-shelf-960.webp?v=17f62665 960w, https://sidestory-rho.vercel.app/assets/img/stone-shelf-1600.webp?v=5a1373c3 1600w" sizes="100vw"><img src="https://sidestory-rho.vercel.app/assets/img/stone-shelf.jpg?v=5168998a" alt="" loading="lazy" decoding="async" width="1800" height="1200" srcset="https://sidestory-rho.vercel.app/assets/img/stone-shelf-480.jpg?v=22c8f221 480w, https://sidestory-rho.vercel.app/assets/img/stone-shelf-960.jpg?v=8c40db6e 960w, https://sidestory-rho.vercel.app/assets/img/stone-shelf-1600.jpg?v=2f49b4ad 1600w" sizes="100vw"></picture>{% endif %}
+        <figcaption><b>{{ section.settings.s6 }}</b><i>{{ section.settings.s7 }}</i></figcaption></figure>
+      <figure class="rev">{% if section.settings.s2 %}<img alt="{{ section.settings.s2.alt | escape }}" src="{{ section.settings.s2 | image_url: width: 1600 }}" loading="lazy">{% else %}<picture><source type="image/avif" srcset="https://sidestory-rho.vercel.app/assets/img/p-hotel-lobby-1-480.avif?v=388f5fd6 480w" sizes="100vw"><source type="image/webp" srcset="https://sidestory-rho.vercel.app/assets/img/p-hotel-lobby-1-480.webp?v=17139e72 480w" sizes="100vw"><img src="https://sidestory-rho.vercel.app/assets/img/p-hotel-lobby-1.jpg?v=55d5bc8c" alt="" loading="lazy" decoding="async" width="649" height="648" srcset="https://sidestory-rho.vercel.app/assets/img/p-hotel-lobby-1-480.jpg?v=62233e28 480w" sizes="100vw"></picture>{% endif %}
+        <figcaption><b>{{ section.settings.s8 }}</b><i>{{ section.settings.s9 }}</i></figcaption></figure>
+      <figure class="rev"><div class="swatch"></div>
+        <figcaption><b>{{ section.settings.s10 }}</b><i>{{ section.settings.s11 }}</i></figcaption></figure>
+    </div>
+  </div>
+</section>
+{% schema %}
+{
+ "name": "In the hand",
+ "settings": [
+  {
+   "type": "image_picker",
+   "id": "s1",
+   "label": "Image (blank = current)"
+  },
+  {
+   "type": "image_picker",
+   "id": "s2",
+   "label": "Image (blank = current) 2"
+  },
+  {
+   "type": "text",
+   "id": "s3",
+   "label": "Text",
+   "default": "In the hand"
+  },
+  {
+   "type": "text",
+   "id": "s4",
+   "label": "Heading",
+   "default": "Held before&nbsp;smelled."
+  },
+  {
+   "type": "textarea",
+   "id": "s5",
+   "label": "Text 2",
+   "default": "Fragrance is the only luxury bought blind. So the object must speak first \u2014 the cold of the stone, the letterpress bite of the label, the weight of a hundred millilitres."
+  },
+  {
+   "type": "text",
+   "id": "s6",
+   "label": "Label",
+   "default": "The stone"
+  },
+  {
+   "type": "text",
+   "id": "s7",
+   "label": "Small print",
+   "default": "hand-carved, never repeated"
+  },
+  {
+   "type": "text",
+   "id": "s8",
+   "label": "Label 2",
+   "default": "The label"
+  },
+  {
+   "type": "text",
+   "id": "s9",
+   "label": "Small print 2",
+   "default": "letterpress on cotton paper"
+  },
+  {
+   "type": "text",
+   "id": "s10",
+   "label": "Label 3",
+   "default": "The oil"
+  },
+  {
+   "type": "text",
+   "id": "s11",
+   "label": "Small print 3",
+   "default": "undiluted, amber, slow"
+  }
+ ],
+ "presets": [
+  {
+   "name": "In the hand"
+  }
+ ]
+}
+{% endschema %}

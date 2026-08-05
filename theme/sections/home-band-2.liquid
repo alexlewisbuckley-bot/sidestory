@@ -1,0 +1,72 @@
+<section class="band" id="atelier">
+  <div class="inner">
+    <p class="k">{{ section.settings.s3 }}</p>
+    <h2>{{ section.settings.s4 }}</h2>
+    <div class="grid-2">
+      <figure>{% if section.settings.s1 %}<img class="figfull" alt="{{ section.settings.s1.alt | escape }}" src="{{ section.settings.s1 | image_url: width: 1600 }}" loading="lazy">{% else %}<picture><source type="image/avif" srcset="https://sidestory-rho.vercel.app/assets/img/founders-480.avif?v=e4758b8c 480w, https://sidestory-rho.vercel.app/assets/img/founders-960.avif?v=072fede8 960w, https://sidestory-rho.vercel.app/assets/img/founders-1600.avif?v=787feb2e 1600w" sizes="100vw"><source type="image/webp" srcset="https://sidestory-rho.vercel.app/assets/img/founders-480.webp?v=1b8aa762 480w, https://sidestory-rho.vercel.app/assets/img/founders-960.webp?v=57b4a5fd 960w, https://sidestory-rho.vercel.app/assets/img/founders-1600.webp?v=9809c80f 1600w" sizes="100vw"><img class="figfull" src="https://sidestory-rho.vercel.app/assets/img/founders.jpg?v=b4fe6c2f" alt="The workshop" loading="lazy" decoding="async" width="1600" height="828" srcset="https://sidestory-rho.vercel.app/assets/img/founders-480.jpg?v=90a401f5 480w, https://sidestory-rho.vercel.app/assets/img/founders-960.jpg?v=6ab03efc 960w, https://sidestory-rho.vercel.app/assets/img/founders-1600.jpg?v=c53f60c3 1600w" sizes="100vw"></picture>{% endif %}<figcaption class="hint">{{ section.settings.s5 }}</figcaption></figure>
+      <figure>{% if section.settings.s2 %}<img class="figfull" alt="{{ section.settings.s2.alt | escape }}" src="{{ section.settings.s2 | image_url: width: 1600 }}" loading="lazy">{% else %}<picture><source type="image/avif" srcset="https://sidestory-rho.vercel.app/assets/img/atelier-bench-480.avif?v=d3555179 480w, https://sidestory-rho.vercel.app/assets/img/atelier-bench-960.avif?v=c06acd25 960w, https://sidestory-rho.vercel.app/assets/img/atelier-bench-1600.avif?v=2cc583cc 1600w" sizes="100vw"><source type="image/webp" srcset="https://sidestory-rho.vercel.app/assets/img/atelier-bench-480.webp?v=607111e4 480w, https://sidestory-rho.vercel.app/assets/img/atelier-bench-960.webp?v=0760bd4c 960w, https://sidestory-rho.vercel.app/assets/img/atelier-bench-1600.webp?v=5e7241ca 1600w" sizes="100vw"><img class="figfull" style="object-position:center 34%" src="https://sidestory-rho.vercel.app/assets/img/atelier-bench.jpg?v=b8ef60af" alt="A Road Trip bottle on a workbench beside a glazed jar and a twin-lens camera" loading="lazy" decoding="async" width="1600" height="1067" srcset="https://sidestory-rho.vercel.app/assets/img/atelier-bench-480.jpg?v=fca70ec7 480w, https://sidestory-rho.vercel.app/assets/img/atelier-bench-960.jpg?v=76d85b04 960w, https://sidestory-rho.vercel.app/assets/img/atelier-bench-1600.jpg?v=740f4076 1600w" sizes="100vw"></picture>{% endif %}<figcaption class="hint">{{ section.settings.s6 }}</figcaption></figure>
+    </div>
+    <div class="cols cols-2">
+      <p>{{ section.settings.s7 }}</p>
+      <p>{{ section.settings.s8 }}</p>
+    </div>
+  </div>
+</section>
+{% schema %}
+{
+ "name": "Story band",
+ "settings": [
+  {
+   "type": "image_picker",
+   "id": "s1",
+   "label": "Image (blank = current)"
+  },
+  {
+   "type": "image_picker",
+   "id": "s2",
+   "label": "Image (blank = current) 2"
+  },
+  {
+   "type": "text",
+   "id": "s3",
+   "label": "Text",
+   "default": "FILLER &mdash; eyebrow to come"
+  },
+  {
+   "type": "text",
+   "id": "s4",
+   "label": "Heading",
+   "default": "Ateliers Journey"
+  },
+  {
+   "type": "text",
+   "id": "s5",
+   "label": "Caption",
+   "default": "FILLER &mdash; caption to come"
+  },
+  {
+   "type": "text",
+   "id": "s6",
+   "label": "Caption 2",
+   "default": "FILLER &mdash; caption to come"
+  },
+  {
+   "type": "textarea",
+   "id": "s7",
+   "label": "Text 2",
+   "default": "We create fragrances based on stories, rather than stories composed for arbitrary fragrances. Perfume should be one of life&rsquo;s unremitting addictions, one that necessitates feeding, and one that lasts until the next day, like it did on our grandmothers."
+  },
+  {
+   "type": "textarea",
+   "id": "s8",
+   "label": "Text 3",
+   "default": "We believe the best craftsmen work alone, with aged tools and in dimly lit workshops. We endorse cultural coalescence as the only way forward, favour fewer choices, less iteration and lengthier ownership, and are never guided by compulsions or passing trends."
+  }
+ ],
+ "presets": [
+  {
+   "name": "Story band"
+  }
+ ]
+}
+{% endschema %}

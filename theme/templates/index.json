@@ -1,0 +1,313 @@
+{
+ "sections": {
+  "home-hero": {
+   "type": "home-hero",
+   "settings": {
+    "s3": "/collections/the-fragrances",
+    "s4": "/collections/the-fragrances?size=sample",
+    "s5": "Side Story \u2014 Luxury Parfums",
+    "s6": "Short narratives&nbsp;+ deliberate scents.",
+    "s7": "Crafted with fine &amp; broad-ranging ingredients, the scents inspire nostalgia, expression and memory.",
+    "s8": "Scroll",
+    "s9": "Shop the seven",
+    "s10": "Shop samples \u2014 \u00a35"
+   }
+  },
+  "home-strip": {
+   "type": "home-strip",
+   "settings": {
+    "s4": "/products/hotel-lobby",
+    "s5": "/collections/the-fragrances",
+    "s6": "/pages/stories",
+    "s7": "This season",
+    "s8": "Bestseller",
+    "s9": "Hotel Lobby \u2014 eau de&nbsp;parfum",
+    "s10": "\u00a3160",
+    "s11": "The discovery set",
+    "s12": "The Discovery Set \u2014 seven stories in&nbsp;miniature",
+    "s13": "\u00a330",
+    "s14": "Just bound",
+    "s15": "This season\u2019s story \u2014 Road Trip,&nbsp;re-read",
+    "s16": "\u00a3160"
+   }
+  },
+  "home-house": {
+   "type": "home-house",
+   "settings": {
+    "s1": "/pages/stories",
+    "s2": "/pages/our-story",
+    "s3": "Our story",
+    "s4": "I thought deeply about the different stories that ran through our lives and how they had impacted our senses, such as work, love, companionships, pleasure, travel.",
+    "s5": "The Stories",
+    "s6": "Our Story"
+   }
+  },
+  "home-seven": {
+   "type": "home-seven",
+   "settings": {
+    "s8": "/collections/the-fragrances",
+    "s9": "/products/hotel-lobby",
+    "s10": "/products/hotel-lobby",
+    "s11": "/products/sunday-service",
+    "s12": "/products/sunday-service",
+    "s13": "/products/sibling-rivalry",
+    "s14": "/products/sibling-rivalry",
+    "s15": "/products/third-date",
+    "s16": "/products/third-date",
+    "s17": "/products/road-trip",
+    "s18": "/products/road-trip",
+    "s19": "/products/4pm-matinee",
+    "s20": "/products/4pm-matinee",
+    "s21": "/products/pillow-talk",
+    "s22": "/products/pillow-talk",
+    "s23": "The seven stories",
+    "s24": "Choose by the stone that pulls your&nbsp;hand.",
+    "s25": "Hotel Lobby",
+    "s26": "Woods. Green.",
+    "s27": "Sunday Service",
+    "s28": "Spice. Floral. Woods.",
+    "s29": "Sibling Rivalry",
+    "s30": "FILLER \u2014 style to come",
+    "s31": "Third Date",
+    "s32": "Green. Floral.",
+    "s33": "Road Trip",
+    "s34": "Amber. Woods.",
+    "s35": "4pm Matinee",
+    "s36": "Green. Woods. Amber.",
+    "s37": "Pillow Talk",
+    "s38": "Powder. Citrus. Spice.",
+    "s39": "Undecided?",
+    "s40": "The Discovery&nbsp;Set",
+    "s41": "All seven stories in miniature \u2014 read them on your own skin. \u00a330.",
+    "s42": "All fragrances",
+    "s43": "Bestseller",
+    "s44": "Nero Marquina",
+    "s45": "&pound;160 &middot; 100 ml",
+    "s46": "View",
+    "s47": "Verde Jade",
+    "s48": "&pound;160 &middot; 100 ml",
+    "s49": "View",
+    "s50": "Leopard Salome",
+    "s51": "&pound;160 &middot; 100 ml",
+    "s52": "View",
+    "s53": "Rosso Levanto",
+    "s54": "&pound;160 &middot; 100 ml",
+    "s55": "View",
+    "s56": "New story",
+    "s57": "Rosso Francia",
+    "s58": "&pound;160 &middot; 100 ml",
+    "s59": "View",
+    "s60": "Giallo Siena",
+    "s61": "&pound;160 &middot; 100 ml",
+    "s62": "View",
+    "s63": "Calacatta",
+    "s64": "&pound;160 &middot; 100 ml",
+    "s65": "View"
+   }
+  },
+  "home-show": {
+   "type": "home-show",
+   "settings": {
+    "s1": "/pages/story-hotel-lobby",
+    "s2": "The chapter of the season",
+    "s3": "Hotel Lobby",
+    "s4": "&ldquo;The bar was the kind of place Hemingway might have lingered a&nbsp;little too long.&rdquo;",
+    "s5": "Story",
+    "s6": "Style",
+    "s7": "Stone",
+    "s8": "Complimentary UK delivery over &pound;30 &middot; signed for, two to four working days",
+    "s9": "Anticipation + Attraction",
+    "s10": "Woods. Green.",
+    "s11": "Nero Marquina, Basque Country",
+    "s12": "Read the story"
+   }
+  },
+  "home-atelier": {
+   "type": "home-atelier",
+   "settings": {
+    "s3": "In the hand",
+    "s4": "Held before&nbsp;smelled.",
+    "s5": "Fragrance is the only luxury bought blind. So the object must speak first \u2014 the cold of the stone, the letterpress bite of the label, the weight of a hundred millilitres.",
+    "s6": "The stone",
+    "s7": "hand-carved, never repeated",
+    "s8": "The label",
+    "s9": "letterpress on cotton paper",
+    "s10": "The oil",
+    "s11": "undiluted, amber, slow"
+   }
+  },
+  "home-yfeat": {
+   "type": "home-yfeat",
+   "settings": {
+    "s2": "/pages/stories",
+    "s3": "Story II &middot; 7 min read",
+    "s4": "Sunday Service",
+    "s5": "&ldquo;The music was the same. The cool, oaky air of the church was the same.&rdquo;",
+    "s6": "Read the stories &rarr;"
+   }
+  },
+  "home-feelings": {
+   "type": "home-feelings",
+   "settings": {
+    "s1": "/collections/the-fragrances?scent=woods",
+    "s2": "/collections/the-fragrances?scent=green",
+    "s3": "/collections/the-fragrances?scent=floral",
+    "s4": "/collections/the-fragrances?scent=spice",
+    "s5": "/collections/the-fragrances?scent=amber",
+    "s6": "/collections/the-fragrances?scent=citrus",
+    "s7": "/collections/the-fragrances?scent=powder",
+    "s8": "The consultation",
+    "s9": "Begin with a&nbsp;style.",
+    "s10": "Not sure which story is yours? Choose what you want more of.",
+    "s11": "Each style opens the collection, already filtered \u2014 sample first, always \u00a35",
+    "s12": "Woods",
+    "s13": "4 stories",
+    "s14": "Hotel Lobby &middot; Sunday Service &middot; Road Trip &middot; 4pm Matinee",
+    "s15": "&rarr;",
+    "s16": "Green",
+    "s17": "3 stories",
+    "s18": "Hotel Lobby &middot; Third Date &middot; 4pm Matinee",
+    "s19": "&rarr;",
+    "s20": "Floral",
+    "s21": "2 stories",
+    "s22": "Sunday Service &middot; Third Date",
+    "s23": "&rarr;",
+    "s24": "Spice",
+    "s25": "2 stories",
+    "s26": "Sunday Service &middot; Pillow Talk",
+    "s27": "&rarr;",
+    "s28": "Amber",
+    "s29": "2 stories",
+    "s30": "Road Trip &middot; 4pm Matinee",
+    "s31": "&rarr;",
+    "s32": "Citrus",
+    "s33": "1 story",
+    "s34": "Pillow Talk",
+    "s35": "&rarr;",
+    "s36": "Powder",
+    "s37": "1 story",
+    "s38": "Pillow Talk",
+    "s39": "&rarr;"
+   }
+  },
+  "home-ways": {
+   "type": "home-ways",
+   "settings": {
+    "s4": "/collections/the-fragrances",
+    "s5": "/collections/the-fragrances",
+    "s6": "For the undecided",
+    "s7": "Three ways&nbsp;in.",
+    "s8": "The set",
+    "s9": "The Discovery&nbsp;Set",
+    "s10": "All seven, 2ml each \u2014 the whole shelf on your skin. \u00a330, and a week of wearing before you choose.",
+    "s11": "By nose",
+    "s12": "Begin with your&nbsp;taste",
+    "s13": "Woods or citrus, linen or velvet \u2014 tell us two moments you love; we suggest one story and send its sample.",
+    "s14": "By style",
+    "s15": "Begin with a&nbsp;style",
+    "s16": "Woods or florals, green or amber \u2014 choose what you want more of and we\u2019ll open the story written around it.",
+    "s17": "Begin the set \u2014 \u00a330 \u2192",
+    "s18": "Browse by note \u2192",
+    "s19": "Choose by style \u2192"
+   }
+  },
+  "home-band": {
+   "type": "home-band",
+   "settings": {
+    "s4": "The making",
+    "s5": "Begun in Grasse. Finished by&nbsp;hand.",
+    "s6": "clean botanicals, carefully composed",
+    "s7": "crafted with intention",
+    "s8": "made to last, designed to be reused",
+    "s9": "All Side Story fragrances begin with clean, natural ingredients, selected for their purity and character. Our farm-to-fragrance approach preserves every botanical, using synthetics only when they provide the most sustainable solution, without compromising the integrity of each scent.",
+    "s10": "Every bottle and lid is crafted by hand in Italy, designed to be treasured long after the fragrance is finished. Made from recyclable materials and presented in entirely plastic-free packaging, every detail reflects thoughtful design and enduring craftsmanship.",
+    "s11": "Every parfum is created to linger beautifully on skin and fabric, leaving a lasting impression long after it is worn. Inspired by stories instead of seasons or trends, each fragrance is composed with depth, purpose and timeless character."
+   }
+  },
+  "home-band-2": {
+   "type": "home-band-2",
+   "settings": {
+    "s3": "FILLER &mdash; eyebrow to come",
+    "s4": "Ateliers Journey",
+    "s5": "FILLER &mdash; caption to come",
+    "s6": "FILLER &mdash; caption to come",
+    "s7": "We create fragrances based on stories, rather than stories composed for arbitrary fragrances. Perfume should be one of life&rsquo;s unremitting addictions, one that necessitates feeding, and one that lasts until the next day, like it did on our grandmothers.",
+    "s8": "We believe the best craftsmen work alone, with aged tools and in dimly lit workshops. We endorse cultural coalescence as the only way forward, favour fewer choices, less iteration and lengthier ownership, and are never guided by compulsions or passing trends."
+   }
+  },
+  "home-gift": {
+   "type": "home-gift",
+   "settings": {
+    "s2": "/products/discovery-set",
+    "s3": "The discovery set",
+    "s4": "Read first. Decide&nbsp;later.",
+    "s5": "All seven stories in miniature &mdash; 2ml of each, and the opening page of every one. Wear one a day for a week, then choose the bottle you keep.",
+    "s6": "What&rsquo;s in it"
+   }
+  },
+  "home-creds": {
+   "type": "home-creds",
+   "settings": {
+    "s1": "In the press",
+    "s2": "FILLER \u2014 stockist line to come"
+   },
+   "blocks": {
+    "b1": {
+     "type": "item",
+     "settings": {
+      "b1": "The most literate thing to happen to British perfume in a&nbsp;decade.",
+      "b2": "FILLER \u2014 attribution to come"
+     }
+    },
+    "b2": {
+     "type": "item",
+     "settings": {
+      "b1": "Stone lids you\u2019ll fidget with forever, stories you\u2019ll actually&nbsp;read.",
+      "b2": "FILLER \u2014 attribution to come"
+     }
+    },
+    "b3": {
+     "type": "item",
+     "settings": {
+      "b1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod&nbsp;tempor.",
+      "b2": "FILLER \u2014 third quote to come"
+     }
+    }
+   },
+   "block_order": [
+    "b1",
+    "b2",
+    "b3"
+   ]
+  },
+  "home-news": {
+   "type": "home-news",
+   "settings": {
+    "s1": "/pages/stories",
+    "s2": "Undecided is a&nbsp;fine place to&nbsp;begin.",
+    "s3": "One letter a month \u2014 a new chapter, first readings, and nothing else.",
+    "s4": "One letter a month. Unsubscribe any time \u2014 your address is never shared.",
+    "s5": "Subscribed",
+    "s6": "The first letter is on its&nbsp;way.",
+    "s7": "One letter a month \u2014 a new chapter, first readings, and nothing else. Unsubscribe from the foot of any of them; your address is never shared.",
+    "s8": "Read the seven while you wait"
+   }
+  }
+ },
+ "order": [
+  "home-hero",
+  "home-strip",
+  "home-house",
+  "home-seven",
+  "home-show",
+  "home-atelier",
+  "home-yfeat",
+  "home-feelings",
+  "home-ways",
+  "home-band",
+  "home-band-2",
+  "home-gift",
+  "home-creds",
+  "home-news"
+ ]
+}

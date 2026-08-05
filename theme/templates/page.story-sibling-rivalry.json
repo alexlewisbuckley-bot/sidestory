@@ -1,0 +1,62 @@
+{
+ "sections": {
+  "story-sibling-rivalry-shead": {
+   "type": "story-sibling-rivalry-shead",
+   "settings": {
+    "s4": "/",
+    "s5": "/pages/stories",
+    "s6": "/products/sibling-rivalry",
+    "s7": "/pages/story-sunday-service",
+    "s8": "/pages/story-third-date",
+    "s9": "/pages/story-hotel-lobby",
+    "s10": "/pages/story-sunday-service",
+    "s11": "/pages/story-sibling-rivalry",
+    "s12": "/pages/story-third-date",
+    "s13": "/pages/story-road-trip",
+    "s14": "/pages/story-4pm-matinee",
+    "s15": "/pages/story-pillow-talk",
+    "s16": "Sibling Rivalry",
+    "s17": "Written by [author to be credited] &middot; 6 min read &middot; the story that became a fragrance",
+    "s18": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+    "s19": "&ldquo;Sed ut perspiciatis unde omnis iste natus error sit voluptatem.&rdquo;",
+    "s20": "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+    "s21": "&mdash; [.t.b.c.",
+    "s22": "The scent this became",
+    "s23": "Sibling Rivalry",
+    "s24": "FILLER \u2014 scent line to come, beneath a&nbsp;lid of Leopard&nbsp;Salome.",
+    "s25": "Opening",
+    "s26": "Heart",
+    "s27": "Base",
+    "s28": "Sunday Service",
+    "s29": "Spice. Floral. Woods.",
+    "s30": "Third Date",
+    "s31": "Green. Floral.",
+    "s32": "All seven stories",
+    "s33": "Seven to read. Seven to&nbsp;wear.",
+    "s34": "Hotel Lobby",
+    "s35": "II",
+    "s36": "Sunday Service",
+    "s37": "III",
+    "s38": "Sibling Rivalry",
+    "s39": "IV",
+    "s40": "Third Date",
+    "s41": "Road Trip",
+    "s42": "VI",
+    "s43": "4pm Matinee",
+    "s44": "VII",
+    "s45": "Pillow Talk",
+    "s46": "Home",
+    "s47": "Your Stories",
+    "s48": "FILLER \u2014 note to come",
+    "s49": "FILLER \u2014 note to come",
+    "s50": "FILLER \u2014 note to come",
+    "s51": "Sample &mdash; &pound;5",
+    "s52": "&larr; Previous story",
+    "s53": "Next story &rarr;"
+   }
+  }
+ },
+ "order": [
+  "story-sibling-rivalry-shead"
+ ]
+}

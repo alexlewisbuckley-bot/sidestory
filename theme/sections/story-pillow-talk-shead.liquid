@@ -1,0 +1,441 @@
+
+<section class="shead">
+  <div class="inner">
+    <p class="crumb"><a href="{{ section.settings.s4 }}">{{ section.settings.s50 }}</a> / <a href="{{ section.settings.s5 }}">{{ section.settings.s51 }}</a> / Pillow Talk</p>
+    <div class="c">
+      <p class="k"><i class="chip" style="background:var(--stone-pillow-talk)"></i>Your stories &middot; Story VII &middot; Calacatta</p>
+      <h1>{{ section.settings.s16 }}</h1>
+      <p class="by">{{ section.settings.s17 }}</p>
+    </div>
+  </div>
+</section>
+
+<section class="splate">
+  {% if section.settings.s1 %}<img alt="{{ section.settings.s1.alt | escape }}" src="{{ section.settings.s1 | image_url: width: 1600 }}" loading="lazy">{% else %}<picture><source type="image/avif" srcset="https://sidestory-rho.vercel.app/assets/img/story-pillow-talk-480.avif?v=05ebfee2 480w, https://sidestory-rho.vercel.app/assets/img/story-pillow-talk-960.avif?v=311be78e 960w, https://sidestory-rho.vercel.app/assets/img/story-pillow-talk-1600.avif?v=0acbd00f 1600w" sizes="100vw"><source type="image/webp" srcset="https://sidestory-rho.vercel.app/assets/img/story-pillow-talk-480.webp?v=0c16421b 480w, https://sidestory-rho.vercel.app/assets/img/story-pillow-talk-960.webp?v=e411d998 960w, https://sidestory-rho.vercel.app/assets/img/story-pillow-talk-1600.webp?v=95aeef4f 1600w" sizes="100vw"><img src="https://sidestory-rho.vercel.app/assets/img/story-pillow-talk.jpg?v=02bf7195" alt="Pillow Talk" decoding="async" width="1800" height="960" srcset="https://sidestory-rho.vercel.app/assets/img/story-pillow-talk-480.jpg?v=c834188f 480w, https://sidestory-rho.vercel.app/assets/img/story-pillow-talk-960.jpg?v=96a23a20 960w, https://sidestory-rho.vercel.app/assets/img/story-pillow-talk-1600.jpg?v=16ff23f1 1600w" sizes="100vw"></picture>{% endif %}
+</section>
+
+<section class="sbody">
+  <div class="inner">
+    <div class="scol">
+      <p class="dropcap">{{ section.settings.s18 }}</p>
+      <p>{{ section.settings.s19 }}</p>
+      <p>{{ section.settings.s20 }}</p>
+      <p>{{ section.settings.s21 }}</p>
+    </div>
+    <aside class="saside">
+        <p class="marginnote">FILLER — note to come<small>In the margin &mdash; 01 of 09</small></p>
+        <p class="marginnote">FILLER — note to come<small>In the margin &mdash; 03 of 09</small></p>
+        <p class="marginnote">FILLER — note to come<small>In the margin &mdash; 05 of 09</small></p>
+    </aside>
+    <blockquote class="spull">{{ section.settings.s22 }}</blockquote>
+    <div class="scol">
+      <p>{{ section.settings.s23 }}</p>
+      <p>{{ section.settings.s24 }}</p>
+      <p class="sig">{{ section.settings.s25 }}</p>
+    </div>
+    <figure class="sfig">
+      {% if section.settings.s2 %}<img alt="{{ section.settings.s2.alt | escape }}" src="{{ section.settings.s2 | image_url: width: 1600 }}" loading="lazy">{% else %}<picture><source type="image/avif" srcset="https://sidestory-rho.vercel.app/assets/img/story-pillow-talk-480.avif?v=05ebfee2 480w, https://sidestory-rho.vercel.app/assets/img/story-pillow-talk-960.avif?v=311be78e 960w, https://sidestory-rho.vercel.app/assets/img/story-pillow-talk-1600.avif?v=0acbd00f 1600w" sizes="100vw"><source type="image/webp" srcset="https://sidestory-rho.vercel.app/assets/img/story-pillow-talk-480.webp?v=0c16421b 480w, https://sidestory-rho.vercel.app/assets/img/story-pillow-talk-960.webp?v=e411d998 960w, https://sidestory-rho.vercel.app/assets/img/story-pillow-talk-1600.webp?v=95aeef4f 1600w" sizes="100vw"><img src="https://sidestory-rho.vercel.app/assets/img/story-pillow-talk.jpg?v=02bf7195" alt="Pillow Talk" loading="lazy" decoding="async" width="1800" height="960" srcset="https://sidestory-rho.vercel.app/assets/img/story-pillow-talk-480.jpg?v=c834188f 480w, https://sidestory-rho.vercel.app/assets/img/story-pillow-talk-960.jpg?v=96a23a20 960w, https://sidestory-rho.vercel.app/assets/img/story-pillow-talk-1600.jpg?v=16ff23f1 1600w" sizes="100vw"></picture>{% endif %}
+    </figure>
+  </div>
+</section>
+
+<section class="sbecame stone-pillow-talk">
+  <div class="inner">
+    <div class="c">
+      <p class="k">{{ section.settings.s26 }}</p>
+      <h2>{{ section.settings.s27 }}</h2>
+      <p class="lede">{{ section.settings.s28 }}</p>
+      <div class="notes">
+          <div class="nrow"><b>{{ section.settings.s29 }}</b><span>{{ section.settings.s52 }}</span></div>
+          <div class="nrow"><b>{{ section.settings.s30 }}</b><span>{{ section.settings.s53 }}</span></div>
+          <div class="nrow"><b>{{ section.settings.s31 }}</b><span>{{ section.settings.s54 }}</span></div>
+      </div>
+      <div class="actions">
+        <button class="btn btn-ivory" onclick="addToBag('pillow-talk','full',this)">Shop Pillow Talk &mdash; &pound;160</button>
+        <a class="btn btn-ghost" href="{{ section.settings.s6 }}">{{ section.settings.s55 }}</a>
+      </div>
+    </div>
+  </div>
+  {% if section.settings.s3 %}<img class="plate" alt="{{ section.settings.s3.alt | escape }}" src="{{ section.settings.s3 | image_url: width: 1600 }}" loading="lazy">{% else %}<picture><source type="image/avif" srcset="https://sidestory-rho.vercel.app/assets/img/p-pillow-talk-hero-480.avif?v=cba8b45d 480w" sizes="(min-width:68em) 400px, (min-width:40em) 46vw, 92vw"><source type="image/webp" srcset="https://sidestory-rho.vercel.app/assets/img/p-pillow-talk-hero-480.webp?v=08b89c91 480w" sizes="(min-width:68em) 400px, (min-width:40em) 46vw, 92vw"><img class="plate" src="https://sidestory-rho.vercel.app/assets/img/p-pillow-talk-hero.jpg?v=e721df40" alt="" loading="lazy" decoding="async" width="655" height="655" srcset="https://sidestory-rho.vercel.app/assets/img/p-pillow-talk-hero-480.jpg?v=eb9ffb5c 480w" sizes="(min-width:68em) 400px, (min-width:40em) 46vw, 92vw"></picture>{% endif %}
+</section>
+
+<section class="snav">
+  <div class="inner">
+    <a class="prev" href="{{ section.settings.s7 }}">
+      <span class="k">{{ section.settings.s56 }}</span>
+      <b>{{ section.settings.s32 }}</b>
+      <em>{{ section.settings.s33 }}</em></a>
+    <a class="next" href="{{ section.settings.s8 }}">
+      <span class="k">{{ section.settings.s57 }}</span>
+      <b>{{ section.settings.s34 }}</b>
+      <em>{{ section.settings.s35 }}</em></a>
+  </div>
+</section>
+
+<section class="sseven">
+  <div class="inner">
+    <p class="k">{{ section.settings.s36 }}</p>
+    <h2>{{ section.settings.s37 }}</h2>
+    <div class="svs">
+        <a class="sv" href="{{ section.settings.s9 }}"><i style="background:var(--stone-hotel-lobby)"></i><em>I</em><b>{{ section.settings.s38 }}</b></a>
+        <a class="sv" href="{{ section.settings.s10 }}"><i style="background:var(--stone-sunday-service)"></i><em>{{ section.settings.s39 }}</em><b>{{ section.settings.s40 }}</b></a>
+        <a class="sv" href="{{ section.settings.s11 }}"><i style="background:var(--stone-sibling-rivalry)"></i><em>{{ section.settings.s41 }}</em><b>{{ section.settings.s42 }}</b></a>
+        <a class="sv" href="{{ section.settings.s12 }}"><i style="background:var(--stone-third-date)"></i><em>{{ section.settings.s43 }}</em><b>{{ section.settings.s44 }}</b></a>
+        <a class="sv" href="{{ section.settings.s13 }}"><i style="background:var(--stone-road-trip)"></i><em>V</em><b>{{ section.settings.s45 }}</b></a>
+        <a class="sv" href="{{ section.settings.s14 }}"><i style="background:var(--stone-4pm-matinee)"></i><em>{{ section.settings.s46 }}</em><b>{{ section.settings.s47 }}</b></a>
+        <a class="sv on" href="{{ section.settings.s15 }}"><i style="background:var(--stone-pillow-talk)"></i><em>{{ section.settings.s48 }}</em><b>{{ section.settings.s49 }}</b><small>You are reading</small></a>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+ "name": "Story Pillow Talk content",
+ "settings": [
+  {
+   "type": "image_picker",
+   "id": "s1",
+   "label": "Image (blank = current)"
+  },
+  {
+   "type": "image_picker",
+   "id": "s2",
+   "label": "Image (blank = current) 2"
+  },
+  {
+   "type": "image_picker",
+   "id": "s3",
+   "label": "Image (blank = current) 3"
+  },
+  {
+   "type": "text",
+   "id": "s4",
+   "label": "Link URL",
+   "default": "/"
+  },
+  {
+   "type": "text",
+   "id": "s5",
+   "label": "Link URL 2",
+   "default": "/pages/stories"
+  },
+  {
+   "type": "text",
+   "id": "s6",
+   "label": "Link URL 3",
+   "default": "/products/pillow-talk"
+  },
+  {
+   "type": "text",
+   "id": "s7",
+   "label": "Link URL 4",
+   "default": "/pages/story-4pm-matinee"
+  },
+  {
+   "type": "text",
+   "id": "s8",
+   "label": "Link URL 5",
+   "default": "/pages/story-hotel-lobby"
+  },
+  {
+   "type": "text",
+   "id": "s9",
+   "label": "Link URL 6",
+   "default": "/pages/story-hotel-lobby"
+  },
+  {
+   "type": "text",
+   "id": "s10",
+   "label": "Link URL 7",
+   "default": "/pages/story-sunday-service"
+  },
+  {
+   "type": "text",
+   "id": "s11",
+   "label": "Link URL 8",
+   "default": "/pages/story-sibling-rivalry"
+  },
+  {
+   "type": "text",
+   "id": "s12",
+   "label": "Link URL 9",
+   "default": "/pages/story-third-date"
+  },
+  {
+   "type": "text",
+   "id": "s13",
+   "label": "Link URL 10",
+   "default": "/pages/story-road-trip"
+  },
+  {
+   "type": "text",
+   "id": "s14",
+   "label": "Link URL 11",
+   "default": "/pages/story-4pm-matinee"
+  },
+  {
+   "type": "text",
+   "id": "s15",
+   "label": "Link URL 12",
+   "default": "/pages/story-pillow-talk"
+  },
+  {
+   "type": "text",
+   "id": "s16",
+   "label": "Heading",
+   "default": "Pillow Talk"
+  },
+  {
+   "type": "textarea",
+   "id": "s17",
+   "label": "Text",
+   "default": "Written by [author to be credited] &middot; 4 min read &middot; the story that became a fragrance"
+  },
+  {
+   "type": "textarea",
+   "id": "s18",
+   "label": "Text 2",
+   "default": "They had been awake for hours, drifting in and out of consciousness, unspooling the sweet trivialities of their personal histories in sleepy whispers, and between stolen kisses. Just before noon, he arose to make coffee, making her promise that she\u2019d be in the exact same place when he returned. They would continue the conversation. She raised three fingers in mock solemnity: scout\u2019s honor, she said."
+  },
+  {
+   "type": "textarea",
+   "id": "s19",
+   "label": "Text 3",
+   "default": "He brought the little bowls of black coffee into the bedroom with a pitcher of cream. She liked to watch her cup become a canvas, the cream and coffee mingling like watercolours before blending into rich caramel. She was waiting in the bed next to the open window, the down duvet ruffled around her like a snow drift. The bed linens were cool against her skin, crisp and clean, the satin white illuminating her face, her violet eyes, her tousled hair."
+  },
+  {
+   "type": "textarea",
+   "id": "s20",
+   "label": "Text 4",
+   "default": "He knelt on the bed and put his lips to her temple, then her ear, then placed one of the cups in her eager hands. He breathed in her fresh, powdery skin. Gently, he tipped a thimble of cream into her coffee, then another, watching her delight in the dance of dark and light."
+  },
+  {
+   "type": "textarea",
+   "id": "s21",
+   "label": "Text 5",
+   "default": "He went to the sideboard and pulled a record from its sleeve as she raised the coffee to her lips. She admired the care in his touch, the way he gingerly placed the album on the turntable and slowly lowered the needle: his gentle, deliberate, unhurried way of doing things. She admired the grey on his temples, the stubble on his jawline, the willowy muscles in his neck and shoulders."
+  },
+  {
+   "type": "text",
+   "id": "s22",
+   "label": "Quote",
+   "default": "&ldquo;It was only Saturday, and neither had anywhere they had to&nbsp;be.&rdquo;"
+  },
+  {
+   "type": "textarea",
+   "id": "s23",
+   "label": "Text 6",
+   "default": "He felt her watching him and shifted his gaze back to the bed, narrowing his eyes in faux accusation. As he approached her, she began to giggle, unable to contain her delight, and he matched her laughter with a silly grin. Smitten, neither could believe their good fortune."
+  },
+  {
+   "type": "textarea",
+   "id": "s24",
+   "label": "Text 7",
+   "default": "Morning light spilled into the bedroom and the melody escaped out of the window and down to they city below. It was only Saturday, and neither had anywhere they had to be. They both knew they might linger there for hours, or the whole day, or two, dissolving into conversation, and pleasure, and one another, as naturally as cream into coffee."
+  },
+  {
+   "type": "text",
+   "id": "s25",
+   "label": "Text 8",
+   "default": "&mdash; [.t.b.c."
+  },
+  {
+   "type": "text",
+   "id": "s26",
+   "label": "Text 9",
+   "default": "The scent this became"
+  },
+  {
+   "type": "text",
+   "id": "s27",
+   "label": "Heading 2",
+   "default": "Pillow Talk"
+  },
+  {
+   "type": "text",
+   "id": "s28",
+   "label": "Text 10",
+   "default": "FILLER \u2014 scent line to come, beneath a&nbsp;lid of&nbsp;Calacatta."
+  },
+  {
+   "type": "text",
+   "id": "s29",
+   "label": "Label",
+   "default": "Opening"
+  },
+  {
+   "type": "text",
+   "id": "s30",
+   "label": "Label 2",
+   "default": "Heart"
+  },
+  {
+   "type": "text",
+   "id": "s31",
+   "label": "Label 3",
+   "default": "Base"
+  },
+  {
+   "type": "text",
+   "id": "s32",
+   "label": "Label 4",
+   "default": "4pm Matinee"
+  },
+  {
+   "type": "text",
+   "id": "s33",
+   "label": "Label 5",
+   "default": "Green. Woods. Amber."
+  },
+  {
+   "type": "text",
+   "id": "s34",
+   "label": "Label 6",
+   "default": "Hotel Lobby"
+  },
+  {
+   "type": "text",
+   "id": "s35",
+   "label": "Label 7",
+   "default": "Woods. Green."
+  },
+  {
+   "type": "text",
+   "id": "s36",
+   "label": "Text 11",
+   "default": "All seven stories"
+  },
+  {
+   "type": "text",
+   "id": "s37",
+   "label": "Heading 3",
+   "default": "Seven to read. Seven to&nbsp;wear."
+  },
+  {
+   "type": "text",
+   "id": "s38",
+   "label": "Label 8",
+   "default": "Hotel Lobby"
+  },
+  {
+   "type": "text",
+   "id": "s39",
+   "label": "Label 9",
+   "default": "II"
+  },
+  {
+   "type": "text",
+   "id": "s40",
+   "label": "Label 10",
+   "default": "Sunday Service"
+  },
+  {
+   "type": "text",
+   "id": "s41",
+   "label": "Label 11",
+   "default": "III"
+  },
+  {
+   "type": "text",
+   "id": "s42",
+   "label": "Label 12",
+   "default": "Sibling Rivalry"
+  },
+  {
+   "type": "text",
+   "id": "s43",
+   "label": "Label 13",
+   "default": "IV"
+  },
+  {
+   "type": "text",
+   "id": "s44",
+   "label": "Label 14",
+   "default": "Third Date"
+  },
+  {
+   "type": "text",
+   "id": "s45",
+   "label": "Label 15",
+   "default": "Road Trip"
+  },
+  {
+   "type": "text",
+   "id": "s46",
+   "label": "Label 16",
+   "default": "VI"
+  },
+  {
+   "type": "text",
+   "id": "s47",
+   "label": "Label 17",
+   "default": "4pm Matinee"
+  },
+  {
+   "type": "text",
+   "id": "s48",
+   "label": "Label 18",
+   "default": "VII"
+  },
+  {
+   "type": "text",
+   "id": "s49",
+   "label": "Label 19",
+   "default": "Pillow Talk"
+  },
+  {
+   "type": "text",
+   "id": "s50",
+   "label": "Link label",
+   "default": "Home"
+  },
+  {
+   "type": "text",
+   "id": "s51",
+   "label": "Link label 2",
+   "default": "Your Stories"
+  },
+  {
+   "type": "text",
+   "id": "s52",
+   "label": "Label 20",
+   "default": "FILLER \u2014 note to come"
+  },
+  {
+   "type": "text",
+   "id": "s53",
+   "label": "Label 21",
+   "default": "FILLER \u2014 note to come"
+  },
+  {
+   "type": "text",
+   "id": "s54",
+   "label": "Label 22",
+   "default": "FILLER \u2014 note to come"
+  },
+  {
+   "type": "text",
+   "id": "s55",
+   "label": "Link label 3",
+   "default": "Sample &mdash; &pound;5"
+  },
+  {
+   "type": "text",
+   "id": "s56",
+   "label": "Label 23",
+   "default": "&larr; Previous story"
+  },
+  {
+   "type": "text",
+   "id": "s57",
+   "label": "Label 24",
+   "default": "Next story &rarr;"
+  }
+ ],
+ "presets": [
+  {
+   "name": "Story Pillow Talk content"
+  }
+ ]
+}
+{% endschema %}
