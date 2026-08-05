@@ -3145,3 +3145,5 @@ a,button,summary,label,input,select,textarea,[role="button"]{
 main>.shopify-section{display:contents}
 main>.shopify-section:first-child>:is(.band,.house,.seven,.show,.atelier,.feelings,.ways,.making,.mater,.journal,.creds):first-child{padding-top:var(--space-7)}
 main>.shopify-section:first-child>:is(.band,.seven):first-child:has(> .inner > .crumb){padding-top:0}
+/* store-currency prices run longer than the baked GBP ones */
+.quick .r .btn{letter-spacing:.02em;font-size:min(var(--t-btn),3.6vw)}

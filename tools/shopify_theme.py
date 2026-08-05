@@ -465,7 +465,9 @@ window.SS_FREE_CENTS = {{ 15000 }};
         ".atelier,.feelings,.ways,.making,.mater,.journal,.creds):first-child"
         "{padding-top:var(--space-7)}\n"
         "main>.shopify-section:first-child>:is(.band,.seven):first-child"
-        ":has(> .inner > .crumb){padding-top:0}\n")
+        ":has(> .inner > .crumb){padding-top:0}\n"
+        "/* store-currency prices run longer than the baked GBP ones */\n"
+        ".quick .r .btn{letter-spacing:.02em;font-size:min(var(--t-btn),3.6vw)}\n")
     emit("assets/app.css", css)
     fonts = read("assets/css/fonts.css")
     fonts = re.sub(r'url\((["\']?)\.\./fonts/', r"url(\1", fonts)
@@ -527,8 +529,10 @@ CART_JS = r"""
 (function(){
   'use strict';
   const fmt = (window.SS_MONEY || 'Dhs. {{amount}}');
+  /* whole amounts drop the ".00" — matches the site's price typography */
   const money = c => fmt.replace(/\{\{\s*amount[^}]*\}\}/,
-    (c/100).toLocaleString('en', {minimumFractionDigits:2, maximumFractionDigits:2}));
+    (c/100).toLocaleString('en', {minimumFractionDigits: c%100 ? 2 : 0,
+                                  maximumFractionDigits: 2}));
   const FREE = window.SS_FREE_CENTS || 15000;
   let cart = null;
 
@@ -621,6 +625,14 @@ CART_JS = r"""
           bp.textContent = cur.dataset.price + (l ? ' · ' + l.textContent : ''); }
       }
     }
+    /* every quick-buy button repaints from its own size, not just the first */
+    document.querySelectorAll('[data-buy][data-size]').forEach(b=>{
+      const card = b.closest('[data-slug]');
+      const s = card ? card.dataset.slug : document.body.dataset.slug;
+      const p = VP(s, b.dataset.size); if(p==null) return;
+      if(/—/.test(b.textContent))
+        b.textContent = b.textContent.split('—')[0].trim() + ' — ' + money(p);
+    });
     document.querySelectorAll('[data-priceline]').forEach(line=>{
       const card = line.closest('[data-slug]'); if(!card) return;
       const buy = card.querySelector('[data-buy]');
@@ -628,11 +640,13 @@ CART_JS = r"""
       const p = VP(card.dataset.slug, key); if(p==null) return;
       const lbl = (line.textContent.split('·')[1] || '').trim();
       line.textContent = money(p) + (lbl ? ' · ' + lbl : '');
-      if(buy && /—/.test(buy.textContent))
-        buy.textContent = buy.textContent.split('—')[0].trim() + ' — ' + money(p);
     });
   }
   fixPrices();
+  /* longer store-currency strings need a touch more room in the 50/50 row */
+  const st = document.createElement('style');
+  st.textContent = '.quick .r .btn{letter-spacing:.02em;font-size:min(var(--t-btn),3.6vw)}';
+  document.head.appendChild(st);
   document.addEventListener('click', e=>{
     const b = e.target.closest('[data-remove]'); if(!b) return;
     fetch('/cart/change.js',{method:'POST',
