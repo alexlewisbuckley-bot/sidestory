@@ -1,0 +1,100 @@
+<section class="chapter">
+      <span class="numeral" aria-hidden="true">V</span>
+      <div class="inner">
+        <div>
+          <p class="k">{{ section.settings.s4 }}</p>
+          <h2>{{ section.settings.s5 }}</h2>
+          <p class="byline">{{ section.settings.s6 }}</p>
+          <div class="excerpt">
+            <p>{{ section.settings.s7 }}</p>
+        <p>{{ section.settings.s8 }}</p>
+          </div>
+          <p class="scent">{{ section.settings.s9 }}</p>
+          <div class="go">
+            <a class="btn btn-ghostink" href="{{ section.settings.s3 }}">{{ section.settings.s11 }}</a>
+            <small>The full story ships in the box</small>
+          </div>
+        </div>
+        <figure class="plates2">
+          {% if section.settings.s1 %}<img class="big" alt="{{ section.settings.s1.alt | escape }}" src="{{ section.settings.s1 | image_url: width: 1600 }}" loading="lazy">{% else %}<picture><source type="image/avif" srcset="https://sidestory-rho.vercel.app/assets/img/p-road-trip-2-480.avif?v=96e9a3af 480w" sizes="100vw"><source type="image/webp" srcset="https://sidestory-rho.vercel.app/assets/img/p-road-trip-2-480.webp?v=bf3330f1 480w" sizes="100vw"><img class="big" src="https://sidestory-rho.vercel.app/assets/img/p-road-trip-2.jpg?v=f475e89d" alt="Road Trip, as the chapter was written" loading="lazy" decoding="async" width="837" height="836" srcset="https://sidestory-rho.vercel.app/assets/img/p-road-trip-2-480.jpg?v=41a19057 480w" sizes="100vw"></picture>{% endif %}
+          {% if section.settings.s2 %}<img class="small" alt="{{ section.settings.s2.alt | escape }}" src="{{ section.settings.s2 | image_url: width: 1600 }}" loading="lazy">{% else %}<picture><source type="image/avif" srcset="https://sidestory-rho.vercel.app/assets/img/p-road-trip-3-480.avif?v=c18aaec2 480w" sizes="100vw"><source type="image/webp" srcset="https://sidestory-rho.vercel.app/assets/img/p-road-trip-3-480.webp?v=a215ff1b 480w" sizes="100vw"><img class="small" src="https://sidestory-rho.vercel.app/assets/img/p-road-trip-3.jpg?v=a97166a8" alt="" loading="lazy" decoding="async" width="806" height="807" srcset="https://sidestory-rho.vercel.app/assets/img/p-road-trip-3-480.jpg?v=77ca7e4d 480w" sizes="100vw"></picture>{% endif %}
+          <figcaption>{{ section.settings.s10 }}</figcaption>
+        </figure>
+      </div>
+    </section>
+{% schema %}
+{
+ "name": "Story chapter",
+ "settings": [
+  {
+   "type": "image_picker",
+   "id": "s1",
+   "label": "Image (blank = current)"
+  },
+  {
+   "type": "image_picker",
+   "id": "s2",
+   "label": "Image (blank = current) 2"
+  },
+  {
+   "type": "text",
+   "id": "s3",
+   "label": "Link URL",
+   "default": "/pages/story-road-trip"
+  },
+  {
+   "type": "text",
+   "id": "s4",
+   "label": "Text",
+   "default": "The story &middot; Chapter I of IX"
+  },
+  {
+   "type": "text",
+   "id": "s5",
+   "label": "Heading",
+   "default": "The impromptu detour."
+  },
+  {
+   "type": "text",
+   "id": "s6",
+   "label": "Text 2",
+   "default": "written by [author to be credited] &mdash; nine pages, printed and boxed with this bottle"
+  },
+  {
+   "type": "textarea",
+   "id": "s7",
+   "label": "Text 3",
+   "default": "They knew where they were going, but neither seemed to mind the impromptu detour along the way. Undulating fields of sage and lavender tumbled out into the distance before them, the car drifting over the landscape like a ship on the open sea. Uninterrupted sky stretched in every direction."
+  },
+  {
+   "type": "textarea",
+   "id": "s8",
+   "label": "Text 4",
+   "default": "Leaning back in her seat, she sank her teeth into a ripe peach and remembered the afternoons she used to spend in the backyard as a child, lying on the grass, watching the clouds carousel across the sky. She rarely took the time to look up now, but when she did, she recognised that familiar sense of calm: an old friend that came to visit in the moments when she let herself pause for simple pleasures."
+  },
+  {
+   "type": "text",
+   "id": "s9",
+   "label": "Text 5",
+   "default": "FILLER \u2014 scent line to come"
+  },
+  {
+   "type": "text",
+   "id": "s10",
+   "label": "Caption",
+   "default": "FILLER \u2014 caption to come"
+  },
+  {
+   "type": "text",
+   "id": "s11",
+   "label": "Link label",
+   "default": "Read the full story"
+  }
+ ],
+ "presets": [
+  {
+   "name": "Story chapter"
+  }
+ ]
+}
+{% endschema %}

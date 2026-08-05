@@ -1,0 +1,49 @@
+<section class="storyband hasfilm">
+      {% if section.settings.s2 %}<img alt="{{ section.settings.s2.alt | escape }}" src="{{ section.settings.s2 | image_url: width: 1600 }}" loading="lazy">{% else %}<picture><source type="image/avif" srcset="https://sidestory-rho.vercel.app/assets/img/unboxing-480.avif?v=f40a926a 480w, https://sidestory-rho.vercel.app/assets/img/unboxing-960.avif?v=2d937597 960w" sizes="100vw"><source type="image/webp" srcset="https://sidestory-rho.vercel.app/assets/img/unboxing-480.webp?v=814595e2 480w, https://sidestory-rho.vercel.app/assets/img/unboxing-960.webp?v=fe9bf68a 960w" sizes="100vw"><img src="https://sidestory-rho.vercel.app/assets/img/unboxing.jpg?v=01cf3ed0" alt="" loading="lazy" fetchpriority="low" decoding="async" width="1400" height="933" srcset="https://sidestory-rho.vercel.app/assets/img/unboxing-480.jpg?v=e910b36a 480w, https://sidestory-rho.vercel.app/assets/img/unboxing-960.jpg?v=e08fa10b 960w" sizes="100vw"></picture>{% endif %}
+      <video class="bandfilm" data-src="{{ section.settings.s1 }}" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1"></video>
+      <div class="c">
+        <blockquote>{{ section.settings.s4 }}</blockquote>
+        <p>From Pillow Talk, Chapter VII &middot; <a href="{{ section.settings.s3 }}">{{ section.settings.s5 }}</a></p>
+      </div>
+    </section>
+{% schema %}
+{
+ "name": "Storyband",
+ "settings": [
+  {
+   "type": "text",
+   "id": "s1",
+   "label": "Film URL (mp4)",
+   "default": "https://cdn.shopify.com/videos/c/o/v/1b0f3a71f5e8482186211527f13198cb.mp4"
+  },
+  {
+   "type": "image_picker",
+   "id": "s2",
+   "label": "Image (blank = current)"
+  },
+  {
+   "type": "text",
+   "id": "s3",
+   "label": "Link URL",
+   "default": "/pages/story-pillow-talk"
+  },
+  {
+   "type": "text",
+   "id": "s4",
+   "label": "Quote",
+   "default": "&ldquo;It was only Saturday, and neither had anywhere they had to&nbsp;be.&rdquo;"
+  },
+  {
+   "type": "text",
+   "id": "s5",
+   "label": "Link label",
+   "default": "Read the full story"
+  }
+ ],
+ "presets": [
+  {
+   "name": "Storyband"
+  }
+ ]
+}
+{% endschema %}

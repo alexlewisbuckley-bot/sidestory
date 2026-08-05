@@ -1,0 +1,58 @@
+<section class="stoneband">
+      <div class="inner">
+        {% if section.settings.s1 %}<img alt="{{ section.settings.s1.alt | escape }}" src="{{ section.settings.s1 | image_url: width: 1600 }}" loading="lazy">{% else %}<picture><source type="image/avif" srcset="https://sidestory-rho.vercel.app/assets/img/stone-shelf-480.avif?v=f02e336a 480w, https://sidestory-rho.vercel.app/assets/img/stone-shelf-960.avif?v=e6e96135 960w, https://sidestory-rho.vercel.app/assets/img/stone-shelf-1600.avif?v=ebfb9f0b 1600w" sizes="100vw"><source type="image/webp" srcset="https://sidestory-rho.vercel.app/assets/img/stone-shelf-480.webp?v=9b545910 480w, https://sidestory-rho.vercel.app/assets/img/stone-shelf-960.webp?v=17f62665 960w, https://sidestory-rho.vercel.app/assets/img/stone-shelf-1600.webp?v=5a1373c3 1600w" sizes="100vw"><img src="https://sidestory-rho.vercel.app/assets/img/stone-shelf.jpg?v=5168998a" alt="Verde Jade, Rajasthan, hand-cut" loading="lazy" decoding="async" width="1800" height="1200" srcset="https://sidestory-rho.vercel.app/assets/img/stone-shelf-480.jpg?v=22c8f221 480w, https://sidestory-rho.vercel.app/assets/img/stone-shelf-960.jpg?v=8c40db6e 960w, https://sidestory-rho.vercel.app/assets/img/stone-shelf-1600.jpg?v=2f49b4ad 1600w" sizes="100vw"></picture>{% endif %}
+        <div>
+          <p class="k">{{ section.settings.s3 }}</p>
+          <h2>{{ section.settings.s4 }}</h2>
+          <p>{{ section.settings.s5 }}</p>
+          <a class="ul" href="{{ section.settings.s2 }}">{{ section.settings.s6 }}</a>
+        </div>
+      </div>
+    </section>
+{% schema %}
+{
+ "name": "Stone band",
+ "settings": [
+  {
+   "type": "image_picker",
+   "id": "s1",
+   "label": "Image (blank = current)"
+  },
+  {
+   "type": "text",
+   "id": "s2",
+   "label": "Link URL",
+   "default": "/pages/our-story#stones"
+  },
+  {
+   "type": "text",
+   "id": "s3",
+   "label": "Text",
+   "default": "The stone"
+  },
+  {
+   "type": "text",
+   "id": "s4",
+   "label": "Heading",
+   "default": "Verde Jade, cut&nbsp;once."
+  },
+  {
+   "type": "text",
+   "id": "s5",
+   "label": "Text 2",
+   "default": "FILLER \u2014 stone note to come"
+  },
+  {
+   "type": "text",
+   "id": "s6",
+   "label": "Link label",
+   "default": "More on the stones"
+  }
+ ],
+ "presets": [
+  {
+   "name": "Stone band"
+  }
+ ]
+}
+{% endschema %}

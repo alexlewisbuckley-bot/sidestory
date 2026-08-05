@@ -778,7 +778,7 @@
     const src=document.querySelector('.sizes button[data-price][data-size="'+key+'"]')||b;
     const price=src.dataset.price||(src.textContent.match(/£(\d+)/)||[])[1];
     const add=document.querySelector('.pdp .cta .btn-ink');
-    if(add&&price){ add.textContent='Add to bag — £'+price; add.dataset.size=key; }
+    if(add&&price){ add.textContent='Add to bag — '+price; add.dataset.size=key; }
     const slug=document.body.dataset.slug;
     const v=slug && CAT[slug] && CAT[slug].sizes && CAT[slug].sizes[key];
     const main=document.getElementById('pdpmain');
@@ -793,7 +793,7 @@
     if(bar&&price){
       const bb=bar.querySelector('.r .btn-ink'), bp=bar.querySelector('[data-barprice]');
       if(bb) bb.dataset.size=key;
-      if(bp) bp.textContent='£'+price+' · '+(v&&v.label?v.label:'100 ml');
+      if(bp) bp.textContent=price+' · '+(v&&v.label?v.label:'100 ml');
     }
   }
   document.querySelectorAll('.sizes').forEach(row=>{
@@ -868,9 +868,9 @@
         const shot=card.querySelector('[data-shot]');
         if(shot&&shot.getAttribute('src')!==v.img) swapPicture(shot,v.img,v.set);
         const buy=card.querySelector('[data-buy]');
-        if(buy){ buy.dataset.size=key; buy.innerHTML=v.label+' — £'+v.price; }
+        if(buy){ buy.dataset.size=key; buy.innerHTML=v.label+' — '+(window.SSP?SSP(card.dataset.slug,key,v.price):('£'+v.price)); }
         const line=card.querySelector('[data-priceline]');
-        if(line) line.innerHTML='£'+v.price+' · '+v.label;
+        if(line) line.innerHTML=(window.SSP?SSP(card.dataset.slug,key,v.price):('£'+v.price))+' · '+v.label;
         const incl=card.querySelector('[data-incl]');
         if(incl) incl.textContent=v.incl;
         card.querySelectorAll('[data-href]').forEach(a=>{

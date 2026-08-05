@@ -1,0 +1,178 @@
+<div class="inner">
+      <p class="crumb"><a href="{{ section.settings.s1 }}">{{ section.settings.s16 }}</a> / <a href="{{ section.settings.s2 }}">{{ section.settings.s17 }}</a> / Third Date</p>
+      <div class="pdp">
+        <div class="gal">
+          <picture><source type="image/avif" srcset="https://sidestory-rho.vercel.app/assets/img/p-third-date-hero-480.avif?v=647943cf 480w" sizes="(min-width:60em) 600px, 92vw"><source type="image/webp" srcset="https://sidestory-rho.vercel.app/assets/img/p-third-date-hero-480.webp?v=e164e531 480w" sizes="(min-width:60em) 600px, 92vw"><img class="main" id="pdpmain" src="https://sidestory-rho.vercel.app/assets/img/p-third-date-hero.jpg?v=a5d7012f" alt="Third Date eau de parfum" decoding="async" width="647" height="648" srcset="https://sidestory-rho.vercel.app/assets/img/p-third-date-hero-480.jpg?v=3a302118 480w" sizes="(min-width:60em) 600px, 92vw"></picture>
+          <div class="strip"><button aria-current="true" onclick="pdpSwap(this,'https://sidestory-rho.vercel.app/assets/img/p-third-date-hero.jpg?v=a5d7012f')"><picture><source type="image/avif" srcset="https://sidestory-rho.vercel.app/assets/img/p-third-date-hero-480.avif?v=647943cf 480w" sizes="100vw"><source type="image/webp" srcset="https://sidestory-rho.vercel.app/assets/img/p-third-date-hero-480.webp?v=e164e531 480w" sizes="100vw"><img src="https://sidestory-rho.vercel.app/assets/img/p-third-date-hero.jpg?v=a5d7012f" alt="The bottle" loading="lazy" decoding="async" width="647" height="648" srcset="https://sidestory-rho.vercel.app/assets/img/p-third-date-hero-480.jpg?v=3a302118 480w" sizes="100vw"></picture></button></div>
+        </div>
+        <div class="info">
+          <p class="k">{{ section.settings.s3 }}</p>
+      <h1>{{ section.settings.s4 }}</h1>
+      <p class="sub"><span class="chip" style="background:var(--stone-third-date)"></span>Rosso Levanto, Liguria &middot; Green. Floral.</p>
+      <blockquote>{{ section.settings.s5 }}</blockquote>
+
+      <p class="fieldlabel">{{ section.settings.s6 }}</p>
+      <div class="sizes" role="radiogroup" aria-label="Size">
+        <button aria-current="true" data-size="100ml" data-price="160"><span class="szl">100 ml</span><span class="szp">&pound;160</span><span class="szi">The printed story is in the box</span></button>
+        <button data-size="7-5ml" data-price="25"><span class="szl">7.5 ml</span><span class="szp">&pound;25</span><span class="szi">Printed sleeve, no story</span></button>
+        <button data-size="sample" data-price="5"><span class="szl">Sample &mdash; 2 ml</span><span class="szp">&pound;5</span><span class="szi">2ml, and its opening page</span></button>
+      </div>
+
+      <div class="cta">
+        <button class="btn btn-ink" data-size="100ml" onclick="addToBag('third-date',this.dataset.size,this)">Add to bag &mdash; &pound;160</button>
+        <button class="btn btn-ghostink applepay" onclick="addToBag('third-date',document.querySelector('.pdp .cta .btn-ink').dataset.size||'100ml',this)"><svg class="i-apple" viewBox="0 0 384 512" aria-hidden="true" focusable="false"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.931.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/></svg> Apple Pay</button>
+      </div>
+      <p class="re"><span data-sizeline>Hand-carved stone lid, and the nine printed pages, in the box.</span></p>
+
+      <!-- On a phone the Add button starts below the fold and is gone by the
+           second screen. The bar stands in for it whenever the real button is
+           not on screen — including on arrival — and restates the chosen size
+           and price so it never asks for a decision the reader cannot see. -->
+      <div class="pdpbar" id="pdpbar" hidden>
+        <div class="r">
+          <div class="t"><b>{{ section.settings.s7 }}</b><span data-barprice>&pound;160 &middot; 100 ml</span></div>
+          <button class="btn btn-ink" data-size="100ml" onclick="addToBag('third-date',this.dataset.size,this)">Add to bag</button>
+        </div>
+      </div>
+
+      <div class="acc">
+            <details open><summary>{{ section.settings.s8 }}</summary><div class="body">What did she like about him? Her friends wanted to know. She raised her tea to her lips as she paused to think, then smiled, feeling rather sheepish. How could she choose any one thing and not list them all? She hardly knew him, of course—tonight was only the third date. But there was such familiarity between them, as if they’d known each other a lifetime ago and were simply catching up. <br><br>Story IV, in nine pages, printed and boxed with the bottle; the digital edition arrives with your confirmation.</div></details>
+            <details><summary>{{ section.settings.s9 }}</summary><div class="body"><div class="notelist"><p><b>{{ section.settings.s10 }}</b><span>{{ section.settings.s18 }}</span></p><p><b>{{ section.settings.s11 }}</b><span>{{ section.settings.s19 }}</span></p><p><b>{{ section.settings.s12 }}</b><span>{{ section.settings.s20 }}</span></p></div><p class="hint">{{ section.settings.s13 }}</p></div></details>
+            <details><summary>{{ section.settings.s14 }}</summary><div class="body">Rosso Levanto, Liguria, hand-cut. Veining is decided by the block, so no two lids repeat. The lid lifts free of the glass and keeps its weight in the hand.</div></details>
+            <details><summary>{{ section.settings.s15 }}</summary><div class="body">Complimentary UK delivery over &pound;30, otherwise &pound;5. Two to four working days, signed for. FILLER &mdash; returns window to come. Samples are non-returnable.</div></details>
+          </div>
+        </div>
+      </div>
+    </div>
+{% schema %}
+{
+ "name": "Product info",
+ "settings": [
+  {
+   "type": "text",
+   "id": "s1",
+   "label": "Link URL",
+   "default": "/"
+  },
+  {
+   "type": "text",
+   "id": "s2",
+   "label": "Link URL 2",
+   "default": "/collections/the-fragrances"
+  },
+  {
+   "type": "text",
+   "id": "s3",
+   "label": "Text",
+   "default": "Story IV &middot; Eau de parfum"
+  },
+  {
+   "type": "text",
+   "id": "s4",
+   "label": "Heading",
+   "default": "Third Date"
+  },
+  {
+   "type": "textarea",
+   "id": "s5",
+   "label": "Quote",
+   "default": "&ldquo;What did she like about him&hellip;&rdquo; &mdash; nine pages of fervour&nbsp;+ connection."
+  },
+  {
+   "type": "text",
+   "id": "s6",
+   "label": "Text 2",
+   "default": "Size"
+  },
+  {
+   "type": "text",
+   "id": "s7",
+   "label": "Label",
+   "default": "Third Date"
+  },
+  {
+   "type": "text",
+   "id": "s8",
+   "label": "Question",
+   "default": "The story"
+  },
+  {
+   "type": "text",
+   "id": "s9",
+   "label": "Question 2",
+   "default": "Notes"
+  },
+  {
+   "type": "text",
+   "id": "s10",
+   "label": "Label 2",
+   "default": "Top"
+  },
+  {
+   "type": "text",
+   "id": "s11",
+   "label": "Label 3",
+   "default": "Middle"
+  },
+  {
+   "type": "text",
+   "id": "s12",
+   "label": "Label 4",
+   "default": "Base"
+  },
+  {
+   "type": "text",
+   "id": "s13",
+   "label": "Text 3",
+   "default": "FILLER &mdash; perfumer to be confirmed."
+  },
+  {
+   "type": "text",
+   "id": "s14",
+   "label": "Question 3",
+   "default": "The stone"
+  },
+  {
+   "type": "text",
+   "id": "s15",
+   "label": "Question 4",
+   "default": "Delivery &amp; returns"
+  },
+  {
+   "type": "text",
+   "id": "s16",
+   "label": "Link label",
+   "default": "Home"
+  },
+  {
+   "type": "text",
+   "id": "s17",
+   "label": "Link label 2",
+   "default": "The Fragrances"
+  },
+  {
+   "type": "text",
+   "id": "s18",
+   "label": "Label 5",
+   "default": "Plum / Ginger"
+  },
+  {
+   "type": "text",
+   "id": "s19",
+   "label": "Label 6",
+   "default": "Tuberose / Patchouli"
+  },
+  {
+   "type": "text",
+   "id": "s20",
+   "label": "Label 7",
+   "default": "Vanilla / Musk"
+  }
+ ],
+ "presets": [
+  {
+   "name": "Product info"
+  }
+ ]
+}
+{% endschema %}

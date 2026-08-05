@@ -1,0 +1,99 @@
+<section class="chapter">
+      <span class="numeral" aria-hidden="true">{{ section.settings.s10 }}</span>
+      <div class="inner">
+        <div>
+          <p class="k">{{ section.settings.s4 }}</p>
+          <h2>{{ section.settings.s5 }}</h2>
+          <p class="byline">{{ section.settings.s6 }}</p>
+          <div class="excerpt">
+            <p>{{ section.settings.s7 }}</p>
+          </div>
+          <p class="scent">{{ section.settings.s8 }}</p>
+          <div class="go">
+            <a class="btn btn-ghostink" href="{{ section.settings.s3 }}">{{ section.settings.s11 }}</a>
+            <small>The full story ships in the box</small>
+          </div>
+        </div>
+        <figure class="plates2">
+          {% if section.settings.s1 %}<img class="big" alt="{{ section.settings.s1.alt | escape }}" src="{{ section.settings.s1 | image_url: width: 1600 }}" loading="lazy">{% else %}<picture><source type="image/avif" srcset="https://sidestory-rho.vercel.app/assets/img/p-sunday-service-2-480.avif?v=fd9ccdd2 480w" sizes="100vw"><source type="image/webp" srcset="https://sidestory-rho.vercel.app/assets/img/p-sunday-service-2-480.webp?v=a56eb1db 480w" sizes="100vw"><img class="big" src="https://sidestory-rho.vercel.app/assets/img/p-sunday-service-2.jpg?v=3115f6e8" alt="Sunday Service, as the chapter was written" loading="lazy" decoding="async" width="866" height="867" srcset="https://sidestory-rho.vercel.app/assets/img/p-sunday-service-2-480.jpg?v=91b9fec1 480w" sizes="100vw"></picture>{% endif %}
+          {% if section.settings.s2 %}<img class="small" alt="{{ section.settings.s2.alt | escape }}" src="{{ section.settings.s2 | image_url: width: 1600 }}" loading="lazy">{% else %}<picture><source type="image/avif" srcset="https://sidestory-rho.vercel.app/assets/img/p-sunday-service-3-480.avif?v=26777f9a 480w" sizes="100vw"><source type="image/webp" srcset="https://sidestory-rho.vercel.app/assets/img/p-sunday-service-3-480.webp?v=b7113389 480w" sizes="100vw"><img class="small" src="https://sidestory-rho.vercel.app/assets/img/p-sunday-service-3.jpg?v=427913ab" alt="" loading="lazy" decoding="async" width="839" height="839" srcset="https://sidestory-rho.vercel.app/assets/img/p-sunday-service-3-480.jpg?v=9e2e3671 480w" sizes="100vw"></picture>{% endif %}
+          <figcaption>{{ section.settings.s9 }}</figcaption>
+        </figure>
+      </div>
+    </section>
+{% schema %}
+{
+ "name": "Story chapter",
+ "settings": [
+  {
+   "type": "image_picker",
+   "id": "s1",
+   "label": "Image (blank = current)"
+  },
+  {
+   "type": "image_picker",
+   "id": "s2",
+   "label": "Image (blank = current) 2"
+  },
+  {
+   "type": "text",
+   "id": "s3",
+   "label": "Link URL",
+   "default": "/pages/story-sunday-service"
+  },
+  {
+   "type": "text",
+   "id": "s4",
+   "label": "Text",
+   "default": "The story &middot; Chapter I of IX"
+  },
+  {
+   "type": "text",
+   "id": "s5",
+   "label": "Heading",
+   "default": "Rolling back&nbsp;time."
+  },
+  {
+   "type": "text",
+   "id": "s6",
+   "label": "Text 2",
+   "default": "written by [author to be credited] &mdash; nine pages, printed and boxed with this bottle"
+  },
+  {
+   "type": "textarea",
+   "id": "s7",
+   "label": "Text 3",
+   "default": "The drive from the city to the country always felt like rolling back time. The summer faded the colour of the tall grass along the narrow road and inspired a symphony of cicadas and grasshoppers, but the plains of wheat, the cattle and horses, the sunsets and moons on the horizon were always the same, month after month, year after year, just as they had been when he was a boy. Now the leaves were dense and green, hanging heavy over the road and mottling the light on his dashboard. Soon they\u2019d fade and fall, and the cycle would continue."
+  },
+  {
+   "type": "text",
+   "id": "s8",
+   "label": "Text 4",
+   "default": "FILLER \u2014 scent line to come"
+  },
+  {
+   "type": "text",
+   "id": "s9",
+   "label": "Caption",
+   "default": "FILLER \u2014 caption to come"
+  },
+  {
+   "type": "text",
+   "id": "s10",
+   "label": "Label",
+   "default": "II"
+  },
+  {
+   "type": "text",
+   "id": "s11",
+   "label": "Link label",
+   "default": "Read the full story"
+  }
+ ],
+ "presets": [
+  {
+   "name": "Story chapter"
+  }
+ ]
+}
+{% endschema %}

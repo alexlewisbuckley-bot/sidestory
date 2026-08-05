@@ -1,0 +1,100 @@
+<section class="chapter">
+      <span class="numeral" aria-hidden="true">I</span>
+      <div class="inner">
+        <div>
+          <p class="k">{{ section.settings.s4 }}</p>
+          <h2>{{ section.settings.s5 }}</h2>
+          <p class="byline">{{ section.settings.s6 }}</p>
+          <div class="excerpt">
+            <p>{{ section.settings.s7 }}</p>
+        <p>{{ section.settings.s8 }}</p>
+          </div>
+          <p class="scent">{{ section.settings.s9 }}</p>
+          <div class="go">
+            <a class="btn btn-ghostink" href="{{ section.settings.s3 }}">{{ section.settings.s11 }}</a>
+            <small>The full story ships in the box</small>
+          </div>
+        </div>
+        <figure class="plates2">
+          {% if section.settings.s1 %}<img class="big" alt="{{ section.settings.s1.alt | escape }}" src="{{ section.settings.s1 | image_url: width: 1600 }}" loading="lazy">{% else %}<picture><source type="image/avif" srcset="https://sidestory-rho.vercel.app/assets/img/p-hotel-lobby-2-480.avif?v=6e78dff8 480w" sizes="100vw"><source type="image/webp" srcset="https://sidestory-rho.vercel.app/assets/img/p-hotel-lobby-2-480.webp?v=616794a4 480w" sizes="100vw"><img class="big" src="https://sidestory-rho.vercel.app/assets/img/p-hotel-lobby-2.jpg?v=79b04ca3" alt="Hotel Lobby, as the chapter was written" loading="lazy" decoding="async" width="835" height="834" srcset="https://sidestory-rho.vercel.app/assets/img/p-hotel-lobby-2-480.jpg?v=4b218a0b 480w" sizes="100vw"></picture>{% endif %}
+          {% if section.settings.s2 %}<img class="small" alt="{{ section.settings.s2.alt | escape }}" src="{{ section.settings.s2 | image_url: width: 1600 }}" loading="lazy">{% else %}<picture><source type="image/avif" srcset="https://sidestory-rho.vercel.app/assets/img/p-hotel-lobby-3-480.avif?v=f618f8ff 480w" sizes="100vw"><source type="image/webp" srcset="https://sidestory-rho.vercel.app/assets/img/p-hotel-lobby-3-480.webp?v=1437bcac 480w" sizes="100vw"><img class="small" src="https://sidestory-rho.vercel.app/assets/img/p-hotel-lobby-3.jpg?v=b20de935" alt="" loading="lazy" decoding="async" width="779" height="778" srcset="https://sidestory-rho.vercel.app/assets/img/p-hotel-lobby-3-480.jpg?v=ac84fc9a 480w" sizes="100vw"></picture>{% endif %}
+          <figcaption>{{ section.settings.s10 }}</figcaption>
+        </figure>
+      </div>
+    </section>
+{% schema %}
+{
+ "name": "Story chapter",
+ "settings": [
+  {
+   "type": "image_picker",
+   "id": "s1",
+   "label": "Image (blank = current)"
+  },
+  {
+   "type": "image_picker",
+   "id": "s2",
+   "label": "Image (blank = current) 2"
+  },
+  {
+   "type": "text",
+   "id": "s3",
+   "label": "Link URL",
+   "default": "/pages/story-hotel-lobby"
+  },
+  {
+   "type": "text",
+   "id": "s4",
+   "label": "Text",
+   "default": "The story &middot; Chapter I of IX"
+  },
+  {
+   "type": "text",
+   "id": "s5",
+   "label": "Heading",
+   "default": "Ten minutes before&nbsp;eight."
+  },
+  {
+   "type": "text",
+   "id": "s6",
+   "label": "Text 2",
+   "default": "written by [author to be credited] &mdash; nine pages, printed and boxed with this bottle"
+  },
+  {
+   "type": "textarea",
+   "id": "s7",
+   "label": "Text 3",
+   "default": "It was a ten minutes before 8pm when he arrived. He had been there before, but its resplendence never failed to catch him off guard. Modish floors patterned in ebony and ivory marble, deep armchairs in dark, buttery leather, a chocolate Steinway piano, and the amber lights of old-world libraries. The bar was the kind of place Hemingway might have lingered a little too long, lights glittering on the crystal and glass. Hushed conversations, each one layering the next."
+  },
+  {
+   "type": "textarea",
+   "id": "s8",
+   "label": "Text 4",
+   "default": "He perched on the edge of an armchair to wait, eyes darting about the lobby in anticipation. He checked his watch. Still early."
+  },
+  {
+   "type": "text",
+   "id": "s9",
+   "label": "Text 5",
+   "default": "FILLER \u2014 scent line to come"
+  },
+  {
+   "type": "text",
+   "id": "s10",
+   "label": "Caption",
+   "default": "FILLER \u2014 caption to come"
+  },
+  {
+   "type": "text",
+   "id": "s11",
+   "label": "Link label",
+   "default": "Read the full story"
+  }
+ ],
+ "presets": [
+  {
+   "name": "Story chapter"
+  }
+ ]
+}
+{% endschema %}

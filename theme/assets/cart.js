@@ -63,6 +63,51 @@
         setTimeout(window.openDrawer, 420); });
   };
   window.SSremove = function(){ /* superseded by data-remove delegation */ };
+
+  /* live prices over the baked ones ------------------------------------ */
+  const VP = (slug, key) => {
+    if(slug==='discovery-set'||slug==='set'){
+      const v = window.SS_VAR && SS_VAR.set && SS_VAR.set.full;
+      return v && v.id ? v.price : null;
+    }
+    const v = window.SS_VAR && SS_VAR[slug] && SS_VAR[slug][key];
+    return v && v.id ? v.price : null;
+  };
+  window.SSP = (slug, key, fb) => {
+    const p = VP(slug, key); return p==null ? '£'+fb : money(p);
+  };
+  function fixPrices(){
+    if(!window.SS_VAR) return;
+    const slug = document.body.dataset.slug;
+    if(slug){
+      document.querySelectorAll('.sizes button[data-size]').forEach(b=>{
+        const p = VP(slug, b.dataset.size); if(p==null) return;
+        b.dataset.price = money(p);
+        const s = b.querySelector('.szp'); if(s) s.textContent = money(p);
+      });
+      const cur = document.querySelector('.sizes button[aria-current]')
+               || document.querySelector('.sizes button[data-size]');
+      if(cur && cur.dataset.price && /[^0-9.]/.test(cur.dataset.price)){
+        const add = document.querySelector('.pdp .cta .btn-ink');
+        if(add && /—/.test(add.textContent))
+          add.textContent = 'Add to bag — ' + cur.dataset.price;
+        const bp = document.querySelector('[data-barprice]');
+        if(bp){ const l = cur.querySelector('.szl');
+          bp.textContent = cur.dataset.price + (l ? ' · ' + l.textContent : ''); }
+      }
+    }
+    document.querySelectorAll('[data-priceline]').forEach(line=>{
+      const card = line.closest('[data-slug]'); if(!card) return;
+      const buy = card.querySelector('[data-buy]');
+      const key = (buy && buy.dataset.size) || '100ml';
+      const p = VP(card.dataset.slug, key); if(p==null) return;
+      const lbl = (line.textContent.split('·')[1] || '').trim();
+      line.textContent = money(p) + (lbl ? ' · ' + lbl : '');
+      if(buy && /—/.test(buy.textContent))
+        buy.textContent = buy.textContent.split('—')[0].trim() + ' — ' + money(p);
+    });
+  }
+  fixPrices();
   document.addEventListener('click', e=>{
     const b = e.target.closest('[data-remove]'); if(!b) return;
     fetch('/cart/change.js',{method:'POST',

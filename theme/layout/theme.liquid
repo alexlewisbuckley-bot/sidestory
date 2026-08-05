@@ -18,7 +18,7 @@
 <meta name="description" content="{{ page_description | escape }}">
 <link rel="canonical" href="{{ canonical_url }}">
 {{ content_for_header }}
-</head><body>
+</head><body>{% if product %}<script>document.body.dataset.slug={{ product.handle | json }};</script>{% endif %}
 <a class="skip" href="#main">Skip to content</a>
 <div class="enter-veil" aria-hidden="true"></div>
 <div class="menu-dim" id="menudim"></div>

@@ -1,0 +1,49 @@
+<section class="storyband hasfilm">
+      {% if section.settings.s2 %}<img alt="{{ section.settings.s2.alt | escape }}" src="{{ section.settings.s2 | image_url: width: 1600 }}" loading="lazy">{% else %}<picture><source type="image/avif" srcset="https://sidestory-rho.vercel.app/assets/img/p-hotel-lobby-2-480.avif?v=6e78dff8 480w" sizes="100vw"><source type="image/webp" srcset="https://sidestory-rho.vercel.app/assets/img/p-hotel-lobby-2-480.webp?v=616794a4 480w" sizes="100vw"><img src="https://sidestory-rho.vercel.app/assets/img/p-hotel-lobby-2.jpg?v=79b04ca3" alt="" loading="lazy" fetchpriority="low" decoding="async" width="835" height="834" srcset="https://sidestory-rho.vercel.app/assets/img/p-hotel-lobby-2-480.jpg?v=4b218a0b 480w" sizes="100vw"></picture>{% endif %}
+      <video class="bandfilm" data-src="{{ section.settings.s1 }}" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1"></video>
+      <div class="c">
+        <blockquote>{{ section.settings.s4 }}</blockquote>
+        <p>From Hotel Lobby, Chapter I &middot; <a href="{{ section.settings.s3 }}">{{ section.settings.s5 }}</a></p>
+      </div>
+    </section>
+{% schema %}
+{
+ "name": "Storyband",
+ "settings": [
+  {
+   "type": "text",
+   "id": "s1",
+   "label": "Film URL (mp4)",
+   "default": "https://cdn.shopify.com/videos/c/o/v/5ed609fbb758465785fa28bbe7706264.mp4"
+  },
+  {
+   "type": "image_picker",
+   "id": "s2",
+   "label": "Image (blank = current)"
+  },
+  {
+   "type": "text",
+   "id": "s3",
+   "label": "Link URL",
+   "default": "/pages/story-hotel-lobby"
+  },
+  {
+   "type": "textarea",
+   "id": "s4",
+   "label": "Quote",
+   "default": "&ldquo;The bar was the kind of place Hemingway might have lingered a&nbsp;little too long.&rdquo;"
+  },
+  {
+   "type": "text",
+   "id": "s5",
+   "label": "Link label",
+   "default": "Read the full story"
+  }
+ ],
+ "presets": [
+  {
+   "name": "Storyband"
+  }
+ ]
+}
+{% endschema %}

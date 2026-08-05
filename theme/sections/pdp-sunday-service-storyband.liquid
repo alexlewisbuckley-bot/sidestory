@@ -1,0 +1,49 @@
+<section class="storyband hasfilm">
+      {% if section.settings.s2 %}<img alt="{{ section.settings.s2.alt | escape }}" src="{{ section.settings.s2 | image_url: width: 1600 }}" loading="lazy">{% else %}<picture><source type="image/avif" srcset="https://sidestory-rho.vercel.app/assets/img/p-sunday-service-2-480.avif?v=fd9ccdd2 480w" sizes="100vw"><source type="image/webp" srcset="https://sidestory-rho.vercel.app/assets/img/p-sunday-service-2-480.webp?v=a56eb1db 480w" sizes="100vw"><img src="https://sidestory-rho.vercel.app/assets/img/p-sunday-service-2.jpg?v=3115f6e8" alt="" loading="lazy" fetchpriority="low" decoding="async" width="866" height="867" srcset="https://sidestory-rho.vercel.app/assets/img/p-sunday-service-2-480.jpg?v=91b9fec1 480w" sizes="100vw"></picture>{% endif %}
+      <video class="bandfilm" data-src="{{ section.settings.s1 }}" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1"></video>
+      <div class="c">
+        <blockquote>{{ section.settings.s4 }}</blockquote>
+        <p>From Sunday Service, Chapter II &middot; <a href="{{ section.settings.s3 }}">{{ section.settings.s5 }}</a></p>
+      </div>
+    </section>
+{% schema %}
+{
+ "name": "Storyband",
+ "settings": [
+  {
+   "type": "text",
+   "id": "s1",
+   "label": "Film URL (mp4)",
+   "default": "https://cdn.shopify.com/videos/c/o/v/da03d65c57264c91882acb2f5f947d66.mp4"
+  },
+  {
+   "type": "image_picker",
+   "id": "s2",
+   "label": "Image (blank = current)"
+  },
+  {
+   "type": "text",
+   "id": "s3",
+   "label": "Link URL",
+   "default": "/pages/story-sunday-service"
+  },
+  {
+   "type": "text",
+   "id": "s4",
+   "label": "Quote",
+   "default": "&ldquo;The music was the same. The cool, oaky air of the church was the same.&rdquo;"
+  },
+  {
+   "type": "text",
+   "id": "s5",
+   "label": "Link label",
+   "default": "Read the full story"
+  }
+ ],
+ "presets": [
+  {
+   "name": "Storyband"
+  }
+ ]
+}
+{% endschema %}

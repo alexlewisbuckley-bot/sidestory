@@ -99,7 +99,9 @@ SEC_NAMES = {"hero": "Hero", "strip": "Promo strip", "house": "Quote band",
              "feelings": "Style index", "ways": "Three ways in",
              "band": "Story band", "gift": "Gifting", "creds": "Press quotes",
              "news": "Newsletter", "making": "The making", "mater": "Materials",
-             "postbag": "Postbag", "reader": "Story text"}
+             "postbag": "Postbag", "reader": "Story text",
+             "pdp": "Product info", "chapter": "Story chapter",
+             "margins": "Margins", "stoneband": "Stone band"}
 
 MASK_PAT = re.compile(
     r"<script\b.*?</script>|<form\b.*?</form>|<button\b.*?</button>|<svg\b.*?</svg>",
@@ -168,8 +170,10 @@ def ex_pipeline(html, ex, toks):
     def txt(m):
         tag, attrs, text = m.group(1), m.group(2), m.group(3)
         t = text.strip()
-        if len(t) < 2 or "\x00" in text:
+        if len(t) < 2 or "\x00" in text or "{{" in text:
             return m.group(0)
+        if re.search(r"data-(barprice|sizeline|priceline|buy|incl)", attrs):
+            return m.group(0)      # JS-owned price/size surfaces stay dynamic
         typ = "textarea" if len(t) > 90 else "text"
         sid = ex.add(typ, LABELS.get(tag, "Text"), t)
         return "<%s%s>%s</%s>" % (tag, attrs, ex.ref(sid), tag)
@@ -251,7 +255,9 @@ def sectionize(tpl_name, prefix, inner, split=True):
     entries, seen = [], {}
     for i, chunk in enumerate(chunks):
         m = re.search(r'<section[^>]*class="([a-z]+)', chunk)
-        cls = m.group(1) if m else ("content" if not split else "part%d" % i)
+        cls = (m.group(1) if m
+               else "pdp" if 'class="pdp"' in chunk
+               else ("content" if not split else "part%d" % i))
         seen[cls] = seen.get(cls, 0) + 1
         stype = prefix + "-" + cls + ("" if seen[cls] == 1 else "-%d" % seen[cls])
         name = SEC_NAMES.get(cls, cls.title())
@@ -369,7 +375,10 @@ window.SS_MONEY = {{ shop.money_format | json }};
 window.SS_FREE_CENTS = {{ 15000 }};
 </script>
 """
-    layout = (head + body_open + chrome_top
+    layout = (head + body_open
+              + "{% if product %}<script>document.body.dataset.slug="
+              + "{{ product.handle | json }};</script>{% endif %}"
+              + chrome_top
               + "\n" + main_open + "{{ content_for_layout }}</main>\n"
               + tail + varmap
               + "<script src=\"{{ 'cart.js' | asset_url }}\" defer></script>\n"
@@ -405,6 +414,13 @@ window.SS_FREE_CENTS = {{ 15000 }};
     for s in SLUGS:
         sectionize("page.story-" + s, "story-" + s,
                    inner_of(f"story-{s}.html"), split=False)
+    # every product gets its own sectioned template (assigned by
+    # templateSuffix on the product), so PDP copy is editable per product
+    for s in SLUGS:
+        sectionize("product." + s, "pdp-" + s,
+                   inner_of(f"product-{s}.html"), split=True)
+    sectionize("product.discovery-set", "pdp-discovery-set",
+               inner_of("samples.html"), split=True)
 
     # one product template, the exact page per handle
     cases = []
@@ -461,6 +477,16 @@ window.SS_FREE_CENTS = {{ 15000 }};
                     "(location.pathname === '/search')")
     js = js.replace("'product-'+card.dataset.slug+'.html'+(key==='100ml'?'':'?size='+key)",
                     "'/products/'+card.dataset.slug+(key==='100ml'?'':'?size='+key)")
+    # price display goes through the live store, not the baked GBP numerals:
+    # cart.js pre-formats data-price and provides window.SSP for card lines
+    js = js.replace("add.textContent='Add to bag — £'+price;",
+                    "add.textContent='Add to bag — '+price;")
+    js = js.replace("bp.textContent='£'+price+' · '+(v&&v.label?v.label:'100 ml');",
+                    "bp.textContent=price+' · '+(v&&v.label?v.label:'100 ml');")
+    js = js.replace("buy.innerHTML=v.label+' — £'+v.price;",
+                    "buy.innerHTML=v.label+' — '+(window.SSP?SSP(card.dataset.slug,key,v.price):('£'+v.price));")
+    js = js.replace("line.innerHTML='£'+v.price+' · '+v.label;",
+                    "line.innerHTML=(window.SSP?SSP(card.dataset.slug,key,v.price):('£'+v.price))+' · '+v.label;")
     js = map_urls(js)
     js = re.sub(r"(?<![a-z/])/?assets/img/", CDN + "/assets/img/", js)
     emit("assets/site.js", js)
@@ -562,6 +588,51 @@ CART_JS = r"""
         setTimeout(window.openDrawer, 420); });
   };
   window.SSremove = function(){ /* superseded by data-remove delegation */ };
+
+  /* live prices over the baked ones ------------------------------------ */
+  const VP = (slug, key) => {
+    if(slug==='discovery-set'||slug==='set'){
+      const v = window.SS_VAR && SS_VAR.set && SS_VAR.set.full;
+      return v && v.id ? v.price : null;
+    }
+    const v = window.SS_VAR && SS_VAR[slug] && SS_VAR[slug][key];
+    return v && v.id ? v.price : null;
+  };
+  window.SSP = (slug, key, fb) => {
+    const p = VP(slug, key); return p==null ? '£'+fb : money(p);
+  };
+  function fixPrices(){
+    if(!window.SS_VAR) return;
+    const slug = document.body.dataset.slug;
+    if(slug){
+      document.querySelectorAll('.sizes button[data-size]').forEach(b=>{
+        const p = VP(slug, b.dataset.size); if(p==null) return;
+        b.dataset.price = money(p);
+        const s = b.querySelector('.szp'); if(s) s.textContent = money(p);
+      });
+      const cur = document.querySelector('.sizes button[aria-current]')
+               || document.querySelector('.sizes button[data-size]');
+      if(cur && cur.dataset.price && /[^0-9.]/.test(cur.dataset.price)){
+        const add = document.querySelector('.pdp .cta .btn-ink');
+        if(add && /—/.test(add.textContent))
+          add.textContent = 'Add to bag — ' + cur.dataset.price;
+        const bp = document.querySelector('[data-barprice]');
+        if(bp){ const l = cur.querySelector('.szl');
+          bp.textContent = cur.dataset.price + (l ? ' · ' + l.textContent : ''); }
+      }
+    }
+    document.querySelectorAll('[data-priceline]').forEach(line=>{
+      const card = line.closest('[data-slug]'); if(!card) return;
+      const buy = card.querySelector('[data-buy]');
+      const key = (buy && buy.dataset.size) || '100ml';
+      const p = VP(card.dataset.slug, key); if(p==null) return;
+      const lbl = (line.textContent.split('·')[1] || '').trim();
+      line.textContent = money(p) + (lbl ? ' · ' + lbl : '');
+      if(buy && /—/.test(buy.textContent))
+        buy.textContent = buy.textContent.split('—')[0].trim() + ' — ' + money(p);
+    });
+  }
+  fixPrices();
   document.addEventListener('click', e=>{
     const b = e.target.closest('[data-remove]'); if(!b) return;
     fetch('/cart/change.js',{method:'POST',

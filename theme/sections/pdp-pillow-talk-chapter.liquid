@@ -1,0 +1,99 @@
+<section class="chapter">
+      <span class="numeral" aria-hidden="true">{{ section.settings.s10 }}</span>
+      <div class="inner">
+        <div>
+          <p class="k">{{ section.settings.s4 }}</p>
+          <h2>{{ section.settings.s5 }}</h2>
+          <p class="byline">{{ section.settings.s6 }}</p>
+          <div class="excerpt">
+            <p>{{ section.settings.s7 }}</p>
+          </div>
+          <p class="scent">{{ section.settings.s8 }}</p>
+          <div class="go">
+            <a class="btn btn-ghostink" href="{{ section.settings.s3 }}">{{ section.settings.s11 }}</a>
+            <small>The full story ships in the box</small>
+          </div>
+        </div>
+        <figure class="plates2">
+          {% if section.settings.s1 %}<img class="big" alt="{{ section.settings.s1.alt | escape }}" src="{{ section.settings.s1 | image_url: width: 1600 }}" loading="lazy">{% else %}<picture><source type="image/avif" srcset="https://sidestory-rho.vercel.app/assets/img/unboxing-480.avif?v=f40a926a 480w, https://sidestory-rho.vercel.app/assets/img/unboxing-960.avif?v=2d937597 960w" sizes="100vw"><source type="image/webp" srcset="https://sidestory-rho.vercel.app/assets/img/unboxing-480.webp?v=814595e2 480w, https://sidestory-rho.vercel.app/assets/img/unboxing-960.webp?v=fe9bf68a 960w" sizes="100vw"><img class="big" src="https://sidestory-rho.vercel.app/assets/img/unboxing.jpg?v=01cf3ed0" alt="Pillow Talk, as the chapter was written" loading="lazy" decoding="async" width="1400" height="933" srcset="https://sidestory-rho.vercel.app/assets/img/unboxing-480.jpg?v=e910b36a 480w, https://sidestory-rho.vercel.app/assets/img/unboxing-960.jpg?v=e08fa10b 960w" sizes="100vw"></picture>{% endif %}
+          {% if section.settings.s2 %}<img class="small" alt="{{ section.settings.s2.alt | escape }}" src="{{ section.settings.s2 | image_url: width: 1600 }}" loading="lazy">{% else %}<picture><source type="image/avif" srcset="https://sidestory-rho.vercel.app/assets/img/spine-480.avif?v=0dfcbd88 480w, https://sidestory-rho.vercel.app/assets/img/spine-960.avif?v=597e68ec 960w" sizes="100vw"><source type="image/webp" srcset="https://sidestory-rho.vercel.app/assets/img/spine-480.webp?v=693f8f2e 480w, https://sidestory-rho.vercel.app/assets/img/spine-960.webp?v=5cf34603 960w" sizes="100vw"><img class="small" src="https://sidestory-rho.vercel.app/assets/img/spine.jpg?v=6fc84392" alt="" loading="lazy" decoding="async" width="1200" height="800" srcset="https://sidestory-rho.vercel.app/assets/img/spine-480.jpg?v=34f64303 480w, https://sidestory-rho.vercel.app/assets/img/spine-960.jpg?v=ac7ff882 960w" sizes="100vw"></picture>{% endif %}
+          <figcaption>{{ section.settings.s9 }}</figcaption>
+        </figure>
+      </div>
+    </section>
+{% schema %}
+{
+ "name": "Story chapter",
+ "settings": [
+  {
+   "type": "image_picker",
+   "id": "s1",
+   "label": "Image (blank = current)"
+  },
+  {
+   "type": "image_picker",
+   "id": "s2",
+   "label": "Image (blank = current) 2"
+  },
+  {
+   "type": "text",
+   "id": "s3",
+   "label": "Link URL",
+   "default": "/pages/story-pillow-talk"
+  },
+  {
+   "type": "text",
+   "id": "s4",
+   "label": "Text",
+   "default": "The story &middot; Chapter I of IX"
+  },
+  {
+   "type": "text",
+   "id": "s5",
+   "label": "Heading",
+   "default": "Scout\u2019s honor."
+  },
+  {
+   "type": "text",
+   "id": "s6",
+   "label": "Text 2",
+   "default": "written by [author to be credited] &mdash; nine pages, printed and boxed with this bottle"
+  },
+  {
+   "type": "textarea",
+   "id": "s7",
+   "label": "Text 3",
+   "default": "They had been awake for hours, drifting in and out of consciousness, unspooling the sweet trivialities of their personal histories in sleepy whispers, and between stolen kisses. Just before noon, he arose to make coffee, making her promise that she\u2019d be in the exact same place when he returned. They would continue the conversation. She raised three fingers in mock solemnity: scout\u2019s honor, she said."
+  },
+  {
+   "type": "text",
+   "id": "s8",
+   "label": "Text 4",
+   "default": "FILLER \u2014 scent line to come"
+  },
+  {
+   "type": "text",
+   "id": "s9",
+   "label": "Caption",
+   "default": "FILLER \u2014 caption to come"
+  },
+  {
+   "type": "text",
+   "id": "s10",
+   "label": "Label",
+   "default": "VII"
+  },
+  {
+   "type": "text",
+   "id": "s11",
+   "label": "Link label",
+   "default": "Read the full story"
+  }
+ ],
+ "presets": [
+  {
+   "name": "Story chapter"
+  }
+ ]
+}
+{% endschema %}

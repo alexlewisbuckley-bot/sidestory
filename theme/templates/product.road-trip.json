@@ -1,0 +1,116 @@
+{
+ "sections": {
+  "pdp-road-trip-pdp": {
+   "type": "pdp-road-trip-pdp",
+   "settings": {
+    "s1": "/",
+    "s2": "/collections/the-fragrances",
+    "s3": "Story V &middot; Eau de parfum",
+    "s4": "Road Trip",
+    "s5": "&ldquo;They knew where they were going, but neither seemed to&hellip;&rdquo; &mdash; nine pages of escaping&nbsp;+ dreaming.",
+    "s6": "Size",
+    "s7": "Road Trip",
+    "s8": "The story",
+    "s9": "Notes",
+    "s10": "Top",
+    "s11": "Middle",
+    "s12": "Base",
+    "s13": "FILLER &mdash; perfumer to be confirmed.",
+    "s14": "The stone",
+    "s15": "Delivery &amp; returns",
+    "s16": "Home",
+    "s17": "The Fragrances",
+    "s18": "Petitgrain (bitter orange) / Peach",
+    "s19": "Neroli / Pepper / Clary Sage",
+    "s20": "Vetiver / Sandalwood / Coconut / Vanilla"
+   }
+  },
+  "pdp-road-trip-storyband": {
+   "type": "pdp-road-trip-storyband",
+   "settings": {
+    "s2": "/pages/story-road-trip",
+    "s3": "&ldquo;Maybe they would return to the map, steer themselves back to their itinerary. Maybe.&rdquo;",
+    "s4": "Read the full story"
+   }
+  },
+  "pdp-road-trip-chapter": {
+   "type": "pdp-road-trip-chapter",
+   "settings": {
+    "s3": "/pages/story-road-trip",
+    "s4": "The story &middot; Chapter I of IX",
+    "s5": "The impromptu detour.",
+    "s6": "written by [author to be credited] &mdash; nine pages, printed and boxed with this bottle",
+    "s7": "They knew where they were going, but neither seemed to mind the impromptu detour along the way. Undulating fields of sage and lavender tumbled out into the distance before them, the car drifting over the landscape like a ship on the open sea. Uninterrupted sky stretched in every direction.",
+    "s8": "Leaning back in her seat, she sank her teeth into a ripe peach and remembered the afternoons she used to spend in the backyard as a child, lying on the grass, watching the clouds carousel across the sky. She rarely took the time to look up now, but when she did, she recognised that familiar sense of calm: an old friend that came to visit in the moments when she let herself pause for simple pleasures.",
+    "s9": "FILLER \u2014 scent line to come",
+    "s10": "FILLER \u2014 caption to come",
+    "s11": "Read the full story"
+   }
+  },
+  "pdp-road-trip-margins": {
+   "type": "pdp-road-trip-margins",
+   "settings": {
+    "s1": "Notes &amp; composition",
+    "s2": "The pyramid, read as&nbsp;margins.",
+    "s3": "Top",
+    "s4": "Petitgrain (bitter orange) / Peach",
+    "s5": "Middle",
+    "s6": "Neroli / Pepper / Clary Sage",
+    "s7": "Base",
+    "s8": "Vetiver / Sandalwood / Coconut / Vanilla"
+   }
+  },
+  "pdp-road-trip-stoneband": {
+   "type": "pdp-road-trip-stoneband",
+   "settings": {
+    "s2": "/pages/our-story#stones",
+    "s3": "The stone",
+    "s4": "Rosso Francia, cut&nbsp;once.",
+    "s5": "FILLER \u2014 stone note to come",
+    "s6": "More on the stones"
+   }
+  },
+  "pdp-road-trip-seven": {
+   "type": "pdp-road-trip-seven",
+   "settings": {
+    "s5": "/collections/the-fragrances",
+    "s6": "/products/hotel-lobby",
+    "s7": "/products/hotel-lobby",
+    "s8": "/products/sunday-service",
+    "s9": "/products/sunday-service",
+    "s10": "/products/sibling-rivalry",
+    "s11": "/products/sibling-rivalry",
+    "s12": "/products/third-date",
+    "s13": "/products/third-date",
+    "s14": "Also on the shelf",
+    "s15": "Other stories.",
+    "s16": "Hotel Lobby",
+    "s17": "Woods. Green.",
+    "s18": "Sunday Service",
+    "s19": "Spice. Floral. Woods.",
+    "s20": "Sibling Rivalry",
+    "s21": "FILLER \u2014 style to come",
+    "s22": "Third Date",
+    "s23": "Green. Floral.",
+    "s24": "All fragrances",
+    "s25": "Bestseller",
+    "s26": "Nero Marquina",
+    "s27": "View",
+    "s28": "Verde Jade",
+    "s29": "View",
+    "s30": "Leopard Salome",
+    "s31": "View",
+    "s32": "Rosso Levanto",
+    "s33": "View"
+   }
+  }
+ },
+ "order": [
+  "pdp-road-trip-pdp",
+  "pdp-road-trip-storyband",
+  "pdp-road-trip-chapter",
+  "pdp-road-trip-margins",
+  "pdp-road-trip-stoneband",
+  "pdp-road-trip-seven"
+ ]
+}

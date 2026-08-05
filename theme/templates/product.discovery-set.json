@@ -1,0 +1,64 @@
+{
+ "sections": {
+  "pdp-discovery-set-pdp": {
+   "type": "pdp-discovery-set-pdp",
+   "settings": {
+    "s1": "/",
+    "s2": "/collections/the-fragrances",
+    "s3": "The seven stories &middot; in miniature",
+    "s4": "The Discovery&nbsp;Set",
+    "s5": "Seven &times; 2ml &middot; seven first pages &middot; one folder",
+    "s6": "Fragrance is the only luxury bought blind, and we would rather you did not. Wear one a&nbsp;day for a&nbsp;week, then choose the bottle you&nbsp;keep.",
+    "s7": "The set",
+    "s8": "What&rsquo;s in the set",
+    "s9": "II",
+    "s10": "III",
+    "s11": "IV",
+    "s12": "VI",
+    "s13": "VII",
+    "s14": "How it works",
+    "s15": "Delivery &amp; returns",
+    "s16": "The Discovery Set",
+    "s17": "Home",
+    "s18": "The Fragrances",
+    "s19": "Hotel Lobby &mdash; Woods. Green",
+    "s20": "Sunday Service &mdash; Spice. Floral. Woods",
+    "s21": "Sibling Rivalry &mdash; FILLER \u2014 style to come",
+    "s22": "Third Date &mdash; Green. Floral",
+    "s23": "Road Trip &mdash; Amber. Woods",
+    "s24": "4pm Matinee &mdash; Green. Woods. Amber",
+    "s25": "Pillow Talk &mdash; Powder. Citrus. Spice"
+   }
+  },
+  "pdp-discovery-set-sseven": {
+   "type": "pdp-discovery-set-sseven",
+   "settings": {
+    "s1": "/pages/story-hotel-lobby",
+    "s2": "/pages/story-sunday-service",
+    "s3": "/pages/story-sibling-rivalry",
+    "s4": "/pages/story-third-date",
+    "s5": "/pages/story-road-trip",
+    "s6": "/pages/story-4pm-matinee",
+    "s7": "/pages/story-pillow-talk",
+    "s8": "All seven stories",
+    "s9": "Seven to read. Seven to&nbsp;wear.",
+    "s10": "Hotel Lobby",
+    "s11": "II",
+    "s12": "Sunday Service",
+    "s13": "III",
+    "s14": "Sibling Rivalry",
+    "s15": "IV",
+    "s16": "Third Date",
+    "s17": "Road Trip",
+    "s18": "VI",
+    "s19": "4pm Matinee",
+    "s20": "VII",
+    "s21": "Pillow Talk"
+   }
+  }
+ },
+ "order": [
+  "pdp-discovery-set-pdp",
+  "pdp-discovery-set-sseven"
+ ]
+}

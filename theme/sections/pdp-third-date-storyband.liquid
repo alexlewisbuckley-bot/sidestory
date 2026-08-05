@@ -1,0 +1,42 @@
+<section class="storyband">
+      {% if section.settings.s1 %}<img alt="{{ section.settings.s1.alt | escape }}" src="{{ section.settings.s1 | image_url: width: 1600 }}" loading="lazy">{% else %}<picture><source type="image/avif" srcset="https://sidestory-rho.vercel.app/assets/img/unboxing-480.avif?v=f40a926a 480w, https://sidestory-rho.vercel.app/assets/img/unboxing-960.avif?v=2d937597 960w" sizes="100vw"><source type="image/webp" srcset="https://sidestory-rho.vercel.app/assets/img/unboxing-480.webp?v=814595e2 480w, https://sidestory-rho.vercel.app/assets/img/unboxing-960.webp?v=fe9bf68a 960w" sizes="100vw"><img src="https://sidestory-rho.vercel.app/assets/img/unboxing.jpg?v=01cf3ed0" alt="" decoding="async" width="1400" height="933" srcset="https://sidestory-rho.vercel.app/assets/img/unboxing-480.jpg?v=e910b36a 480w, https://sidestory-rho.vercel.app/assets/img/unboxing-960.jpg?v=e08fa10b 960w" sizes="100vw"></picture>{% endif %}
+      <div class="c">
+        <blockquote>{{ section.settings.s3 }}</blockquote>
+        <p>From Third Date, Chapter IV &middot; <a href="{{ section.settings.s2 }}">{{ section.settings.s4 }}</a></p>
+      </div>
+    </section>
+{% schema %}
+{
+ "name": "Storyband",
+ "settings": [
+  {
+   "type": "image_picker",
+   "id": "s1",
+   "label": "Image (blank = current)"
+  },
+  {
+   "type": "text",
+   "id": "s2",
+   "label": "Link URL",
+   "default": "/pages/story-third-date"
+  },
+  {
+   "type": "textarea",
+   "id": "s3",
+   "label": "Quote",
+   "default": "&ldquo;There was such familiarity between them, as if they\u2019d known each other a&nbsp;lifetime ago and were simply catching up.&rdquo;"
+  },
+  {
+   "type": "text",
+   "id": "s4",
+   "label": "Link label",
+   "default": "Read the full story"
+  }
+ ],
+ "presets": [
+  {
+   "name": "Storyband"
+  }
+ ]
+}
+{% endschema %}

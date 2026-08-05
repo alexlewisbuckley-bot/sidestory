@@ -1,0 +1,118 @@
+{
+ "sections": {
+  "pdp-third-date-pdp": {
+   "type": "pdp-third-date-pdp",
+   "settings": {
+    "s1": "/",
+    "s2": "/collections/the-fragrances",
+    "s3": "Story IV &middot; Eau de parfum",
+    "s4": "Third Date",
+    "s5": "&ldquo;What did she like about him&hellip;&rdquo; &mdash; nine pages of fervour&nbsp;+ connection.",
+    "s6": "Size",
+    "s7": "Third Date",
+    "s8": "The story",
+    "s9": "Notes",
+    "s10": "Top",
+    "s11": "Middle",
+    "s12": "Base",
+    "s13": "FILLER &mdash; perfumer to be confirmed.",
+    "s14": "The stone",
+    "s15": "Delivery &amp; returns",
+    "s16": "Home",
+    "s17": "The Fragrances",
+    "s18": "Plum / Ginger",
+    "s19": "Tuberose / Patchouli",
+    "s20": "Vanilla / Musk"
+   }
+  },
+  "pdp-third-date-storyband": {
+   "type": "pdp-third-date-storyband",
+   "settings": {
+    "s2": "/pages/story-third-date",
+    "s3": "&ldquo;There was such familiarity between them, as if they\u2019d known each other a&nbsp;lifetime ago and were simply catching up.&rdquo;",
+    "s4": "Read the full story"
+   }
+  },
+  "pdp-third-date-chapter": {
+   "type": "pdp-third-date-chapter",
+   "settings": {
+    "s3": "/pages/story-third-date",
+    "s4": "The story &middot; Chapter I of IX",
+    "s5": "Only the third&nbsp;date.",
+    "s6": "written by [author to be credited] &mdash; nine pages, printed and boxed with this bottle",
+    "s7": "What did she like about him? Her friends wanted to know. She raised her tea to her lips as she paused to think, then smiled, feeling rather sheepish. How could she choose any one thing and not list them all? She hardly knew him, of course\u2014tonight was only the third date. But there was such familiarity between them, as if they\u2019d known each other a lifetime ago and were simply catching up.",
+    "s8": "Across the city, he stood over the bathroom sink brushing his teeth, thinking of her, and noticed something he hadn\u2019t experienced in years: butterflies in his stomach. He shook his head to himself, laughing. They hardly knew each other, yet she\u2019d already made a giddy fool of him. He could hardly wait to see her again.",
+    "s9": "FILLER \u2014 scent line to come",
+    "s10": "FILLER \u2014 caption to come",
+    "s11": "IV",
+    "s12": "Read the full story"
+   }
+  },
+  "pdp-third-date-margins": {
+   "type": "pdp-third-date-margins",
+   "settings": {
+    "s1": "Notes &amp; composition",
+    "s2": "The pyramid, read as&nbsp;margins.",
+    "s3": "Top",
+    "s4": "Plum / Ginger",
+    "s5": "Middle",
+    "s6": "Tuberose / Patchouli",
+    "s7": "Base",
+    "s8": "Vanilla / Musk"
+   }
+  },
+  "pdp-third-date-stoneband": {
+   "type": "pdp-third-date-stoneband",
+   "settings": {
+    "s2": "/pages/our-story#stones",
+    "s3": "The stone",
+    "s4": "Rosso Levanto, cut&nbsp;once.",
+    "s5": "FILLER \u2014 stone note to come",
+    "s6": "More on the stones"
+   }
+  },
+  "pdp-third-date-seven": {
+   "type": "pdp-third-date-seven",
+   "settings": {
+    "s5": "/collections/the-fragrances",
+    "s6": "/products/hotel-lobby",
+    "s7": "/products/hotel-lobby",
+    "s8": "/products/sunday-service",
+    "s9": "/products/sunday-service",
+    "s10": "/products/sibling-rivalry",
+    "s11": "/products/sibling-rivalry",
+    "s12": "/products/road-trip",
+    "s13": "/products/road-trip",
+    "s14": "Also on the shelf",
+    "s15": "Other stories.",
+    "s16": "Hotel Lobby",
+    "s17": "Woods. Green.",
+    "s18": "Sunday Service",
+    "s19": "Spice. Floral. Woods.",
+    "s20": "Sibling Rivalry",
+    "s21": "FILLER \u2014 style to come",
+    "s22": "Road Trip",
+    "s23": "Amber. Woods.",
+    "s24": "All fragrances",
+    "s25": "Bestseller",
+    "s26": "Nero Marquina",
+    "s27": "View",
+    "s28": "Verde Jade",
+    "s29": "View",
+    "s30": "Leopard Salome",
+    "s31": "View",
+    "s32": "New story",
+    "s33": "Rosso Francia",
+    "s34": "View"
+   }
+  }
+ },
+ "order": [
+  "pdp-third-date-pdp",
+  "pdp-third-date-storyband",
+  "pdp-third-date-chapter",
+  "pdp-third-date-margins",
+  "pdp-third-date-stoneband",
+  "pdp-third-date-seven"
+ ]
+}

@@ -1,0 +1,118 @@
+{
+ "sections": {
+  "pdp-sibling-rivalry-pdp": {
+   "type": "pdp-sibling-rivalry-pdp",
+   "settings": {
+    "s1": "/",
+    "s2": "/collections/the-fragrances",
+    "s3": "Story III &middot; Eau de parfum",
+    "s4": "Sibling Rivalry",
+    "s5": "&ldquo;Lorem ipsum dolor sit amet, consectetur adipiscing elit&hellip;&rdquo; &mdash; nine pages of filler \u2014 story theme to&nbsp;come.",
+    "s6": "Size",
+    "s7": "Sibling Rivalry",
+    "s8": "The story",
+    "s9": "Notes",
+    "s10": "Top",
+    "s11": "Middle",
+    "s12": "Base",
+    "s13": "FILLER &mdash; perfumer to be confirmed.",
+    "s14": "The stone",
+    "s15": "Delivery &amp; returns",
+    "s16": "Home",
+    "s17": "The Fragrances",
+    "s18": "FILLER \u2014 top notes to come",
+    "s19": "FILLER \u2014 middle notes to come",
+    "s20": "FILLER \u2014 base notes to come"
+   }
+  },
+  "pdp-sibling-rivalry-storyband": {
+   "type": "pdp-sibling-rivalry-storyband",
+   "settings": {
+    "s2": "/pages/story-sibling-rivalry",
+    "s3": "&ldquo;Sed ut perspiciatis unde omnis iste natus error sit voluptatem.&rdquo;",
+    "s4": "Read the full story"
+   }
+  },
+  "pdp-sibling-rivalry-chapter": {
+   "type": "pdp-sibling-rivalry-chapter",
+   "settings": {
+    "s3": "/pages/story-sibling-rivalry",
+    "s4": "The story &middot; Chapter I of IX",
+    "s5": "Lorem ipsum dolor sit&nbsp;amet.",
+    "s6": "written by [author to be credited] &mdash; nine pages, printed and boxed with this bottle",
+    "s7": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+    "s8": "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+    "s9": "FILLER \u2014 scent line to come",
+    "s10": "FILLER \u2014 caption to come",
+    "s11": "III",
+    "s12": "Read the full story"
+   }
+  },
+  "pdp-sibling-rivalry-margins": {
+   "type": "pdp-sibling-rivalry-margins",
+   "settings": {
+    "s1": "Notes &amp; composition",
+    "s2": "The pyramid, read as&nbsp;margins.",
+    "s3": "Top",
+    "s4": "FILLER \u2014 top notes to come",
+    "s5": "Middle",
+    "s6": "FILLER \u2014 middle notes to come",
+    "s7": "Base",
+    "s8": "FILLER \u2014 base notes to come"
+   }
+  },
+  "pdp-sibling-rivalry-stoneband": {
+   "type": "pdp-sibling-rivalry-stoneband",
+   "settings": {
+    "s2": "/pages/our-story#stones",
+    "s3": "The stone",
+    "s4": "Leopard Salome, cut&nbsp;once.",
+    "s5": "FILLER \u2014 stone note to come",
+    "s6": "More on the stones"
+   }
+  },
+  "pdp-sibling-rivalry-seven": {
+   "type": "pdp-sibling-rivalry-seven",
+   "settings": {
+    "s5": "/collections/the-fragrances",
+    "s6": "/products/hotel-lobby",
+    "s7": "/products/hotel-lobby",
+    "s8": "/products/sunday-service",
+    "s9": "/products/sunday-service",
+    "s10": "/products/third-date",
+    "s11": "/products/third-date",
+    "s12": "/products/road-trip",
+    "s13": "/products/road-trip",
+    "s14": "Also on the shelf",
+    "s15": "Other stories.",
+    "s16": "Hotel Lobby",
+    "s17": "Woods. Green.",
+    "s18": "Sunday Service",
+    "s19": "Spice. Floral. Woods.",
+    "s20": "Third Date",
+    "s21": "Green. Floral.",
+    "s22": "Road Trip",
+    "s23": "Amber. Woods.",
+    "s24": "All fragrances",
+    "s25": "Bestseller",
+    "s26": "Nero Marquina",
+    "s27": "View",
+    "s28": "Verde Jade",
+    "s29": "View",
+    "s30": "Rosso Levanto",
+    "s31": "View",
+    "s32": "New story",
+    "s33": "Rosso Francia",
+    "s34": "View"
+   }
+  }
+ },
+ "order": [
+  "pdp-sibling-rivalry-pdp",
+  "pdp-sibling-rivalry-storyband",
+  "pdp-sibling-rivalry-chapter",
+  "pdp-sibling-rivalry-margins",
+  "pdp-sibling-rivalry-stoneband",
+  "pdp-sibling-rivalry-seven"
+ ]
+}

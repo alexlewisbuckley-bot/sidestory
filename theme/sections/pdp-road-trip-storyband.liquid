@@ -1,0 +1,42 @@
+<section class="storyband">
+      {% if section.settings.s1 %}<img alt="{{ section.settings.s1.alt | escape }}" src="{{ section.settings.s1 | image_url: width: 1600 }}" loading="lazy">{% else %}<picture><source type="image/avif" srcset="https://sidestory-rho.vercel.app/assets/img/p-road-trip-2-480.avif?v=96e9a3af 480w" sizes="100vw"><source type="image/webp" srcset="https://sidestory-rho.vercel.app/assets/img/p-road-trip-2-480.webp?v=bf3330f1 480w" sizes="100vw"><img src="https://sidestory-rho.vercel.app/assets/img/p-road-trip-2.jpg?v=f475e89d" alt="" decoding="async" width="837" height="836" srcset="https://sidestory-rho.vercel.app/assets/img/p-road-trip-2-480.jpg?v=41a19057 480w" sizes="100vw"></picture>{% endif %}
+      <div class="c">
+        <blockquote>{{ section.settings.s3 }}</blockquote>
+        <p>From Road Trip, Chapter V &middot; <a href="{{ section.settings.s2 }}">{{ section.settings.s4 }}</a></p>
+      </div>
+    </section>
+{% schema %}
+{
+ "name": "Storyband",
+ "settings": [
+  {
+   "type": "image_picker",
+   "id": "s1",
+   "label": "Image (blank = current)"
+  },
+  {
+   "type": "text",
+   "id": "s2",
+   "label": "Link URL",
+   "default": "/pages/story-road-trip"
+  },
+  {
+   "type": "textarea",
+   "id": "s3",
+   "label": "Quote",
+   "default": "&ldquo;Maybe they would return to the map, steer themselves back to their itinerary. Maybe.&rdquo;"
+  },
+  {
+   "type": "text",
+   "id": "s4",
+   "label": "Link label",
+   "default": "Read the full story"
+  }
+ ],
+ "presets": [
+  {
+   "name": "Storyband"
+  }
+ ]
+}
+{% endschema %}
