@@ -1,0 +1,3141 @@
+/* ==========================================================================
+   Side Story — homepage
+   --------------------------------------------------------------------------
+   Responsive strategy, deliberately conventional:
+
+   · There is NO global scale factor and NO JavaScript involved in layout.
+     Every size is either a bounded clamp() or a fraction of its container,
+     so nothing can multiply out of range and nothing can desynchronise.
+
+   · Type comes from one scale (--t-xs … --t-6). Each step interpolates
+     between a mobile value at 390px and a desktop value at 1440px and is
+     hard-clamped at both ends, so text is never smaller than its floor
+     (body never below 15px, labels never below 10px) and never larger than
+     its ceiling — which is what was going wrong before.
+
+   · Space comes from one scale (--s-1 … --s-7) on the same principle.
+
+   · Layout is CSS Grid with minmax(0,1fr) tracks and a small number of
+     breakpoints chosen by content, not by device. Grid items are never
+     given fixed widths, so a track can always shrink.
+   ========================================================================== */
+
+:root{
+  /* ======================================================================
+     Design tokens, taken from the Figma file's variable collections.
+     Primitive names and values are verbatim; nothing here is inferred.
+       01 Primitives   — raw values
+       02 Semantic     — Ivory mode (Nocturne kept for reference below)
+       03 Stone        — per-fragrance accent and field
+       04 Responsive   — Desktop values, re-declared per breakpoint further down
+     ====================================================================== */
+
+  /* -- 01 Primitives · colour ------------------------------------------
+     Values are the ones the composed artboards actually paint with, which
+     for six of these differ from the variable panel. Panel value in
+     brackets where they diverge; the artboards are the signed-off design,
+     so they win — the same call as the type scale and the page margin.
+     The divergence is consistently the same character: the panel is a
+     cooler, brighter, more generic palette, the artboards are warmer and
+     deeper, which is the whole look of the house. */
+  --charcoal-500:#404443;
+  --charcoal-700:#2b2e2d;   /* panel #33383a — artboards paint ink at #2b2e2d */
+  --charcoal-900:#2b2b2b;
+  --ink-secondary:#6e7271; --ink-tertiary:#9a9c98; --ink-hairline:#d4d4ce;
+  --ink-inverse-secondary:#bcbdb7; --ink-inverse-hairline:#515556;
+  --ivory-300:#efebe1;      /* panel #f7f6f0 — raised bands are warm, not near-white */
+  --ivory-500:#f1f0e8;
+  --ivory-700:#e9e5da;      /* panel #e9e7dc */
+  --olive-500:#737b4c; --olive-700:#575e38;
+  --ochre-500:#a98e63;      /* panel #cba052 — the brass is bronze, not gold */
+  --ochre-700:#6f5a2f;      /* the same bronze, taken down for text: 5.1:1 on ivory */
+  --ochre-200:#d9c7a3;      /* and lifted for text on ink and on the stone fields */
+  --amber-500:#af6d04;
+  --oxblood-500:#8a3b2e; --oxblood-300:#c97a6d;
+
+  /* -- 01 Primitives · stone ------------------------------------------- */
+  /* The seven stones were recorded twice and disagreed on five of them: these
+     tokens held the variable panel's values while the generator carried the
+     drawn ones on each product, and it is the generator's that paint the dot
+     on every card. So the site showed Rosso Levanto at #7A2E2A on a card and
+     used #5a3637 for the same stone on the gifting band. Same call as the
+     type scale, the page margin and the rest of the palette: the artboards
+     win, and these are now the drawn values. The generator emits
+     var(--stone-<slug>) rather than a hex, so there is one record. */
+  --stone-hotel-lobby:#1c1d1d;     --stone-tint-hotel-lobby:#d9d9d1;
+  --stone-sunday-service:#3e5147;  --stone-tint-sunday-service:#dbddd5;
+  --stone-pillow-talk:#e0dcd0;     --stone-tint-pillow-talk:#eeede5;
+  --stone-third-date:#7a2e2a;      --stone-tint-third-date:#dfd9d3;
+  --stone-road-trip:#b5593f;       --stone-tint-road-trip:#e7ded3;
+  --stone-4pm-matinee:#c99a3f;     --stone-tint-4pm-matinee:#ece6d5;
+  --stone-sibling-rivalry:#8a6a3f; --stone-tint-sibling-rivalry:#e8e2d4;
+  --stone-matinee:var(--stone-4pm-matinee);
+  --stone-tint-matinee:var(--stone-tint-4pm-matinee);
+
+  /* -- 01 Primitives · space, radius, border, opacity, duration -------- */
+  --space-1:4px;   --space-2:8px;   --space-3:12px;  --space-4:16px;
+  --space-5:24px;  --space-6:32px;  --space-7:40px;  --space-8:56px;
+  --space-9:72px;  --space-10:96px; --space-11:120px; --space-12:160px;
+  --space-13:200px; --space-14:240px;
+  --radius-none:0; --radius-hairline:2px;
+  /* Layers, in the order they stack. Previously thirteen arbitrary values. */
+  --z-art:-2; --z-behind:-1; --z-base:1; --z-raised:2; --z-sticky:40; --z-header:60;
+  --z-scrim:90; --z-overlay:95; --z-top:200;
+  --border-hairline:1px;
+  --opacity-wash:.06; --opacity-hairline:.16; --opacity-veil:.32;
+  --opacity-tertiary:.48; --opacity-secondary:.72;
+  --duration-instant:100ms; --duration-quick:250ms; --duration-settled:500ms;
+  --duration-slow:800ms;    --duration-cinematic:1200ms;
+
+  /* -- 02 Semantic · Ivory mode ---------------------------------------- */
+  --surface-primary:var(--ivory-500);
+  --surface-raised:var(--ivory-300);
+  --surface-recessed:var(--ivory-700);
+  --surface-nocturne:var(--charcoal-700);
+  --text-primary:var(--charcoal-500);
+  --text-secondary:var(--ink-secondary);
+  --text-tertiary:var(--ink-tertiary);
+  --text-inverse:var(--ivory-500);
+  --text-error:var(--oxblood-500);
+  --text-success:var(--olive-700);
+  --interactive-default:var(--charcoal-500);
+  --interactive-hover:var(--olive-700);
+  --interactive-active:var(--olive-500);
+  --interactive-disabled:var(--ink-tertiary);
+  --border-hairline-color:rgba(43,46,45,.12);
+  --line-mid:rgba(43,46,45,.26);  /* panel #d4d4ce, opaque */
+  --border-focus:var(--olive-700);
+  --accent-olive:var(--olive-500);
+  --accent-ochre:var(--ochre-500);
+  --accent-ochre-text:var(--ochre-700);
+  --accent-ochre-inverse:var(--ochre-200);
+  --accent-amber:var(--amber-500);
+
+  /* -- 03 Stone · default mode (Hotel Lobby) --------------------------- */
+  --accent-stone:var(--stone-hotel-lobby);
+  --accent-field:var(--stone-tint-hotel-lobby);
+
+  /* Deep field, one per lid. A full-bleed band carries ivory text, and four
+     of the seven stones are far too light to hold it — Calacatta at #E0DCD0
+     manages 1.2:1, which is unreadable. So each field is the stone's own
+     pigment taken down in shadow: the hue is untouched and the colour is
+     scaled multiplicatively toward black until it reaches 7.43:1 against the
+     ivory, which is exactly what the designed Verde Jade field already
+     measures. Stones already at or above that are used as drawn.
+       drawn -> field, contrast vs ivory
+       Nero Marquina     #1C1D1D -> unchanged   14.78:1
+       Verde Jade        #3E5147 -> unchanged    7.43:1
+       Rosso Levanto     #7A2E2A -> unchanged    8.16:1
+       Leopard Salome    #8A6A3F -> #5f492b      7.43:1  (was 4.36)
+       Rosso Francia     #B5593F -> #793b2a      7.43:1  (was 4.11)
+       Giallo Siena      #C99A3F -> #60491e      7.43:1  (was 2.25)
+       Calacatta         #E0DCD0 -> #4e4d49      7.43:1  (was 1.20)
+     Every field also clears 5:1 against the ochre used for the labels. */
+  --field-hotel-lobby:#1c1d1d;
+  --field-sibling-rivalry:#5f492b;
+  --field-pillow-talk:#4e4d49;
+  --field-sunday-service:#3e5147;
+  --field-third-date:#7a2e2a;
+  --field-road-trip:#793b2a;
+  --field-4pm-matinee:#60491e;
+  --field:var(--field-sunday-service);
+
+  /* -- 04 Responsive ----------------------------------------------------
+     The collection holds three modes, authored on the 390 / 768 / 1440
+     artboards. Between those widths the file specifies nothing, so each
+     token interpolates: it is exactly the Figma value at 390, 768 and 1440
+     and continuous in between, so nothing steps on resize. The Tablet →
+     Mobile leg is in the media query below; both legs meet at 768. ------- */
+  --fs-hero:clamp(56px,calc(56px + 16 * (100vw - 768px) / 672),72px);
+  --fs-display:clamp(44px,calc(44px + 12 * (100vw - 768px) / 672),56px);
+  --fs-editorial:clamp(26px,calc(26px + 4 * (100vw - 768px) / 672),30px);
+  --fs-h1:clamp(36px,calc(36px + 8 * (100vw - 768px) / 672),44px);
+  --fs-h2:clamp(30px,calc(30px + 4 * (100vw - 768px) / 672),34px);
+  --fs-h3:clamp(23px,calc(23px + 3 * (100vw - 768px) / 672),26px);
+  --fs-quote:clamp(25px,calc(25px + 3 * (100vw - 768px) / 672),28px);
+  --space-section:clamp(120px,calc(120px + 40 * (100vw - 768px) / 672),160px);
+  --space-section-major:clamp(180px,calc(180px + 60 * (100vw - 768px) / 672),240px);
+  --layout-margin:clamp(47px,calc(47px + 49 * (100vw - 768px) / 672),96px);
+  --layout-gutter:clamp(20px,calc(20px + 4 * (100vw - 768px) / 672),24px);
+  --layout-columns:12;
+
+  /* -- type styles (03 Typography), sizes above, metrics here ---------- */
+  --lh-hero:1.05;  --ls-hero:-.01em;
+  --lh-display:1.08; --ls-display:-.005em;
+  --lh-editorial:1.4; --lh-h1:1.15; --lh-h2:1.2; --lh-h3:1.25; --lh-h4:1.35;
+  --lh-quote:1.45;
+  --fs-h4:21px;
+  --fs-body-serif:18px;  --lh-body-serif:1.65;
+  --fs-body-sans:15px;   --lh-body-sans:1.6;  --ls-body-sans:.01em;
+  --fs-caption:13px;     --lh-caption:1.5;    --ls-caption:.02em;
+  --fs-label:13px;       --lh-label:1.3;      --ls-label:.12em;
+  --fs-label-small:11px; --ls-label-small:.14em;
+  --fs-nav:12px;         --lh-nav:1.2;        --ls-nav:.14em;
+  --fs-product-title:22px; --lh-product-title:1.3;
+  --fs-style-line:15px;  --lh-style-line:1.4;
+  --fs-price:14px;       --lh-price:1.4;      --ls-price:.04em;
+  --fs-button:12px;      --lh-button:1;       --ls-button:.16em;
+
+  /* families — Display for display-scale headings as every designed screen
+     uses it; Text for everything else, per the type styles */
+  --font-display:'Libre Caslon Display','Caslon Display Fallback','Times New Roman',serif;
+  --font-serif:'Libre Caslon Text','Caslon Text Fallback','Times New Roman',serif;
+  --font-sans:Montserrat,'Montserrat Fallback',Arial,system-ui,sans-serif;
+  --font-script:'Cormorant Garamond','Cormorant Fallback','Times New Roman',serif;
+
+  /* Elevation. The file defines no effect styles, so every shadow on the site
+     had been invented where it was needed — seven of them, no two related.
+
+     Two now, not three. Nothing on this site should look lifted: the houses
+     this is measured against use no elevation at all on content, only on the
+     panels that genuinely sit above the page. So `raised` is retired — the
+     one gesture that used it, a card lifting on hover, is gone — and the
+     hairline is for the sheet and menu that slide over a scrolling page.
+     `--shadow-raised` was also self-referential, which is guaranteed-invalid
+     at computed-value time: every rule that asked for it silently painted no
+     shadow at all. It stays declared, aliased, so nothing breaks. */
+  --shadow-hairline:0 1px 2px rgba(30,28,22,.06);
+  --shadow-overlay:0 1.25rem 3.5rem rgba(30,28,22,.22);
+  --shadow-panel:0 .75rem 2.5rem rgba(30,28,22,.10);
+  --shadow-raised:var(--shadow-panel);
+
+  /* Motion. One curve, four durations, and the tokens are now actually used —
+     they were declared and referenced zero times, so the sheet had drifted to
+     ten raw values of which four were off any scale. */
+  --settle:cubic-bezier(.22,1,.36,1);
+  --d-instant:.1s;   /* a press, a tick — felt, not seen */
+  --d-quick:.25s;    /* state on a control: colour, rule, opacity */
+  --d-settled:.5s;   /* something arriving: a panel, a quick-add */
+  --d-slow:.8s;       /* image and reveal, the only motion meant to be noticed */
+  --d-cinematic:1.2s; /* the arrival veil, once per session */
+  --d-ambient:16s;    /* the hero's slow drift — this was 14s on one page and
+                         18s on another, for the same effect */
+
+  /* -- names the existing components already use, mapped onto the tokens
+        so this is a token swap and not a component rewrite -------------- */
+  --ivory:var(--surface-primary);
+  --plaster:var(--surface-recessed);
+  --sand:var(--surface-raised);
+  --ink:var(--surface-nocturne);
+  --txt:var(--text-primary);
+  --brass:var(--accent-ochre);            /* rules, chips, non-text accents */
+  --brass-text:var(--accent-ochre-text);  /* brass as a colour for words */
+  --brass-on-dark:var(--accent-ochre-inverse);
+  --plum:var(--stone-third-date);
+  --verde:var(--stone-sunday-service);
+  --line:var(--border-hairline-color);
+
+  --gutter:var(--layout-margin);
+  --measure:40rem;
+
+  /* the space scale the components use, mapped to the primitive steps */
+  --s-1:var(--space-1); --s-2:var(--space-2); --s-3:var(--space-3);
+  --s-4:var(--space-4); --s-5:var(--space-5); --s-6:var(--space-6);
+  --s-7:var(--space-10);
+
+  /* ---------------------------------------------------------------------
+     Section rhythm, in three steps, and responsive in all three.
+
+     There were two systems here and only one of them was responsive. The
+     earlier sections used --s-7, which steps 96 / 72 / 56 down to a phone.
+     The pages built later — Your Stories, each story, Share Your Story —
+     used the raw primitives, so on a 390px screen they still opened with
+     96px of padding while every other section had come down to 56. Nine
+     different section paddings were reaching a phone, and the pages that
+     kept the desktop figures are the longest pages on the site.
+
+     One scale now, three steps, so a phone gets a rhythm with hierarchy
+     rather than a single flat interval.
+     --------------------------------------------------------------------- */
+  --sec-sm:var(--space-7);    /* a tight band: the strip, the newsletter */
+  --sec:var(--space-10);      /* the standard break between sections */
+  --sec-lg:var(--space-12);   /* a major break, and full-bleed coloured bands */
+
+  /* ---------------------------------------------------------------------
+     The type scale, measured off the designed screens.
+
+     The Figma text-style panel and the Figma artboards disagree: the panel
+     names a flat scale (label 13, nav 12, h2 34, hero 72) while every
+     composed screen sets its interface text at 8–10px and its headings at
+     40–76px. The artboards are what was designed and signed off, so the
+     scale below is measured node-by-node off P9 "Flagship — Desktop 1440"
+     and "Flagship — Mobile 390" and interpolated between them.
+
+     That is the whole reason the build read enlarged: every piece of
+     Montserrat interface text — nav, kickers, prices, stone names, badges,
+     footer headings — sat at a single 11px, where the design runs 8 to 10,
+     while the serif headings sat below their designed size. The design's
+     contrast between tiny precise interface text and large serif headlines
+     was flattened out. This restores it.
+
+     Values are exact at 390 and 1440 and continuous in between.
+     --------------------------------------------------------------------- */
+  --t-2xs:clamp(7.54px,calc(7.54px + 0.96 * (100vw - 768px) / 672),8.5px);
+  --t-xs:clamp(9.04px,calc(9.04px + 0.96 * (100vw - 768px) / 672),10px);
+  --t-btn:clamp(10.36px,calc(10.36px + 0.64 * (100vw - 768px) / 672),11px);
+  --t-sm:clamp(11.72px,calc(11.72px + 1.28 * (100vw - 768px) / 672),13px);
+  --t-md:clamp(13.72px,calc(13.72px + 1.28 * (100vw - 768px) / 672),15px);
+  --t-lg:clamp(14.58px,calc(14.58px + 1.92 * (100vw - 768px) / 672),16.5px);
+  --t-notes:clamp(13.08px,calc(13.08px + 1.92 * (100vw - 768px) / 672),15px);
+  --t-card:clamp(15.84px,calc(15.84px + 4.16 * (100vw - 768px) / 672),20px);
+  --t-1:clamp(17.16px,calc(17.16px + 3.84 * (100vw - 768px) / 672),21px);
+  --t-2:clamp(18.88px,calc(18.88px + 5.12 * (100vw - 768px) / 672),24px);
+  --t-3:clamp(23.96px,calc(23.96px + 7.04 * (100vw - 768px) / 672),31px);
+  --t-4:clamp(29.76px,calc(29.76px + 10.24 * (100vw - 768px) / 672),40px);
+  --t-5:clamp(36.48px,calc(36.48px + 11.52 * (100vw - 768px) / 672),48px);
+  --t-6:clamp(52.96px,calc(52.96px + 23.04 * (100vw - 768px) / 672),76px);
+  --t-story:clamp(16.5px,calc(16.5px + 2.5 * (100vw - 768px) / 672),19px);
+
+  /* Controls. The design does not have one button: it has a scale, and every
+     button hugs its label rather than stretching. Heights and paddings below
+     are measured off the artboards — hero 45/32, standard 41/28, small 34/20,
+     the PDP size pill 33/16, and the two commerce buttons 52 and 48 which are
+     the only ones that go full width, and only inside the 464px buy column. */
+  --ctl-h:clamp(40px,calc(40px + 1 * (100vw - 768px) / 672),41px);
+  --ctl-h-lg:clamp(44px,calc(44px + 1 * (100vw - 768px) / 672),45px);
+  --ctl-h-sm:34px;  --ctl-h-pill:33px;
+  --ctl-h-buy:52px; --ctl-h-pay:48px;
+  --ctl-px:clamp(22px,calc(22px + 6 * (100vw - 768px) / 672),28px);
+  --ctl-px-lg:clamp(24px,calc(24px + 8 * (100vw - 768px) / 672),32px);
+  --ctl-px-sm:20px; --ctl-px-pill:16px;
+  --buy-col:29rem;
+  /* the sticky header's height, so anything that has to clear it — an anchor
+     target, the shelf bar — can be told once rather than guess */
+  --navh:5.5rem;
+  /* the announcement strip's height, fixed rather than measured, so the
+     hero can subtract it and land its bottom exactly on the fold */
+  --annh:2.75rem;
+
+  /* ---------------------------------------------------------------------
+     Tracking. One ladder, and it follows size rather than the author.
+
+     Uppercase Montserrat was running at sixteen distinct raw values across
+     this sheet — .02 .05 .1 .14 .16 .18 .2 .22 .24 .26 .28 .3 .32 .34 .35 —
+     for what is optically a single element: a tracked micro label. Seven
+     tokens existed alongside them and were used eighteen times in total.
+     Nobody can name the difference between .18em and .2em on a 10px cap, but
+     the eye reads the whole set as imprecision.
+
+     The rule now is the typographic one: the smaller the caps, the more air
+     they need. Four steps, chosen at the centre of mass of what was already
+     there so the house's wide-tracked character is unchanged.
+     --------------------------------------------------------------------- */
+  --track-micro:.24em;   /* --t-2xs — 7.5–8.5px, the smallest labels */
+  --track-label:.20em;   /* --t-xs / --t-btn — 9–11px, nav and most labels */
+  --track-caps:.16em;    /* --t-sm and up — 12px+, prices and larger caps */
+  --track-kicker:.30em;  /* the centred section eyebrows, and only those */
+
+
+  /* ---------------------------------------------------------------------
+     Ink strength. "Quieter than the body text" had been written as a bare
+     opacity at each call site — fourteen distinct values from .94 down to .5
+     — while the two tokens that existed for it were used zero times.
+
+     Two mechanisms now, because one does not fit both grounds.
+
+     On the ivory grounds, which is most of the site, recession is a COLOUR.
+     Opacity was the wrong tool twice over. It compounds: `.marginnote` at .85
+     holding a `small` at .85 renders at .72, and nobody wrote .72. And on a
+     light ground the arithmetic is unforgiving — charcoal at 70% over ivory
+     measures 3.9:1, under the 4.5 that small text needs, so a large part of
+     the site's labelling was failing while reading as a deliberate grey.
+     There is exactly one usable step below the primary ink here, so there
+     is one.
+
+     On ink, photography and the stone fields, ivory text has room to fall and
+     a colour would have to be authored per ground. There, opacity.
+     --------------------------------------------------------------------- */
+  --txt-2:#5f6260; /* the one recession step on ivory — 5.4:1, 4.9 on sand */
+  --o-strong:.85;  /* ivory on a dark ground: 9:1 */
+  --o-mid:.7;      /* ivory on a dark ground: 6.7:1 */
+  --o-quiet:.55;   /* ivory on a dark ground: 4.8:1, and non-text anywhere */
+  --opacity-secondary:var(--o-mid);
+  --opacity-tertiary:var(--o-quiet);
+
+  /* leading, measured off the screens */
+  --lh-body:1.76; --lh-lede:1.76; --lh-small:1.64;
+  --lh-headline:1.14; --lh-manifesto:1.52; --lh-pull:1.4;
+}
+
+/* 04 Responsive · Tablet — the collection's second mode.
+   Sizes are already correct here from the clamp floors above; only the
+   column count and the section rhythm alias change at this mode. */
+@media (max-width:63.9375em){
+  :root{ --layout-columns:8; --s-7:var(--space-9);
+    --sec-sm:var(--space-6); --sec:var(--space-9); --sec-lg:var(--space-11); }
+}
+
+/* 04 Responsive · Mobile — the collection's third mode.
+   Exact Figma values at 390px, interpolating up to the Tablet values at
+   768px so the two legs meet without a step. */
+@media (max-width:47.9375em){
+  :root{
+    --fs-hero:clamp(40px,calc(40px + 16 * (100vw - 390px) / 378),56px);
+    --fs-display:clamp(34px,calc(34px + 10 * (100vw - 390px) / 378),44px);
+    --fs-editorial:clamp(23px,calc(23px + 3 * (100vw - 390px) / 378),26px);
+    --fs-h1:clamp(30px,calc(30px + 6 * (100vw - 390px) / 378),36px);
+    --fs-h2:clamp(26px,calc(26px + 4 * (100vw - 390px) / 378),30px);
+    --fs-h3:clamp(21px,calc(21px + 2 * (100vw - 390px) / 378),23px);
+    --fs-quote:clamp(22px,calc(22px + 3 * (100vw - 390px) / 378),25px);
+    --space-section:clamp(96px,calc(96px + 24 * (100vw - 390px) / 378),120px);
+    --space-section-major:clamp(120px,calc(120px + 60 * (100vw - 390px) / 378),180px);
+    --layout-margin:clamp(20px,calc(20px + 27 * (100vw - 390px) / 378),47px);
+    --layout-gutter:clamp(16px,calc(16px + 4 * (100vw - 390px) / 378),20px);
+    --layout-columns:4;
+    --navh:4.3125rem;
+    --s-7:var(--space-8);
+    --sec-sm:var(--space-7); --sec:var(--space-8); --sec-lg:var(--space-9);
+
+    /* ------------------------------------------------------------------
+       Type scale, mobile leg. Rebuilt on the device rather than the artboard.
+
+       The artboards specify 390 and 1440, and the 390 column was being
+       reproduced exactly — which put 672 text nodes on this site at 7px and
+       1,099 more at 8.5px on a phone. Those sizes are legible in a Figma
+       frame on a 27-inch monitor and they are not legible in a hand. Nothing
+       on a phone should now render below 10px.
+
+       Note the curve inverts for the small steps: interface micro-text is
+       LARGER at 390 than at 768 and settles onto the desktop leg's floor
+       exactly at 768, because a phone is held at arm's length and tapped,
+       and a tablet is not. Every value at 768 and above is untouched, so
+       this is a mobile change and only a mobile change.
+       ------------------------------------------------------------------ */
+    --t-2xs:clamp(7.54px,calc(10px - 2.46 * (100vw - 390px) / 378),10px);
+    --t-xs:clamp(9.04px,calc(11px - 1.96 * (100vw - 390px) / 378),11px);
+    --t-btn:clamp(10.36px,calc(11.5px - 1.14 * (100vw - 390px) / 378),11.5px);
+    --t-sm:clamp(11.72px,calc(12.5px - 0.78 * (100vw - 390px) / 378),12.5px);
+    --t-md:clamp(13.72px,calc(15px - 1.28 * (100vw - 390px) / 378),15px);
+    --t-lg:clamp(14.58px,calc(15px - 0.42 * (100vw - 390px) / 378),15px);
+    --t-notes:clamp(13px,calc(13px + 0.08 * (100vw - 390px) / 378),13.08px);
+    --t-card:clamp(15.84px,calc(16px - 0.16 * (100vw - 390px) / 378),16px);
+    --t-1:clamp(17px,calc(17px + 0.16 * (100vw - 390px) / 378),17.16px);
+    --t-2:clamp(18.88px,calc(19px - 0.12 * (100vw - 390px) / 378),19px);
+    --t-3:clamp(21px,calc(21px + 2.96 * (100vw - 390px) / 378),23.96px);
+    --t-4:clamp(25px,calc(25px + 4.76 * (100vw - 390px) / 378),29.76px);
+    --t-5:clamp(30px,calc(30px + 6.48 * (100vw - 390px) / 378),36.48px);
+    --t-6:clamp(40px,calc(40px + 12.96 * (100vw - 390px) / 378),52.96px);
+    --t-story:clamp(16.5px,calc(17px - 0.5 * (100vw - 390px) / 378),17px);
+  }
+}
+
+*{margin:0;padding:0;box-sizing:border-box;min-width:0}
+/* Line breaking. Display type is set to balance, so a heading never leaves
+   one or two words stranded on a second line, and body copy to pretty, which
+   only pulls the last line up. This is the part of typesetting the four
+   houses this is measured against do by hand; the browser will do it here. */
+h1,h2,h3,.sechead,blockquote,figcaption,.k{text-wrap:balance}
+p,li,dd,summary{text-wrap:pretty}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{background:var(--ivory);color:var(--ink);
+  font-family:var(--font-serif);font-size:var(--t-md);line-height:var(--lh-body);
+  overflow-x:hidden;-webkit-font-smoothing:antialiased}
+/* height:auto matters more than it looks. The width/height attributes now on
+   every image arrive as presentational hints, and a hint of height:933px stops
+   aspect-ratio computing anything — so every ratio rule in this sheet silently
+   stopped working the moment the dimensions were added. This restores them;
+   rules that genuinely want a fixed height still win on specificity. */
+img{display:block;max-width:100%;height:auto}
+/* <picture> is a wrapper, not a box — the layout must not see it.
+
+   And its <source> elements must not be seen either. `display:contents`
+   promotes a picture's children into its parent's layout, and a <source> has
+   no UA `display:none` — it is normally invisible only because <picture>
+   never renders it. So every <picture> sitting directly inside a grid or a
+   flex row was quietly contributing two extra items.
+
+   Mostly they collapsed to nothing and nobody noticed. In the signature show,
+   whose grid is three explicit columns, they took the first two: the large
+   plate was pushed into the third track and ended up alone in the top right
+   corner, with the thumbnails and the copy in the columns meant for it. */
+picture{display:contents}
+picture>source{display:none}
+
+/* The hidden attribute has to beat every component display rule, or a
+   `display:flex` two hundred lines later quietly un-hides the thing. This
+   sheet had already grown three one-off `[hidden]{display:none}` patches for
+   exactly that; the newsletter form was the fourth to hit it. */
+[hidden]{display:none!important}
+a{color:inherit;text-decoration:none}
+button{font:inherit;border:0;background:none;cursor:pointer;color:inherit}
+/* Focus. The old ring was brass, which measures 2.73:1 on ivory, 2.62 on sand
+   and 2.72 on verde — under the 3:1 WCAG 2.4.11 needs against adjacent colour,
+   so on three of the four surfaces this site uses it was invisible. Ink at 2px
+   with a 2px ivory offset ring reads on every ground the site has, light or
+   dark, and on photography. */
+:focus-visible{outline:2px solid var(--ink);outline-offset:2px;
+  box-shadow:0 0 0 4px rgba(241,240,232,.85);border-radius:var(--radius-hairline)}
+:where(.hero,.banner,.yfeat,.shero,.splate,footer,.sbecame,.promo,.yset,.ann,.drawer .btn-ink)
+  :focus-visible,.btn-ink:focus-visible,.btn-ghost:focus-visible{
+  outline-color:var(--ivory);box-shadow:0 0 0 4px rgba(43,46,45,.55)}
+/* Containers that are only ever focused by script — the bag drawer, the
+   scent sheet, the phone menu, the main landmark after a dialog closes.
+   Nothing here is reachable by Tab (tabindex is -1), so suppressing the ring
+   hides no affordance a keyboard user could have found; and the ring on a
+   full-screen panel was never information, only a two-pixel box drawn round
+   the edge of the screen. Safari paints it on a touch open, Chromium does
+   not, which is why it only ever showed on a phone. */
+[tabindex="-1"]:focus,[tabindex="-1"]:focus-visible{outline:none;box-shadow:none}
+/* skip link — first thing in the tab order on every page */
+/* the last transition on a layout property: it moved `top`, which is a
+   reflow per frame for the one element a keyboard user meets first */
+.skip{position:absolute;left:var(--space-4);top:var(--space-2);z-index:var(--z-top);
+  transform:translateY(-400%);
+  padding:0 var(--space-5);height:var(--ctl-h);display:inline-flex;align-items:center;
+  background:var(--ink);color:var(--ivory);
+  font-family:var(--font-sans);font-weight:600;font-size:var(--t-2xs);
+  letter-spacing:var(--track-label);text-transform:uppercase;
+  transition:transform var(--d-quick) var(--settle)}
+.skip:focus{transform:none}
+
+/* a name for sections that have one without showing it — the outline was
+   jumping h1 to h3 wherever a band was visually self-evident but unnamed */
+.vh{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;
+  overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap;border:0}
+
+/* families */
+.d{font-family:var(--font-display);font-weight:400}
+.t{font-family:var(--font-serif)}
+.m{font-family:var(--font-sans)}
+.cg{font-family:var(--font-script);font-weight:300}
+
+h1,h2,.sechead{font-family:var(--font-display);font-weight:400;
+  line-height:1.14;letter-spacing:-.005em;text-wrap:balance}
+h3{font-family:var(--font-serif);font-weight:400;line-height:1.3}
+p{text-wrap:pretty}
+
+/* The small tracked label used above every section heading.
+
+   It is a <p class="k">, so every `X :where(p)` recession rule in this sheet
+   was also matching it — and because :where() carries no specificity, the two
+   tied and the later one won. On the verde promo card that stacked an .85 on
+   top of brass-on-dark and took a kicker to 4.18:1. The recession rules now
+   read :where(p:not(.k)): a kicker is already the recessive voice, and does
+   not need a second helping of it. */
+.k{font-family:var(--font-sans);font-weight:500;font-size:var(--t-xs);
+  letter-spacing:var(--track-kicker);text-transform:uppercase;color:var(--brass-text);line-height:1.4}
+
+/* ---------------------------------------------------------------- shell -- */
+.inner{width:100%;max-width:90rem;margin-inline:auto;padding-inline:var(--gutter)}
+.sec{position:relative;width:100%}
+section{position:relative}
+
+/* the standard section rhythm; bands with full-bleed art opt out */
+.house,.seven,.show,.atelier,.feelings,.ways,.making,.mater,.journal,.creds{
+  padding-block:var(--sec)}
+
+/* A page's opening band is not a gap between two sections, and it was being
+   given the rhythm for one: 96px of section padding on top of the
+   breadcrumb's own 24px put 120px of empty ivory between the nav and an
+   8.5px grey line on every interior page. Air above the first heading is
+   right; an unfilled fifth of the first screen is not. */
+main>:first-child:is(.band,.house,.seven,.show,.atelier,.feelings,
+                     .ways,.making,.mater,.journal,.creds){
+  padding-top:var(--space-7)}
+/* and when that opening band begins with a breadcrumb, the crumb's own 24px
+   is the gap — the product pages open at nav + 24 and the collection was
+   opening at nav + 64, the same trail at two heights */
+main>:first-child:is(.band,.seven):has(> .inner > .crumb){padding-top:0}
+
+/* section heading block: label, heading, optional link on the right */
+.head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;
+  gap:var(--s-3) var(--s-5)}
+.head h2,.sechead{font-size:var(--t-4);line-height:1.15;margin-top:var(--s-2);max-width:22ch}
+.head>div{min-width:0}
+
+/* ------------------------------------------------------------- buttons -- */
+.btn{display:inline-flex;align-items:center;justify-content:center;text-align:center;
+  font-family:var(--font-sans);font-weight:600;font-size:var(--t-btn);
+  letter-spacing:var(--track-label);text-transform:uppercase;
+  min-height:var(--ctl-h);padding-inline:var(--ctl-px);padding-block:0;
+  border:1px solid transparent;
+  transition:background var(--d-quick) var(--settle),color var(--d-quick) var(--settle),
+             border-color var(--d-quick) var(--settle),transform var(--d-instant) var(--settle)}
+/* the press is felt, not seen: one pixel down for the duration of the touch */
+.btn:active{transform:translateY(1px)}
+.btn-ivory{background:var(--ivory);color:var(--ink)}
+.btn-ivory:hover{background:var(--surface-raised)}
+.btn-ghost{border-color:rgba(241,240,232,.8);color:var(--ivory)}
+.btn-ghost:hover{background:rgba(241,240,232,.14)}
+.btn-ink{background:var(--ink);color:var(--ivory)}
+.btn-ink:hover{background:var(--charcoal-900)}
+.btn-ghostink{border-color:rgba(43,46,45,.45);color:var(--ink)}
+.btn-ghostink:hover{border-color:var(--ink);background:rgba(43,46,45,.05)}
+.btn-sm{min-height:var(--ctl-h-sm);padding-inline:var(--ctl-px-sm);letter-spacing:var(--track-label)}
+/* Nothing on the site acknowledged a press, and a button that disables itself
+   for 1.4s after add-to-bag looked completely live while ignoring taps. On
+   touch, where hover never fires, this was the only missing feedback. */
+.btn:active{transform:translateY(1px)}
+.btn[disabled],.btn:disabled{opacity:.55;cursor:default;transform:none}
+.btn[disabled]:hover,.btn:disabled:hover{background:inherit}
+.ul:active,.sv:active,.scard:active{opacity:.5}
+button:disabled,[aria-disabled="true"]{cursor:default}
+/* Press. Borderless text controls acknowledge a tap by dimming, not by
+   painting a grey box behind themselves — a box would reintroduce exactly the
+   chip this pass removed, for 100ms. The sheet row is full-width and keeps
+   its wash, because there a wash is the affordance. */
+.shelfbar .opts button:active,.sizes button:active{opacity:.5}
+.srow:active{background:rgba(43,46,45,.06)}
+
+/* The editorial link. At rest the rule is there, quietly; on hover it
+   leaves to the right and redraws from the left — one gesture, the same
+   line, like an eye re-reading. Two stacked underlines painted as
+   backgrounds, offset in time; no layout moves. */
+.ul{display:inline-block;font-family:var(--font-sans);font-weight:500;
+  font-size:var(--t-xs);letter-spacing:var(--track-label);text-transform:uppercase;white-space:nowrap;
+  padding-bottom:.2em;border-bottom:0;
+  background-image:linear-gradient(currentColor,currentColor),
+                   linear-gradient(currentColor,currentColor);
+  background-repeat:no-repeat;
+  background-position:left calc(100% - 0px), right calc(100% - 0px);
+  background-size:0% 1px, 100% 1px;
+  transition:background-size var(--d-quick) var(--settle) .12s,
+             color var(--d-quick) var(--settle)}
+.ul:hover,.ul:focus-visible{background-size:100% 1px, 0% 1px;
+  transition:background-size var(--d-quick) var(--settle) .12s,
+             color var(--d-quick) var(--settle)}
+
+/* -------------------------------------------------------------- reveal -- */
+/* The entrance owns opacity and transform for as long as it is happening, and
+   then gets out of the way: `.done` is set when the transition ends, so a
+   component's own transition — the quarter-second opacity fade a card uses
+   when the shelf is filtered — governs from then on. Without that, one
+   duration has to serve both an 800ms arrival and a 250ms filter, and the
+   filter feels broken. */
+/* The reveal hides its element until JavaScript says otherwise, which means
+   that without JavaScript the homepage was a hero and then two thousand
+   pixels of empty ivory — fifty-three of fifty-three revealable elements at
+   opacity zero. The `js` class is set by one line in the head, before any of
+   this is painted, so the hiding only ever happens where something is going
+   to undo it. site.js also reveals anything the observer has not reached
+   after three seconds, in case the observer is the thing that broke. */
+.js .rev:not(.done){opacity:0;transform:translateY(1.25rem);
+  transition:opacity var(--d-slow) var(--settle),transform var(--d-slow) var(--settle)}
+.js .rev.in{opacity:1;transform:none}
+.card{transition:opacity var(--d-quick) var(--settle)}
+
+/* -------------------------------------------------- announcement + nav -- */
+/* The announcement used to sit inside the sticky bar and collapse its
+   max-height to zero on scroll, which shifted every page down the moment you
+   started reading — the whole of this site's layout-shift budget. It is a
+   line of copy, not furniture: it scrolls away with the page, and only the
+   navigation sticks. That also drops a layout-animating transition and gives
+   a phone back fifty pixels of permanently occupied screen. */
+/* One line held four messages badly: on a phone the single announcement wrapped
+   to two rows and took forty pixels of a screen that has none to spare, and
+   three of the four things worth saying were not being said at all.
+
+   It is a ticker. Two identical copies of the list sit side by side in one
+   track, and the track translates by exactly half its own width — at the end
+   of which the second copy is standing precisely where the first began, the
+   animation restarts, and nothing on screen moves. That is the difference
+   between a seamless loop and a jump you learn to ignore.
+
+   Only transform animates, on one composited layer, so it costs nothing on the
+   main thread and cannot shift the layout. The duration is set from the
+   measured track width so the speed is the same on a phone and on a desktop —
+   a fixed duration would race on a narrow screen and crawl on a wide one. */
+.ann{background:var(--ink);color:var(--ivory);
+  height:var(--annh);display:flex;flex-direction:column;justify-content:center;
+  overflow:hidden;
+  font-family:var(--font-sans);font-size:var(--t-2xs);
+  letter-spacing:var(--track-label);text-transform:uppercase;line-height:1.3}
+.anntrack{display:flex;width:max-content;will-change:transform;
+  animation:annroll var(--ann-dur,40s) linear infinite}
+.anngroup{display:flex;align-items:center;flex:none}
+.anni{white-space:nowrap;padding-inline:var(--space-5)}
+/* the separator is the brass diamond the footer uses, not a pipe or a bullet */
+.anns{flex:none;width:.25rem;height:.25rem;transform:rotate(45deg);
+  background:var(--ochre-200);opacity:.75}
+@keyframes annroll{from{transform:translate3d(0,0,0)}
+                   to{transform:translate3d(-50%,0,0)}}
+/* a hover is a request to read it */
+.ann:hover .anntrack,.ann:focus-within .anntrack{animation-play-state:paused}
+
+/* Reduced motion gets no movement at all. A ticker that has been frozen shows
+   whichever message happened to be under the viewport, which may be half of
+   one — so the track is unwound and one message is shown at a time, swapped
+   by the script on a timer with no transition. Everything stays reachable
+   without anything sliding. */
+@media (prefers-reduced-motion:reduce){
+  .ann{display:flex;align-items:center;justify-content:center;text-align:center}
+  .anntrack{animation:none;width:100%;justify-content:center}
+  .anngroup{flex-wrap:wrap;justify-content:center}
+  .anngroup+.anngroup{display:none}
+  .anni{white-space:normal;padding-inline:0}
+  .anni[hidden]{display:none}
+  .anns{display:none}
+}
+.topbar{position:sticky;top:0;z-index:var(--z-header);background:var(--ivory)}
+
+.nav{background:var(--ivory);border-bottom:1px solid var(--line)}
+.nav .inner{display:flex;align-items:center;gap:var(--s-3);
+  padding-block:var(--space-5)}
+.nav.shrunk .inner{padding-block:var(--space-4)}
+
+.brand{flex:0 0 auto;display:block;width:clamp(6.5rem,10vw,9.375rem);color:var(--ink);
+  }
+.brand img,.brand svg{width:100%;height:auto;display:block}
+.nav.shrunk .brand{width:clamp(6rem,8.6vw,8.125rem)}
+
+.links{display:flex;flex-wrap:wrap;gap:clamp(1rem,1.9vw,1.875rem);margin-left:clamp(1rem,3vw,3.5rem)}
+.links a,.util a,.util button{font-family:var(--font-sans);font-weight:500;
+  font-size:var(--t-xs);letter-spacing:var(--track-label);text-transform:uppercase;color:var(--txt);
+  position:relative;white-space:nowrap;padding-block:.35em}
+.links a::after,.util>a::after,.util .bagbtn::after{
+  content:"";position:absolute;left:0;bottom:0;width:100%;height:1px;
+  background:var(--ink);transform:scaleX(0);transform-origin:left;
+  transition:transform var(--d-quick) var(--settle)}
+.links a:hover::after,.links a:focus-visible::after,
+.util>a:hover::after,.util>a:focus-visible::after,
+.util .bagbtn:hover::after,.util .bagbtn:focus-visible::after{transform:scaleX(1)}
+/* the utilities live on the same row as the primary links and had no hover
+   at all — same rule, drawn the same way */
+.util>a,.util .bagbtn{position:relative}
+.util .bagbtn{padding-bottom:1px}
+.util{margin-left:auto;display:flex;align-items:center;gap:clamp(0.875rem,1.9vw,1.875rem)}
+#bagcount{display:inline-block;transition:transform var(--d-quick) var(--settle)}
+#bagcount.tick{transform:translateY(-.35em)}
+.burger{display:none}
+
+/* ------------------------------------------------------------- 02 hero -- */
+/* The first screen is the hero, exactly: viewport minus the ticker minus
+   the nav, so arriving shows neither a cropped scroll cue nor a sliver of
+   the next section. The 28rem floor covers short landscape viewports, where
+   filling "the rest of the screen" would leave no room for the copy —
+   there the hero simply extends past the fold, which is the lesser wrong. */
+.hero{position:relative;display:grid;align-items:end;isolation:isolate;
+  min-height:max(28rem,calc(100svh - var(--chromeh,calc(var(--annh) + var(--navh)))));overflow:hidden}
+.hero>img,.hero>picture>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:var(--z-art);
+  transform:scale(1.05);animation:kb var(--d-ambient) var(--settle) forwards}
+@keyframes kb{to{transform:scale(1)}}
+/* Three layers, so the copy stays legible whatever the plate behind it: the
+   prototype's two diagonals, plus a floor that guarantees contrast under the
+   headline and buttons on a bright flat-lay. */
+.hero .veil{position:absolute;inset:0;z-index:var(--z-behind);background:
+  linear-gradient(to top,rgba(18,16,12,.72) 0%,rgba(18,16,12,.28) 34%,rgba(18,16,12,0) 62%),
+  linear-gradient(63deg,rgba(20,18,13,.62) -6%,rgba(20,18,13,0) 100%),
+  linear-gradient(to right,rgba(20,18,13,.66) 0%,rgba(20,18,13,0) 150%)}
+/* max-width has to carry the gutter too, or the headline wraps early */
+.hero .copy{max-width:calc(44rem + var(--gutter) * 2);color:var(--ivory);
+  padding:var(--s-7) var(--gutter) clamp(4.5rem,9vw,5.5rem)}
+.hero .copy>*{opacity:0;transform:translateY(1rem);animation:rise var(--d-slow) var(--settle) forwards}
+@keyframes rise{to{opacity:1;transform:none}}
+.hero .k{font-size:var(--t-xs);color:var(--ivory);opacity:var(--o-strong);letter-spacing:var(--track-kicker);animation-delay:var(--d-instant)}
+.hero h1{font-size:var(--t-6);line-height:var(--lh-headline);margin-top:var(--s-4);animation-delay:var(--d-quick)}
+.hero :where(p:not(.k)){font-size:var(--t-lg);line-height:var(--lh-lede);opacity:var(--o-strong);max-width:35rem;
+  margin-top:var(--s-4);animation-delay:var(--d-settled)}
+.hero .cta{display:flex;flex-wrap:wrap;gap:var(--s-3);margin-top:var(--s-5);animation-delay:var(--d-settled)}
+.hero .cta .btn{min-height:var(--ctl-h-lg);padding-inline:var(--ctl-px-lg)}
+.cue{position:absolute;left:50%;bottom:var(--s-4);translate:-50% 0;text-align:center;
+  color:var(--ivory);pointer-events:none}
+.cue s{display:block;width:1px;height:2.125rem;background:var(--ivory);margin:0 auto;
+  transform-origin:top;animation:drip var(--d-cinematic) var(--settle) infinite}
+.cue em{display:block;margin-top:.5rem;font-style:normal;font-family:var(--font-sans);
+  font-size:var(--t-2xs);letter-spacing:var(--track-micro);text-transform:uppercase;opacity:var(--o-mid)}
+@keyframes drip{0%{transform:scaleY(0)}45%{transform:scaleY(1);transform-origin:top}
+  55%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+@media (max-width:47.9375em){ .cue{display:none} }
+
+/* -------------------------------------------------- 03 signature strip -- */
+.strip{background:var(--ivory);border-bottom:1px solid var(--line);padding-block:var(--sec-sm)}
+.strip .inner{display:grid;grid-template-columns:1fr;gap:var(--s-4)}
+@media (min-width:52em){
+  .strip .inner{grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--s-6)}
+  .strip .sig+.sig{border-left:1px solid var(--line);padding-left:var(--s-6)}
+}
+/* The three items were centred in a row whose height is set by the tallest,
+   so a one-line title pushed its kicker eleven pixels below the two beside
+   it. The plates already lined up; the words did not. */
+.sig{display:grid;grid-template-columns:auto minmax(0,1fr);gap:var(--s-3);align-items:start}
+.sig img{width:clamp(3.5rem,7vw,6.5rem);aspect-ratio:1;height:auto;object-fit:cover}
+.sig h3{font-size:var(--t-lg);line-height:1.4;margin-top:.35em;color:var(--ink)}
+.sig :where(p:not(.k)){font-family:var(--font-sans);font-weight:500;font-size:var(--t-xs);
+  letter-spacing:var(--track-label);text-transform:uppercase;color:var(--txt-2);margin-top:.45em}
+
+/* ----------------------------------------------------- 03b house intro -- */
+.house{background:var(--ivory);text-align:center}
+.house .k{letter-spacing:var(--track-kicker)}
+.house h2{font-size:var(--t-3);line-height:var(--lh-manifesto);max-width:34ch;margin:var(--s-4) auto 0}
+.house .row{display:flex;flex-wrap:wrap;justify-content:center;
+  gap:var(--s-3) var(--s-5);margin-top:var(--s-5)}
+.house .row a{font-family:var(--font-sans);font-weight:500;font-size:var(--t-xs);
+  letter-spacing:var(--track-label);text-transform:uppercase;color:var(--ink);
+  border-bottom:1px solid var(--ink);padding-bottom:.25em}
+
+/* ------------------------------------------------------- 04 the seven -- */
+.seven{background:var(--ivory)}
+/* the column gap was 8px against a 20px page margin, so two cards nearly
+   touched each other while sitting well inside the edge of the screen */
+.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:var(--s-6) var(--s-4);margin-top:var(--s-6)}
+@media (min-width:40em){ .cards{grid-template-columns:repeat(3,minmax(0,1fr))} }
+@media (min-width:68em){ .cards{grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--space-9) var(--space-5)} }
+
+.card{position:relative;display:flex;flex-direction:column;transition:opacity var(--d-quick) var(--settle)}
+/* dimming the grid is one composited layer; dimming eight cards was eight,
+   and it was never wired up in the first place */
+.cards{transition:opacity var(--d-instant) var(--settle)}
+.cards.sorting{opacity:.3}
+.card .ph{position:relative;width:100%;aspect-ratio:1;overflow:hidden;background:var(--plaster)}
+.card .ph a{display:block;width:100%;height:100%}
+.card .ph img{width:100%;height:100%;object-fit:cover;
+  transition:transform var(--d-slow) var(--settle)}
+.card:hover .ph img{transform:scale(1.03)}
+.badge{position:absolute;top:var(--s-2);left:var(--s-2);background:rgba(241,240,232,.95);
+  font-family:var(--font-sans);font-weight:600;font-size:var(--t-2xs);
+  letter-spacing:var(--track-micro);text-transform:uppercase;padding:.45em .75em;line-height:1}
+.quick{position:absolute;left:0;right:0;bottom:0;background:rgba(241,240,232,.97);
+  padding:var(--s-3);transform:translateY(101%);transition:transform var(--d-settled) var(--settle)}
+.card:hover .quick,.card:focus-within .quick{transform:none}
+.quick .r{display:flex;flex-wrap:wrap;gap:var(--s-2)}
+.quick small{display:block;margin-top:var(--s-2);font-family:var(--font-sans);
+  font-size:var(--t-2xs);letter-spacing:var(--track-micro);text-transform:uppercase;color:var(--txt-2)}
+@media (hover:none){ .quick{display:none} }
+
+.card .meta{margin-top:var(--s-3)}
+.chip{display:inline-block;width:.625rem;height:.625rem;border-radius:50%;
+  box-shadow:inset 0 0 0 .5px rgba(43,46,45,.25);vertical-align:middle;margin-right:.6em}
+.card .stone{font-family:var(--font-sans);font-weight:500;font-size:var(--t-2xs);
+  letter-spacing:var(--track-micro);text-transform:uppercase;color:var(--txt-2);
+  vertical-align:middle;line-height:1}
+.card h3{font-size:var(--t-card);margin-top:var(--s-2);color:var(--ink)}
+.card .notes{font-family:var(--font-script);font-weight:300;font-style:italic;
+  font-size:var(--t-notes);line-height:1.3;color:var(--txt-2);margin-top:.3em}
+.card .price{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;
+  gap:var(--s-2);margin-top:var(--s-3);
+  font-family:var(--font-sans);font-weight:500;font-size:var(--t-xs);
+  letter-spacing:var(--track-caps);text-transform:uppercase;color:var(--ink)}
+
+/* the discovery-set card sits in the same grid track and simply fills it */
+.promo{display:flex;flex-direction:column;justify-content:center;gap:var(--s-3);
+  background:var(--verde);color:var(--ivory);padding:var(--s-5);height:100%}
+.promo .k{color:var(--brass-on-dark);letter-spacing:var(--track-kicker)}
+.promo h3{font-family:var(--font-display);font-size:var(--t-2);line-height:1.2}
+.promo :where(p:not(.k)){font-size:var(--t-sm);line-height:1.6;opacity:var(--o-strong);max-width:32ch}
+.promo .btn{align-self:flex-start}
+
+/* A hundred and fifty characters of tracked uppercase. On a wide screen that
+   is one line and scans as a rule; on a phone it is four lines of capitals and
+   nobody reads it. It is a sentence, so it is set as one — the same call as
+   the FAQ questions and the account note. */
+.seven .foot{text-align:center;margin-top:var(--s-6);
+  font-family:var(--font-serif);font-style:italic;font-size:var(--t-sm);
+  letter-spacing:0;text-transform:none;color:var(--txt-2);line-height:1.8;
+  max-width:56ch;margin-inline:auto;text-wrap:pretty}
+
+/* --------------------------------------------------- 05 signature show -- */
+.show{background:var(--plaster)}
+.show .inner{display:grid;gap:var(--s-4);grid-template-columns:minmax(0,1fr)}
+.show .big{width:100%;aspect-ratio:1;object-fit:cover;transition:opacity var(--d-quick) var(--settle)}
+.show .thumbs{display:flex;gap:var(--s-2)}
+.show .thumbs button{padding:0;border:1px solid transparent;line-height:0;opacity:var(--o-mid);
+  transition:border-color var(--d-quick) var(--settle),opacity var(--d-quick) var(--settle)}
+.show .thumbs button:hover{opacity:1}
+.show .thumbs button[aria-current]{opacity:1;border-color:var(--ink)}
+.show .thumbs img{width:clamp(3.25rem,6vw,7.5rem);aspect-ratio:1;object-fit:cover;display:block}
+.show .copy{min-width:0}
+@media (min-width:64em){
+  .show .inner{grid-template-columns:minmax(0,600fr) auto minmax(0,481fr);
+    column-gap:var(--s-4);align-items:start}
+  /* stacked, the buttons stretched to the full width of the track — 371px of
+     button around an 86px thumbnail — so the rule that marks the active one
+     ran four times the width of the picture it was marking */
+  .show .thumbs{flex-direction:column;align-items:flex-start}
+  .show .copy{padding-top:var(--s-4);margin-left:var(--s-4)}
+}
+.show h2{font-size:var(--t-5);margin-top:var(--s-3);color:var(--ink);max-width:14ch}
+.show blockquote{font-family:var(--font-serif);font-style:italic;
+  font-size:var(--t-md);line-height:1.8;color:var(--txt);max-width:44ch;margin-top:var(--s-4)}
+.spec{display:flex;flex-wrap:wrap;gap:var(--s-2) var(--s-4);align-items:baseline;
+  padding-block:var(--s-2);border-bottom:1px solid rgba(43,46,45,.1);max-width:32rem}
+.spec:first-of-type{margin-top:var(--s-4)}
+.spec b{font-family:var(--font-sans);font-weight:500;font-size:var(--t-xs);
+  letter-spacing:var(--track-label);text-transform:uppercase;color:var(--brass-text);
+  flex:0 0 auto;min-width:4.5rem}
+.spec span{font-family:var(--font-serif);font-size:var(--t-sm);color:var(--ink)}
+.show .cta{display:flex;flex-wrap:wrap;gap:var(--s-3);margin-top:var(--s-5)}
+.show .re{margin-top:var(--s-3);font-family:var(--font-sans);font-size:var(--t-xs);
+  letter-spacing:var(--track-label);text-transform:uppercase;color:var(--txt-2);line-height:1.8}
+
+/* --------------------------------------------------------- 05b atelier -- */
+.atelier{background:var(--ivory)}
+.atelier .lead{font-size:var(--t-md);line-height:1.8;color:var(--txt);
+  max-width:var(--measure);margin-top:var(--s-4)}
+/* :where() on the descendant part so these sit at one class of specificity
+   and the phone rail, declared later, can take them over */
+:where(.atelier) .row,.plates,.posts,.wayrow{
+  display:grid;grid-template-columns:minmax(0,1fr);gap:var(--s-4);margin-top:var(--s-5)}
+@media (min-width:48em){
+  :where(.atelier) .row,.plates,.posts,.wayrow{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+.atelier figure{min-width:0}
+.atelier figure>img,.atelier figure>picture>img,.atelier figure>.swatch{width:100%;aspect-ratio:400/430;object-fit:cover;display:block}
+.atelier .swatch{background:linear-gradient(150deg,var(--brass-on-dark),#8C6128)}
+.atelier figcaption{display:flex;flex-wrap:wrap;gap:.35em var(--s-3);align-items:baseline;
+  margin-top:var(--s-3)}
+.atelier figcaption b{font-family:var(--font-sans);font-weight:500;font-size:var(--t-xs);
+  letter-spacing:var(--track-label);text-transform:uppercase;color:var(--ink)}
+.atelier figcaption i{font-family:var(--font-script);font-weight:300;
+  font-size:var(--t-md);color:var(--txt-2)}
+
+/* ---------------------------------------------------- 06 campaign band -- */
+.campaign{position:relative;display:grid;align-items:end;isolation:isolate;
+  min-height:clamp(22rem,48svh,35rem);overflow:hidden}
+.campaign>img,.campaign>picture>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:var(--z-art)}
+.campaign .v{position:absolute;inset:0;z-index:var(--z-behind);
+  background:linear-gradient(14deg,rgba(23,18,12,.66),rgba(23,18,12,0) 62%)}
+.campaign .c{color:var(--ivory);max-width:calc(52rem + var(--gutter) * 2);
+  padding:var(--s-7) var(--gutter) var(--s-6)}
+/* 24ch set this quote in three lines and a hard <br> had been added to force
+   the break, which then fought the balancer. The measure is the thing that
+   decides how many lines there are: at 34ch it balances into two, and the
+   break moves with the copy instead of being pinned to a word. */
+.campaign h2{font-size:var(--t-4);line-height:1.35;max-width:34ch}
+.campaign .k{color:var(--ivory);opacity:var(--o-strong);letter-spacing:var(--track-kicker);margin-top:var(--s-4)}
+.campaign .k a{border-bottom:1px solid rgba(241,240,232,.5);padding-bottom:.2em}
+
+/* --------------------------------------------------- 06b begin/feeling -- */
+.feelings{background:var(--plaster)}
+.feelings .sub{font-family:var(--font-serif);font-style:italic;font-size:var(--t-md);
+  color:var(--txt-2);max-width:var(--measure);margin-top:var(--s-4)}
+/* Begin with a style, as an index. Seven product cards stood here — the
+   shelf again, smaller, under a heading that promised styles. This is the
+   styles themselves, set like a table of contents: the family word in
+   display type, the member stones, the count, the members' names, and the
+   whole row one full-width link into the pre-filtered collection.
+
+   Mobile-first: one column of ruled rows, each a whole-hand target, the
+   name row and the who-line stacked. From 64rem the who-line moves beside
+   the name and the arrow takes the right edge — same list, wider paper. */
+.styindex{display:flex;flex-direction:column;margin-top:var(--s-5);
+  border-top:1px solid var(--line)}
+.sty{position:relative;display:grid;grid-template-columns:minmax(0,1fr) auto;
+  align-items:center;column-gap:var(--s-4);row-gap:.35rem;
+  padding:var(--s-4) 0;border-bottom:1px solid var(--line);
+  transition:background var(--d-quick) var(--settle)}
+.styname{grid-column:1;font-family:var(--font-display);font-size:var(--t-3);
+  line-height:1.1;color:var(--ink);transition:color var(--d-quick) var(--settle)}
+.stymeta{grid-column:2;grid-row:1;justify-self:end;display:flex;align-items:center;
+  gap:var(--s-3)}
+.stychips{display:flex;align-items:center}
+.stychips i{width:.6875rem;height:.6875rem;border-radius:50%;flex:none;
+  border:1.5px solid var(--plaster)}
+.stychips i+i{margin-left:-.25rem}
+/* under the hand the stones ease apart — the family shows its members */
+.stychips i{transition:transform var(--d-quick) var(--settle)}
+.sty:hover .stychips i:nth-child(2){transform:translateX(2px)}
+.sty:hover .stychips i:nth-child(3){transform:translateX(4px)}
+.sty:hover .stychips i:nth-child(4){transform:translateX(6px)}
+.stycount{font-family:var(--font-sans);font-weight:500;font-size:var(--t-xs);
+  letter-spacing:var(--track-label);text-transform:uppercase;color:var(--txt-2);
+  white-space:nowrap}
+.stywho{grid-column:1/3;font-family:var(--font-script);font-weight:300;
+  font-size:var(--t-sm);line-height:1.5;color:var(--txt-2)}
+.styarrow{display:none}
+.sty:hover .styname,.sty:focus-visible .styname{color:var(--brass-text)}
+@media (min-width:64rem){
+  .sty{grid-template-columns:14rem minmax(0,1fr) auto auto;
+    column-gap:var(--s-5);padding-block:var(--s-4)}
+  .styname{font-size:var(--t-2)}
+  .stywho{grid-column:2;grid-row:1}
+  .stymeta{grid-column:3;grid-row:1}
+  .styarrow{display:block;grid-column:4;grid-row:1;
+    font-family:var(--font-sans);color:var(--txt-2);
+    transition:transform var(--d-quick) var(--settle),color var(--d-quick) var(--settle)}
+  .sty:hover .styarrow{transform:translateX(.35rem);color:var(--brass-text)}
+}
+.feelings .note{margin-top:var(--s-5);font-family:var(--font-sans);font-weight:500;
+  font-size:var(--t-xs);letter-spacing:var(--track-label);text-transform:uppercase;color:var(--txt-2);
+  ;line-height:1.8}
+
+/* ---------------------------------------------------------- 07 ways in -- */
+.ways{background:var(--sand)}
+.way{display:flex;flex-direction:column;background:var(--ivory);min-width:0}
+.way img{width:100%;aspect-ratio:400/180;object-fit:cover}
+.way .b{display:flex;flex-direction:column;flex:1;padding:var(--s-4)}
+.way h3{font-size:var(--t-1);margin-top:var(--s-2);color:var(--ink)}
+.way :where(p:not(.k)){font-size:var(--t-sm);line-height:1.65;color:var(--txt-2);margin-top:var(--s-2)}
+.way .go{display:inline-block;margin-top:auto;padding-top:var(--s-3);
+  font-family:var(--font-sans);font-weight:500;font-size:var(--t-xs);
+  letter-spacing:var(--track-label);text-transform:uppercase;color:var(--ink)}
+
+/* ------------------------------------------------------- 08 the making -- */
+.making{background:var(--ivory)}
+.plates figure{overflow:hidden;min-width:0}
+.plates img{width:100%;aspect-ratio:4/3;object-fit:cover;transition:transform var(--d-slow) var(--settle)}
+.plates figure:hover img{transform:scale(1.03)}
+.plates figcaption{font-family:var(--font-serif);font-style:italic;font-size:var(--t-sm);
+  line-height:1.6;color:var(--txt-2);margin-top:var(--s-3)}
+.credit{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;
+  gap:var(--s-3) var(--s-5);margin-top:var(--s-6);
+  font-family:var(--font-sans);font-size:var(--t-xs);letter-spacing:var(--track-label);
+  text-transform:uppercase;color:var(--txt-2);line-height:1.9}
+
+/* ------------------------------------------------------ 09 materiality -- */
+.mater{background:var(--plaster)}
+.matrow{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,11rem),1fr));
+  gap:var(--s-4)}
+.mat{min-width:0}
+/* The material swatches were four inline gradients repeated across two files,
+   with the ink and ivory in them spelled as hex. A gradient is a design
+   decision, so it lives here. */
+.sw-nero{background:linear-gradient(150deg,var(--charcoal-700),#111312);color:var(--ivory)}
+.sw-verde{background:linear-gradient(150deg,var(--stone-sunday-service),#26332c);color:var(--ivory)}
+.sw-rosso{background:linear-gradient(150deg,var(--stone-road-trip),var(--stone-third-date));color:var(--ivory)}
+.sw-pale{background:linear-gradient(150deg,#ede7da,#c9bea6);color:var(--ink)}
+.sw-paper{background:linear-gradient(150deg,#f2efe7,#d8d2c4);color:var(--ink)}
+.sw-oil{background:linear-gradient(150deg,#d8a94e,#8c6128);color:var(--ivory)}
+.matrow.spaced{margin-top:var(--s-5)}
+.btn.cta-wide{width:100%;margin-top:var(--s-4)}
+.acc.narrow{max-width:52rem}
+/* The accordion label is a label on a product page — "The story", "Notes" —
+   and it is set in tracked caps because that is what labels are here. On the
+   FAQ the same element holds a whole question, and a 45-character sentence in
+   10px uppercase is shouted rather than read. Questions are content, so on
+   that page they are set as content is set. */
+.acc.qa summary{font-family:var(--font-serif);font-size:var(--t-1);
+  font-weight:400;letter-spacing:0;text-transform:none;line-height:1.4;
+  min-height:0;padding-block:var(--s-4);gap:var(--s-5)}
+.acc.qa summary::after{font-size:var(--t-2);opacity:var(--o-strong)}
+.acc.qa :where(.body){font-size:var(--t-md);padding-bottom:var(--s-5)}
+.mat .sw{aspect-ratio:294/200;display:flex;align-items:center;justify-content:center;
+  text-align:center;padding:var(--s-3)}
+.mat .sw em{font-family:var(--font-script);font-style:italic;font-size:var(--t-1)}
+.mat b{display:block;margin-top:var(--s-3);font-family:var(--font-sans);font-weight:500;
+  font-size:var(--t-xs);letter-spacing:var(--track-label);text-transform:uppercase;color:var(--ink)}
+.mat i{display:block;margin-top:.3em;font-family:var(--font-script);font-weight:300;
+  font-size:var(--t-sm);line-height:1.4;color:var(--txt-2)}
+
+/* ---------------------------------------------------------- 09b journal -- */
+.journal{background:var(--sand)}
+.post{display:flex;flex-direction:column;overflow:hidden;min-width:0}
+.post img{width:100%;aspect-ratio:8/5;object-fit:cover;transition:transform var(--d-slow) var(--settle)}
+.post:hover img{transform:scale(1.03)}
+.post .k{margin-top:var(--space-4);font-size:var(--t-2xs);letter-spacing:var(--track-kicker)}
+.post h3{font-size:var(--t-1);line-height:1.4;margin-top:var(--s-2);color:var(--ink);
+  transition:color var(--d-quick) var(--settle)}
+.post:hover h3,.post:focus-visible h3{color:var(--brass-text)}
+.post :where(p:not(.k)){font-family:var(--font-serif);font-style:italic;font-size:var(--t-sm);
+  line-height:1.6;color:var(--txt-2);margin-top:var(--s-2)}
+
+/* --------------------------------------------------------- 10 gifting --- */
+.gift{position:relative;display:grid;grid-template-columns:minmax(0,1fr);
+  background:var(--plum);color:var(--ivory);isolation:isolate;overflow:hidden}
+.gift>img,.gift>picture>img{width:100%;aspect-ratio:3/2;object-fit:cover;order:-1}
+.gift .fade{display:none}
+.gift .k{color:var(--brass-on-dark)}
+.gift .c{padding:var(--s-6) var(--gutter) var(--s-7);max-width:calc(40rem + var(--gutter) * 2)}
+.gift h2{font-size:var(--t-4);margin-top:var(--s-3);max-width:18ch}
+.gift :where(p:not(.k)){font-size:var(--t-md);line-height:1.8;opacity:var(--o-strong);max-width:46ch;margin-top:var(--s-4)}
+.gift .ded{font-family:var(--font-script);font-style:italic;font-size:var(--t-1);
+  background:rgba(241,240,232,.94);color:var(--ink);padding:var(--s-3) var(--s-4);
+  margin-top:var(--s-4);max-width:22rem;text-align:center}
+.gift .cta{display:flex;flex-wrap:wrap;gap:var(--s-3);margin-top:var(--s-5)}
+@media (min-width:52em){
+  .gift{grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center}
+  .gift .c{order:0}
+.gift>img,.gift>picture>img{order:1;height:100%;aspect-ratio:auto;min-height:clamp(24rem,40vw,35rem)}
+  .gift .c{padding-block:var(--s-7)}
+}
+
+/* ----------------------------------------------------- 11 credentials --- */
+.creds{background:var(--ivory);border-top:1px solid var(--line)}
+/* This row was two italic quotes beside a line of caps about a stockist, on a
+   baseline grid, each column left-ragged at a different length — three
+   different objects pretending to be a set. It is three quotes now, of one
+   kind, each opening under its own hairline with a hanging quote mark, and
+   the stockist has been demoted to the line beneath, which is what it is. */
+.credrow{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,15rem),1fr));
+  gap:var(--s-4);margin-top:var(--s-5);align-items:stretch}
+.cred{min-width:0;display:flex;flex-direction:column;margin:0;
+  border-top:1px solid var(--line);padding-top:var(--s-4)}
+.cred blockquote{position:relative;margin:0;
+  font-family:var(--font-serif);font-style:italic;font-size:var(--t-md);
+  line-height:1.65;color:var(--ink);text-wrap:pretty;max-width:32ch}
+/* the mark hangs into the gutter so the first letter of every quote starts on
+   the same vertical as the hairline above it */
+.cred blockquote::before{content:"\201C";position:absolute;left:-.52em;top:-.06em;
+  font-size:1.6em;line-height:1;color:var(--brass-text);opacity:.5;
+  pointer-events:none}
+.cred blockquote::after{content:"\201D"}
+/* margin-top:auto floors the attributions together however the quotes wrap */
+.cred figcaption{margin-top:auto;padding-top:var(--s-4);font-family:var(--font-sans);
+  font-weight:500;font-size:var(--t-xs);letter-spacing:var(--track-label);
+  text-transform:uppercase;color:var(--txt-2)}
+.creds .credfoot{margin-top:var(--s-6);padding-top:var(--s-4);
+  border-top:1px solid var(--line);font-family:var(--font-sans);font-weight:500;
+  font-size:var(--t-xs);letter-spacing:var(--track-label);text-transform:uppercase;
+  color:var(--txt-2)}
+@media (max-width:47.9375rem){
+  .credrow{gap:var(--s-3)}
+  .cred{padding-top:var(--s-3)}
+  /* The hanging mark hangs into the gutter, and on a phone the gutter is
+     the screen edge — the glyph was printing against the bezel. Indent the
+     quote and let the mark occupy the indent instead. */
+  .cred blockquote{padding-left:1.05em}
+  .cred blockquote::before{left:.1em}
+}
+
+/* ------------------------------------------------------ 12 newsletter --- */
+.news{background:var(--sand);text-align:center;padding-block:var(--sec-sm)}
+.news h2{font-size:var(--t-3);max-width:20ch;margin-inline:auto}
+.news .s{font-size:var(--t-md);color:var(--txt-2);max-width:46ch;
+  margin:var(--s-3) auto 0}
+.news form{display:flex;flex-wrap:wrap;justify-content:center;gap:var(--s-2);
+  margin-top:var(--s-4)}
+.news input{flex:1 1 15rem;max-width:22rem;min-height:2.875rem;padding:0 0 .5rem;
+  background:none;border:0;border-bottom:1px solid var(--txt-2);border-radius:0;
+  color:var(--ink);text-align:center;
+  font-family:var(--font-serif);font-size:var(--t-sm);transition:border-color var(--d-quick) var(--settle),box-shadow var(--d-quick) var(--settle)}
+.news input:focus{outline:none;border-bottom-color:var(--ink);box-shadow:0 1px 0 0 var(--ink)}
+.news .fine{margin-top:var(--s-4);font-family:var(--font-sans);font-size:var(--t-2xs);
+  color:var(--txt-2);line-height:1.8}
+
+/* ---------------------------------------------------------- 13 footer --- */
+footer{background:var(--ink);color:var(--ivory);padding-block:var(--space-9) var(--space-5)}
+footer .cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,9rem),1fr));
+  gap:var(--s-5)}
+footer .fh{font-family:var(--font-sans);font-weight:500;font-size:var(--t-xs);
+  letter-spacing:var(--track-label);text-transform:uppercase;color:var(--brass-on-dark);margin-bottom:var(--s-3)}
+footer a{display:block;font-family:var(--font-serif);font-size:var(--t-sm);
+  line-height:1.45;opacity:var(--o-strong);margin-bottom:.75em}
+footer a:hover{opacity:1}
+.fmid{display:flex;flex-wrap:wrap-reverse;justify-content:space-between;align-items:flex-end;
+  gap:var(--s-4);margin-top:var(--space-5)}
+.fcopy{font-family:var(--font-sans);font-size:var(--t-2xs);letter-spacing:var(--track-micro);
+  text-transform:uppercase;line-height:1.8;opacity:var(--o-strong)}
+.fbrand{width:clamp(9rem,16vw,13.75rem);color:var(--ivory)}
+.fbrand img{width:100%;height:auto;display:block}
+.fbot{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;
+  gap:var(--s-3) var(--s-4);margin-top:var(--s-5);padding-top:var(--s-4);
+  border-top:1px solid rgba(241,240,232,.14)}
+.pay{display:flex;flex-wrap:wrap;gap:var(--s-1)}
+.pay i{display:flex;align-items:center;justify-content:center;
+  width:2.75rem;height:1.625rem;border:1px solid rgba(241,240,232,.28);
+  background:rgba(241,240,232,.07);border-radius:var(--radius-hairline);font-style:normal;
+  font-family:var(--font-sans);font-weight:600;font-size:var(--t-2xs);letter-spacing:.05em}
+/* Privacy, Terms and Cookies were one sentence held together by middots, set
+   at the same size as everything else in the row — three of the least
+   important words on the page taking the same weight as the payment marks.
+   They are three separate links now, each its own item, at the smallest size
+   the site sets, with the country and currency on its own line beneath
+   rather than trailing off the end of "Cookies".
+
+   Smaller in type but not smaller to hit: the padding grows each link's hit
+   area past 24px without contributing to the line box, so nothing moves. */
+.legalwrap{display:flex;flex-wrap:wrap;align-items:baseline;
+  gap:var(--s-2) var(--s-4);min-width:0}
+.legal{display:flex;flex-wrap:wrap;gap:var(--s-3)}
+.legal a{display:inline-block;font-family:var(--font-sans);font-size:var(--t-2xs);
+  letter-spacing:var(--track-micro);text-transform:uppercase;line-height:1.6;
+  opacity:var(--o-mid);padding-block:.5rem;margin-block:-.35rem}
+.legal a:hover,.legal a:focus-visible{opacity:1}
+.locale{font-family:var(--font-sans);font-size:var(--t-2xs);
+  letter-spacing:var(--track-micro);text-transform:uppercase;line-height:1.6;
+  opacity:var(--o-quiet)}
+@media (max-width:47.9375em){
+  /* the two statements stack: legal links on one line, where you are on the
+     next, so neither wraps mid-phrase */
+  .legalwrap{flex-direction:column;align-items:flex-start;gap:var(--s-2)}
+}
+
+/* ------------------------------------------------------------- drawer --- */
+html.overlay-open,html.overlay-open body{overflow:hidden}
+.scrim{position:fixed;inset:0;background:rgba(10,10,9,0);pointer-events:none;
+  transition:background var(--d-settled) var(--settle);z-index:var(--z-scrim)}
+.scrim.on{background:rgba(10,10,9,.55);pointer-events:auto}
+.drawer[hidden]{display:none}
+.drawer{position:fixed;top:0;right:0;z-index:var(--z-overlay);
+  width:min(26.25rem,100%);height:100dvh;background:var(--ivory);
+  padding:var(--s-5) var(--s-5) var(--s-6);overflow-y:auto;
+  translate:101% 0;transition:translate var(--d-settled) var(--settle);
+  box-shadow:var(--shadow-overlay)}
+.drawer.open{translate:0 0}
+.dhead{display:flex;justify-content:space-between;align-items:center;gap:var(--s-3);
+  border-bottom:1px solid var(--line);padding-bottom:var(--s-3);
+  font-family:var(--font-sans);font-weight:500;font-size:var(--t-xs);
+  letter-spacing:var(--track-label);text-transform:uppercase}
+.dhead button{display:inline-flex;align-items:center;min-height:2.75rem;padding-inline:.25rem;
+  font-family:var(--font-sans);font-weight:500;font-size:var(--t-xs);
+  letter-spacing:var(--track-label);text-transform:uppercase;color:var(--txt)}
+.dhead button:hover{color:var(--ink)}
+.drawer .btn{width:100%;margin-top:var(--s-5)}
+
+/* the complimentary-sample offer: tracked label, then the note in italic serif */
+.tryfirst{display:grid;grid-template-columns:auto minmax(0,1fr);gap:var(--space-3);
+  align-items:start;margin-top:var(--s-5);padding:var(--space-4);background:var(--plaster);
+  border-radius:var(--radius-hairline);cursor:pointer}
+/* One checkbox for the whole site, drawn rather than borrowed. The native
+   control with accent-color painted a solid black square with a white tick —
+   the heaviest single element on the product page, sitting in a quiet sand
+   panel next to italic serif. A hairline square with an ink tick says the
+   same thing at a tenth of the weight, and matches every other 1px rule on
+   the page. Size stays at the native box so nothing reflows. */
+.tryfirst input,.consent input{
+  appearance:none;-webkit-appearance:none;position:relative;
+  width:.9375rem;height:.9375rem;flex:none;border-radius:0;
+  border:1px solid var(--line-mid);background:transparent;
+  transition:border-color var(--d-quick) var(--settle)}
+.tryfirst input:checked,.consent input:checked{border-color:var(--ink)}
+.tryfirst input:checked::after,.consent input:checked::after{
+  content:"";position:absolute;left:27%;top:8%;width:32%;height:60%;
+  border:solid var(--ink);border-width:0 1px 1px 0;transform:rotate(42deg)}
+.tryfirst input{margin:.1rem 0 0}
+.tryfirst b{display:block;font-family:var(--font-sans);font-weight:500;font-size:var(--t-2xs);
+  letter-spacing:var(--track-micro);text-transform:uppercase;color:var(--ink);line-height:1.3}
+.tryfirst span{display:block;margin-top:var(--space-3);font-family:var(--font-serif);
+  font-style:italic;font-size:var(--t-sm);line-height:1.4;color:var(--txt-2)}
+
+.thresh{margin-top:var(--s-5);font-family:var(--font-sans);font-weight:500;
+  font-size:var(--t-xs);letter-spacing:var(--track-label);text-transform:uppercase;color:var(--brass-text)}
+.tbar{height:2px;background:rgba(43,46,45,.14);margin-top:var(--s-2)}
+.tfill{height:100%;background:var(--brass);width:0;}
+
+.dtot{display:flex;justify-content:space-between;align-items:baseline;gap:var(--s-3);
+  margin-top:var(--s-5);padding-top:var(--s-4);border-top:1px solid var(--line);
+  font-family:var(--font-sans);font-weight:500;font-size:var(--t-xs);
+  letter-spacing:var(--track-label);text-transform:uppercase;color:var(--ink)}
+.dtot b{font-family:var(--font-display);font-weight:400;font-size:var(--t-3);
+  letter-spacing:0;text-transform:none}
+.dfine{margin-top:var(--s-4);font-family:var(--font-sans);font-size:var(--t-2xs);
+  letter-spacing:.02em;text-transform:none;color:var(--txt);opacity:var(--o-strong);line-height:1.7}
+
+.ditem{display:grid;grid-template-columns:3.5rem minmax(0,1fr) auto;gap:var(--s-3);
+  align-items:start;padding-block:var(--s-4);border-bottom:1px solid var(--line)}
+.ditem img{width:3.5rem;height:3.5rem;object-fit:cover;background:var(--plaster)}
+.ditem h3{font-family:var(--font-serif);font-size:var(--t-md);line-height:1.35;
+  text-transform:none;letter-spacing:0}
+.ditem .meta{display:block;margin-top:.35em;font-family:var(--font-sans);
+  font-size:var(--t-xs);letter-spacing:var(--track-label);text-transform:uppercase;
+  color:var(--txt);opacity:var(--o-strong);line-height:1.6}
+.ditem .ul{margin-top:var(--s-2)}
+.ditem>span:last-child{font-family:var(--font-sans);font-size:var(--t-xs);
+  letter-spacing:var(--track-label);white-space:nowrap;padding-top:.15em}
+
+
+/* ==================================================== phone: the rails ====
+   On a phone, four rows on the homepage were the same gesture repeated —
+   three plates in the atelier, three in the making, three journal posts, four
+   material swatches — and each one turned into a tall vertical stack. Between
+   them they were 4,361px, about a third of the whole page, and they read as
+   one long undifferentiated scroll of pictures with small captions under
+   them.
+
+   Sideways, they are one screen each and they read as four distinct things.
+   Every item is still there, at a larger size than it was in the stack; only
+   the axis changes, and only below 48em.
+
+   The detail that makes it a designed row rather than a clipped one is the
+   peek: items are 78% of the viewport, so the edge of the next is always
+   visible and nobody has to be told the row scrolls. The rail bleeds to both
+   page edges — negative margin out, padding back in — so the first item still
+   lands on the gutter and the last can scroll clear of it.
+   ========================================================================= */
+@media (max-width:47.9375em){
+  .rail{
+    display:flex;flex-wrap:nowrap;grid-template-columns:none;
+    overflow-x:auto;overflow-y:hidden;
+    scroll-snap-type:x mandatory;overscroll-behavior-x:contain;
+    -webkit-overflow-scrolling:touch;
+    margin-inline:calc(var(--gutter) * -1);
+    padding-inline:var(--gutter);
+    scroll-padding-inline:var(--gutter);
+    gap:var(--s-3);
+    scrollbar-width:none}
+  .rail::-webkit-scrollbar{display:none}
+  .rail>*{flex:0 0 78%;min-width:0;scroll-snap-align:start}
+  /* the rail is a scroll container, so it takes a tab stop of its own; the
+     ring has to sit inside it or the overflow clips it away */
+  .rail:focus-visible{outline:2px solid var(--ink);outline-offset:-2px}
+  /* the swatch row carries four small items, so it shows two at a time */
+  .matrow.rail>*{flex:0 0 56%}
+}
+
+/* =========================================================== breakpoints ==
+   Only where the content genuinely needs a different arrangement.
+   ========================================================================= */
+
+/* Below 72em the primary nav collapses behind a button.
+   It used to be 64em, which is where the burger was hidden — but the seven
+   links, the wordmark and the three utilities do not fit on one line until
+   about 1140px, so between 1024 and 1139 the header silently wrapped onto two
+   rows and grew from 74px to 115px. A breakpoint chosen by the content rather
+   than by the device, which is what the note at the top of this file says the
+   strategy is. */
+@media (max-width:71.9375em){
+  /* The desktop nav is simply not present below this width. It used to be
+     re-flowed into a dropdown, which meant the phone menu inherited the
+     desktop links' data-mega behaviour and opened the shop panel on top of
+     itself, at a higher z-index, with no way to reach either. The phone gets
+     .menupanel instead — its own element, its own scroller. */
+  .links{display:none}
+  .mega,.menu-dim{display:none}
+  /* order:9 puts the burger after the utility group, which takes the rest of
+     the line with margin-left:auto — so it lands hard right, thumb-side, and
+     the wordmark starts at the gutter with nothing in front of it. This is
+     only safe because .nav .inner is flex-wrap:nowrap below; the first time
+     this was tried the row still wrapped and the burger took a band of its
+     own. The negative right margin pulls the tap target's padding out to the
+     gutter so the rules optically align with the edge. */
+  .burger{display:flex;flex-direction:column;justify-content:center;gap:.3125rem;
+    order:9;width:2.75rem;height:2.75rem;padding:0 .6875rem;touch-action:manipulation;
+    margin-left:var(--s-3);margin-right:calc(var(--s-3) * -1)}
+  .burger i{display:block;width:100%;height:1px;background:var(--ink);
+    transform-origin:50% 50%;
+    transition:transform var(--d-quick) var(--settle),opacity var(--d-instant) linear}
+  /* three rules fold into a close mark on the same curve as the panel */
+  .burger[aria-expanded="true"] i:nth-child(1){transform:translateY(.34375rem) rotate(45deg)}
+  .burger[aria-expanded="true"] i:nth-child(2){opacity:0;transform:scaleX(.4)}
+  .burger[aria-expanded="true"] i:nth-child(3){transform:translateY(-.34375rem) rotate(-45deg)}
+  /* The burger is first in the DOM but was ordered to the end of a wrapping
+     flex row, and the utility group takes the rest of the line with
+     margin-left:auto — so it wrapped onto a second row of its own and the
+     phone header was two bands tall for one navigation. It sits where it is
+     written: before the wordmark, one row. */
+  .nav .inner{position:relative;flex-wrap:nowrap}
+}
+
+/* --- the phone menu ------------------------------------------------------
+   Fixed, not absolute: an absolutely-positioned dropdown inside a sticky
+   header takes its height from its content, so a menu taller than the screen
+   simply ran off the bottom with the page behind it scroll-locked — nothing
+   to scroll, nothing to reach. This starts at the bottom edge of the header
+   (JS writes the measured value to --mp-top, because the announcement bar
+   above the header scrolls away and the offset is not a constant) and ends at
+   the bottom of the viewport, so it can never be longer than the screen and
+   always has somewhere to put the overflow.
+
+   Only opacity and transform animate. Nothing here changes display, height or
+   layout, so the open and close are a single composited frame each.
+   ========================================================================= */
+/* display:block deliberately overrides the [hidden] attribute the shared
+   overlay contract sets. Left at display:none, the first tap had to lay out
+   and paint twelve links in a web font inside the same frame as the fade —
+   a ~90ms task on a throttled phone, felt as the menu hesitating once and
+   then never again. Laid out from the start and hidden by visibility, the
+   open is a composited fade with no layout in it at all. Nothing is exposed:
+   visibility:hidden takes it out of the tab order and the accessibility tree
+   just as the attribute does. */
+.menupanel{position:fixed;left:0;right:0;bottom:0;top:var(--mp-top,var(--navh));
+  /* just under the header, and above everything the header floats over. At
+     --z-sticky it tied with the collection page's sticky size bar, which
+     comes later in the document and therefore won the tie and painted its
+     row of size controls straight through the middle of the menu. */
+  display:block;z-index:calc(var(--z-header) - 1);background:var(--ivory);
+  overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;
+  contain:paint;
+  opacity:0;visibility:hidden;transform:translate3d(0,-.5rem,0);
+  transition:opacity var(--d-quick) var(--settle),
+             transform var(--d-quick) var(--settle),
+             visibility var(--d-quick) var(--settle)}
+.menupanel.open{opacity:1;visibility:visible;transform:none}
+@media (min-width:72em){.menupanel{display:none}}
+
+.mpin{padding:var(--s-3) var(--gutter) var(--s-6);
+  /* iOS home-indicator strip, so the last row is never under the gesture bar */
+  padding-bottom:calc(var(--s-6) + env(safe-area-inset-bottom))}
+
+/* Each group arrives a beat after the one above it. Thirty milliseconds is
+   below the threshold where it reads as an animation and above the one where
+   it reads as nothing — the panel appears to settle rather than to appear.
+   The rows themselves no longer stagger individually: they are all one size
+   now, and six separate curves inside a group of identical rows read as
+   fidgeting rather than as sequence. */
+.menupanel .mpin>*{opacity:0;transform:translateY(.375rem);
+  transition:opacity var(--d-quick) var(--settle),transform var(--d-quick) var(--settle)}
+.menupanel.open .mpin>*{opacity:1;transform:none}
+.menupanel.open .mpin>:nth-child(1){transition-delay:20ms}
+.menupanel.open .mpin>:nth-child(2){transition-delay:50ms}
+.menupanel.open .mpin>:nth-child(3){transition-delay:90ms}
+.menupanel.open .mpin>:nth-child(4){transition-delay:120ms}
+.menupanel.open .mpin>:nth-child(5){transition-delay:160ms}
+
+/* One row, one treatment. The links were set in the display serif at 1.5rem,
+   which made six destinations read as six headlines and pushed the shop
+   below the fold on a short phone. They are the same sans row as the sizes
+   now — the panel is a list of places, not a title sequence. */
+/* 2.75rem rows, not 2.875 — eleven links stand in the panel now (four sizes
+   and seven stories) and the taller row put the utility line one thumb-flick
+   past an 844px screen. 44px is still comfortably past the 24px floor. */
+.mplinks a,.mpsizes a{display:flex;align-items:center;justify-content:space-between;
+  gap:var(--s-3);min-height:2.75rem;
+  font-family:var(--font-sans);font-size:var(--t-sm);line-height:1.3;color:var(--txt);
+  border-bottom:1px solid rgba(43,46,45,.06);
+  transition:color var(--d-quick) var(--settle)}
+.mpsizes a span{color:var(--txt-2);font-variant-numeric:tabular-nums}
+.mplinks a[aria-current="page"]{color:var(--ink)}
+/* the current page is marked the way the rest of the site marks state — a
+   brass dot, not a rule or a fill */
+.mplinks a{justify-content:flex-start}
+.mplinks a[aria-current="page"]::after{content:"";width:.3125rem;height:.3125rem;
+  margin-left:var(--s-2);border-radius:50%;background:var(--brass-text);flex:none}
+
+.mpfh{margin-top:var(--s-5);margin-bottom:var(--s-2);
+  font-family:var(--font-sans);font-weight:500;font-size:var(--t-xs);
+  letter-spacing:var(--track-label);text-transform:uppercase;color:var(--brass-text)}
+.mpin>.mpfh:first-child{margin-top:0}
+
+.mputil{display:flex;flex-wrap:wrap;column-gap:var(--s-4);row-gap:0;margin-top:var(--s-5)}
+/* A tablet, or a phone turned on its side, is wide enough that one column
+   leaves half the panel empty and pushes the utilities below the fold in
+   landscape. Two columns: the shop on the left, where it now leads, and the
+   destinations on the right. */
+@media (min-width:40em){
+  .mpin{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+    column-gap:var(--s-6);align-items:start;padding-top:var(--s-4)}
+  .mpin>.mpfh:nth-of-type(1){grid-column:1;grid-row:1;margin-top:0}
+  .mpsizes{grid-column:1;grid-row:2}
+  .mpin>.mpfh:nth-of-type(2){grid-column:2;grid-row:1;margin-top:0}
+  .mplinks{grid-column:2;grid-row:2}
+  .mputil{grid-column:1 / -1;grid-row:3}
+}
+.mputil a{display:inline-flex;align-items:center;min-height:2.75rem;
+  font-family:var(--font-sans);font-size:var(--t-xs);letter-spacing:var(--track-label);
+  text-transform:uppercase;color:var(--txt-2)}
+
+@media (prefers-reduced-motion:reduce){
+  .menupanel,.menupanel .mpin>*{transition-delay:0s !important}
+}
+
+@media (max-width:47.9375em){
+  /* The whole top bar was sticky, and on scroll the announcement collapsed its
+     max-height to zero while the nav shrank its padding — two layout
+     properties animating at the moment the main thread is busiest, and the
+     page jumping up by about fifty pixels the instant you start to read. It
+     was the site's entire layout-shift budget: 0.068 on the homepage against
+     0.009 everywhere else.
+
+     On a phone the announcement simply scrolls away, like the page it is
+     part of, and only the navigation sticks. Nothing collapses, nothing
+     shifts, and the sticky strip is a third shorter — which on a 844px screen
+     is worth more than the animation was. */
+  /* the sticky strip was 93px — eleven per cent of the screen, permanently.
+     The row's height comes from the 44px burger, so the padding is what was
+     spending it. 68px now, and 60 once it shrinks. */
+  .nav .inner{padding-block:var(--space-3)}
+  /* and it does not shrink on a phone: eight pixels are not worth a sticky
+     bar whose offset moves underneath the one below it */
+  .nav.shrunk .inner{padding-block:var(--space-3)}
+
+  /* The comment on the phone shelf bar said it was "one compact sticky row …
+     so you could reach the controls again without scrolling back". It was
+     never sticky. On a page three and a half screens long that means the only
+     way to change size or narrow by scent is to scroll to the top. */
+  .shelfbar{position:sticky;top:var(--navh);z-index:var(--z-sticky);
+    margin-inline:calc(var(--gutter) * -1);padding-inline:var(--gutter)}
+
+  /* On a phone the product plate is a square 350px tall, and with the
+     thumbnails under it the name, the price and ADD TO BAG all sat below the
+     fold — you met a photograph and had to take it on trust that the rest was
+     down there. 4:5 keeps the bottle whole (the masters are square and
+     centred) and brings the title up by seventy pixels. */
+  .gal .main{aspect-ratio:4/5}
+
+  /* The arrival veil is a 92%-opaque black sheet over the whole page, lifted
+     by a CSS animation. On a phone that means the first thing a visitor on a
+     mobile connection sees is a black screen for the second and a quarter
+     after first paint — and if the animation does not run, for good. It is a
+     gesture for a large screen and a fast connection; it does not belong in
+     a hand. */
+  .enter-veil{display:none}
+
+  /* the discovery-set card was a third column's worth of copy squeezed into
+     half a phone, so its button broke across two lines */
+  .promo{grid-column:1 / -1}
+
+  /* Buttons stacked on a phone match each other. Left to hug their own
+     labels they came out at two different widths, one under the other, which
+     was the least composed thing on the hero — and the same pair sat under
+     every story's scent band and on the 404. One rule, every group. */
+  .cta,.actions,.notfound .cta,.yset .cta{
+    flex-direction:column;align-items:stretch}
+  .cta>.btn,.actions>.btn,.notfound .btn{width:100%}
+}
+
+/* phones: drop the secondary nav links, keep the bag */
+@media (max-width:33.9375em){
+  .hero .copy{padding-bottom:var(--s-6)}
+  /* stacked, the two hero buttons hugged their own labels and so came out at
+     two different widths, one under the other — the least composed thing on
+     the phone. Stacked buttons match each other. */
+  .hero .cta,.shero .cta{flex-direction:column;align-items:stretch}
+  .hero .cta .btn,.shero .cta .btn{width:100%}
+  .promo{padding:var(--s-4)}
+  .drawer{padding:var(--s-4)}
+  .fbot{flex-direction:column;align-items:flex-start}
+}
+
+/* very large screens: stop the hero art from growing without limit */
+/* the 90em cap that stood here re-fixed the hero at 45rem on exactly the
+   screens tall enough to make the fold calculation matter */
+
+@media (prefers-reduced-motion:reduce){
+  *{animation-duration:.01ms !important;animation-iteration-count:1 !important;
+    transition-duration:var(--d-instant) !important;scroll-behavior:auto !important}
+.hero>img,.hero>picture>img{animation:none;transform:none}
+  .js .rev{opacity:1;transform:none}
+}
+
+/* ==========================================================================
+   Shared page components — everything outside the homepage.
+   Same scales, same rules: bounded type, fluid space, grid tracks that shrink.
+   ========================================================================== */
+
+/* --------------------------------------------------------- page header -- */
+/* the breadcrumb needs air under the nav — flush against it reads as an error */
+.crumb{font-family:var(--font-sans);font-size:var(--t-2xs);letter-spacing:var(--track-micro);
+  text-transform:uppercase;color:var(--txt-2);line-height:1.8;
+  padding-block:var(--s-5) 0}
+.crumb a:hover{opacity:1;text-decoration:underline;text-underline-offset:.25em}
+
+.phead{padding-block:var(--s-6) var(--s-5)}
+.phead h1{font-size:var(--t-4);margin-top:var(--s-3);max-width:20ch}
+.phead :where(.lede){font-size:var(--t-md);line-height:1.8;color:var(--txt);
+  max-width:var(--measure);margin-top:var(--s-4)}
+.phead.center{text-align:center}
+.phead.center h1,.phead.center .lede{margin-inline:auto}
+
+/* full-bleed editorial banner used at the top of the longer pages */
+.banner{position:relative;display:grid;align-items:end;isolation:isolate;
+  min-height:clamp(18rem,40svh,30rem);overflow:hidden;color:var(--ivory)}
+.banner>img,.banner>picture>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:var(--z-art)}
+.banner::after{content:"";position:absolute;inset:0;z-index:var(--z-behind);background:
+  linear-gradient(0deg,rgba(20,17,12,.88) 0%,rgba(20,17,12,.60) 46%,rgba(20,17,12,.10) 100%),
+  linear-gradient(70deg,rgba(20,17,12,.55) 0%,rgba(20,17,12,0) 65%)}
+.banner .c{max-width:calc(44rem + var(--gutter) * 2);padding:var(--s-7) var(--gutter) var(--s-6)}
+.banner .k{color:var(--ivory);opacity:var(--o-strong)}
+.banner h1{font-size:var(--t-4);margin-top:var(--s-3)}
+.banner :where(p:not(.k)){font-size:var(--t-md);line-height:1.8;opacity:var(--o-strong);max-width:46ch;margin-top:var(--s-3)}
+
+/* generic section wrapper for the interior pages */
+.band{padding-block:var(--sec)}
+.band.tint{background:var(--plaster)}
+.band.sand{background:var(--sand)}
+.band h2{font-size:var(--t-4);max-width:22ch}
+.band :where(h3){font-size:var(--t-1);margin-top:var(--s-4)}
+.band :where(p:not(.k)){font-size:var(--t-md);line-height:1.8;color:var(--txt);max-width:var(--measure);
+  margin-top:var(--s-3)}
+.band .k+h2{margin-top:var(--s-2)}
+
+
+/* ==================================================== the shelf controls ==
+   Two controls doing two different jobs, and looking like it. Size changes
+   what you are buying and never hides a card, so it is a segmented control
+   with one always active. Scent narrows what you can see, so it is a set of
+   toggles that can all be off.
+
+   Stone was removed as a control: seven stones and seven fragrances means
+   every option returns exactly one card, which is a menu of the products
+   under another name. It stays on the card as an attribute.
+
+   Alignment. Every control is exactly --ctl-h-sm tall including its border,
+   and the label and count are given the same box, so the row sits on one
+   optical line. Centring alone did not do it — a bordered group and a
+   bordered button are different heights.
+   ========================================================================= */
+/* Two kinds of control, drawn as two kinds of control.
+
+   Size and scent used to share a stylesheet and a shape: three words with a
+   hairline under the active one, then five words with hairlines under the
+   active ones. They do not do the same thing. All seven fragrances exist in
+   all three sizes, so choosing 7.5 ml has never removed a card — it changes
+   the price, the pack shot and the link. Choosing a scent family removes
+   cards. Pressing something that looks exactly like a filter and watching
+   nothing filter is why the size control read as broken.
+
+   Size is a choice: one value always active, radio semantics, one tab stop
+   with arrow keys inside, and its label says so. Scent is a filter: none
+   active by default, checkbox semantics, and whatever is on appears in the
+   applied row underneath with its own undo.
+
+   Both are generated from one declaration in the build, so a third axis is a
+   list entry — nothing here names a filter.
+   ========================================================================= */
+.shelfbar{display:flex;flex-wrap:wrap;align-items:center;
+  gap:var(--space-4) var(--space-6);
+  margin-top:var(--space-6);padding-block:var(--space-5);
+  border-block:1px solid var(--line)}
+.shelfbar>*{align-self:center}
+.finline{display:flex;flex-wrap:wrap;align-items:center;gap:var(--space-4) var(--space-6);
+  min-width:0}
+.shelfbar .fgroup{display:flex;align-items:center;gap:var(--space-3);min-width:0;
+  height:var(--ctl-h-sm)}
+/* the rule between the choice and the filters, so the eye reads two things */
+.finline .fgroup+.fgroup{border-left:1px solid var(--line);padding-left:var(--space-6)}
+.shelfbar .lbl,.shelfcount{font-family:var(--font-sans);font-weight:500;
+  font-size:var(--t-2xs);letter-spacing:var(--track-micro);text-transform:uppercase;
+  color:var(--txt-2);white-space:nowrap;
+  height:var(--ctl-h-sm);display:flex;align-items:center}
+.shelfbar .opts{display:flex;align-items:center;height:var(--ctl-h-sm);gap:var(--space-6)}
+.shelfbar .opts button{
+  position:relative;height:var(--ctl-h-sm);padding:0;
+  border:0;background:none;border-radius:0;
+  display:inline-flex;align-items:center;justify-content:center;
+  font-family:var(--font-sans);font-weight:500;font-size:var(--t-2xs);
+  letter-spacing:var(--track-micro);text-transform:uppercase;
+  color:var(--txt-2);white-space:nowrap;
+  transition:color var(--d-quick) var(--settle)}
+.shelfbar .opts button:hover{color:var(--ink)}
+.shelfbar .opts button[aria-checked="true"],
+.shelfbar .opts button[aria-pressed="true"]{color:var(--ink);font-weight:600}
+/* the choice is marked with a rule under the word; the filters with a small
+   mark before it, so a glance tells you which kind of control you are in */
+.shelfbar .fgroup-one button::after{
+  content:"";position:absolute;left:0;right:0;top:calc(50% + .78em);height:1px;
+  background:currentColor;opacity:0;
+  transition:opacity var(--d-quick) var(--settle)}
+.shelfbar .fgroup-one button[aria-checked="true"]::after{opacity:1}
+.shelfbar .fgroup-many button{gap:.5em}
+.shelfbar .fgroup-many button::before{
+  content:"";width:.5rem;height:.5rem;flex:none;
+  border:1px solid var(--line-mid);background:transparent;
+  transition:background var(--d-quick) var(--settle),border-color var(--d-quick) var(--settle)}
+.shelfbar .fgroup-many button:hover::before{border-color:var(--ink)}
+.shelfbar .fgroup-many button[aria-pressed="true"]::before{
+  background:var(--ink);border-color:var(--ink)}
+.shelfbar .opts button:active{opacity:.5}
+.shelfbar .opts .short{display:none}
+.filterbtn{display:none}
+.shelfcount{margin-left:auto}
+
+/* ---- what is applied, in the open --------------------------------------
+   A choice made inside a sheet used to leave no trace but a number on the
+   button that opened it. Each active filter is a chip here with its own
+   undo, at both sizes, so the state of the shelf is legible without opening
+   anything. Nothing lists filters by name: the row is built from whatever is
+   on. */
+.applied{display:flex;flex-wrap:wrap;align-items:center;gap:var(--space-3) var(--space-4);
+  padding-block:var(--space-4);border-bottom:1px solid var(--line)}
+.applied[hidden]{display:none}
+.applied .alab{font-family:var(--font-sans);font-weight:500;font-size:var(--t-2xs);
+  letter-spacing:var(--track-micro);text-transform:uppercase;color:var(--txt-2)}
+.achips{display:flex;flex-wrap:wrap;gap:var(--space-3)}
+.achip{display:inline-flex;align-items:center;gap:.55em;min-height:2rem;
+  padding:0 0 .15em;background:none;border:0;
+  border-bottom:1px solid var(--line-mid);
+  font-family:var(--font-sans);font-weight:500;font-size:var(--t-2xs);
+  letter-spacing:var(--track-micro);text-transform:uppercase;color:var(--ink);
+  transition:border-color var(--d-quick) var(--settle)}
+.achip span[aria-hidden]{font-size:1.15em;line-height:1;color:var(--txt-2);
+  transition:color var(--d-quick) var(--settle)}
+.achip:hover{border-color:var(--ink)}
+.achip:hover span[aria-hidden]{color:var(--ink)}
+.applied .clear{font-family:var(--font-sans);font-weight:500;font-size:var(--t-2xs);
+  letter-spacing:var(--track-micro);text-transform:uppercase;
+  color:var(--ink);background:none;border:0;border-bottom:1px solid currentColor;
+  padding:0 0 .15em;margin-left:auto;min-height:2rem}
+.cards .card[hidden],.cards .promo[hidden]{display:none}
+.sheet,.sheetscrim{display:none}
+
+/* ---- phone --------------------------------------------------------------
+   Everything goes behind one button.
+
+   The bar used to keep the three sizes out in the open as three bare words
+   spread across the row, with a bordered SCENT box at the end — so the one
+   control that looked like a control was the one that only opened something,
+   and the three that looked like nothing were the choice. A phone has room
+   for one control and a count, and the sheet has room to explain both groups
+   properly. It also means a third filter costs nothing here: it is another
+   section in the sheet, and this row does not change.
+   ------------------------------------------------------------------------ */
+@media (max-width:51.9375em){
+  .shelfbar{background:var(--ivory);
+    margin-top:var(--space-5);gap:var(--space-4);padding-block:var(--space-3);
+    flex-wrap:nowrap;align-items:center}
+  .finline{display:none}
+  .shelfcount{display:flex;margin-left:auto;min-width:0;
+    letter-spacing:var(--track-label)}
+  .filterbtn{display:inline-flex;align-items:center;gap:var(--space-2);
+    flex:0 0 auto;min-height:var(--ctl-h);padding:0 var(--space-4);
+    border:1px solid var(--line-mid);border-radius:0;background:transparent;
+    font-family:var(--font-sans);font-weight:500;font-size:var(--t-2xs);
+    letter-spacing:var(--track-micro);text-transform:uppercase;color:var(--ink);
+    white-space:nowrap;touch-action:manipulation;
+    transition:border-color var(--d-quick) var(--settle)}
+  .filterbtn:hover{border-color:var(--ink)}
+  .shelfbar.on .filterbtn{border-color:var(--ink)}
+  .filterbtn .tally[hidden]{display:none}
+  .filterbtn .tally{display:inline-flex;align-items:center;justify-content:center;
+    min-width:1.125rem;height:1.125rem;background:var(--ink);color:var(--ivory);
+    font-size:var(--t-2xs);letter-spacing:0;line-height:1}
+  .applied{padding-block:var(--space-3);gap:var(--space-3)}
+  .applied .alab{display:none}
+  .applied .clear{margin-left:auto}
+
+  .sheetscrim:not([hidden]){display:block}
+  .sheetscrim{position:fixed;inset:0;z-index:var(--z-scrim);
+    background:rgba(10,10,9,0);transition:background var(--d-quick) var(--settle)}
+  .sheetscrim.on{background:rgba(10,10,9,.5)}
+  .sheet:not([hidden]){display:flex}
+  .sheet{flex-direction:column;position:fixed;left:0;right:0;bottom:0;
+    z-index:var(--z-overlay);background:var(--ivory);max-height:80svh;
+    transform:translateY(101%);transition:transform var(--d-quick) var(--settle);
+    box-shadow:var(--shadow-hairline)}
+  .sheet.on{transform:none}
+  .sheethead{display:flex;align-items:center;justify-content:space-between;
+    gap:var(--space-4);padding:var(--space-5) var(--layout-margin);
+    border-bottom:1px solid var(--line)}
+  .sheethead h2{font-size:var(--t-2)}
+  /* Both of these were the size of their own text — 46×18 and 78×20 — which
+     is under the 24px floor everything else on this site clears. They are
+     also the two controls a thumb reaches for when it has changed its mind. */
+  .sheethead .x{display:inline-flex;align-items:center;min-height:2.75rem;
+    padding-inline:var(--space-3);margin-right:calc(var(--space-3) * -1);
+    font-family:var(--font-sans);font-weight:500;font-size:var(--t-2xs);
+    letter-spacing:var(--track-micro);text-transform:uppercase;color:var(--txt);
+    touch-action:manipulation}
+  .sheetlist{overflow:auto;-webkit-overflow-scrolling:touch;
+    overscroll-behavior:contain;padding-bottom:var(--space-2)}
+
+  /* One section per group, each named and each saying what it does. A row of
+     five checkboxes under no heading told you what the options were and
+     nothing about what pressing one would do; the two lines here are the
+     difference between a control and a guess. */
+  .sgroup{padding-top:var(--space-5)}
+  .sgroup+.sgroup{border-top:1px solid var(--line)}
+  .sgh{padding:0 var(--layout-margin);
+    font-family:var(--font-sans);font-weight:500;font-size:var(--t-2xs);
+    letter-spacing:var(--track-label);text-transform:uppercase;color:var(--brass-text)}
+  .sgn{padding:var(--space-2) var(--layout-margin) var(--space-3);
+    font-family:var(--font-sans);font-size:var(--t-xs);line-height:1.5;
+    color:var(--txt-2);max-width:32em;text-transform:none;letter-spacing:normal}
+
+  .srow{display:flex;align-items:center;justify-content:space-between;width:100%;
+    gap:var(--space-4);min-height:3.25rem;padding:var(--space-2) var(--layout-margin);
+    font-family:var(--font-sans);font-weight:500;font-size:var(--t-xs);
+    letter-spacing:var(--track-label);text-transform:uppercase;color:var(--ink);text-align:left}
+  .srow+.srow{border-top:1px solid var(--line)}
+  .slab{display:flex;flex-direction:column;gap:.2rem;min-width:0}
+  /* the price and what is in the box, under the size — the sheet is where
+     there is room to say it, and it is the thing that decides the choice */
+  /* sentence case, so it takes sentence tracking — the row's caps spacing
+     was inherited straight through and set the prose like a label */
+  .shint{font-weight:400;font-size:var(--t-2xs);letter-spacing:normal;
+    text-transform:none;color:var(--txt-2)}
+  .srow i{position:relative;width:1.125rem;height:1.125rem;flex:none;
+    border:1px solid var(--line-mid);
+    transition:border-color var(--d-quick) var(--settle)}
+  /* A square is a checkbox and a circle is a radio, everywhere, and this sheet
+     holds both kinds at once — drawing them the same made the size rows look
+     like four scent families you could combine. */
+  .srow-one i{border-radius:50%}
+  .srow[aria-pressed="true"] i,.srow[aria-checked="true"] i{border-color:var(--ink)}
+  .srow[aria-pressed="true"] i::after{content:"";position:absolute;
+    left:27%;top:8%;width:32%;height:60%;
+    border:solid var(--ink);border-width:0 1px 1px 0;transform:rotate(42deg)}
+  .srow-one[aria-checked="true"] i::after{content:"";position:absolute;
+    inset:3px;border-radius:50%;background:var(--ink);
+    border:0;transform:none;width:auto;height:auto}
+  .sheetfoot{display:flex;align-items:center;justify-content:space-between;
+    gap:var(--space-4);padding:var(--space-5) var(--layout-margin);
+    padding-bottom:calc(var(--space-5) + env(safe-area-inset-bottom));
+    border-top:1px solid var(--line)}
+  .sheetfoot .clear{display:inline-flex;align-items:center;min-height:2.75rem;
+    font-family:var(--font-sans);font-weight:500;
+    font-size:var(--t-2xs);letter-spacing:var(--track-micro);text-transform:uppercase;
+    color:var(--ink);background:none;border:0;padding:0;touch-action:manipulation;
+    position:relative}
+  /* the rule belongs under the word, not under the tap target — the same
+     pseudo-element the shelf row uses to mark a choice */
+  .sheetfoot .clear::after{content:"";position:absolute;left:0;right:0;
+    top:calc(50% + .78em);height:1px;background:currentColor}
+  .sheetfoot .btn{flex:1 1 auto;max-width:16rem}
+}
+
+/* --------------------------------------------------------------- PDP ---- */
+/* Rebuilt against "PDP — Hotel Lobby" on the Side By Side page, node 203:3992.
+   The fault the comparison exposed was that the buy column had no measure of
+   its own: it took whatever half of the page was left, so every control in it
+   was stretched to fit. In the design the buy column is a fixed 464px and the
+   controls are sized individually inside it — size options hug their label at
+   33px tall, and only the two commerce buttons run full width. */
+.pdp{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--s-5);
+  padding-block:var(--s-5) var(--s-7)}
+@media (min-width:64em){
+  .pdp{grid-template-columns:minmax(0,1fr) var(--buy-col);gap:var(--space-9);align-items:start}
+}
+
+/* gallery: main plate with the thumbnails in a column beside it (design has
+   88px thumbs at a 104px pitch to the right of the plate, not beneath it) */
+.gal{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--space-5);align-items:start}
+@media (min-width:64em){ .gal{grid-template-columns:minmax(0,1fr) 5.5rem} }
+.gal .main{width:100%;aspect-ratio:1;object-fit:cover;background:var(--plaster);
+  border-radius:var(--radius-hairline)}
+.gal .strip{display:flex;flex-wrap:wrap;gap:var(--space-4);
+  padding:0;background:none;border:0;height:auto}
+@media (min-width:64em){ .gal .strip{flex-direction:column;flex-wrap:nowrap} }
+.gal .strip button{padding:0;border:1px solid transparent;line-height:0;opacity:var(--o-mid);
+  border-radius:var(--radius-hairline)}
+.gal .strip button[aria-current]{opacity:1;border-color:var(--ink)}
+.gal .strip img{width:clamp(3.25rem,7vw,5.5rem);aspect-ratio:1;object-fit:cover;
+  border-radius:var(--radius-hairline)}
+@media (min-width:64em){ .gal .strip img{width:5.5rem} }
+
+.pdp .info{position:sticky;top:calc(var(--s-6) + 3rem)}
+@media (max-width:63.9375em){ .pdp .info{position:static} }
+
+/* buy column type and rhythm, verbatim from the frame */
+.pdp .info>.k{letter-spacing:var(--track-kicker)}
+.pdp h1{font-size:var(--t-5);margin-top:var(--space-3);max-width:14ch}
+.pdp .sub{display:flex;align-items:center;gap:.7em;flex-wrap:wrap;
+  font-family:var(--font-sans);font-weight:500;font-size:var(--t-2xs);
+  letter-spacing:var(--track-micro);text-transform:uppercase;color:var(--txt);margin-top:var(--space-3)}
+.pdp .sub .chip{width:.6875rem;height:.6875rem;margin:0;flex:none}
+.pdp blockquote{font-family:var(--font-serif);font-style:italic;
+  font-size:var(--t-md);line-height:1.72;color:var(--txt);
+  margin-top:var(--space-5);max-width:none}
+
+/* a tracked field label, as above the size row in the design */
+.fieldlabel{margin-top:var(--space-5);font-family:var(--font-sans);font-weight:500;
+  font-size:var(--t-2xs);letter-spacing:var(--track-micro);text-transform:uppercase;color:var(--ink)}
+.fieldlabel+.sizes{margin-top:var(--space-3)}
+
+/* Size options are rows now, not marks on a line. The underlined text marks
+   were quiet to the point of invisibility on a phone — they read as running
+   copy, not as the one decision the page asks for. A bordered row with a
+   radio dot, the price at the right edge and the what's-included line
+   beneath is unmistakably a choice, and it carries the information that
+   actually differs between sizes: what arrives in the box. The selected row
+   takes a hairline of ink, not a solid black fill — ADD TO BAG stays the
+   only black block in the column. */
+.sizes{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--space-2);
+  margin-top:var(--space-3)}
+.sizes button{display:grid;grid-template-columns:auto minmax(0,1fr) auto;
+  column-gap:var(--space-3);row-gap:.15rem;align-items:center;text-align:left;
+  padding:var(--space-3) var(--space-4);min-height:2.75rem;
+  border:1px solid var(--line);border-radius:0;background:var(--ivory);
+  color:var(--ink);
+  transition:border-color var(--d-quick) var(--settle)}
+.sizes button::before{content:"";grid-row:1/3;align-self:center;
+  width:.8125rem;height:.8125rem;border-radius:50%;
+  border:1px solid var(--txt-2);
+  background:radial-gradient(circle,var(--ink) 0 46%,transparent 52%) center/0% 0% no-repeat;
+  transition:border-color var(--d-quick) var(--settle),
+             background-size var(--d-quick) var(--settle)}
+.sizes button:hover{border-color:var(--ink)}
+.sizes button[aria-current]{border-color:var(--ink);
+  box-shadow:inset 0 0 0 1px var(--ink)}
+/* the dot grows from the centre of the ring — commitment you can see land */
+.sizes button[aria-current]::before{border-color:var(--ink);
+  background-size:100% 100%}
+.szl{font-family:var(--font-sans);font-weight:600;font-size:var(--t-2xs);
+  letter-spacing:var(--track-micro);text-transform:uppercase;white-space:nowrap}
+.szp{grid-column:3;justify-self:end;font-family:var(--font-sans);font-weight:500;
+  font-size:var(--t-xs);letter-spacing:var(--track-micro)}
+.szi{grid-column:2/4;font-family:var(--font-sans);font-size:var(--t-2xs);
+  letter-spacing:var(--track-micro);color:var(--txt-2);text-wrap:pretty}
+
+/* the offer block reads the same here as it does in the bag */
+.pdp .tryfirst{margin-top:var(--space-5)}
+
+/* the only two full-width controls on the site, and only inside this column */
+.pdp .cta{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--space-3);margin-top:var(--space-5)}
+.pdp .cta .btn{width:100%;min-height:var(--ctl-h-buy)}
+.pdp .cta .applepay{min-height:var(--ctl-h-pay);font-weight:500;
+  font-size:var(--t-xs);letter-spacing:var(--track-label);border-color:rgba(43,46,45,.5)}
+.i-apple{width:.9em;height:1.2em;fill:currentColor;opacity:.9;
+  margin-right:.55em;flex:none;display:inline-block;vertical-align:-.18em}
+.pay .i-apple{margin-right:.15em}
+.pdp .re{margin-top:var(--space-4);text-wrap:pretty;font-family:var(--font-sans);font-size:var(--t-2xs);
+  letter-spacing:var(--track-micro);text-transform:uppercase;color:var(--txt-2);line-height:1.9}
+
+/* accordion — 48px rows on hairlines, label at the nav step */
+.acc{margin-top:var(--space-6);border-top:1px solid var(--line)}
+.acc details{border-bottom:1px solid var(--line)}
+.acc summary{display:flex;justify-content:space-between;align-items:center;gap:var(--s-3);
+  min-height:3rem;padding-block:var(--space-3);cursor:pointer;list-style:none;
+  font-family:var(--font-sans);font-weight:500;font-size:var(--t-xs);
+  letter-spacing:var(--track-label);text-transform:uppercase;color:var(--ink)}
+.acc summary{transition:color var(--d-quick) var(--settle)}
+.acc summary:hover{color:var(--brass-text)}
+.acc summary:hover::after{opacity:1}
+.acc summary::-webkit-details-marker{display:none}
+/* The mark rotates from + to x rather than swapping glyphs — the same
+   stroke, turned, and x is the honest affordance for "this closes it". */
+.acc summary::after{content:"+";font-family:var(--font-serif);font-size:var(--t-sm);
+  line-height:1;font-weight:400;letter-spacing:0;opacity:var(--o-strong);
+  transition:transform var(--d-quick) var(--settle),opacity var(--d-quick) var(--settle)}
+.acc details[open] summary::after{transform:rotate(45deg)}
+/* the height cannot be eased cross-browser without scaffolding, but the
+   content can arrive like everything else here does — a breath of opacity
+   and four pixels of travel, and only when motion is welcome */
+@media (prefers-reduced-motion:no-preference){
+  .acc details[open] .body{animation:accin var(--d-settled) var(--settle)}
+}
+@keyframes accin{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+.acc :where(.body){padding-bottom:var(--space-4);font-family:var(--font-serif);
+  font-size:var(--t-sm);line-height:1.66;color:var(--txt);max-width:52ch}
+
+/* A note pyramid read as a sentence — "Top — Saffron / Pepper. Middle — Rose
+   / Patchouli. Base — …" — is three lists pretending to be prose, and it wraps
+   wherever the measure happens to end rather than where a tier does. One row
+   per tier, the label in the interface face at a fixed column so the three
+   note lists start on the same vertical. */
+.notelist{display:grid;gap:var(--s-2)}
+.acc .notelist p{display:grid;grid-template-columns:5.5rem minmax(0,1fr);
+  gap:var(--s-3);align-items:baseline;margin:0}
+.acc .notelist b{font-family:var(--font-sans);font-weight:500;font-size:var(--t-2xs);
+  letter-spacing:var(--track-micro);text-transform:uppercase;color:var(--txt-2)}
+.acc .body .hint{margin-top:var(--s-3)}
+
+/* Safari paints its own focus ring on a summary that was opened with a mouse,
+   which is the same disagreement about :focus-visible that put a black box
+   round the scent filters. The ring stays for the keyboard, where it is the
+   only indication of where you are; it is square, because nothing else on
+   this site has a rounded corner. */
+.acc summary{border-radius:0}
+.acc summary:focus:not(:focus-visible){outline:none;box-shadow:none}
+.acc summary:focus-visible{outline:2px solid var(--ink);outline-offset:-2px;
+  border-radius:0;box-shadow:none}
+
+/* ============================================================ your stories
+   Frames: P15 "Your Stories — index" (167:2473) and "Story — Sunday
+   Service" (167:2596). Sizes, colours and rhythm measured off both.
+   ========================================================================= */
+
+/* --- index: header band ------------------------------------------------- */
+.ysintro{background:var(--ivory);padding-block:var(--sec)}
+.ysintro .k{letter-spacing:var(--track-kicker)}
+.ysintro h1{font-size:var(--t-5);margin-top:var(--space-3);max-width:30ch}
+.ysintro .lede{font-size:var(--t-md);line-height:var(--lh-body);color:var(--txt);
+  max-width:47.5rem;margin-top:var(--space-3)}
+
+/* --- index: the featured story, full bleed ------------------------------ */
+.yfeat{position:relative;isolation:isolate;min-height:clamp(20rem,42vw,32.5rem);
+  display:grid;align-items:end;overflow:hidden}
+.yfeat>img,.yfeat>picture>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:var(--z-art)}
+.yfeat .veil{position:absolute;inset:0;z-index:var(--z-behind);background:
+  linear-gradient(to top,rgba(18,16,12,.80) 0%,rgba(18,16,12,.46) 46%,rgba(18,16,12,0) 78%),
+  linear-gradient(to right,rgba(20,18,13,.55) 0%,rgba(20,18,13,0) 62%)}
+.yfeat .inner{padding-block:var(--sec-lg)}
+.yfeat .c{max-width:36rem;color:var(--ivory)}
+.yfeat .k{color:var(--brass-on-dark);letter-spacing:var(--track-kicker);
+  text-shadow:0 1px 3px rgba(18,16,12,.55)}
+.yfeat h2{font-size:var(--t-5);margin-top:var(--space-3);color:var(--ivory)}
+.yfeat .q{font-family:var(--font-serif);font-style:italic;font-size:var(--t-lg);
+  line-height:1.5;opacity:var(--o-strong);margin-top:var(--space-4)}
+.yfeat .ul{margin-top:var(--space-4);color:var(--ivory)}
+
+/* --- index: the six remaining stories ----------------------------------- */
+.ygrid{background:var(--ivory);padding-block:var(--sec)}
+.scards{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--space-7) var(--space-5)}
+@media (min-width:40em){ .scards{grid-template-columns:repeat(2,minmax(0,1fr))} }
+@media (min-width:68em){ .scards{grid-template-columns:repeat(3,minmax(0,1fr))} }
+.scard{display:block;color:inherit}
+.scard .plate{display:block;width:100%;aspect-ratio:5/3;overflow:hidden;
+  background:var(--plaster);border-radius:var(--radius-hairline)}
+.scard .plate img{width:100%;height:100%;object-fit:cover;
+  transition:transform var(--d-slow) var(--settle)}
+.scard:hover .plate img{transform:scale(1.03)}
+.scard .sm{display:flex;align-items:center;gap:var(--space-2);margin-top:var(--space-5);
+  font-family:var(--font-sans);font-weight:500;font-size:var(--t-2xs);
+  letter-spacing:var(--track-micro);text-transform:uppercase;color:var(--brass-text)}
+.scard .sm .chip{width:.5625rem;height:.5625rem;margin:0;flex:none}
+.scard h3{font-family:var(--font-display);font-weight:400;
+  font-size:clamp(19px,calc(19px + 7 * (100vw - 390px) / 1050),26px);
+  line-height:1.2;color:var(--ink);margin-top:var(--space-2)}
+.scard>p{font-family:var(--font-serif);font-style:italic;font-size:var(--t-md);
+  line-height:1.66;color:var(--txt-2);margin-top:var(--space-2);
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.scard .rd{display:inline-block;margin-top:var(--space-3);
+  font-family:var(--font-sans);font-weight:500;font-size:var(--t-2xs);
+  letter-spacing:var(--track-micro);text-transform:uppercase;color:var(--ink)}
+.scard:hover .rd,.scard:focus-visible .rd{color:var(--brass-text)}
+
+/* --- index: the discovery-set band -------------------------------------- */
+.yset{background:var(--verde);color:var(--ivory);text-align:center;
+  padding-block:var(--sec)}
+.yset h2{font-size:clamp(24px,calc(24px + 8 * (100vw - 390px) / 1050),32px);
+  color:var(--ivory);max-width:40ch;margin-inline:auto}
+.yset :where(p:not(.k)){font-size:var(--t-md);max-width:44ch;
+  margin:var(--space-4) auto 0;opacity:var(--o-strong)}
+.yset .btn{margin-top:var(--space-5)}
+
+/* the stone modes, set on the band that carries them */
+.stone-hotel-lobby{--field:var(--field-hotel-lobby);
+  --accent-stone:var(--stone-hotel-lobby);--accent-field:var(--stone-tint-hotel-lobby)}
+.stone-sibling-rivalry{--field:var(--field-sibling-rivalry);
+  --accent-stone:var(--stone-sibling-rivalry);--accent-field:var(--stone-tint-sibling-rivalry)}
+.stone-pillow-talk{--field:var(--field-pillow-talk);
+  --accent-stone:var(--stone-pillow-talk);--accent-field:var(--stone-tint-pillow-talk)}
+.stone-sunday-service{--field:var(--field-sunday-service);
+  --accent-stone:var(--stone-sunday-service);--accent-field:var(--stone-tint-sunday-service)}
+.stone-third-date{--field:var(--field-third-date);
+  --accent-stone:var(--stone-third-date);--accent-field:var(--stone-tint-third-date)}
+.stone-road-trip{--field:var(--field-road-trip);
+  --accent-stone:var(--stone-road-trip);--accent-field:var(--stone-tint-road-trip)}
+.stone-4pm-matinee{--field:var(--field-4pm-matinee);
+  --accent-stone:var(--stone-matinee);--accent-field:var(--stone-tint-matinee)}
+
+/* ============================================================ one story == */
+.shead{background:var(--ivory);padding-block:var(--space-7) var(--sec)}
+.shead .c{text-align:center;max-width:44rem;margin:var(--space-8) auto 0}
+.shead .k{display:inline-flex;align-items:center;gap:var(--space-3);letter-spacing:var(--track-kicker)}
+.shead .k .chip{width:.6875rem;height:.6875rem;margin:0;flex:none}
+.shead h1{font-size:var(--t-6);margin-top:var(--space-4)}
+.shead .by{font-family:var(--font-script);font-weight:300;font-style:italic;
+  font-size:var(--t-lg);color:var(--txt-2);margin-top:var(--space-4)}
+
+.splate{position:relative;height:clamp(15rem,43vw,38.75rem);overflow:hidden}
+.splate img{width:100%;height:100%;object-fit:cover}
+
+/* the reading column is 600px centred, with the margin notes to its right */
+.sbody{background:var(--ivory);padding-block:var(--sec)}
+.sbody .inner{display:grid;grid-template-columns:minmax(0,1fr);
+  column-gap:var(--space-8);justify-content:center}
+@media (min-width:68em){
+  .sbody .inner{grid-template-columns:minmax(0,1fr) minmax(0,37.5rem) minmax(0,1fr);
+    column-gap:0}
+  .sbody .scol,.sbody .spull,.sbody .sfig{grid-column:2;align-self:start}
+  .sbody .saside{grid-column:3;grid-row:1 / -1;align-self:start;
+    justify-self:end;width:14.375rem}
+}
+.sbody .scol :where(p:not(.k)){font-family:var(--font-serif);font-size:var(--t-story);
+  line-height:1.9;color:var(--txt);margin-top:var(--space-5)}
+.sbody .scol :where(p:not(.k)):first-child{margin-top:0}
+.sbody .dropcap::first-letter{float:left;font-family:var(--font-display);
+  font-size:5.05em;line-height:.86;padding:.06em .12em 0 0;color:var(--ink)}
+.saside{display:flex;flex-direction:column;gap:var(--space-11);padding-top:var(--space-2)}
+@media (max-width:67.9375em){ .saside{flex-direction:row;flex-wrap:wrap;gap:var(--space-6);
+  margin-top:var(--space-7)} .saside .marginnote{flex:1 1 14rem} }
+/* the 230px cap belongs to the story page's narrow sidebar, not to the class:
+   `.marginnote` is shared with Our House, where on a phone it was clamping a
+   note to 230px inside a 350px column and leaving the rest empty */
+.marginnote{font-family:var(--font-script);font-weight:300;font-style:italic;
+  font-size:var(--t-lg);line-height:1.35;color:var(--txt-2);
+  padding-top:var(--space-3)}
+@media (min-width:68em){ .saside .marginnote{max-width:14.375rem} }
+.marginnote::before{content:"";display:block;width:1.75rem;height:1px;
+  background:var(--brass);margin-bottom:var(--space-3)}
+.marginnote small{display:block;margin-top:var(--space-3);
+  font-family:var(--font-sans);font-style:normal;font-size:var(--t-2xs);
+  letter-spacing:var(--track-micro);text-transform:uppercase;color:var(--brass-text)}
+
+.spull{position:relative;text-align:center;font-family:var(--font-display);
+  font-size:var(--t-4);line-height:1.46;color:var(--ink);
+  max-width:38ch;margin:var(--space-5) auto var(--space-8);padding-top:var(--space-7)}
+.spull::before{content:"";position:absolute;top:0;left:50%;translate:-50% 0;
+  width:5rem;height:1px;background:var(--brass)}
+.sbody .sig{font-family:var(--font-script);font-weight:300;font-style:italic;
+  font-size:var(--t-lg);color:var(--txt);opacity:var(--o-strong);margin-top:var(--space-5)}
+.sfig{margin-top:var(--space-9)}
+.sfig img{width:100%;aspect-ratio:2/1;object-fit:cover;border-radius:var(--radius-hairline);
+  background:var(--plaster)}
+
+/* the fragrance the story became */
+.sbecame{position:relative;background:var(--field);color:var(--ivory);
+  padding-block:var(--sec-lg);overflow:hidden}
+.sbecame .inner{position:relative;z-index:var(--z-base)}
+.sbecame .c{max-width:32.5rem}
+.sbecame .k{color:var(--brass-on-dark);letter-spacing:var(--track-kicker)}
+.sbecame h2{font-size:var(--t-5);color:var(--ivory);margin-top:var(--space-4)}
+.sbecame .lede{font-size:var(--t-md);line-height:var(--lh-body);opacity:var(--o-strong);
+  margin-top:var(--space-4);max-width:34ch}
+.sbecame .notes{margin-top:var(--space-6);display:grid;gap:var(--space-4)}
+.nrow{display:grid;grid-template-columns:4.75rem minmax(0,1fr);gap:var(--space-5);
+  align-items:baseline}
+.nrow b{font-family:var(--font-sans);font-weight:500;font-size:var(--t-2xs);
+  letter-spacing:var(--track-micro);text-transform:uppercase;color:var(--brass-on-dark)}
+.nrow span{font-family:var(--font-script);font-weight:300;font-style:italic;
+  font-size:var(--t-notes);opacity:var(--o-strong)}
+.sbecame .actions{display:flex;flex-wrap:wrap;gap:var(--space-3);margin-top:var(--space-7)}
+/* `.sbecame>.plate` stopped matching the moment every image on the site was
+   wrapped in a <picture>, because picture{display:contents} keeps the box out
+   of layout but not out of the selector. So the plate lost its absolute
+   position AND its `display:none` below 64em, and reappeared on every phone
+   as a 390px product photograph dropped into the middle of the band. Both
+   forms are written now — the same fix the other seven full-bleed images
+   already had. */
+.sbecame>.plate,.sbecame>picture>.plate{position:absolute;top:0;right:0;
+  width:min(39%,35rem);height:100%;object-fit:cover;z-index:0;display:block}
+@media (max-width:63.9375em){
+  .sbecame>.plate,.sbecame>picture>.plate{display:none}
+  .sbecame>picture{display:none}
+}
+/* the plate fades into the field rather than butting against it */
+.sbecame::after{content:"";position:absolute;top:0;height:100%;width:12.5rem;
+  right:calc(min(39%,35rem) - 12.5rem);
+  background:linear-gradient(to right,var(--field),transparent);z-index:var(--z-base);pointer-events:none}
+@media (max-width:63.9375em){ .sbecame::after{display:none} }
+
+/* previous / next */
+.snav{background:var(--ivory);padding-block:0 var(--sec)}
+.snav .inner{display:flex;flex-wrap:wrap;gap:var(--space-6);
+  justify-content:space-between;border-top:1px solid var(--line);padding-top:var(--space-8)}
+.snav a{display:block;max-width:22rem}
+.snav .next{text-align:right;margin-left:auto}
+.snav b{display:block;font-family:var(--font-display);font-weight:400;
+  font-size:clamp(21px,calc(21px + 7 * (100vw - 390px) / 1050),28px);
+  line-height:1.2;color:var(--ink);margin-top:var(--space-2)}
+.snav em{display:block;font-family:var(--font-script);font-weight:300;font-style:italic;
+  font-size:var(--t-notes);color:var(--txt);opacity:var(--o-strong);margin-top:var(--space-2)}
+.snav a:hover b,.snav a:focus-visible b{color:var(--brass-text)}
+
+/* the shelf of seven, as a spine of stone bars */
+.sseven{background:var(--sand);padding-block:var(--sec)}
+.sseven .k{letter-spacing:var(--track-kicker)}
+.sseven h2{font-size:var(--t-3);margin-top:var(--space-3)}
+.svs{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,8.5rem),1fr));
+  gap:var(--space-5) 10px;margin-top:var(--space-7)}
+.sv{display:block;color:inherit}
+.sv i{display:block;height:8px;border-radius:0;box-shadow:inset 0 0 0 .5px rgba(43,46,45,.25)}
+.sv em{display:block;font-family:var(--font-script);font-weight:300;font-style:normal;
+  font-size:var(--t-notes);color:var(--brass-text);margin-top:var(--space-2)}
+.sv b{display:block;font-family:var(--font-serif);font-weight:400;
+  font-size:var(--t-lg);color:var(--txt-2);margin-top:var(--space-2)}
+.sv small{display:block;margin-top:var(--space-2);font-family:var(--font-sans);
+  font-weight:500;font-size:var(--t-2xs);letter-spacing:var(--track-micro);text-transform:uppercase;
+  color:var(--brass-text)}
+.sv.on em,.sv.on b{opacity:1}
+.sv:hover b,.sv:focus-visible b{opacity:1;color:var(--brass-text)}
+
+/* ======================================================= share your story
+   Frame: P15 "Share your story" (171:2803).
+   ========================================================================= */
+.shero{position:relative;isolation:isolate;min-height:clamp(24rem,42vw,37.5rem);
+  display:grid;align-items:center;overflow:hidden}
+.shero>img,.shero>picture>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:var(--z-art)}
+/* The plate is 2.14:1 dropped into a frame that is nearly square on a phone.
+   A centred crop kept a thin sliver of the standing figure at the right edge
+   and nothing else of her; shifted left it holds the bottles and the seated
+   figure whole and lets the other go. */
+@media (max-width:47.9375rem){
+  .shero>img,.shero>picture>img{object-position:42% center}
+}
+.shero .veil{position:absolute;inset:0;z-index:var(--z-behind);background:
+  linear-gradient(to top,rgba(18,16,12,.82) 0%,rgba(18,16,12,.52) 50%,rgba(18,16,12,.10) 100%),
+  linear-gradient(to right,rgba(20,18,13,.62) 0%,rgba(20,18,13,0) 66%)}
+.shero .c{max-width:37.125rem;color:var(--ivory)}
+.shero .k{color:var(--brass-on-dark);letter-spacing:var(--track-kicker);
+  text-shadow:0 1px 3px rgba(18,16,12,.55)}
+.shero h1{font-size:var(--t-5);line-height:1.2;margin-top:var(--space-5)}
+.shero .lede{font-size:var(--t-lg);line-height:var(--lh-lede);opacity:var(--o-strong);
+  margin-top:var(--space-5)}
+.shero .cta{display:flex;flex-wrap:wrap;gap:var(--space-4);margin-top:var(--space-5)}
+
+.invite{background:var(--ivory);text-align:center;padding-block:var(--sec)}
+.invite h2{font-size:var(--t-4);line-height:1.46;max-width:38rem;
+  margin:var(--space-5) auto 0}
+.invite>.inner>p:last-child{font-size:var(--t-md);line-height:1.84;color:var(--txt);
+  max-width:54.125rem;margin:var(--space-5) auto 0}
+
+.howworks{position:relative;background:var(--sand);padding-block:var(--sec);
+  overflow:hidden}
+/* the frame sets an enormous "Eighth" behind the steps at 5% ink */
+.howworks .ghost{position:absolute;top:0;right:0;font-family:var(--font-display);
+  font-size:clamp(7rem,17vw,16.25rem);line-height:1.2;color:rgba(43,46,45,.05);
+  pointer-events:none;user-select:none;z-index:0}
+.howworks .inner{position:relative;z-index:var(--z-base)}
+.howworks h2{font-size:var(--t-4);margin-top:var(--space-3)}
+.hsteps{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--space-7) var(--space-7);
+  margin-top:var(--space-8)}
+@media (min-width:40em){ .hsteps{grid-template-columns:repeat(2,minmax(0,1fr))} }
+@media (min-width:68em){ .hsteps{grid-template-columns:repeat(4,minmax(0,1fr))} }
+.hstep em{display:block;font-family:var(--font-script);font-weight:300;
+  font-style:normal;font-size:var(--t-2);color:var(--brass-text);line-height:1}
+.hstep h3{font-family:var(--font-display);font-weight:400;
+  font-size:var(--t-1);color:var(--ink);margin-top:var(--space-3)}
+.hstep :where(p:not(.k)){font-size:var(--t-sm);line-height:1.7;color:var(--txt);margin-top:var(--space-3)}
+
+/* --- the form ----------------------------------------------------------- */
+.tellus{background:var(--ivory);padding-block:var(--sec)}
+.tellus .inner{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--space-7)}
+@media (min-width:68em){
+  .tellus .inner{grid-template-columns:minmax(0,38.75rem) minmax(0,25rem);
+    column-gap:var(--space-11);align-items:start}
+  .tellus .hd{grid-column:1 / -1}
+}
+.tellus h2{font-size:var(--t-5);margin-top:var(--space-3)}
+.sform{margin-top:var(--space-6);display:grid;gap:var(--space-5)}
+/* ============================================================== the field ==
+   One field, drawn on a rule.
+
+   There were two components doing this job and looking different: `.ffield`
+   on the share page put the label inside a bordered box, `.field` on contact
+   and checkout put it above a bordered input. Same job, two answers, and the
+   boxes were the last remaining boxes on a site that is otherwise built out
+   of hairlines.
+
+   They are one component now, on a rule rather than in a box — which is also
+   what fixes a live failure: the box borders were drawn at rgba(43,46,45,.28),
+   which measures 2.0:1 against ivory, under the 3:1 that 1.4.11 requires to
+   identify a control. The rule is --txt-2 at 5.4:1 resting, ink at 2px on
+   focus, so the state change is unmistakable without an outline.
+   ========================================================================== */
+.ffield,.field{display:block;position:relative;background:none;border:0;padding:0}
+.field{margin-top:var(--s-5)}
+.ffield>span,.field>span{display:block;font-family:var(--font-sans);font-weight:500;
+  font-size:var(--t-2xs);letter-spacing:var(--track-micro);text-transform:uppercase;
+  color:var(--txt-2);margin-bottom:0}
+.ffield input,.ffield textarea,.field input,.field textarea,.field select{
+  display:block;width:100%;margin-top:.35rem;padding:.55rem 0;
+  border:0;border-bottom:1px solid var(--txt-2);border-radius:0;background:none;
+  color:var(--ink);font-family:var(--font-sans);font-size:var(--t-sm);line-height:1.6;
+  transition:border-color var(--d-quick) var(--settle),
+             box-shadow var(--d-quick) var(--settle)}
+.field input,.field textarea,.field select{font-family:var(--font-serif);
+  font-size:var(--t-md)}
+.ffield textarea,.field textarea{font-family:var(--font-serif);font-size:var(--t-md);
+  line-height:1.68;min-height:11.5rem;resize:vertical;padding-top:.35rem}
+/* focus thickens the writing line without moving it: the second pixel is a
+   shadow easing in under the border, not a border-width jump reflowing the
+   field */
+.ffield input:focus,.ffield textarea:focus,
+.field input:focus,.field textarea:focus,.field select:focus{
+  outline:none;border-bottom-color:var(--ink);
+  box-shadow:0 1px 0 0 var(--ink)}
+.ffield ::placeholder,.field ::placeholder{color:var(--txt-2)}
+/* Every textarea keeps its box. A rule works under a single line because the
+   line tells you where to write; under two hundred pixels of empty ivory it
+   reads as nothing at all, and you cannot see the size of what you are being
+   asked for. One line, one rule; a paragraph, a boundary. */
+.ffield textarea,.field textarea{background:var(--ivory);padding:var(--space-4);
+  border:1px solid var(--txt-2)}
+.ffield textarea:focus,.field textarea:focus{border-color:var(--ink);
+  border-bottom-width:1px;box-shadow:inset 0 0 0 1px var(--ink);
+  padding-bottom:var(--space-4)}
+.sform .count.over{color:var(--oxblood-500);opacity:1}
+.sform .count{margin-top:calc(var(--space-5) * -1 + var(--space-2));text-align:right;
+  font-family:var(--font-sans);font-size:var(--t-2xs);letter-spacing:var(--track-micro);
+  text-transform:uppercase;color:var(--txt-2)}
+.frow2{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--space-5)}
+@media (min-width:34em){ .frow2{grid-template-columns:repeat(2,minmax(0,1fr))} }
+.consent{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--space-5);
+  align-items:start;margin-top:var(--space-2)}
+/* the consent line squeezed into a 200px column beside a 300px button and
+   wrapped to eight lines; it only goes side-by-side when the sentence has
+   room to be one */
+@media (min-width:52em){ .consent{grid-template-columns:minmax(22rem,1fr) auto} }
+.consent label{display:grid;grid-template-columns:auto minmax(0,1fr);gap:var(--space-3);
+  align-items:start;cursor:pointer}
+.consent input{margin:.15rem 0 0}
+.consent span{font-family:var(--font-serif);font-size:var(--t-sm);
+  line-height:1.68;color:var(--txt)}
+.consent .btn{min-height:3.375rem;min-width:15rem}
+.tellus .re{margin-top:var(--space-4)}
+
+.looking{background:var(--plaster);border-radius:var(--radius-hairline);
+  padding:var(--space-6);align-self:start}
+@media (min-width:68em){ .looking{margin-top:calc(var(--space-6) + var(--space-8))} }
+.looking .k{font-size:var(--t-xs);letter-spacing:var(--track-kicker)}
+.looking .k+p{font-family:var(--font-serif);font-size:var(--t-sm);
+  line-height:1.72;color:var(--txt);margin-top:var(--space-3)}
+.looking p+.k{margin-top:var(--space-5)}
+.looking .not{font-style:italic}
+
+/* --- the postbag -------------------------------------------------------- */
+.postbag{background:var(--plaster);padding-block:var(--sec)}
+.postbag h2{font-size:var(--t-4);margin-top:var(--space-3)}
+.postbag .pintro{font-family:var(--font-serif);font-style:italic;
+  font-size:var(--t-lg);color:var(--txt-2);margin-top:var(--space-4)}
+.pnotes{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--space-5);
+  margin-top:var(--space-7)}
+@media (min-width:40em){ .pnotes{grid-template-columns:repeat(2,minmax(0,1fr))} }
+@media (min-width:68em){ .pnotes{grid-template-columns:repeat(3,minmax(0,1fr))} }
+.pnote{background:var(--ivory);border:1px solid rgba(43,46,45,.08);
+  border-radius:var(--radius-hairline);padding:var(--space-6)}
+.tag{display:inline-block;font-family:var(--font-sans);font-weight:500;
+  font-size:var(--t-2xs);letter-spacing:var(--track-micro);text-transform:uppercase;
+  color:var(--ivory);padding:.35em .7em;line-height:1}
+.tag.verde{background:var(--verde)}
+.tag.brass{background:var(--brass-text)}
+.pnote h3{font-family:var(--font-display);font-weight:400;
+  font-size:var(--t-2);color:var(--ink);margin-top:var(--space-4)}
+.pnote .who{font-family:var(--font-sans);font-size:var(--t-2xs);
+  letter-spacing:var(--track-micro);text-transform:uppercase;color:var(--txt);opacity:var(--o-strong);
+  margin-top:var(--space-3)}
+.pnote blockquote{font-family:var(--font-serif);font-style:italic;
+  font-size:var(--t-sm);line-height:1.74;color:var(--txt);margin-top:var(--space-3)}
+.postbag>.inner>.ul{margin-top:var(--space-7)}
+
+/* --- the small print ---------------------------------------------------- */
+.smallprint{background:var(--ivory);padding-block:var(--sec)}
+.terms{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--space-6) var(--space-7);
+  margin-top:var(--space-7)}
+@media (min-width:40em){ .terms{grid-template-columns:repeat(2,minmax(0,1fr))} }
+@media (min-width:68em){ .terms{grid-template-columns:repeat(4,minmax(0,1fr))} }
+.term{border-top:1px solid rgba(43,46,45,.15);padding-top:var(--space-3)}
+.term h3{font-family:var(--font-serif);font-weight:400;font-size:var(--t-lg);
+  color:var(--ink)}
+.term :where(p:not(.k)){font-size:var(--t-sm);line-height:1.68;color:var(--txt);margin-top:var(--space-3)}
+
+/* =========================================================== confirmation ==
+   The moment after someone sends something.
+
+   There was no component for this. The share form — where a person has just
+   written out a private memory and handed it over — acknowledged it with one
+   8.5px line of grey uppercase appearing at the bottom of the form they had
+   just filled in. The newsletter did something worse: a JavaScript handler
+   wrote in `.centered`, `.rule`, `.kicker`, `.fine` and `.mut`, none of which
+   exist anywhere in this stylesheet, with the heading size set inline at a
+   raw 30px. So the confirmation rendered as unstyled browser default.
+
+   These are the two moments on the site where the customer has given the most
+   and is owed the most. One component, in the house language: a drawn rule,
+   a kicker, the display face, and one way onward.
+   ========================================================================== */
+.formdone{border-top:1px solid var(--line);padding-top:var(--s-6);
+  animation:rise var(--d-settled) var(--settle) both}
+.formdone .r{width:3rem;height:1px;background:var(--brass)}
+.formdone .k{margin-top:var(--s-5)}
+.formdone h2{font-family:var(--font-display);font-size:var(--t-4);
+  line-height:var(--lh-headline);margin-top:var(--s-3);max-width:18ch}
+.formdone :where(p:not(.k)){font-family:var(--font-serif);font-size:var(--t-md);
+  line-height:var(--lh-body);color:var(--txt);max-width:44ch;margin-top:var(--s-4)}
+.formdone .ul{margin-top:var(--s-5)}
+/* the newsletter sits in a centred band, so its confirmation centres too —
+   half-centred was the worst of both */
+.news .formdone{border-top:0;padding-block:var(--s-5) 0;text-align:center}
+.news .formdone .r{margin-inline:auto}
+.news .formdone h2{max-width:22ch;margin-inline:auto}
+.news .formdone :where(p:not(.k)){margin-inline:auto}
+/* focus is moved here so a screen reader lands on the confirmation rather
+   than on the top of the page; it is a region, not a control, so it does not
+   also need to draw a ring */
+.formdone:focus,.formdone:focus-visible{outline:none;box-shadow:none}
+
+/* ------------------------------------------------------------- forms ------
+   One validation language for every form on the site. Nothing appears until
+   a customer has actually got something wrong, and it clears the moment they
+   fix it. Oxblood is the palette's own error colour and it is only ever used
+   here. */
+.formlive:empty{display:none}
+.formlive{margin-bottom:var(--space-4);font-family:var(--font-sans);font-weight:500;
+  font-size:var(--t-2xs);letter-spacing:var(--track-micro);text-transform:uppercase;
+  color:var(--text-error)}
+.ffield.invalid input,.ffield.invalid textarea,
+.field.invalid input,.field.invalid textarea,.field.invalid select{
+  border-bottom-color:var(--text-error);border-bottom-width:2px}
+.ffield.tall.invalid textarea{border-color:var(--text-error)}
+.ffield.invalid>span,.field.invalid>span{color:var(--text-error);opacity:1}
+.err{display:block;margin-top:var(--space-2);font-family:var(--font-serif);
+  font-style:italic;font-size:var(--t-sm);line-height:1.4;color:var(--text-error)}
+.ffield .err{margin-bottom:var(--space-2)}
+input:user-invalid,textarea:user-invalid{border-color:var(--text-error)}
+
+/* ---------------------------------------------------------- editorial --- */
+.article{padding-block:var(--s-6) var(--s-7)}
+.artgrid{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--s-5)}
+@media (min-width:64em){ .artgrid{grid-template-columns:minmax(0,1fr) 16rem;gap:var(--s-6)} }
+.artgrid .col{max-width:34rem}
+.artgrid .col :where(p:not(.k)){font-size:var(--t-lg);line-height:1.85;margin-top:var(--s-4)}
+.artgrid .col p:first-child{margin-top:0}
+.dropcap::first-letter{float:left;font-family:var(--font-display);font-size:3.6em;
+  line-height:.82;padding:.06em .12em 0 0}
+.artaside{min-width:0}
+@media (min-width:64em){ .artaside{position:sticky;top:7.5rem} }
+.marginnote{border-top:1px solid var(--brass);padding-top:var(--s-2);
+  font-family:var(--font-script);font-style:italic;font-size:var(--t-1);
+  line-height:1.4;color:var(--txt-2)}
+.marginnote+.marginnote{margin-top:var(--s-5)}
+.marginnote small{display:block;margin-top:var(--s-2);font-family:var(--font-sans);
+  font-style:normal;font-size:var(--t-xs);letter-spacing:var(--track-label);text-transform:uppercase;color:var(--brass-text)}
+.pull{font-family:var(--font-display);font-size:var(--t-3);line-height:1.45;
+  text-align:center;max-width:36ch;margin:var(--s-6) auto;color:var(--ink)}
+
+/* A signature is not a paragraph. It takes the script face the story pages
+   already use for an author's hand, the space above it that a signature has
+   on paper, and none of the leading of the prose it follows. */
+.signoff{font-family:var(--font-script);font-weight:300;font-style:italic;
+  font-size:var(--t-1);color:var(--txt-2);margin-top:var(--s-5) !important}
+
+/* ------------------------------------------------------------- forms --- */
+.form{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--s-5);padding-block:var(--s-5) var(--s-7)}
+@media (min-width:64em){ .form{grid-template-columns:minmax(0,1.3fr) minmax(0,.7fr);gap:var(--s-6);align-items:start} }
+.field textarea{min-height:12rem}
+/* the rhythm inside the checkout had inverted: 24px between two fields and
+   8px between a field and the heading of the next section, so the sections
+   read as one long run */
+.form .sechead{margin-top:var(--s-7)}
+.form .sechead:first-child{margin-top:0}
+.field small{display:block;margin-top:var(--s-2);font-size:var(--t-xs);color:var(--txt-2)}
+.row2{display:grid;grid-template-columns:minmax(0,1fr);gap:0 var(--s-3)}
+@media (min-width:34em){ .row2{grid-template-columns:repeat(2,minmax(0,1fr))} }
+/* A short explanatory line under a heading, or under a plate. Five of these
+   were wearing `.crumb` — the breadcrumb's tracked micro caps — so a full
+   sentence was being set in 8.5px uppercase, and the three figure captions
+   using it were the only captions on the site not in italic serif. */
+.hint{font-family:var(--font-serif);font-style:italic;font-size:var(--t-sm);
+  line-height:1.7;color:var(--txt-2);max-width:56ch;margin-top:var(--s-3)}
+.hint.center{margin-inline:auto;text-align:center}
+.aside-card{background:var(--plaster);padding:var(--s-5)}
+.aside-card h3{font-size:var(--t-1)}
+.aside-card :where(p:not(.k)){font-size:var(--t-sm);line-height:1.75;color:var(--txt);margin-top:var(--s-3)}
+
+/* --------------------------------------------------------------- bag --- */
+.cart{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--s-5);padding-block:var(--s-5) var(--s-7)}
+@media (min-width:64em){ .cart{grid-template-columns:minmax(0,1.4fr) minmax(0,.6fr);gap:var(--s-6);align-items:start} }
+.line{display:grid;grid-template-columns:auto minmax(0,1fr);gap:var(--s-3);
+  padding-block:var(--s-4);border-bottom:1px solid var(--line)}
+.line img{width:clamp(4.5rem,12vw,6.5rem);aspect-ratio:1;object-fit:cover;background:var(--plaster)}
+.line h3{font-size:var(--t-1)}
+.line :where(.meta){font-family:var(--font-sans);font-size:var(--t-xs);letter-spacing:var(--track-label);
+  text-transform:uppercase;color:var(--txt);margin-top:var(--s-2)}
+.line .act{display:flex;flex-wrap:wrap;align-items:center;gap:var(--s-3);margin-top:var(--s-3)}
+.qty{display:inline-flex;align-items:center;border:1px solid var(--txt-2)}
+.qty button{min-width:2.25rem;min-height:2.25rem}
+.qty span{min-width:2rem;text-align:center;font-family:var(--font-sans);font-size:var(--t-xs)}
+.summary{background:var(--plaster);padding:var(--s-5)}
+.summary h3{font-family:var(--font-sans);font-weight:500;font-size:var(--t-xs);
+  letter-spacing:var(--track-label);text-transform:uppercase}
+.srow{display:flex;justify-content:space-between;gap:var(--s-3);padding-block:var(--s-2);
+  font-family:var(--font-sans);font-size:var(--t-xs);letter-spacing:var(--track-label);
+  text-transform:uppercase;color:var(--txt)}
+.srow.total{border-top:1px solid var(--line);margin-top:var(--s-3);padding-top:var(--s-3);
+  color:var(--ink);font-weight:600}
+/* the bag heading is left-aligned and so is everything else on the page; a
+   centred empty state in an 880px column sat nowhere near the sentence it
+   was answering */
+.empty{padding-block:var(--s-6) var(--s-7)}
+.empty :where(p:not(.k)){font-size:var(--t-md);color:var(--txt);margin-top:var(--s-3)}
+
+/* checkout progress */
+.steps{display:flex;flex-wrap:wrap;gap:var(--s-2) var(--s-3);padding-block:var(--s-4);
+  font-family:var(--font-sans);font-size:var(--t-xs);letter-spacing:var(--track-label);
+  text-transform:uppercase;color:var(--txt-2)}
+.steps b{font-weight:500;color:var(--ink)}
+
+/* ------------------------------------------------------------ tables --- */
+.table{width:100%;border-collapse:collapse;margin-top:var(--s-4);font-size:var(--t-sm)}
+.table th,.table td{text-align:left;padding:var(--s-3) var(--s-3) var(--s-3) 0;
+  border-bottom:1px solid var(--line);vertical-align:top}
+.table th{font-family:var(--font-sans);font-weight:500;font-size:var(--t-xs);
+  letter-spacing:var(--track-label);text-transform:uppercase;color:var(--txt)}
+.scrollx{overflow-x:auto;-webkit-overflow-scrolling:touch}
+
+/* Both tables on this site sat in a .scrollx, which was the escape hatch for a
+   narrow screen — except the table had no min-width, so instead of scrolling
+   it squeezed. Five columns in 350px turned every order into four lines of
+   two-word fragments. On a phone each row becomes a block of label-and-value
+   pairs, which is what these are: three orders and four shipping bands, not
+   dense data. The roles are set explicitly in the markup so the semantics
+   survive display:block. */
+@media (max-width:47.9375em){
+  .table,.table tbody,.table tr,.table td{display:block;width:100%}
+  .table thead{position:absolute;width:1px;height:1px;overflow:hidden;
+    clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap}
+  .table tr{border-bottom:1px solid var(--line);padding-block:var(--s-4)}
+  .table tr:last-child{border-bottom:0}
+  .table td{display:flex;align-items:baseline;justify-content:space-between;
+    gap:var(--s-5);border:0;padding:.3rem 0;text-align:right}
+  .table td::before{content:attr(data-label);flex:0 0 auto;text-align:left;
+    font-family:var(--font-sans);font-weight:500;font-size:var(--t-2xs);
+    letter-spacing:var(--track-micro);text-transform:uppercase;color:var(--txt-2)}
+}
+
+/* ------------------------------------------------------------ search ---
+   The panel. On a phone it takes the screen below the header, because a
+   search field with a keyboard under it has no room to share; from 48em it
+   drops out of the header as a band, the width of the page, and the page
+   stays visible and dimmed underneath — you can see where you were, which is
+   the whole argument for not making search a destination.
+
+   It reuses the phone menu's row and label styles rather than inventing a
+   second list treatment. Two panels that drop out of the same header should
+   not be two designs.
+   ------------------------------------------------------------------------ */
+/* below the panel and below the header, not above them: the bag drawer's
+   scrim is a modal scrim over a page you have left, this one dims a page you
+   are still standing on while the header stays lit and usable */
+.srchscrim{position:fixed;inset:0;z-index:calc(var(--z-header) - 2);background:rgba(15,15,14,.35);
+  opacity:0;pointer-events:none;transition:opacity var(--d-settled) var(--settle)}
+.srchscrim.on{opacity:1;pointer-events:auto}
+
+/* bottom:auto with a max-height, not bottom:0 — the panel ends where its
+   content ends and the dimmed page carries on beneath it, on a phone exactly
+   as on a desktop. Filling the screen for one result made a single match look
+   like a failure. The max-height is what keeps it on the screen, and 100dvh
+   shrinks when the on-screen keyboard comes up, which is when that matters. */
+.srch{position:fixed;left:0;right:0;top:var(--srch-top,var(--navh));bottom:auto;
+  max-height:calc(100dvh - var(--srch-top,var(--navh)));
+  border-bottom:1px solid var(--line);box-shadow:var(--shadow-panel);
+  display:block;z-index:calc(var(--z-header) - 1);background:var(--ivory);
+  overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;contain:paint;
+  opacity:0;visibility:hidden;transform:translate3d(0,-.5rem,0);
+  transition:opacity var(--d-quick) var(--settle),
+             transform var(--d-quick) var(--settle),
+             visibility var(--d-quick) var(--settle)}
+.srch.open{opacity:1;visibility:visible;transform:none}
+/* On anything smaller than the desktop, search is a full-screen takeover —
+   the standard mobile pattern — not a dropdown pinned under the header.
+   The dropdown hung from a measured nav-bottom, and iOS pans the visual
+   viewport when the keyboard rises, so the panel was left floating below a
+   header that had moved. From the top edge there is nothing to detach from.
+   It sits above the header, needs no scrim, and slides up from below the
+   fold's edge rather than down. */
+@media (max-width:71.875em){
+  .srch{top:0;bottom:0;max-height:none;height:100dvh;
+    z-index:var(--z-overlay);border-bottom:0;box-shadow:none;
+    transform:translate3d(0,.75rem,0)}
+  .srch.open{transform:none}
+  .srchin{padding-top:calc(var(--s-4) + env(safe-area-inset-top))}
+  .srchscrim{display:none}
+}
+/* iOS zooms the page when a focused control's text is under 16px. Every
+   text control on a touch screen gets a 16px floor — a floor, not a
+   ceiling: the search field's 20px serif stays 20px, and each family keeps
+   its own size where that size already clears the bar. */
+@media (pointer:coarse){
+  .ffield input,.ffield textarea,.news input{font-size:max(1rem,var(--t-sm))}
+  .field input,.field textarea,.field select,.searchbar input{
+    font-size:max(1rem,var(--t-md))}
+}
+.srchin{padding:var(--s-4) var(--gutter);
+  padding-bottom:calc(var(--s-6) + env(safe-area-inset-bottom))}
+
+/* Title and Close on their own row, the way the scent sheet does it. Sitting
+   Close beside the field cost the field eighty pixels, and "A fragrance, a
+   feeling, a stone…" was being clipped mid-word on a 390px screen — the one
+   piece of copy in the panel that tells you what it will accept. */
+.srchhead{display:flex;align-items:center;justify-content:space-between;
+  gap:var(--s-4);margin-bottom:var(--s-3)}
+.srchhead h2{font-family:var(--font-sans);font-weight:500;font-size:var(--t-xs);
+  letter-spacing:var(--track-label);text-transform:uppercase;color:var(--brass-text)}
+.srchbar{display:flex;align-items:center;gap:var(--s-3);
+  border-bottom:1px solid var(--ink);padding-bottom:var(--s-2)}
+/* -webkit-appearance:none kills the iOS inset shadow and the rounded well;
+   the decoration button is Safari's own clear ✕, replaced by a labelled one */
+.srchq{flex:1 1 auto;min-width:0;min-height:2.75rem;padding:0;
+  -webkit-appearance:none;appearance:none;background:none;border:0;border-radius:0;
+  color:var(--ink);font-family:var(--font-serif);
+  font-size:clamp(1.25rem,4.4vw,1.75rem);line-height:1.2}
+.srchq::-webkit-search-decoration,.srchq::-webkit-search-cancel-button{-webkit-appearance:none}
+.srchq::placeholder{color:var(--txt-2);opacity:1}
+.srchq:focus{outline:none}
+.srchclear,.srchclose{flex:none;display:inline-flex;align-items:center;justify-content:center;
+  min-height:2.75rem;padding-inline:var(--s-2);
+  font-family:var(--font-sans);font-size:var(--t-xs);letter-spacing:var(--track-label);
+  text-transform:uppercase;color:var(--txt-2);
+  transition:color var(--d-quick) var(--settle)}
+.srchclear:hover,.srchclose:hover,
+.srchclear:focus-visible,.srchclose:focus-visible{color:var(--ink)}
+/* Both are the last thing on their row and both must end on the same
+   vertical. The padding that gives each its tap target was being counted
+   twice on one of them, so Clear sat eight pixels inside Close — close
+   enough to read as a mistake rather than as an offset. */
+.srchclose,.srchclear{margin-right:calc(var(--s-2) * -1)}
+
+.srchbody{margin-top:var(--s-2)}
+/* Stacked, not two columns. A result's second line is a note list — "incense,
+   linen, morning air · Verde Jade" — and setting it opposite the name on a
+   390px screen left it running into the gutter with the name squeezed to
+   nothing. It sits under the name and wraps like the prose it is. */
+.srchlist a{display:flex;flex-direction:column;align-items:flex-start;gap:.1rem;
+  justify-content:center;min-height:2.875rem;padding-block:.45rem;
+  font-family:var(--font-sans);font-size:var(--t-sm);line-height:1.35;color:var(--txt);
+  border-bottom:1px solid rgba(43,46,45,.06);
+  transition:color var(--d-quick) var(--settle)}
+.srchlist a:hover,.srchlist a:focus-visible{color:var(--ink)}
+.srchlist .sm{min-width:0;color:var(--txt-2);font-size:var(--t-xs);line-height:1.4}
+/* the matched run, marked so it is clear why a row is in the list — the
+   brass underline the site uses for emphasis, not a yellow highlighter */
+.srch mark,.pagesearch mark{background:none;color:var(--ink);
+  box-shadow:inset 0 -1px 0 var(--ochre-200)}
+.srchnone{margin-top:var(--s-4);font-family:var(--font-sans);font-size:var(--t-sm);
+  line-height:1.6;color:var(--txt-2);max-width:34em}
+.srchnone button{font:inherit;color:var(--ink);
+  box-shadow:inset 0 -1px 0 var(--ochre-200);transition:box-shadow var(--d-quick) var(--settle)}
+.srchnone button:hover{box-shadow:inset 0 -2px 0 var(--brass-text)}
+
+@media (min-width:48em){
+  /* a band, not a takeover: it ends where its content ends and the page
+     carries on underneath */
+  .srchin{max-width:90rem;margin-inline:auto;padding-block:var(--s-5) var(--s-6)}
+  /* CSS columns rather than a grid: the number of groups a query returns is
+     not known when the stylesheet is written, and columns fill whatever
+     arrives without a rule per shape. break-inside keeps a heading with the
+     list it names. */
+  .srchbody{margin-top:var(--s-5)}
+  .srchidle,.srchres{columns:2;column-gap:var(--s-6)}
+  .srchidle>*,.srchres>*{break-inside:avoid}
+  .srchidle>.mpfh,.srchres>.mpfh{break-after:avoid}
+  .srchidle>.mpfh:first-child,.srchres>.mpfh:first-child{margin-top:0}
+}
+@media (min-width:64em){
+  .srchq{font-size:2rem}
+}
+
+/* the standalone page runs the same matcher into the same markup */
+.pagesearch{margin-top:var(--s-5)}
+.pagesearch .srchlist{max-width:44rem}
+
+/* ------------------------------------------------------------ search --- */
+.searchbar{display:flex;flex-wrap:wrap;gap:var(--s-2);margin-top:var(--s-4)}
+.searchbar input{flex:1 1 18rem;min-height:3.25rem;padding:0 0 .5rem;background:none;
+  border:0;border-bottom:1px solid var(--txt-2);border-radius:0;color:var(--ink);
+  font-family:var(--font-serif);font-size:var(--t-md);transition:border-color var(--d-quick) var(--settle),box-shadow var(--d-quick) var(--settle)}
+.searchbar input:focus{outline:none;border-bottom-color:var(--ink);box-shadow:0 1px 0 0 var(--ink)}
+/* Renamed off `.chips`, which the shelf bar also used: this rule's
+   margin-top:16px was leaking into the scent group and pushing it eight
+   pixels below the size group it is meant to sit level with. Same class of
+   bug as .veil / .steps / .sub before it. Restyled to match the shelf bar
+   while it was open — these were the last bordered chips on the site. */
+.tagrow{display:flex;flex-wrap:wrap;gap:var(--s-3) var(--s-5);margin-top:var(--s-4)}
+.tagrow a{font-family:var(--font-sans);font-weight:500;font-size:var(--t-xs);
+  letter-spacing:var(--track-label);text-transform:uppercase;color:var(--txt-2);
+  ;border-bottom:1px solid transparent;padding-bottom:.25em;
+  transition:color var(--d-quick) var(--settle),
+             border-color var(--d-quick) var(--settle),
+             opacity var(--d-quick) var(--settle)}
+.tagrow a:hover,.tagrow a:focus-visible{color:var(--ink);opacity:1;
+  border-bottom-color:var(--ink)}
+
+/* ----------------------------------------------------------- account --- */
+.acct{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--s-5);padding-block:var(--s-5) var(--s-7)}
+.acct h2+*{margin-top:var(--s-4)}
+.acct :where(h2)+h2,.acct .table+h2,.acct .tagrow+h2,.acct :where(p)+h2{margin-top:var(--s-7)}
+@media (min-width:52em){ .acct{grid-template-columns:14rem minmax(0,1fr);gap:var(--s-6);align-items:start} }
+.acctnav a{display:block;padding-block:var(--s-3);border-bottom:1px solid var(--line);
+  font-family:var(--font-sans);font-weight:500;font-size:var(--t-xs);
+  letter-spacing:var(--track-label);text-transform:uppercase;color:var(--txt)}
+.acctnav a[aria-current]{color:var(--ink)}
+
+/* --------------------------------------------------------------- 404 --- */
+.notfound{display:grid;place-items:center;text-align:center;padding-block:var(--s-7);
+  min-height:60svh}
+.notfound h1{font-size:var(--t-5);max-width:16ch}
+.notfound :where(p:not(.k)){font-size:var(--t-md);color:var(--txt);max-width:44ch;margin:var(--s-4) auto 0}
+.notfound .cta{display:flex;flex-wrap:wrap;justify-content:center;gap:var(--s-3);margin-top:var(--s-5)}
+
+/* a standalone action row and dedication card, so pages do not have to borrow
+   the .pdp / .gift wrappers to get them */
+.actions{display:flex;flex-wrap:wrap;gap:var(--s-3);margin-top:var(--s-5)}
+.actions .btn{flex:0 1 auto}
+.dedication{font-family:var(--font-script);font-style:italic;font-size:var(--t-1);
+  background:var(--plaster);color:var(--ink);border:1px solid var(--line);
+  padding:var(--s-4) var(--s-5);margin-top:var(--s-4);max-width:22rem;text-align:center}
+
+/* ------------------------------------------------------------- misc ---- */
+.note-strip{background:var(--plaster);padding-block:var(--sec-sm);text-align:center;
+  font-family:var(--font-sans);font-size:var(--t-xs);letter-spacing:var(--track-label);
+  text-transform:uppercase;color:var(--txt);line-height:2}
+.grid-2{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--s-5);margin-top:var(--s-5)}
+@media (min-width:52em){ .grid-2{grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--s-6)} }
+/* Paragraphs across the row rather than down one side of it.
+
+   A band's prose is capped at a reading measure, which is right when it is one
+   column of argument — but consecutive paragraphs at that measure leave most
+   of a full-width section empty beside them. Set side by side they fill the
+   row and each still reads at a comfortable width, which running them
+   full-bleed would not: 1248px of ivory is about 140 characters a line.
+
+   The pair breaks at 52em and the trio at 64em — the same widths .grid-2 and
+   .grid-3 use, so a row of prose lands on the same columns as the row of
+   pictures above it rather than reflowing a beat earlier or later. */
+.cols{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--s-5);
+  margin-top:var(--s-5)}
+.band .cols p{margin-top:0;max-width:none}
+@media (min-width:52em){
+  .cols-2{grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--s-6)}
+}
+@media (min-width:64em){
+  .cols-3{grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--s-6)}
+}
+
+/* The claim a section is about to argue, set above the argument: one measure,
+   a step up from the body, in the same relationship .phead uses on the page
+   headers. */
+.band .lede{font-size:var(--t-lg);line-height:1.7;color:var(--txt);
+  max-width:44ch;margin-top:var(--s-4)}
+
+.grid-3{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--s-4);margin-top:var(--s-5)}
+@media (min-width:48em){ .grid-3{grid-template-columns:repeat(3,minmax(0,1fr))} }
+.figfull{width:100%;aspect-ratio:16/9;object-fit:cover}
+/* The tile's ground is ivory and so is the section behind it on both pages
+   that use it, so the card is invisible and its 24px padding read as text
+   indented past the page margin — the only content on those pages not on the
+   gutter. Stacked on a phone it takes its separation from a hairline, which
+   is what the rest of the site uses, and its left edge from the page. */
+.tile{background:var(--ivory);padding:var(--s-5);min-width:0}
+@media (max-width:47.9375em){
+  .tile{padding-inline:0;padding-block:var(--s-5) 0}
+  .tile+.tile{border-top:1px solid var(--line);padding-top:var(--s-5)}
+}
+.tile h3{font-size:var(--t-1)}
+.tile :where(p:not(.k)){font-size:var(--t-sm);line-height:1.75;color:var(--txt);margin-top:var(--s-3)}
+
+
+/* ==========================================================================
+   Utilities, declared last.
+
+   Section rules above are written as `.band :where(p:not(.k))` so their specificity is
+   the class alone. These utilities then win on source order, whatever context
+   they appear in. This is the guard against the bug that kept recurring: a
+   descendant rule such as `.band p` silently out-specifying `.k` and rendering
+   a 10px tracked label at body size.
+   ========================================================================== */
+.k{font-family:var(--font-sans);font-weight:500;font-size:var(--t-xs);
+  line-height:1.4;letter-spacing:var(--track-kicker);text-transform:uppercase;color:var(--brass-text);
+  margin-top:0;max-width:none}
+.ul{font-size:var(--t-xs);letter-spacing:var(--track-label);line-height:1.4}
+.btn{font-size:var(--t-btn);letter-spacing:var(--track-label)}
+.crumb{font-size:var(--t-2xs);line-height:1.8;margin-top:0;padding-block:var(--s-5) 0}
+.re{font-size:var(--t-2xs);line-height:1.9}
+/* On a phone the copy block on a photographic band carries its own soft
+   scrim, feathered at the top. The share hero's picture is a close-up of
+   near-white paper, and covering the whole image heavily enough to carry an
+   11px kicker left almost no photograph — the embossed wordmark on the box
+   had gone. A panel behind the words costs the picture nothing above them,
+   and it is the same device on every band so no page is special-cased.
+   Measured, not assumed: the worst sample went 2.4 to 6.9. */
+@media (max-width:47.9375em){
+  .shero .c,.yfeat .c,.banner .c,.storyband .c,.campaign .c{
+    background:linear-gradient(to top,
+      rgba(18,16,12,.42) 0%,rgba(18,16,12,.42) 82%,rgba(18,16,12,0) 100%);
+    padding-top:var(--s-6)}
+  /* two of the five copy blocks are inset by the gutter rather than padded by
+     it, so the panel stopped twenty pixels short of each edge and left a
+     seam of unveiled photograph down both sides */
+  .shero .c,.yfeat .c{margin-inline:calc(var(--gutter) * -1);
+    padding-inline:var(--gutter)}
+}
+
+/* Five kickers sit over photography and they were using two colours: ivory on
+   the hero, the banner and the campaign; brass-on-dark on the share hero and
+   the featured story. "On dark" is the wrong promise over a photograph — the
+   share hero's is a close-up of pale paper, and the brass kicker measured
+   2.6:1 against it. Ivory, everywhere the ground is a picture. Brass stays on
+   the gift band, where the ground is a solid plum and is genuinely dark. */
+.hero .k,.banner .k,.campaign .k,.shero .k,.yfeat .k,.storyband .k{color:var(--ivory)}
+.promo .k{color:var(--brass-on-dark)}
+
+
+/* ==========================================================================
+   Prototype P10 — arrival sequence, mega menu, and the µ hover specs.
+   Values taken from the prototype frames, not approximated.
+   ========================================================================== */
+
+/* --- A0 → A1 → A1b · arrival ------------------------------------------- */
+/* entrance-veil: rgba(14,13,10,.92) over everything, lifting to 0 (frame A1) */
+.enter-veil{position:fixed;inset:0;z-index:var(--z-top);background:rgb(14,13,10);opacity:.92;
+  pointer-events:none;animation:veil-lift var(--d-cinematic) var(--settle) .05s forwards}
+@keyframes veil-lift{to{opacity:0;visibility:hidden}}
+
+/* the hero is a sequence, not a still: two frames cross-fading behind the copy */
+.hero .shots{position:absolute;inset:0;z-index:var(--z-art)}
+.hero .shots img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  opacity:0;transition:opacity var(--d-cinematic) var(--settle);transform:scale(1.05);
+  animation:kb var(--d-ambient) var(--settle) forwards}
+.hero .shots img.on{opacity:1}
+.hero .dots{position:absolute;right:var(--gutter);bottom:var(--s-5);z-index:var(--z-raised);
+  display:flex;gap:var(--s-2)}
+.hero .dots button{width:2.25rem;height:2.75rem;padding:1.375rem 0;   /* 1px rule, 44px target */
+  background:rgba(241,240,232,.4);background-clip:content-box;
+  transition:background-color var(--d-settled) var(--settle)}
+.hero .dots button[aria-current]{background-color:rgba(241,240,232,.95)}
+/* copy rises 48px as the veil lifts — frame A0 has it at y522, A1 at y474 */
+.hero .copy>*{animation:rise var(--d-slow) var(--settle) forwards}
+@media (prefers-reduced-motion:reduce){
+  .enter-veil{display:none}
+  .hero .shots img{animation:none;transform:none;transition:none}
+}
+
+/* --- A2 · menu open ----------------------------------------------------- */
+/* the prototype dims the page below the nav, not the nav itself (frame A2) */
+.menu-dim{position:fixed;inset:0;z-index:var(--z-sticky);background:rgba(15,15,14,.35);
+  opacity:0;pointer-events:none;transition:opacity var(--d-settled) var(--settle)}
+.menu-dim.on{opacity:1;pointer-events:auto}
+
+.mega{position:absolute;top:100%;left:0;right:0;z-index:var(--z-header);background:var(--ivory);
+  border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+  opacity:0;visibility:hidden;transform:translateY(-.5rem);
+  transition:opacity var(--d-quick) var(--settle),transform var(--d-quick) var(--settle),visibility var(--d-quick)}
+.mega.on{opacity:1;visibility:visible;transform:none}
+.mega .inner{display:grid;gap:var(--s-5);padding-block:var(--s-5) var(--s-6);
+  grid-template-columns:minmax(0,1fr)}
+@media (min-width:64em){
+  /* five children, four tracks — so the second feature wrapped to a new row
+     under the first link column and sat four hundred pixels below its pair */
+  .mega .inner{grid-template-columns:repeat(3,11.5rem) minmax(0,1fr) minmax(0,1fr);
+    gap:var(--s-6);align-items:start}
+}
+.mega .fh{font-family:var(--font-sans);font-weight:500;font-size:var(--t-xs);
+  letter-spacing:var(--track-label);text-transform:uppercase;color:var(--brass-text);margin-bottom:var(--s-4)}
+.mega a.ml{display:block;font-family:var(--font-serif);font-size:var(--t-md);
+  line-height:1.3;color:var(--txt);padding-block:.45rem;
+  transition:color var(--d-quick) var(--settle)}
+/* these used to slide .35rem to the right on hover — the same gesture the
+   footer links had, and the only two places on the site that did it */
+.mega a.ml:hover,.mega a.ml:focus-visible{color:var(--ink)}
+.mega .feature{display:block;min-width:0;overflow:hidden}
+.mega .feature img{width:100%;aspect-ratio:6/5;object-fit:cover;background:var(--plaster);
+  transition:transform var(--d-slow) var(--settle)}
+.mega .feature:hover img{transform:scale(1.03)}
+.mega .feature span{display:block;margin-top:var(--s-3);font-family:var(--font-sans);
+  font-size:var(--t-xs);letter-spacing:var(--track-label);text-transform:uppercase;color:var(--txt-2)}
+.nav .inner{position:relative}
+.links a[aria-expanded="true"]{color:var(--ink)}
+/* the panel belongs to the nav, so the nav must be the containing block */
+.nav{position:relative}
+
+/* --- µ1 · CARD ---------------------------------------------------------- */
+/* Reverted to the behaviour that worked: the panel slides up over the bottom of
+   the frame and the image develops very slightly. My zoom-out experiment made
+   the panel escape the frame at narrow widths and jump between two crops; it is
+   gone. The crops themselves stay — those were a genuine fix. */
+/* left behind by the card lift that was removed two passes ago: it declared a
+   transition for a shadow the card no longer has, and because it ties with
+   .rev on specificity and comes later in the sheet it was taking the entrance
+   away from every product card on the site — they were appearing instantly
+   while everything around them faded in. */
+.card .ph{position:relative;overflow:hidden}
+.card .ph img{width:100%;height:100%;object-fit:cover;
+  transition:transform var(--d-slow) var(--settle)}
+.card h3{transition:color var(--d-settled) var(--settle)}
+
+/* the panel lives inside the frame and never leaves it */
+.quick{position:absolute;left:0;right:0;bottom:0;z-index:var(--z-raised);max-height:100%;overflow:hidden;
+  background:rgba(241,240,232,.97);padding:var(--s-3);
+  transform:translateY(100%);transition:transform var(--d-settled) var(--settle)}
+/* Two buttons, one row, equal halves. They were flex-wrap items sized by
+   their own labels, so 100 ml — £160 took the whole line and the second size
+   dropped beneath it; the pair now shares the row whatever the labels say. */
+.quick .r{display:grid;grid-template-columns:1fr 1fr;gap:var(--s-2)}
+.quick .r .btn{width:100%;min-width:0;padding-inline:var(--s-2);
+  white-space:nowrap;text-align:center;justify-content:center}
+
+@media (hover:hover) and (pointer:fine){
+  .card:hover .ph img{transform:scale(1.03)}
+  .card:hover h3{color:var(--brass-text)}
+  .card:hover .quick,.card:focus-within .quick{transform:none}
+}
+/* no hover to reveal it on touch, so it never renders there */
+@media (hover:none),(pointer:coarse){ .quick{display:none} }
+/* and not at all where the card is too small to hold it */
+@media (max-width:33.9375em){ .quick{display:none} }
+
+/* --- µ2 · SIZE OPTION --------------------------------------------------- */
+/* The original note here read "selection is an instant fill swap", and this
+   block was re-declaring the fill several hundred lines after the size
+   control was defined — so the boxed, solid-black selected state survived
+   the restyling above and came back on the product page alone. The
+   commitment should still be instant; it is the rule that appears, not a
+   fill. */
+.sizes button[aria-current]{transition:none}
+.sizes button[aria-current]::after{transition:none}
+
+/* --- µ3 · BAG ROW ------------------------------------------------------- */
+/* "row warms to sand, REMOVE inks in and underlines — destructive action only
+    visible when attended. 300ms." */
+.line,.ditem{transition:background-color var(--d-quick) var(--settle)}
+.line{margin-inline:calc(var(--s-3) * -1);padding-inline:var(--s-3)}
+.line:hover,.ditem:hover{background:var(--sand)}
+.line .ul,.ditem .ul{opacity:0;border-bottom-color:transparent;
+  transition:opacity var(--d-quick) var(--settle),border-bottom-color var(--d-quick) var(--settle)}
+.line:hover .ul,.ditem:hover .ul,.line:focus-within .ul,.ditem:focus-within .ul{
+  opacity:1;border-bottom-color:currentColor}
+@media (hover:none){ .line .ul,.ditem .ul{opacity:1;border-bottom-color:currentColor} }
+
+/* --- µ5 · GALLERY ------------------------------------------------------- */
+/* "main image develops (dissolve 400ms) on thumb click; hairline moves to the
+    active thumb. No sliding, no zoom theatrics." */
+.gal .main,.show .big{transition:opacity var(--d-settled) var(--settle)}
+.gal .strip button,.show .thumbs button{position:relative;transition:opacity var(--d-quick) var(--settle)}
+.gal .strip button::after,.show .thumbs button::after{content:"";position:absolute;
+  left:0;right:0;bottom:-.375rem;height:1px;background:var(--ink);
+  transform:scaleX(0);transform-origin:left;transition:transform var(--d-settled) var(--settle);transition:transform var(--d-quick) var(--settle),opacity var(--d-quick) var(--settle)}
+.gal .strip button[aria-current]::after,.show .thumbs button[aria-current]::after{transform:scaleX(1)}
+/* hover lifts the plate to full ink and sketches the rule it would earn */
+.gal .strip button:hover,.show .thumbs button:hover{opacity:1}
+.gal .strip button:hover::after,.show .thumbs button:hover::after{
+  transform:scaleX(1);opacity:.35}
+.gal .strip button[aria-current]:hover::after,
+.show .thumbs button[aria-current]:hover::after{opacity:1}
+.gal .strip button,.show .thumbs button{border-color:transparent!important}
+
+/* --- F1 · footer link hover -------------------------------------------- */
+footer a{transition:opacity var(--d-quick) var(--settle)}
+footer .cols a:hover,footer .cols a:focus-visible{opacity:1}
+
+
+/* ==========================================================================
+   PDP story bands — P10 frames `pdp · story band`, `· the story`,
+   `· the margins`, `· the stone`. The brand's whole argument lives here.
+   ========================================================================== */
+
+/* --- story band: a quote held over the chapter's own photograph --------- */
+/* Taller than it was. At 20rem the quote had 117px of picture above it on a
+   laptop — not enough to read as a plate, too much to read as a rule. The
+   ceiling matches the Share hero's, so the two full-bleed bands on the site
+   stop at the same height. */
+.storyband{position:relative;display:grid;align-items:end;isolation:isolate;
+  min-height:clamp(24rem,52svh,36rem);overflow:hidden;color:var(--ivory)}
+.storyband>img,.storyband>picture>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:var(--z-art)}
+/* The film sits on the still, at the same depth and later in source order, so
+   it covers it without ever replacing it. It fades in only once it can play. */
+.storyband>video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  z-index:var(--z-art);opacity:0;transition:opacity var(--d-slow) var(--settle)}
+.storyband>video.ready{opacity:1}
+/* Where a film is coming, the photograph beneath it is not a first frame —
+   it is a different picture, and showing it for a second and then dissolving
+   it reads as a mistake. So the band paints on its own dark ground and the
+   still waits: it is only brought up if the film says it cannot play, or if
+   the reader has asked for less motion. */
+.storyband.hasfilm{background:
+  linear-gradient(170deg,#1d1a15 0%,#131109 62%,#0d0b07 100%)}
+.storyband.hasfilm>img,.storyband.hasfilm>picture>img{opacity:0;
+  transition:opacity var(--d-slow) var(--settle)}
+.storyband.hasfilm.nofilm>img,.storyband.hasfilm.nofilm>picture>img{opacity:1}
+@media (prefers-reduced-motion:reduce){
+  .storyband>video{display:none}
+  .storyband.hasfilm>img,.storyband.hasfilm>picture>img{opacity:1;transition:none}
+}
+.storyband::after{content:"";position:absolute;inset:0;z-index:var(--z-behind);
+  background:linear-gradient(8deg,rgba(20,17,12,.78),rgba(20,17,12,.10) 72%)}
+.storyband .c{padding:var(--s-7) var(--gutter) var(--s-6);
+  max-width:calc(46rem + var(--gutter) * 2)}
+.storyband blockquote{font-family:var(--font-display);font-size:var(--t-4);
+  line-height:1.24;text-wrap:balance}
+.storyband :where(p:not(.k)){margin-top:var(--s-4);font-family:var(--font-sans);font-size:var(--t-xs);
+  letter-spacing:var(--track-label);text-transform:uppercase;opacity:var(--o-strong)}
+.storyband a{border-bottom:1px solid rgba(241,240,232,.5);padding-bottom:.15em}
+
+/* --- the story: chapter numeral, excerpt, overlapping plates ------------ */
+.chapter{position:relative;background:var(--ivory);padding-block:var(--sec);overflow:hidden}
+.chapter .inner{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--s-6);
+  position:relative;z-index:var(--z-base)}
+@media (min-width:64em){
+  .chapter .inner{grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+    gap:var(--s-7);align-items:center}
+}
+/* the numeral is a watermark, not a heading — 5% ink, behind everything */
+.chapter .numeral{position:absolute;top:50%;left:50%;translate:-50% -50%;z-index:0;
+  font-family:var(--font-display);font-size:clamp(14rem,26vw,26rem);
+  line-height:.8;color:rgba(43,46,45,.05);pointer-events:none;user-select:none}
+.chapter h2{font-size:var(--t-4);margin-top:var(--s-3);max-width:16ch}
+.chapter .byline{font-family:var(--font-script);font-weight:300;font-style:italic;
+  font-size:var(--t-lg);color:var(--txt-2);margin-top:var(--s-3)}
+.chapter .excerpt{margin-top:var(--s-6);max-width:35rem}
+.chapter .excerpt p{font-size:var(--t-lg);line-height:1.85;color:var(--txt);margin-top:var(--s-4)}
+.chapter .excerpt p:first-child{margin-top:0}
+.chapter .scent{margin-top:var(--s-5);padding-top:var(--s-3);
+  border-top:1px solid var(--brass);border-top-width:1px;max-width:26rem;
+  font-family:var(--font-script);font-weight:300;font-style:italic;
+  font-size:var(--t-1);color:rgba(43,46,45,.85)}
+.chapter .scent{border-top:0;position:relative}
+.chapter .scent::before{content:"";position:absolute;top:0;left:0;width:1.875rem;height:1px;
+  background:var(--brass)}
+.chapter .go{display:flex;flex-wrap:wrap;align-items:center;gap:var(--s-3) var(--s-4);
+  margin-top:var(--s-5)}
+.chapter .go small{font-family:var(--font-sans);font-size:var(--t-xs);
+  letter-spacing:var(--track-label);text-transform:uppercase;color:var(--txt-2)}
+/* two plates, the smaller overlapping the larger — as in the prototype */
+.plates2{position:relative;min-width:0}
+.plates2 .big{width:100%;aspect-ratio:4/3;object-fit:cover;background:var(--plaster)}
+.plates2 .small{width:50%;aspect-ratio:4/3;object-fit:cover;background:var(--plaster);
+  border:.5rem solid var(--ivory);margin-top:-18%;margin-left:-4%;position:relative;z-index:var(--z-base)}
+.plates2 figcaption{margin-top:var(--s-3);text-align:right;
+  font-family:var(--font-script);font-weight:300;font-style:italic;
+  font-size:var(--t-sm);color:var(--txt-2)}
+@media (max-width:47.9375em){
+  .plates2 .small{width:58%;margin-top:-14%}
+  .plates2 figcaption{text-align:left}
+}
+
+/* --- the margins: the pyramid read as three marginal notes -------------- */
+.margins{background:var(--plaster);padding-block:var(--sec)}
+.margins h2{font-size:var(--t-4);margin-top:var(--s-2);max-width:18ch}
+.pyramid{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--s-5);margin-top:var(--s-6)}
+@media (min-width:52em){ .pyramid{grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--s-6)} }
+.pyramid div{position:relative;padding-top:var(--s-4);min-width:0}
+.pyramid div::before{content:"";position:absolute;top:0;left:0;width:1.875rem;height:1px;
+  background:var(--brass)}
+.pyramid b{display:block;font-family:var(--font-sans);font-weight:500;font-size:var(--t-xs);
+  letter-spacing:var(--track-label);text-transform:uppercase;color:var(--txt-2)}
+.pyramid em{display:block;margin-top:var(--s-2);font-family:var(--font-script);
+  font-weight:300;font-style:italic;font-size:var(--t-2);line-height:1.25;color:var(--ink)}
+.pyramid i{display:block;margin-top:var(--s-2);font-family:var(--font-serif);
+  font-style:italic;font-size:var(--t-sm);color:var(--txt-2)}
+
+/* --- the stone --------------------------------------------------------- */
+.stoneband{background:var(--ivory);padding-block:var(--sec)}
+.stoneband .inner{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--s-5);align-items:center}
+@media (min-width:64em){ .stoneband .inner{grid-template-columns:minmax(0,560fr) minmax(0,520fr);gap:var(--s-7)} }
+.stoneband img{width:100%;aspect-ratio:56/34;object-fit:cover;background:var(--plaster)}
+.stoneband h2{font-size:var(--t-3);margin-top:var(--s-3);max-width:14ch}
+.stoneband :where(p:not(.k)){font-size:var(--t-md);line-height:1.8;color:var(--txt);max-width:46ch;margin-top:var(--s-4)}
+.stoneband .ul{margin-top:var(--s-4)}
+
+/* ==========================================================================
+   Touch targets. Declared last, because these are corrections to component
+   rules and have to win on source order — declared early they were being
+   overridden by the very rules they exist to correct.
+
+   The type is never changed. Where a control is small because the design
+   draws it small, the target around it grows instead: padding for the box,
+   negative margin so nothing moves.
+   ========================================================================== */
+/* 24px is the floor at every width, not just on touch — the footer columns
+   run on a 29px pitch so the target grows inside the rhythm without moving a
+   single line of type. */
+footer a,.mega .ml,.acctnav a,.util a,.util button{
+  min-height:1.5rem;display:flex;align-items:center}
+/* the breadcrumb is one line of type — it takes its target from padding, or
+   the separators break onto their own lines */
+.crumb a{display:inline-block;padding-block:.3rem;margin-block:-.3rem}
+/* the same 24px floor for the small links that live inside a line of type —
+   padding grows the box, negative margin keeps the line where it was drawn */
+.ul,.card .price a,.rd{padding-block:.32rem;margin-block:-.32rem}
+input[type=checkbox],input[type=radio]{width:1.25rem;height:1.25rem}
+/* The legal row, the checkout progress and the two links that live inside a
+   sentence were exempted from the floor as "inline" targets. The exemption is
+   allowed, but it is not necessary: padding on an inline box grows the hit
+   area without contributing to the line box, so these reach 24px and not one
+   pixel of type moves. The three that are blockified by a flex parent do grow
+   their row, which those rows had space for. */
+footer .fbot a,footer .legal a,footer .fcopy a{min-height:0;display:inline}
+footer .fbot a,footer .legal a,footer .fcopy a,
+.storyband .c a,.steps a,.re a{padding-block:.42rem}
+
+@media (max-width:47.9375em){
+  footer a,.links a,.util a,.util button,.mega .ml,.acctnav a,.brand,.bagbtn,
+  .house .row a,.tagrow a,.snav a,.sv{
+    min-height:2.75rem;display:flex;align-items:center}
+  /* The footer's navigation is the phone menu again, at the other end of the
+     page, and it was set in the display serif at a size that made fourteen
+     links read as fourteen small headlines. It takes the menu's row exactly:
+     the same sans, the same size, the same row height, the same hairline
+     between one destination and the next. Two lists of places to go should
+     not be two designs — and the heading over each column already matches
+     the menu's group label. */
+  footer .cols a{margin-bottom:0;
+    font-family:var(--font-sans);font-size:var(--t-sm);line-height:1.35;
+    min-height:2.75rem;   /* the menu's rows moved to 2.75rem; these follow */
+    border-bottom:1px solid rgba(241,240,232,.12)}
+  /* no rule above the first link: the menu does not have one either, and the
+     heading is already doing the work of opening the group */
+  footer .fh{margin-bottom:var(--s-2)}
+  .fbot a,.legal a,.fcopy a{min-height:0;display:inline-block;padding-block:.5rem}
+  .legal a{margin-block:-.35rem}
+  .ffield input,.ffield textarea,.field input,.field textarea,.news input{
+    min-height:2.75rem;padding-block:.5rem}
+  /* .sizes button used to be in this list — the tap-target stretch existed
+     for the old inline text marks. The bordered rows have real height, and
+     the negative margin was stacking them into each other on a phone. */
+  .ul,.crumb a,.card .price a,.re a,.rd{
+    padding-block:.72rem;margin-block:-.72rem}
+  input[type=checkbox],input[type=radio],
+  .tryfirst input,.consent input{width:1.5rem;height:1.5rem;margin:0;flex:none}
+  /* Account moves into the menu on a phone. It had been hidden by a rule two
+     hundred lines earlier, which this block then silently un-hid by setting
+     display:flex on the same selector at the same specificity — so the header
+     had three utilities where it has room for two, and Bag was running off
+     the right edge. Declared here, after the rule that was overriding it. */
+  .util>a.u-account{display:none}
+}
+
+/* Search no longer has a home in the menu panel, so the header keeps it at
+   every width — on a 320px screen the wordmark's clamp absorbs the squeeze
+   rather than the reader losing search. */
+
+/* ==========================================================================
+   The last layer — the things nobody names but everybody feels.
+
+   Each of these was a browser default sitting inside a designed page. On
+   their own none of them matters; together they are the difference between a
+   site that was styled and one that was finished.
+   ========================================================================== */
+
+/* Selection was the browser's blue. On an ivory-and-charcoal page it is the
+   single loudest default left, and it appears the moment anyone drags across
+   a headline — which, on a site whose argument is its writing, they do. */
+::selection{background:var(--ochre-200);color:var(--ink);text-shadow:none}
+/* the caret in a field was pure black; it is the site's ink */
+input,textarea,select{caret-color:var(--ink)}
+
+/* Anchor targets have to clear the sticky header, or following "The making"
+   from the mega menu lands the heading underneath it. One token, set at every
+   width, so this cannot drift out of step with the header again. */
+[id]{scroll-margin-top:calc(var(--navh) + var(--s-5))}
+
+/* Kerning and the common ligatures, asked for rather than hoped for: some
+   engines drop kerning below about 20px, which is most of this site's
+   interface text, and the two Caslons carry fi/fl/ffi pairs that appear in
+   "first", "fine", "reflect" and "flyleaf" on the first screen alone. */
+html{font-kerning:normal;font-variant-ligatures:common-ligatures;font-optical-sizing:auto}
+
+/* Figures that sit in a column line up. Caslon Text, Cormorant and Montserrat
+   all carry tabular numerals; the tables, the totals and the price row under
+   every card are the places where a proportional 1 against a 6 reads as a
+   wobble. */
+.table,.summary,.dtot,.card .price,.ditem .meta,.line .meta,.srow,.acct .table{
+  font-variant-numeric:tabular-nums}
+
+/* The opening quote of a pull quote sits optically outside the measure, so the
+   first letter of the sentence lines up with everything above and below it
+   rather than being pushed in by the width of a comma. Safari does this
+   properly; everywhere else takes the hanging indent. */
+blockquote{hanging-punctuation:first last}
+@supports not (hanging-punctuation:first){
+  .storyband blockquote,.pnote blockquote,.yfeat .q{text-indent:-.42em}
+}
+
+/* Tapping anything on iOS flashed a translucent blue rectangle over it. The
+   site has had its own :active states since the launch pass, so the flash was
+   adding nothing except a colour from another design system. */
+a,button,summary,label,input,select,textarea,[role="button"]{
+  -webkit-tap-highlight-color:transparent}
+
+/* Tell the engine what it is looking at, so form controls, scrollbars and the
+   spellcheck underline are themed for a light page rather than guessed at. */
+:root{color-scheme:light}
+
+/* Scrolling an overlay should not carry on into the page underneath it once
+   it reaches its end — the drawer and the scent sheet both sit above a locked
+   body, and chaining the scroll through is how an overlay feels flimsy. */
+.drawer,.sheetlist,.mega,.srch,.menupanel{overscroll-behavior:contain}
+
+/* Windows High Contrast throws away every background and shadow, which on
+   this site means the selected size, the pressed scent chip and the drawn
+   checkbox all become invisible — every one of them is marked with a painted
+   rule or a drawn tick. These keep their state in a system colour. */
+@media (forced-colors:active){
+  .shelfbar .opts button[aria-checked="true"]::after,
+  .shelfbar .opts button[aria-pressed="true"]::before,
+  .sizes button[aria-current]::after,
+  .gal .strip button[aria-current]::after,
+  .show .thumbs button[aria-current]::after{
+    background:Highlight;forced-color-adjust:none}
+  .tryfirst input:checked::after,.consent input:checked::after,
+  .srow[aria-pressed="true"] i::after{border-color:Highlight;forced-color-adjust:none}
+  .srow-one[aria-checked="true"] i::after{background:Highlight;forced-color-adjust:none}
+  .achip{forced-color-adjust:none;outline:1px solid CanvasText}
+  .chip{forced-color-adjust:none;outline:1px solid CanvasText}
+  .btn{border:1px solid ButtonBorder}
+}
+
+/* And the page itself, on paper: the navigation, the bag and the decoration
+   are not part of the story someone wanted to keep. */
+@media print{
+  .topbar,.ann,.drawer,.sheet,.sheetscrim,.mega,.menu-dim,.menupanel,.enter-veil,
+  .srch,.srchscrim,
+  .shelfbar,.quick,.cue,footer .cols,.news,.skip{display:none!important}
+  *{background:#fff!important;color:#000!important;box-shadow:none!important}
+  a[href^="http"]::after{content:" (" attr(href) ")";font-size:.85em}
+  .rail{display:block!important}
+  .rail>*{break-inside:avoid}
+  section{break-inside:avoid-page}
+}
+
+/* ------------------------------------------------- sticky PDP add-to-bag -- */
+/* Phone only. Fixed to the bottom edge — the thumb zone — with the chosen
+   size and price restated so the button never asks for a decision the reader
+   cannot see. Hidden entirely on desktop, where the buy block is one glance
+   away; and for reduced motion it appears without the slide. */
+.pdpbar{position:fixed;left:0;right:0;bottom:0;z-index:var(--z-sticky);
+  display:flex;flex-direction:column;
+  background:var(--ivory);border-top:1px solid var(--line);
+  padding:var(--s-2) var(--gutter) calc(var(--s-2) + env(safe-area-inset-bottom,0px));
+  transform:translateY(102%);transition:transform var(--d-quick) var(--settle)}
+.pdpbar.on{transform:none}
+.pdpbar .r{display:flex;align-items:center;gap:var(--s-3)}
+.pdpbar .t{min-width:0;flex:1;display:flex;flex-direction:column;gap:.1rem}
+.pdpbar .t b{font-family:var(--font-display);font-weight:400;font-size:var(--t-0);
+  color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pdpbar .t span{font-family:var(--font-sans);font-size:var(--t-xs);
+  letter-spacing:var(--track-label);text-transform:uppercase;color:var(--txt-2)}
+.pdpbar .btn{flex:none;min-height:2.75rem}
+@media (min-width:64rem){ .pdpbar{display:none} }
+@media (prefers-reduced-motion:reduce){ .pdpbar{transition:none} }
+.haspdpbar footer{padding-bottom:calc(var(--s-6) + 7rem + env(safe-area-inset-bottom,0px))}

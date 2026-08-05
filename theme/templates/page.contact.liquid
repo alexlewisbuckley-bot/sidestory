@@ -1,0 +1,32 @@
+
+<div class="inner">
+  <p class="crumb"><a href="/">Home</a> / Contact</p>
+  <div class="phead"><p class="k">Contact</p><h1>Write to the&nbsp;house.</h1>
+    <p class="lede">Two people read this inbox. You will hear back within two working days, from one of&nbsp;them.</p></div>
+  <form class="form" onsubmit="event.preventDefault();this.hidden=true;var d=this.parentNode.querySelector('.formdone');d.hidden=false;d.setAttribute('tabindex','-1');d.focus();">
+    <div>
+      <div class="row2">
+        <label class="field"><span>Name</span><input required></label>
+        <label class="field"><span>Email</span><input type="email" required></label>
+      </div>
+      <label class="field"><span>What is it about?</span>
+        <select><option>An order</option><option>A return</option><option>Stockists &amp; press</option><option>Something else</option></select></label>
+      <label class="field"><span>Message</span><textarea required></textarea></label>
+      <div class="actions"><button class="btn btn-ink" type="submit">Send</button></div>
+    </div>
+    <div class="aside-card">
+      <h2 class="vh">How to reach&nbsp;us</h2>
+      <h3>Directly</h3>
+      <p>contact@sidestoryparfums.com<br>+44 20 7946 0114<br>Monday to Friday, 9&ndash;5 UK</p>
+      <p>Side Story Parfums<br>Unit 4, The Bindery<br>London E2 8HD</p>
+      <p>Press and wholesale: press@sidestoryparfums.com</p>
+    </div>
+  </form>
+  <div class="formdone" hidden>
+    <div class="r"></div>
+    <p class="k">Received</p>
+    <h2>It has&nbsp;arrived.</h2>
+    <p>Two people read this inbox and one of them will write back, within two working days. If it is about an order, quoting the order number will get you a faster answer.</p>
+    <p><a class="ul" href="/pages/faq">Read the questions we are asked most</a></p>
+  </div>
+</div>
