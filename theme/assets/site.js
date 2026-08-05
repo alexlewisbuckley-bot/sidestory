@@ -699,7 +699,7 @@
   }
   window.SSremove=i=>{bag.splice(i,1);save();renderBag();};
   window.addToBag=(slug,kind,btn)=>{
-    const p=CAT[slug]||CAT.set||{name:'The First Lines',img:'assets/img/set-first-lines.jpg',price:38,stone:''};
+    const p=CAT[slug]||CAT.set||{name:'The First Lines',img:'https://sidestory-rho.vercel.app/assets/img/set-first-lines.jpg',price:38,stone:''};
     /* 'full' is the old name for the 100ml and still arrives from older markup */
     const key = kind==='full' ? '100ml' : kind;
     const v = (p.sizes||{})[key];

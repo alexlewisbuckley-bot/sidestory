@@ -68,7 +68,10 @@ def map_assets(s):
                "{{ 'site.js' | asset_url }}", s)
     s = re.sub(r'(?:/?assets/fonts/([a-z0-9-]+\.woff2))',
                lambda m: "{{ '%s' | asset_url }}" % m.group(1), s)
-    s = re.sub(r'(["(])/?assets/', lambda m: m.group(1) + CDN + "/assets/", s)
+    # Any remaining assets/ reference — quoted, parenthesised, or a srcset
+    # continuation entry after ", " — goes absolute to the CDN. The lookbehind
+    # refuses matches already inside an absolute URL (preceded by "/").
+    s = re.sub(r"(?<![a-z/])/?assets/", CDN + "/assets/", s)
     return s
 
 
@@ -212,6 +215,7 @@ window.SS_FREE_CENTS = {{ 15000 }};
     js = js.replace("'product-'+card.dataset.slug+'.html'+(key==='100ml'?'':'?size='+key)",
                     "'/products/'+card.dataset.slug+(key==='100ml'?'':'?size='+key)")
     js = map_urls(js)
+    js = re.sub(r"(?<![a-z/])/?assets/img/", CDN + "/assets/img/", js)
     emit("assets/site.js", js)
 
     emit("assets/cart.js", CART_JS)
