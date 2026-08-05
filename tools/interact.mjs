@@ -17,7 +17,7 @@ await p.click('.applied .clear'); await p.waitForTimeout(300);
 ok('clear restores all', await p.evaluate(()=>[...document.querySelectorAll('.cards .card')].every(c=>!c.hidden)
   && document.querySelector('[data-applied]').hidden));
 await p.click('.finline [data-filter="size"][data-value="7-5ml"]'); await p.waitForTimeout(400);
-ok('size swaps price', await p.evaluate(()=>document.querySelector('.card .price').textContent.includes('40')));
+ok('size swaps price', await p.evaluate(()=>document.querySelector('.card .price').textContent.includes('25')));
 ok('size marker moves', await p.evaluate(()=>getComputedStyle(document.querySelector('.finline [data-value="7-5ml"]'),'::after').opacity==='1'
   && getComputedStyle(document.querySelector('.finline [data-value="100ml"]'),'::after').opacity==='0'));
 ok('size never hides a card', await p.evaluate(()=>[...document.querySelectorAll('.cards .card')].every(c=>!c.hidden)));

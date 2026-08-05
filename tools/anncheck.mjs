@@ -54,7 +54,7 @@ for (const [w, h] of [[390, 844], [1440, 900]]) {
   ok('every message present', s.spoken === 2, s);
   ok('no horizontal page overflow', !s.docOverflowX, s);
   ok('one line tall', s.annH < 52 && s.oneLine, s);
-  ok('the threshold reaches the script', s.free === 40, s);
+  ok('the threshold reaches the script', s.free === 30, s);
 
   // it actually moves, and it rejoins
   const a1 = await p.evaluate(() => new DOMMatrixReadOnly(getComputedStyle(document.querySelector('[data-ann]')).transform).m41);
@@ -72,8 +72,8 @@ for (const [w, h] of [[390, 844], [1440, 900]]) {
 
   // the delivery line is there and reads with both currencies
   ok('the delivery message carries both currencies', await p.evaluate(() =>
-    /£40/.test(document.querySelector('.ann').textContent)
-    && /AED\s?400/.test(document.querySelector('.ann').textContent.replace(/ /g, ' '))));
+    /£30/.test(document.querySelector('.ann').textContent)
+    && /AED\s?150/.test(document.querySelector('.ann').textContent.replace(/ /g, ' '))));
 
   // no layout shift attributable to the strip
   const cls = await p.evaluate(() => new Promise(res => {
