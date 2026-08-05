@@ -567,7 +567,13 @@ main>:first-child:is(.band,.seven):has(> .inner > .crumb){padding-top:0}
    touch, where hover never fires, this was the only missing feedback. */
 .btn:active{transform:translateY(1px)}
 .btn[disabled],.btn:disabled{opacity:.55;cursor:default;transform:none}
-.btn[disabled]:hover,.btn:disabled:hover{background:inherit}
+/* a disabled button freezes at its own resting colours -- `inherit` took the
+   parent's background, which turned btn-ink ivory-on-ivory inside light
+   overlays and made the pressed button vanish for its 1.4s hold */
+.btn-ink[disabled]:hover,.btn-ink:disabled:hover{background:var(--ink)}
+.btn-ivory[disabled]:hover,.btn-ivory:disabled:hover{background:var(--ivory)}
+.btn-ghost[disabled]:hover,.btn-ghost:disabled:hover,
+.btn-ghostink[disabled]:hover,.btn-ghostink:disabled:hover{background:transparent}
 .ul:active,.sv:active,.scard:active{opacity:.5}
 button:disabled,[aria-disabled="true"]{cursor:default}
 /* Press. Borderless text controls acknowledge a tap by dimming, not by

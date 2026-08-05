@@ -118,7 +118,10 @@
   fixPrices();
   /* longer store-currency strings need a touch more room in the 50/50 row */
   const st = document.createElement('style');
-  st.textContent = '.quick .r .btn{letter-spacing:.02em;font-size:min(var(--t-btn),3.6vw)}';
+  st.textContent = '.quick .r .btn{letter-spacing:.02em;font-size:min(var(--t-btn),3.6vw)}'
+    + '.btn-ink[disabled]:hover{background:var(--ink)}'
+    + '.btn-ivory[disabled]:hover{background:var(--ivory)}'
+    + '.btn-ghost[disabled]:hover,.btn-ghostink[disabled]:hover{background:transparent}';
   document.head.appendChild(st);
   document.addEventListener('click', e=>{
     const b = e.target.closest('[data-remove]'); if(!b) return;
