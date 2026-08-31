@@ -1532,7 +1532,6 @@ def build():
     <div class="cards" data-size="{key or '100ml'}">
 {cards}
     </div>
-    <p class="foot rev">Every 100ml ships with its printed story and its carved stone lid &nbsp;&middot;&nbsp; 7.5ml and samples travel in a printed sleeve &nbsp;&middot;&nbsp; complimentary UK delivery over &pound;{FREE_GBP}</p>
   </div>
 </section>
 """, current="collection.html")
