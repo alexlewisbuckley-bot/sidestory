@@ -496,10 +496,17 @@
       /* same measurement as the phone menu: the announcement bar above the
          header scrolls away, so the header's bottom edge is not a constant */
       const nav = document.querySelector('.nav');
+      /* the header is not sticky, so its bottom edge moves with the page.
+         Measured live while the panel is open — the panel rides the nav up
+         and, once the nav has scrolled away, sits flush with the viewport
+         top (its own SEARCH/CLOSE header keeps it complete). */
+      const setTop = () => { if(nav) panel.style.setProperty('--srch-top',
+        Math.max(0, Math.round(nav.getBoundingClientRect().bottom)) + 'px'); };
+      const glue = () => requestAnimationFrame(setTop);
       const open = () => {
         if(panel.classList.contains('open')) return;
-        if(nav) panel.style.setProperty('--srch-top',
-          Math.round(nav.getBoundingClientRect().bottom) + 'px');
+        setTop();
+        addEventListener('scroll', glue, {passive:true});
         overlayOpen(panel, {scrim});
         /* overlayOpen focuses the dialog; the one place a control should take
            focus instead is a search field, where the keyboard is the point */
@@ -509,7 +516,7 @@
           if(matchMedia('(hover:hover) and (pointer:fine)').matches) q.select();
         }, 90);
       };
-      const close = () => overlayClose(panel);
+      const close = () => { removeEventListener('scroll', glue); overlayClose(panel); };
       window.SSsearch = {open, close};
 
       document.getElementById('srchclose').addEventListener('click', close);
