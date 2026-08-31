@@ -80,9 +80,9 @@ PRODUCTS = [
          img="p-hotel-lobby", badge="Bestseller", read="5 min", family="woods", wear="FILLER \u2014 wear line to come", theme="Anticipation + Attraction", style="Woods. Green.", origin="Nero Marquina, Basque Country",
          top="Fig Leaf / Oud", mid="Pepper / Patchouli / Cypriol", base="Sandalwood / Coconut / Vanilla"),
     dict(slug="sibling-rivalry", name="Sibling Rivalry", stone="Leopard Salome", swatch="var(--stone-sibling-rivalry)",
-         notes="FILLER \u2014 style to come", story="Story II",  feeling="FILLER",
-         line="There is a particular silence that only a brother can make, and she had been listening to it for thirty years.",
-         img="p-sibling-rivalry", badge="", read="6 min", family="citrus", wear="FILLER \u2014 wear line to come", theme="FILLER \u2014 story theme to come", style="FILLER \u2014 style to come", origin="FILLER \u2014 stone origin to come",
+         notes="Spice. Amber. Woods.", story="Story II",  feeling="Daring",
+         line="The lights onstage were blinding, but she knew from the cacophony coming from the seats that the ceremony had sold out.",
+         img="p-sibling-rivalry", badge="", read="6 min", family="spice", wear="FILLER \u2014 wear line to come", theme="Daring + Deceit", style="Spice. Amber. Woods.", origin="Leopard Salome, Turkey",
          top="FILLER \u2014 top notes to come", mid="FILLER \u2014 middle notes to come", base="FILLER \u2014 base notes to come"),
     dict(slug="pillow-talk",    name="Pillow Talk",    stone="Calacatta",      swatch="var(--stone-pillow-talk)",
          notes="Powder. Citrus. Spice.",    story="Story III", feeling="Intimacy",
@@ -137,18 +137,25 @@ CHAPTERS = {
     stone_title="Nero Marquina, cut once.",
     stone_body="FILLER \u2014 stone note to come"),
 
-  # SIBLING RIVALRY — NO STORY SUPPLIED. Everything below marked FILLER is
-  # placeholder Latin standing in for copy that does not exist yet: this was
-  # the one fragrance with no commissioned text, and what stood here before
-  # was invented to fill the hole, which is worse than an obvious gap because
-  # it reads as finished. The author credit is a placeholder too. Replace the
-  # whole block when the real chapter arrives; nothing else references it.
+  # Sibling Rivalry — copy supplied by Alex, 5 Aug. Paragraphs verbatim.
+  # Notes, wear line, scent line, caption, margins, stone note and the
+  # author credit are still FILLER — the story and its facts are real now.
   "sibling-rivalry": dict(
-    summary="FILLER \u2014 story summary to come.",
-    pull="Sed ut perspiciatis unde omnis iste natus error sit voluptatem.", pullref="FILLER \u2014 story to come",
-    numeral="II", chapter="Chapter I of IX", title="Lorem ipsum dolor sit amet.", author="[author to be credited]",
-    paras=["Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-           "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."],
+    summary="The lights onstage were blinding, but she knew from the cacophony coming from the seats that the ceremony had sold out. She’d always felt at ease in the spotlight, yet it still gave her a thrill to draw such a large crowd. A message from her younger brother — her most adoring fan, and her toughest competitor.",
+    pull="Fearful of being outshined, each became more dazzling.",
+    pullref="From Sibling Rivalry, Chapter I",
+    numeral="II", chapter="Chapter I of IX", title="Game on.", author="[author to be credited]",
+    paras=[
+      "The lights onstage were blinding, but she knew from the cacophony coming from the seats that the ceremony had sold out. She’d always felt at ease in the spotlight, yet it still gave her a thrill to draw such a large crowd. She rehearsed her remarks in her head – I couldn’t have written this book alone… I am honored and humbled to receive this award… – and then felt a buzz in her handbag. A message from her younger brother, her most adoring fan – and her toughest competitor.",
+      "Congratulations, sis. Tennis this weekend? Can’t let all the success go to your head. I’ve been working on my backhand…",
+      "In some ways, they were like night and day. She was cerebral, he was an artisan. She loved to strategize, he jumped in feet first. She could be stoic, even steely, whilst he was loud, expressive, and led with his heart. And yet the volley between them that had begun as children had persisted, with sparkling intensity, even as they grew into distinctly different adults.",
+      "When had they begun to vie with one another? Neither could remember a time before they were competitors. As children, they spent their summers chasing each other round the meadow behind their grandparents’ cottage, until the evening sky glowed amber and they were called indoors for dinner. In prep school, their rivalry turned intellectual. Who possessed a greater command of history, of literature, of classic cinema? Fearful of being outshined, each became more dazzling.",
+      "On the surface, it was folly. Yet their hungry competition betrayed their jealous aspirations. Neither could rest in the other’s company, suspicious that a single lapse in striving could lead to their betrayal. Beneath their friendly swordplay lay a spurious unease.",
+      "And as they grew older, the volley continued. Her first book deal, his first solo exhibition. His first magazine profile, her first week on the bestseller list. One achievement after the next, hers then his, his then hers, back and forth, steady as a pulse.",
+      "The lights in the audience began to fade. Soon all eyes would be on her. But of course, in short order, it would be his turn again.",
+      "With an impish grin, she dashed off a reply:",
+      "Game on.",
+    ],
     scent="FILLER \u2014 scent line to come",
     caption="FILLER \u2014 caption to come",
     margins=[("Opening","FILLER \u2014 note to come","FILLER \u2014 line to come"),

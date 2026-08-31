@@ -25,8 +25,8 @@ for (const W of [390, 768, 1024, 1440, 1920]) {
   });
   console.log('  sty '+JSON.stringify(f));
   ok('seven styles', f.n===7, f);
-  ok('Woods leads with its four', f.first && f.first.name==='Woods'
-     && /4 stories/i.test(f.first.count) && f.first.chips===4
+  ok('Woods leads with its five', f.first && f.first.name==='Woods'
+     && /5 stories/i.test(f.first.count) && f.first.chips===5
      && f.first.href==='collection.html?scent=woods', f.first);
   ok('member names present', f.first && /Hotel Lobby/.test(f.first.who), f.first);
   ok('rows do not overlap', !f.overlap, f);
