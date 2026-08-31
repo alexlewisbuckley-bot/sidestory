@@ -80,6 +80,8 @@ def map_assets(s):
 # Amounts with no confirmed AED value (shipping table, refills) pass through.
 AED = {"160": "760", "25": "200", "5": "25", "30": "150", "0": "0"}
 def map_prices(s):
+    # the announcement's dual-currency line collapses to the store currency
+    s = s.replace("&pound;30 / AED&nbsp;150", "AED&nbsp;150")
     return re.sub(r"(?:\u00a3|£|&pound;)(\d+)\b",
                   lambda m: ("Dhs. " + AED[m.group(1)]) if m.group(1) in AED
                   else m.group(0), s)
