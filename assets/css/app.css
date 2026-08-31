@@ -795,8 +795,8 @@ button:disabled,[aria-disabled="true"]{cursor:default}
   padding:var(--s-3);transform:translateY(101%);transition:transform var(--d-settled) var(--settle)}
 .card:hover .quick,.card:focus-within .quick{transform:none}
 .quick .r{display:flex;flex-wrap:wrap;gap:var(--s-2)}
-.quick small{display:block;margin-top:var(--s-2);font-family:var(--font-sans);
-  font-size:var(--t-2xs);letter-spacing:var(--track-micro);text-transform:uppercase;color:var(--txt-2)}
+.quick small{display:block;margin-top:var(--s-2);font-family:var(--font-serif);
+  font-style:italic;font-size:var(--t-xs);letter-spacing:0;color:var(--txt-2)}
 @media (hover:none){ .quick{display:none} }
 
 .card .meta{margin-top:var(--s-3)}
@@ -1829,8 +1829,8 @@ html.overlay-open,html.overlay-open body{overflow:hidden}
   letter-spacing:var(--track-micro);text-transform:uppercase;white-space:nowrap}
 .szp{grid-column:3;justify-self:end;font-family:var(--font-sans);font-weight:500;
   font-size:var(--t-xs);letter-spacing:var(--track-micro)}
-.szi{grid-column:2/4;font-family:var(--font-sans);font-size:var(--t-2xs);
-  letter-spacing:var(--track-micro);color:var(--txt-2);text-wrap:pretty}
+.szi{grid-column:2/4;font-family:var(--font-serif);font-style:italic;
+  font-size:var(--t-xs);letter-spacing:0;color:var(--txt-2);text-wrap:pretty}
 
 /* the offer block reads the same here as it does in the bag */
 .pdp .tryfirst{margin-top:var(--space-5)}
@@ -2378,9 +2378,14 @@ input:user-invalid,textarea:user-invalid{border-color:var(--text-error)}
 .line h3{font-size:var(--t-1)}
 .line :where(.meta){font-family:var(--font-sans);font-size:var(--t-xs);letter-spacing:var(--track-label);
   text-transform:uppercase;color:var(--txt);margin-top:var(--s-2)}
-.line .act{display:flex;flex-wrap:wrap;align-items:center;gap:var(--s-3);margin-top:var(--s-3)}
-/* the drawer line uses the same action row as the bag page */
-.ditem .act{display:flex;flex-wrap:wrap;align-items:center;gap:var(--s-3);margin-top:var(--s-2)}
+.line .act{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:var(--s-3);margin-top:var(--s-3)}
+/* the drawer line uses the same action row as the bag page: price left,
+   a quiet Remove on the right edge, out of the price's way */
+.ditem .act{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;
+  gap:var(--s-3);margin-top:var(--s-2)}
+.ditem .act .ul,.line .act .ul{font-size:var(--t-2xs);letter-spacing:var(--track-micro);
+  color:var(--txt-2)}
+.ditem .act .ul:hover,.line .act .ul:hover{color:var(--txt)}
 .qty{display:inline-flex;align-items:center;border:1px solid var(--txt-2)}
 .qty button{min-width:2.25rem;min-height:2.25rem}
 .qty span{min-width:2rem;text-align:center;font-family:var(--font-sans);font-size:var(--t-xs)}

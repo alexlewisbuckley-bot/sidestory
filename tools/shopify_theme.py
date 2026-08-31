@@ -646,7 +646,11 @@ CART_JS = r"""
   /* longer store-currency strings need a touch more room in the 50/50 row */
   const st = document.createElement('style');
   st.textContent = '.quick .r .btn{letter-spacing:.02em;font-size:min(var(--t-btn),3.6vw)}'
-    + '.ditem .act{display:flex;flex-wrap:wrap;align-items:center;gap:var(--s-3);margin-top:var(--s-2)}'
+    + '.ditem .act{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:var(--s-3);margin-top:var(--s-2)}'
+    + '.line .act{align-items:baseline;justify-content:space-between}'
+    + '.ditem .act .ul,.line .act .ul{font-size:var(--t-2xs);letter-spacing:var(--track-micro);color:var(--txt-2)}'
+    + '.ditem .act .ul:hover,.line .act .ul:hover{color:var(--txt)}'
+    + '.quick small,.szi{font-family:var(--font-serif);font-style:italic;font-size:var(--t-xs);letter-spacing:0;text-transform:none;color:var(--txt-2)}'
     + '.btn-ink[disabled]:hover{background:var(--ink)}'
     + '.btn-ivory[disabled]:hover{background:var(--ivory)}'
     + '.btn-ghost[disabled]:hover,.btn-ghostink[disabled]:hover{background:transparent}';

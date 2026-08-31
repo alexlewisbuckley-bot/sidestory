@@ -1018,6 +1018,15 @@
         if(g.btns.some(b=>b.dataset.value===v)) g.chosen.add(v);
       });
     })();
+    /* ?size=7-5ml works the same way — the nav's size links land on the
+       shelf with that size already pressed and applied. */
+    (function(){
+      const want=new URLSearchParams(location.search).get('size');
+      const g=groups.get('size');
+      if(!want||!g) return;
+      const v=want.replace(/[^a-z0-9-]/gi,'');
+      if(g.btns.some(b=>b.dataset.value===v)){ g.chosen.clear(); g.chosen.add(v); }
+    })();
     paint();
     groups.forEach(g=>{ if(g.mode==='one') applyOne(g); });
   });
