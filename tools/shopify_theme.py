@@ -75,6 +75,16 @@ def map_assets(s):
     return s
 
 
+# Store prices are AED; the four confirmed GBP price points map to their
+# store equivalents so the theme's baked copy agrees with the live cart.
+# Amounts with no confirmed AED value (shipping table, refills) pass through.
+AED = {"160": "760", "25": "200", "5": "25", "30": "150", "0": "0"}
+def map_prices(s):
+    return re.sub(r"(?:\u00a3|£|&pound;)(\d+)\b",
+                  lambda m: ("Dhs. " + AED[m.group(1)]) if m.group(1) in AED
+                  else m.group(0), s)
+
+
 def read(name):
     with open(os.path.join(ROOT, name), encoding="utf-8") as f:
         return f.read()
@@ -323,7 +333,10 @@ def build_theme():
     if os.path.isdir(OUT):
         shutil.rmtree(OUT)
 
-    idx = map_assets(map_urls(read("index.html")))
+    idx = map_prices(map_assets(map_urls(read("index.html"))))
+    # the store trades in dirhams; the footer locale line says so
+    idx = idx.replace("United Kingdom (GBP &pound;)",
+                      "United Arab Emirates (AED Dhs.)")
 
     # ---- layout/theme.liquid --------------------------------------------
     head_end = idx.index("</head>")
@@ -391,7 +404,7 @@ window.SS_FREE_CENTS = {{ 15000 }};
 
     # ---- templates ------------------------------------------------------
     def template_from(page, tpl, extra=""):
-        html = map_assets(map_urls(read(page)))
+        html = map_prices(map_assets(map_urls(read(page))))
         _, inner = main_of(html)
         emit(f"templates/{tpl}", extra + inner)
 
@@ -402,7 +415,7 @@ window.SS_FREE_CENTS = {{ 15000 }};
 
     # ---- sectioned templates (theme editor) -----------------------------
     def inner_of(page):
-        html = map_assets(map_urls(read(page)))
+        html = map_prices(map_assets(map_urls(read(page))))
         return main_of(html)[1]
 
     sectionize("index", "home", inner_of("index.html"), split=True)
@@ -425,10 +438,10 @@ window.SS_FREE_CENTS = {{ 15000 }};
     # one product template, the exact page per handle
     cases = []
     for s in SLUGS:
-        html = map_assets(map_urls(read(f"product-{s}.html")))
+        html = map_prices(map_assets(map_urls(read(f"product-{s}.html"))))
         _, inner = main_of(html)
         cases.append("{%% when '%s' %%}\n%s" % (s, inner))
-    html = map_assets(map_urls(read("samples.html")))
+    html = map_prices(map_assets(map_urls(read("samples.html"))))
     _, inner = main_of(html)
     cases.append("{%% when 'discovery-set' %%}\n%s" % inner)
     fallback = ("{% else %}\n<div class=\"inner\"><div class=\"phead\">"
