@@ -78,6 +78,7 @@ PRODUCTS = [
          notes="Woods. Green.",        story="Story I",   feeling="Anticipation",
          line="It was a ten minutes before 8pm when he arrived, and its resplendence never failed to catch him off guard.",
          img="p-hotel-lobby", badge="Bestseller", read="5 min", family="woods", wear="FILLER \u2014 wear line to come", theme="Anticipation + Attraction", style="Woods. Green.", origin="Nero Marquina, Basque Country",
+         desc="Check in to the place where time stands still. A headlong fall into romance, at once ephemeral and enduring, beautifully captured in amber. Smoky oud and dark fig leaf unearth the mysteries of time. A hint of spice teases an untold history. Elegant sandalwood and earthy vanilla, as smooth and warming as a fine Scotch. The fragrance of watery silk, woody cypriol and supple leather, the meeting of yin and yang. Coquettish and assertive and absolutely timeless. When you know, you know.",
          top="Fig Leaf / Oud", mid="Pepper / Patchouli / Cypriol", base="Sandalwood / Coconut / Vanilla"),
     dict(slug="sibling-rivalry", name="Sibling Rivalry", stone="Leopard Salome", swatch="var(--stone-sibling-rivalry)",
          notes="Spice. Amber. Woods.", story="Story II",  feeling="Daring",
@@ -88,26 +89,31 @@ PRODUCTS = [
          notes="Powder. Citrus. Spice.",    story="Story III", feeling="Intimacy",
          line="They had been awake for hours, unspooling the sweet trivialities of their personal histories in sleepy whispers.",
          img="p-pillow-talk", badge="", read="4 min", family="powder", wear="FILLER \u2014 wear line to come", theme="Intimacy + Desire", style="Powder. Citrus. Spice.", origin="Calacatta, Tuscany",
+         desc="Curl up in a perfect moment and wile away a day, a week, a lifetime. A long, languorous morning when the world feels wondrous, made bright and alluring with a taste of the new. Delicate orris blooms perfume the breeze from an open window, caressing bare skin and interlaced fingers. Yesterday’s perfume lingers on crisp white bedlinens, spicy and seductive, warmed by cinnamon-citrus sunshine. Powdery, with an enveloping musk. A little love nest to cosy into and stay a while.",
          top="Bergamot / Orange / Cinnamon", mid="Ylang Ylang / Orris / Amyris Bark", base="Gaiacwood / Patchouli / Peru Balsam / Musk"),
     dict(slug="sunday-service", name="Sunday Service", stone="Verde Jade",     swatch="var(--stone-sunday-service)",
          notes="Spice. Floral. Woods.", story="Story IV", feeling="Introspection",
          line="The drive from the city to the country always felt like rolling back time.",
          img="p-sunday-service", badge="", read="7 min", family="incense", wear="FILLER \u2014 wear line to come", theme="Introspection + Reflection", style="Spice. Floral. Woods.", origin="Verde Jade, Rajasthan",
+         desc="Slip into a quiet, contemplative reverie. A return to old surroundings, respectful tailoring, and formal introductions. The worn leather of an heirloom wallet touched by divinely feminine antique rose, enlivened by old-world pepper &amp; spice and carried by the rich resin of ancient frankincense. The fragrance of a ponderous stroll in wildflower season at the golden hour. The essence of eyes gazing across a vast burnt saffron horizon, feet planted in the aged earth.",
          top="Saffron / Pepper", mid="Rose / Patchouli", base="Ciste Labdanum / Frankincense / Gurjum Balsam"),
     dict(slug="third-date",     name="Third Date",     stone="Rosso Levanto",  swatch="var(--stone-third-date)",
          notes="Green. Floral.",  story="Story V",  feeling="Fervour",
          line="She hardly knew him, of course—tonight was only the third date. But there was such familiarity between them.",
          img="p-third-date", badge="", read="5 min", family="amber", wear="FILLER \u2014 wear line to come", theme="Fervour + Connection", style="Green. Floral.", origin="Rosso Levanto, Liguria",
+         desc="Carried away with delicious feeling. The exquisite vertigo of a first kiss. A sudden flush of cheeks, and weakness of knees. Sensuous plum and burnt ginger mingle with tuberose blossoms. An intoxicating musk kissed with dark vanilla lingers into the next morning. Rich, heady, and deep, a fragrance for captivating conversations, serendipitous late nights, and enraptured beginnings. Distractingly full-bodied, and instantly intriguing.",
          top="Plum / Ginger", mid="Tuberose / Patchouli", base="Vanilla / Musk"),
     dict(slug="road-trip",      name="Road Trip",      stone="Rosso Francia",  swatch="var(--stone-road-trip)",
          notes="Amber. Woods.",   story="Story VI", feeling="Escaping",
          line="They knew where they were going, but neither seemed to mind the impromptu detour along the way.",
          img="p-road-trip", badge="New story", read="6 min", family="amber", wear="FILLER \u2014 wear line to come", theme="Escaping + Dreaming", style="Amber. Woods.", origin="Rosso Francia, Languedoc",
+         desc="Dive headfirst into a getaway, leaving everything else behind. An escape to pure contentment, a place where dewy mornings fade into lush and lazy afternoons, and nights belong to bonfires and blankets of stars. Sparkling, bitter citrus gives way to herbaceous notes, pepper &amp; spice, and green neroli, coming to rest in warm vanilla and sandalwood like the welcome embrace of a humid summer evening. The fragrance of feeling the earth beneath your feet and the wind in your hair: flirtatious and fearless and free.",
          top="Petitgrain (bitter orange) / Peach", mid="Neroli / Pepper / Clary Sage", base="Vetiver / Sandalwood / Coconut / Vanilla"),
     dict(slug="4pm-matinee",    name="4pm Matinee",    stone="Giallo Siena",   swatch="var(--stone-4pm-matinee)",
          notes="Green. Woods. Amber.",  story="Story VII", feeling="Ambition",
          line="She came to the afternoon matinee alone. She liked the rush of independence when the ticket seller looked around for a date.",
          img="p-4pm-matinee", badge="", read="5 min", family="citrus", wear="FILLER \u2014 wear line to come", theme="Ambition + Realisation", style="Green. Woods. Amber.", origin="Giallo Siena, Tuscany",
+         desc="Make a name for yourself. A rush of possibility: eyes wide, heart full, head spinning. Coy florals and spices try sophistication on for size, dressing up the sweetness of youth with elegance and earthy refinement. Old Hollywood glamour meets contemporary character, sparkling with fresh curiosity. Sidewalks lined with trees &amp; wild thyme. The scent of striking out, on your own, in the big city. The thrill of seeing your name in lights. A fragrance for singular characters, hopeless romantics, and incurable optimists.",
          top="Bergamot / Cardamom / Nutmeg / Thyme", mid="Geranium / Lavender", base="Vanilla / Styrax / Vetiver / Musk"),
 ]
 BY_SLUG = {p["slug"]: p for p in PRODUCTS}
@@ -129,11 +135,11 @@ CHAPTERS = {
       "He watched the elevator doors close behind them and then checked his watch \u2014 still a few minutes. A familiar song drifted from the piano. Something from an old romantic, a melody that his father loved and his mother sang to herself in the kitchen. They would have looked at home here. Like a puff of smoke, the lyrics seemed briefly tangible in the air \u2014 something something, gave me a thrill \u2014 and then dissipated, leaving only the fragrance of their wistfulness behind.",
       "Suddenly, a warm voice spoke his name, pulling him out of his reverie and back into the hotel lobby. He looked up to see the face he came for, as familiar as the notes on the piano, and every bit as beguiling. He smiled, rising with purpose and posture. The evening had begun.",
     ],
-    scent="FILLER \u2014 scent line to come",
+    scent="smoky oud and dark fig leaf, a tease of spice and supple leather, warmed by sandalwood and earthy vanilla",
     caption="FILLER \u2014 caption to come",
-    margins=[("Opening","FILLER \u2014 note to come","FILLER \u2014 line to come"),
-             ("Heart","FILLER \u2014 note to come","FILLER \u2014 line to come"),
-             ("Base","FILLER \u2014 note to come","FILLER \u2014 line to come")],
+    margins=[("Opening","Fig Leaf / Oud","the mysteries of time, unearthed"),
+             ("Heart","Pepper / Patchouli / Cypriol","a hint of spice teases an untold history"),
+             ("Base","Sandalwood / Coconut / Vanilla","as smooth and warming as a fine Scotch")],
     stone_title="Nero Marquina, cut once.",
     stone_body="FILLER \u2014 stone note to come"),
 
@@ -178,11 +184,11 @@ CHAPTERS = {
       "He felt her watching him and shifted his gaze back to the bed, narrowing his eyes in faux accusation. As he approached her, she began to giggle, unable to contain her delight, and he matched her laughter with a silly grin. Smitten, neither could believe their good fortune.",
       "Morning light spilled into the bedroom and the melody escaped out of the window and down to they city below. It was only Saturday, and neither had anywhere they had to be. They both knew they might linger there for hours, or the whole day, or two, dissolving into conversation, and pleasure, and one another, as naturally as cream into coffee.",
     ],
-    scent="FILLER \u2014 scent line to come",
+    scent="delicate orris on an open-window breeze, cinnamon-citrus sunshine, powdery beneath an enveloping musk",
     caption="FILLER \u2014 caption to come",
-    margins=[("Opening","FILLER \u2014 note to come","FILLER \u2014 line to come"),
-             ("Heart","FILLER \u2014 note to come","FILLER \u2014 line to come"),
-             ("Base","FILLER \u2014 note to come","FILLER \u2014 line to come")],
+    margins=[("Opening","Bergamot / Orange / Cinnamon","cinnamon-citrus sunshine"),
+             ("Heart","Ylang Ylang / Orris / Amyris Bark","delicate orris blooms on the breeze"),
+             ("Base","Gaiacwood / Patchouli / Peru Balsam / Musk","yesterday’s perfume on crisp white linens")],
     stone_title="Calacatta, cut once.",
     stone_body="FILLER \u2014 stone note to come"),
 
@@ -199,11 +205,11 @@ CHAPTERS = {
       "His sister had already taken her place at the altar when he arrived, bouncing his pretty niece on her hip in the christening gown they had both worn years ago. As he slipped into the pew, he noted how soft the wood felt beneath his fingers, polished and worn from so many years of human touch. But the music was the same. The cool, oaky air of the church was the same. The smell—ageing paper, freshly mown grass—just the same. As much as time was hurtling by, it felt in the moment that nothing had changed.",
       "And yet. As he rose for the first hymn, he touched the ring in his pocket. Past and present came together in that smooth gold loop. There in the place that made him, he traced it round and round, over and over again.",
     ],
-    scent="FILLER \u2014 scent line to come",
+    scent="antique rose against worn leather, old-world pepper and spice, carried by the rich resin of ancient frankincense",
     caption="FILLER \u2014 caption to come",
-    margins=[("Opening","FILLER \u2014 note to come","FILLER \u2014 line to come"),
-             ("Heart","FILLER \u2014 note to come","FILLER \u2014 line to come"),
-             ("Base","FILLER \u2014 note to come","FILLER \u2014 line to come")],
+    margins=[("Opening","Saffron / Pepper","a vast burnt saffron horizon"),
+             ("Heart","Rose / Patchouli","divinely feminine antique rose"),
+             ("Base","Ciste Labdanum / Frankincense / Gurjum Balsam","the rich resin of ancient frankincense")],
     stone_title="Verde Jade, cut once.",
     stone_body="FILLER \u2014 stone note to come"),
 
@@ -221,11 +227,11 @@ CHAPTERS = {
       "He was not one to notice the scent of a cut flower, typically, yet recently he’d become attuned to these subtle pleasures. He realised that he’d become acutely observant. The oxidised cufflinks on the elder gentleman that lives in his building, for one. The choir of birdsong emanating from the autumnal foliage, competing with the rustling of leaves. The soft, yet cracked, feel of leather on his well-worn boots. Amused that he’d gotten himself lost in so many little details, since he was not much of a daydreamer, he was hardly one to get lost in a reverie.",
       "Then he felt a delicate hand on his shoulder, and he suddenly understood why.",
     ],
-    scent="FILLER \u2014 scent line to come",
+    scent="sensuous plum and burnt ginger mingling with tuberose, and an intoxicating musk kissed with dark vanilla",
     caption="FILLER \u2014 caption to come",
-    margins=[("Opening","FILLER \u2014 note to come","FILLER \u2014 line to come"),
-             ("Heart","FILLER \u2014 note to come","FILLER \u2014 line to come"),
-             ("Base","FILLER \u2014 note to come","FILLER \u2014 line to come")],
+    margins=[("Opening","Plum / Ginger","a sudden flush of cheeks"),
+             ("Heart","Tuberose / Patchouli","rich, heady, and deep"),
+             ("Base","Vanilla / Musk","lingering into the next morning")],
     stone_title="Rosso Levanto, cut once.",
     stone_body="FILLER \u2014 stone note to come"),
 
@@ -244,11 +250,11 @@ CHAPTERS = {
       "Her hand reached over, brushing his knee. He took it, letting her fingers intertwine with his for just a moment before returning to the steering wheel. She sang along to the music softly, under her breath, charmingly off-key, pulling her bare feet up to the glove compartment and tapping along to the beat. He smiled to himself, and she pretended not to notice.",
       "She pulled her sunglasses down and sunk deeper into the seat. The sun on the horizon bathed the hills in gold. Maybe they would return to the map, steer themselves back to their itinerary. Maybe.",
     ],
-    scent="FILLER \u2014 scent line to come",
+    scent="sparkling bitter citrus giving way to herbaceous pepper and green neroli, at rest in warm vanilla and sandalwood",
     caption="FILLER \u2014 caption to come",
-    margins=[("Opening","FILLER \u2014 note to come","FILLER \u2014 line to come"),
-             ("Heart","FILLER \u2014 note to come","FILLER \u2014 line to come"),
-             ("Base","FILLER \u2014 note to come","FILLER \u2014 line to come")],
+    margins=[("Opening","Petitgrain (bitter orange) / Peach","sparkling, bitter citrus"),
+             ("Heart","Neroli / Pepper / Clary Sage","herbaceous notes, pepper and spice"),
+             ("Base","Vetiver / Sandalwood / Coconut / Vanilla","the embrace of a humid summer evening")],
     stone_title="Rosso Francia, cut once.",
     stone_body="FILLER \u2014 stone note to come"),
 
@@ -266,11 +272,11 @@ CHAPTERS = {
       "She couldn’t know that she’d succeed, but she never doubted it, either. Chasing her dream felt as natural as breathing air. It wasn’t a matter of choice. She had to become the star she knew herself to be.",
       "And once she’d achieved it—the fame, the acclaim—she’d attribute her success to her girlish gumption. She’d never been afraid of striking out on her own. She’d never been afraid of going to the movies alone.",
     ],
-    scent="FILLER \u2014 scent line to come",
+    scent="coy florals and spices dressing up the sweetness of youth, sparkling with fresh curiosity",
     caption="FILLER \u2014 caption to come",
-    margins=[("Opening","FILLER \u2014 note to come","FILLER \u2014 line to come"),
-             ("Heart","FILLER \u2014 note to come","FILLER \u2014 line to come"),
-             ("Base","FILLER \u2014 note to come","FILLER \u2014 line to come")],
+    margins=[("Opening","Bergamot / Cardamom / Nutmeg / Thyme","sidewalks lined with trees and wild thyme"),
+             ("Heart","Geranium / Lavender","sophistication, tried on for size"),
+             ("Base","Vanilla / Styrax / Vetiver / Musk","Old Hollywood meets contemporary character")],
     stone_title="Giallo Siena, cut once.",
     stone_body="FILLER \u2014 stone note to come"),
 
@@ -636,8 +642,8 @@ def atelier_section():
     <p class="k">FILLER &mdash; eyebrow to come</p>
     <h2>Ateliers Journey</h2>
     <div class="grid-2">
-      <figure><img class="figfull" src="{fp('assets/img/founders.jpg')}" alt="The workshop" loading="lazy"><figcaption class="hint">FILLER &mdash; caption to come</figcaption></figure>
-      <figure><img class="figfull" style="object-position:center 34%" src="{fp('assets/img/atelier-bench.jpg')}" alt="A Road Trip bottle on a workbench beside a glazed jar and a twin-lens camera" loading="lazy"><figcaption class="hint">FILLER &mdash; caption to come</figcaption></figure>
+      <figure><img class="figfull" src="{fp('assets/img/founders.jpg')}" alt="The workshop" loading="lazy"><figcaption class="hint">Fragrances based on stories &mdash; never stories composed for arbitrary fragrances.</figcaption></figure>
+      <figure><img class="figfull" style="object-position:center 34%" src="{fp('assets/img/atelier-bench.jpg')}" alt="A Road Trip bottle on a workbench beside a glazed jar and a twin-lens camera" loading="lazy"><figcaption class="hint">Aged tools, dim light &mdash; fewer choices, less iteration, lengthier ownership.</figcaption></figure>
     </div>
     <div class="cols cols-2">
       <p>We create fragrances based on stories, rather than stories composed for arbitrary fragrances. Perfume should be one of life&rsquo;s unremitting addictions, one that necessitates feeding, and one that lasts until the next day, like it did on our grandmothers.</p>
@@ -1673,7 +1679,7 @@ def build():
 
       <div class="acc">
             <details open><summary>The story</summary><div class="body">{ch['summary']} <br><br>{p['story']}, in nine pages, printed and boxed with the bottle; the digital edition arrives with your confirmation.</div></details>
-            <details><summary>Notes</summary><div class="body"><div class="notelist"><p><b>Top</b><span>{p['top']}</span></p><p><b>Middle</b><span>{p['mid']}</span></p><p><b>Base</b><span>{p['base']}</span></p></div><p class="hint">FILLER &mdash; perfumer to be confirmed.</p></div></details>
+            <details><summary>Notes</summary><div class="body">{('<p>' + p['desc'] + '</p>') if p.get('desc') else ''}<div class="notelist"><p><b>Top</b><span>{p['top']}</span></p><p><b>Middle</b><span>{p['mid']}</span></p><p><b>Base</b><span>{p['base']}</span></p></div><p class="hint">FILLER &mdash; perfumer to be confirmed.</p></div></details>
             <details><summary>The stone</summary><div class="body">{p['origin']}, hand-cut. Veining is decided by the block, so no two lids repeat. The lid lifts free of the glass and keeps its weight in the hand.</div></details>
             <details><summary>Delivery &amp; returns</summary><div class="body">Complimentary UK delivery over &pound;{FREE_GBP}, otherwise &pound;5. Two to four working days, signed for. FILLER &mdash; returns window to come. Samples are non-returnable.</div></details>
           </div>
