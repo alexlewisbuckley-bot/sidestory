@@ -2379,6 +2379,8 @@ input:user-invalid,textarea:user-invalid{border-color:var(--text-error)}
 .line :where(.meta){font-family:var(--font-sans);font-size:var(--t-xs);letter-spacing:var(--track-label);
   text-transform:uppercase;color:var(--txt);margin-top:var(--s-2)}
 .line .act{display:flex;flex-wrap:wrap;align-items:center;gap:var(--s-3);margin-top:var(--s-3)}
+/* the drawer line uses the same action row as the bag page */
+.ditem .act{display:flex;flex-wrap:wrap;align-items:center;gap:var(--s-3);margin-top:var(--s-2)}
 .qty{display:inline-flex;align-items:center;border:1px solid var(--txt-2)}
 .qty button{min-width:2.25rem;min-height:2.25rem}
 .qty span{min-width:2rem;text-align:center;font-family:var(--font-sans);font-size:var(--t-xs)}

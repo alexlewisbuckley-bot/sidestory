@@ -544,8 +544,8 @@ CART_JS = r"""
       <img src="${i.image||''}" alt="" width="112" height="112">
       <div><h3>${i.product_title}${i.variant_title&&i.variant_title!=='Default Title'?' — '+i.variant_title:''}</h3>
         <p class="meta">QTY ${i.quantity}</p>
-        <span class="price">${money(i.final_line_price)}</span>
-        <button class="ul" data-remove="${i.key}">Remove</button></div></div>`;
+        <div class="act"><span class="meta">${money(i.final_line_price)}</span>
+          <button class="ul" data-remove="${i.key}">Remove</button></div></div></div>`;
     const items = document.getElementById('ditems');
     if(items) items.innerHTML = cart.items.length ? cart.items.map(line).join('')
       : '<p class="crumb" style="padding-block:var(--s-5)">Empty — every story starts somewhere.</p>';
@@ -646,6 +646,7 @@ CART_JS = r"""
   /* longer store-currency strings need a touch more room in the 50/50 row */
   const st = document.createElement('style');
   st.textContent = '.quick .r .btn{letter-spacing:.02em;font-size:min(var(--t-btn),3.6vw)}'
+    + '.ditem .act{display:flex;flex-wrap:wrap;align-items:center;gap:var(--s-3);margin-top:var(--s-2)}'
     + '.btn-ink[disabled]:hover{background:var(--ink)}'
     + '.btn-ivory[disabled]:hover{background:var(--ivory)}'
     + '.btn-ghost[disabled]:hover,.btn-ghostink[disabled]:hover{background:transparent}';

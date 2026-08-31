@@ -679,8 +679,8 @@
       items.innerHTML = bag.length? bag.map((i,ix)=>`<div class="ditem">
         <img src="${i.img}" alt="" width="112" height="112">
         <div><h3>${i.label}</h3><p class="meta">${i.meta}</p>
-          <span class="price">${money(i.price)}</span>
-          <button class="ul" onclick="SSremove(${ix})">Remove</button></div></div>`).join('')
+          <div class="act"><span class="meta">${money(i.price)}</span>
+            <button class="ul" onclick="SSremove(${ix})">Remove</button></div></div></div>`).join('')
         : '<p class="crumb" style="padding-block:var(--s-5)">Empty — every story starts somewhere.</p>';
     }
     const t=document.getElementById('dtotal'); if(t) t.textContent=money(total());
