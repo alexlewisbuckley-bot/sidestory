@@ -327,6 +327,13 @@
     el.hidden=false;
     requestAnimationFrame(()=>el.classList.add('open','on'));
     document.documentElement.classList.add('overlay-open');
+    /* hold the page's scroll position while any overlay is open. The CSS
+       lock lives on body so the sticky header keeps working; this pin backs
+       it up where body overflow does not reach the root scroller, and undoes
+       the jump a focused field can cause. */
+    if(OPEN.length===1){ window.__lockY=scrollY;
+      window.__relock=()=>scrollTo(0,window.__lockY);
+      addEventListener('scroll',window.__relock,{passive:true}); }
     /* Focus the panel, not the first control inside it.
 
        Focusing the first control is the obvious reading of "move focus into
@@ -355,7 +362,8 @@
     if(rec.opts&&rec.opts.scrim){ const sc=rec.opts.scrim; sc.classList.remove('on');
       setTimeout(()=>{ if(!sc.classList.contains('on')) sc.hidden=true; },420); }
     el.classList.remove('open','on');
-    if(!OPEN.length) document.documentElement.classList.remove('overlay-open');
+    if(!OPEN.length){ document.documentElement.classList.remove('overlay-open');
+      if(window.__relock){ removeEventListener('scroll',window.__relock); window.__relock=null; } }
     setTimeout(()=>{ if(!el.classList.contains('open')&&!el.classList.contains('on')) el.hidden=true; },420);
     /* the opener is often the add-to-bag button, which disables itself for
        1.4s after the click — focusing a disabled control silently drops focus
@@ -875,9 +883,12 @@
         const shot=card.querySelector('[data-shot]');
         if(shot&&shot.getAttribute('src')!==v.img) swapPicture(shot,v.img,v.set);
         const buy=card.querySelector('[data-buy]');
-        if(buy){ buy.dataset.size=key; buy.innerHTML=v.label+' — £'+v.price; }
+        if(buy){ buy.dataset.size=key;
+          buy.innerHTML=v.label+' — '+(window.SSP?SSP(card.dataset.slug,key,v.price):('£'+v.price)); }
         const line=card.querySelector('[data-priceline]');
-        if(line) line.innerHTML='£'+v.price+' · '+v.label;
+        if(line) line.innerHTML=(window.SSP?SSP(card.dataset.slug,key,v.price):('£'+v.price));
+        const sz=card.querySelector('[data-psize]');
+        if(sz) sz.textContent=' · '+v.label;
         const incl=card.querySelector('[data-incl]');
         if(incl) incl.textContent=v.incl;
         card.querySelectorAll('[data-href]').forEach(a=>{

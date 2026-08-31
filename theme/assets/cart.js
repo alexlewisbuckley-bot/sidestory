@@ -111,8 +111,7 @@
       const buy = card.querySelector('[data-buy]');
       const key = (buy && buy.dataset.size) || '100ml';
       const p = VP(card.dataset.slug, key); if(p==null) return;
-      const lbl = (line.textContent.split('·')[1] || '').trim();
-      line.textContent = money(p) + (lbl ? ' · ' + lbl : '');
+      line.textContent = money(p);
     });
   }
   fixPrices();

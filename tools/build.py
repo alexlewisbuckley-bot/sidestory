@@ -1352,8 +1352,8 @@ def product_card(p, reveal=True):
             <button class="btn btn-ghostink btn-sm" data-buy data-size="7-5ml" onclick="addToBag('{p['slug']}',this.dataset.size,this)">7.5 ml &mdash; &pound;25</button>
           </div><small data-incl>The printed story is in the box</small></div></div>
         <div class="meta"><span class="chip" style="background:{p['swatch']}"></span><span class="stone">{p['stone']}</span>
-          <h3>{p['name']}</h3><p class="notes">{p['notes']}</p>
-          <p class="price"><span data-priceline>&pound;160 &middot; 100 ml</span><a class="ul" data-href href="product-{p['slug']}.html">View</a></p></div>
+          <h3><a data-href href="product-{p['slug']}.html">{p['name']}</a></h3><p class="notes">{p['notes']}</p>
+          <p class="price"><span><span data-priceline>&pound;160</span><span class="psz" data-psize> &middot; 100 ml</span></span><a class="ul" data-href href="product-{p['slug']}.html">View</a></p></div>
       </article>"""
 
 

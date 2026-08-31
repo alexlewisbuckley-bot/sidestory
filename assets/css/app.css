@@ -698,8 +698,7 @@ button:disabled,[aria-disabled="true"]{cursor:default}
 /* the utilities live on the same row as the primary links and had no hover
    at all — same rule, drawn the same way */
 .util>a,.util .bagbtn{position:relative}
-.util .bagbtn{padding-bottom:1px}
-.util{margin-left:auto;display:flex;align-items:center;gap:clamp(0.875rem,1.9vw,1.875rem)}
+.util{margin-left:auto;display:flex;align-items:baseline;gap:clamp(0.875rem,1.9vw,1.875rem)}
 #bagcount{display:inline-block;transition:transform var(--d-quick) var(--settle)}
 #bagcount.tick{transform:translateY(-.35em)}
 .burger{display:none}
@@ -800,6 +799,15 @@ button:disabled,[aria-disabled="true"]{cursor:default}
 @media (hover:none){ .quick{display:none} }
 
 .card .meta{margin-top:var(--s-3)}
+.card h3 a{color:inherit;text-decoration:none}
+/* On a phone the card keeps one quiet line — the price alone. The size
+   suffix and the View link go; the photo and the name are the link. */
+@media (max-width:39.9375em){
+  .card .price a{display:none}
+  .card .psz{display:none}
+  .card .meta{margin-top:var(--s-2)}
+  .card .price{margin-top:var(--s-2)}
+}
 .chip{display:inline-block;width:.625rem;height:.625rem;border-radius:50%;
   box-shadow:inset 0 0 0 .5px rgba(43,46,45,.25);vertical-align:middle;margin-right:.6em}
 .card .stone{font-family:var(--font-sans);font-weight:500;font-size:var(--t-2xs);
@@ -1147,7 +1155,9 @@ footer a:hover{opacity:1}
 }
 
 /* ------------------------------------------------------------- drawer --- */
-html.overlay-open,html.overlay-open body{overflow:hidden}
+/* the lock lives on body only: overflow:hidden on html breaks position:
+   sticky, which is how opening any overlay made the pinned header vanish */
+html.overlay-open body{overflow:hidden}
 .scrim{position:fixed;inset:0;background:rgba(10,10,9,0);pointer-events:none;
   transition:background var(--d-settled) var(--settle);z-index:var(--z-scrim)}
 .scrim.on{background:rgba(10,10,9,.55);pointer-events:auto}

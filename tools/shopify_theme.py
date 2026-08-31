@@ -500,10 +500,6 @@ window.SS_FREE_CENTS = {{ 15000 }};
                     "add.textContent='Add to bag — '+price;")
     js = js.replace("bp.textContent='£'+price+' · '+(v&&v.label?v.label:'100 ml');",
                     "bp.textContent=price+' · '+(v&&v.label?v.label:'100 ml');")
-    js = js.replace("buy.innerHTML=v.label+' — £'+v.price;",
-                    "buy.innerHTML=v.label+' — '+(window.SSP?SSP(card.dataset.slug,key,v.price):('£'+v.price));")
-    js = js.replace("line.innerHTML='£'+v.price+' · '+v.label;",
-                    "line.innerHTML=(window.SSP?SSP(card.dataset.slug,key,v.price):('£'+v.price))+' · '+v.label;")
     js = map_urls(js)
     js = re.sub(r"(?<![a-z/])/?assets/img/", CDN + "/assets/img/", js)
     emit("assets/site.js", js)
@@ -653,8 +649,7 @@ CART_JS = r"""
       const buy = card.querySelector('[data-buy]');
       const key = (buy && buy.dataset.size) || '100ml';
       const p = VP(card.dataset.slug, key); if(p==null) return;
-      const lbl = (line.textContent.split('·')[1] || '').trim();
-      line.textContent = money(p) + (lbl ? ' · ' + lbl : '');
+      line.textContent = money(p);
     });
   }
   fixPrices();
