@@ -506,7 +506,7 @@ ANNOUNCEMENTS = [
     # the "second story's sample, complimentary" line went with the offer —
     # the house does not include one
     "Complimentary delivery over &pound;%d / AED&nbsp;%d" % (FREE_GBP, FREE_AED),
-    "Every 100&nbsp;ml under a hand-carved stone lid, with its printed story",
+    "All fragrances available in full, travel and sample sizes",
 ]
 
 
