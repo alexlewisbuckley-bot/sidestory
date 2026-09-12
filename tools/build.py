@@ -986,7 +986,7 @@ FAMILIES = _build_families()
 
 SIZES = [
     dict(key="100ml",  label="100 ml", short="100ml", price=160,
-         incl="The printed story is in the box",
+         incl="a handmade objet d’art",
          line="Hand-carved stone lid, and the nine printed pages, in the box."),
     dict(key="7-5ml",  label="7.5 ml", short="7.5ml", price=25,
          incl="Printed sleeve, no story",
@@ -1350,7 +1350,7 @@ def product_card(p, reveal=True):
           <div class="quick"><div class="r">
             <button class="btn btn-ink btn-sm" data-buy data-size="100ml" onclick="addToBag('{p['slug']}',this.dataset.size,this)">100 ml &mdash; &pound;160</button>
             <button class="btn btn-ghostink btn-sm" data-buy data-size="7-5ml" onclick="addToBag('{p['slug']}',this.dataset.size,this)">7.5 ml &mdash; &pound;25</button>
-          </div><small data-incl>The printed story is in the box</small></div></div>
+          </div><small data-incl>a handmade objet d’art</small></div></div>
         <div class="meta"><span class="chip" style="background:{p['swatch']}"></span><span class="stone">{p['stone']}</span>
           <h3><a data-href href="product-{p['slug']}.html">{p['name']}</a></h3><p class="notes">{p['notes']}</p>
           <p class="price"><span><span data-priceline>&pound;160</span><span class="psz" data-psize> &middot; 100 ml</span></span><a class="ul" data-href href="product-{p['slug']}.html">View</a></p></div>
