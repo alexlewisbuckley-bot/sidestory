@@ -324,10 +324,10 @@ SIZE_HREFS = {h for h, _, _ in MENU_SIZES}
 
 NAV_LINKS = [
     ("collection.html", "The Fragrances"),
-    ("stories.html",    "Your Stories"),
-    ("share.html",      "Share Yours"),
     ("collection-samples.html", "Samples"),
     ("samples.html",    "Discovery Sets"),
+    ("stories.html",    "Your Stories"),
+    ("share.html",      "Share Yours"),
     ("our-house.html",  "Our Story"),
 ]
 
