@@ -63,7 +63,7 @@
     "s38": "Powder. Citrus. Spice.",
     "s39": "Undecided?",
     "s40": "The Discovery&nbsp;Set",
-    "s41": "All seven stories in miniature \u2014 read them on your own skin. Dhs. 150.",
+    "s41": "All seven scents in miniature \u2014 sense them on your own skin.",
     "s42": "All fragrances",
     "s43": "Bestseller",
     "s44": "Nero Marquina",
@@ -95,23 +95,6 @@
     "s70": "Pillow Talk",
     "s71": "&middot; 100 ml",
     "s72": "View"
-   }
-  },
-  "home-show": {
-   "type": "home-show",
-   "settings": {
-    "s1": "/pages/story-hotel-lobby",
-    "s2": "The chapter of the season",
-    "s3": "Hotel Lobby",
-    "s4": "&ldquo;The bar was the kind of place Hemingway might have lingered a&nbsp;little too long.&rdquo;",
-    "s5": "Story",
-    "s6": "Style",
-    "s7": "Stone",
-    "s8": "Complimentary UK delivery over Dhs. 150 &middot; signed for, two to four working days",
-    "s9": "Anticipation + Attraction",
-    "s10": "Woods. Green.",
-    "s11": "Nero Marquina, Basque Country",
-    "s12": "Read the story"
    }
   },
   "home-atelier": {
@@ -290,7 +273,6 @@
   "home-hero",
   "home-strip",
   "home-seven",
-  "home-show",
   "home-atelier",
   "home-yfeat",
   "home-feelings",

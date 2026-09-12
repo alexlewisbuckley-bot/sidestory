@@ -1372,8 +1372,8 @@ STORY_FILM = {
 
 PROMO_CARD = """      <article class="promo rev">
         <p class="k">Undecided?</p><h3>The Discovery Set</h3>
-        <p>All seven stories in miniature &mdash; read them on your own skin. &pound;30.</p>
-        <div><a class="btn btn-ghost btn-sm" href="samples.html">Begin the set</a></div>
+        <p>All seven scents in miniature &mdash; sense them on your own skin.</p>
+        <div><a class="btn btn-ghost btn-sm" href="samples.html">The set. &pound;30.</a></div>
       </article>"""
 
 
@@ -1403,7 +1403,7 @@ def build():
     # colours. It renders from product_card now, so it cannot drift again.
     home_cards = ('<div class="cards">\n'
                   + "\n".join(product_card(p) for p in PRODUCTS)
-                  + "\n" + '<article class="promo rev">\n        <p class="k">Undecided?</p><h3>The Discovery Set</h3>\n        <p>All seven stories in miniature — read them on your own skin. £30.</p>\n        <div><button class="btn btn-ghost btn-sm" onclick="addToBag(\'set\',\'full\',this)">Begin the set</button></div>\n      </article>' + "\n    </div>")
+                  + "\n" + '<article class="promo rev">\n        <p class="k">Undecided?</p><h3>The Discovery Set</h3>\n        <p>All seven scents in miniature — sense them on your own skin.</p>\n        <div><button class="btn btn-ghost btn-sm" onclick="addToBag(\'set\',\'full\',this)">The set. £30.</button></div>\n      </article>' + "\n    </div>")
     home_body = home_body.replace("<!--SS_CARDS-->", home_cards)
     # The campaign band — an invented quote over the stone ledge — is the
     # stories page's featured band now, the same component with the same
