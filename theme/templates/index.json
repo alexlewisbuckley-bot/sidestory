@@ -27,17 +27,6 @@
     "s13": "Dhs. 760"
    }
   },
-  "home-house": {
-   "type": "home-house",
-   "settings": {
-    "s1": "/pages/stories",
-    "s2": "/pages/our-story",
-    "s3": "Our story",
-    "s4": "I thought deeply about the different stories that ran through our lives and how they had impacted our senses, such as work, love, companionships, pleasure, travel.",
-    "s5": "The Stories",
-    "s6": "Our Story"
-   }
-  },
   "home-seven": {
    "type": "home-seven",
    "settings": {
@@ -300,7 +289,6 @@
  "order": [
   "home-hero",
   "home-strip",
-  "home-house",
   "home-seven",
   "home-show",
   "home-atelier",
