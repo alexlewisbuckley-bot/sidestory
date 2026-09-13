@@ -72,6 +72,7 @@ PRODUCTS = {
 EDITORIAL = [
     ("hero-flatlay",    "hero.jpg",           1800, None),
     ("our-story-lead",  "founders.jpg",       1600, None),
+    ("our-story-hero",  "house-hero.jpg",     960,  None),
     ("our-story-ledge", "stone-shelf.jpg",    1800, None),
     ("hotel-lobby-open", "unboxing.jpg",      1400, None),
     ("hotel-lobby-group", "set-first-lines.jpg", 1200, None),

@@ -126,7 +126,12 @@
     + '.btn-ink[disabled]:hover{background:var(--ink)}'
     + '.btn-ivory[disabled]:hover{background:var(--ivory)}'
     + '.btn-ghost[disabled]:hover,.btn-ghostink[disabled]:hover{background:transparent}'
-    + '.gift{background:var(--stone-sunday-service)}'
+    + '.gift{background:#3e5147}'
+    + '.banner.tall{min-height:100vh;min-height:100svh}'
+    + '.artgrid{grid-template-columns:minmax(0,1fr)}'
+    + '.credo{list-style:none;margin:var(--s-5) 0 0;padding:0;max-width:44rem}'
+    + '.credo li{font-size:var(--t-lg);line-height:1.85;padding:var(--s-3) 0;border-top:1px solid var(--line,rgba(43,46,45,.26))}'
+    + '.credo li:last-child{border-bottom:1px solid var(--line,rgba(43,46,45,.26))}'
     + '.gift>video{width:100%;aspect-ratio:3/2;object-fit:cover;order:-1}'
     + '.yfeat>video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:var(--z-art)}'
     /* hero carousel blends over 2s */

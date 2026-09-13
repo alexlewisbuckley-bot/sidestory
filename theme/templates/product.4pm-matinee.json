@@ -64,11 +64,11 @@
   "pdp-4pm-matinee-stoneband": {
    "type": "pdp-4pm-matinee-stoneband",
    "settings": {
-    "s2": "/pages/our-story#stones",
+    "s2": "/pages/our-story",
     "s3": "The stone",
     "s4": "Giallo Siena, cut&nbsp;once.",
     "s5": "FILLER \u2014 stone note to come",
-    "s6": "More on the stones"
+    "s6": "More on the house"
    }
   },
   "pdp-4pm-matinee-seven": {

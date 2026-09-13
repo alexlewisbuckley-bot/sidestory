@@ -4,8 +4,7 @@
    "type": "our-story-banner",
    "settings": {
     "s2": "Our story",
-    "s3": "It&rsquo;s a&nbsp;story left behind in an elevator, or carried gently on a&nbsp;breeze.",
-    "s4": "The kiss of fragrance on a lapel, in the yellowed pages of a diary, or folded into a handkerchief."
+    "s3": "It&rsquo;s a&nbsp;story left behind in an elevator, or carried gently on a&nbsp;breeze. The kiss of fragrance on a&nbsp;lapel, in the yellowed pages of a&nbsp;diary, or folded into a&nbsp;handkerchief."
    }
   },
   "our-story-band": {
@@ -30,28 +29,8 @@
   "our-story-band-2": {
    "type": "our-story-band-2",
    "settings": {
-    "s5": "The making",
-    "s6": "The Atelier",
-    "s7": "Clean botanicals, carefully composed",
-    "s8": "Crafted with intention",
-    "s9": "Fragrances based on stories",
-    "s10": "Aged tools, dim light",
-    "s11": "All Side Story fragrances begin with clean, natural ingredients, selected for their purity and character. Our farm-to-fragrance approach preserves every botanical, using synthetics only when they provide the most sustainable solution, without compromising the integrity of each scent.",
-    "s12": "Every bottle and lid is crafted by hand in Italy, designed to be treasured long after the fragrance is finished. Made from recyclable materials and presented in entirely plastic-free packaging, every detail reflects thoughtful design and enduring craftsmanship.",
-    "s13": "We create fragrances based on stories, rather than stories composed for arbitrary fragrances. Perfume should be one of life&rsquo;s unremitting addictions, one that necessitates feeding, and one that lasts until the next day, like it did on our grandmothers.",
-    "s14": "We believe the best craftsmen work alone, with aged tools and in dimly lit workshops. We endorse cultural coalescence as the only way forward, favour fewer choices, less iteration and lengthier ownership, and are never guided by compulsions or passing trends."
-   }
-  },
-  "our-story-band-3": {
-   "type": "our-story-band-3",
-   "settings": {
-    "s3": "Why Side Story?",
-    "s4": "Perfumers",
-    "s5": "Side Story strikes a&nbsp;fine balance between luxury and accessibility that is largely missing in the perfume&nbsp;market.",
-    "s6": "fine raw materials from Grasse, Provence",
-    "s7": "a more reachable price",
-    "s8": "On one hand, we use fine raw materials from Grasse, Provence, and other exceptional sources, and we collaborate with skilled master perfumers such as Jacques Chabert and Argeville who elevate the concept behind each fragrance to a form of high art.",
-    "s9": "On the other, each of our &lsquo;stories&rsquo; is meant to resonate with consumers on a universal level and we have consciously decided to price the fragrances at a more reachable price than brands with similarly high manufacturing standards."
+    "s1": "Atelier philosophy",
+    "s2": "Our credo"
    }
   },
   "our-story-sseven": {
@@ -86,7 +65,6 @@
   "our-story-band",
   "our-story-gift",
   "our-story-band-2",
-  "our-story-band-3",
   "our-story-sseven"
  ]
 }

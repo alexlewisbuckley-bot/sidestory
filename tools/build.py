@@ -337,8 +337,8 @@ FOOTER_COLS = [
     ("The Shelf",     [("collection.html", "The Fragrances"),
                        ("collection-samples.html", "Samples"),
                        ("samples.html", "Discovery Set")]),
-    ("The House",     [("our-house.html", "Our Story"), ("our-house.html#making", "The Making"),
-                       ("our-house.html#stones", "The Stones")]),
+    ("The House",     [("our-house.html", "Our Story"),
+                       ("index.html#making", "The Making")]),
     ("The Practical", [("shipping.html", "Shipping &amp; Returns"), ("stockists.html", "Stockists"),
                        ("contact.html", "Contact"), ("faq.html", "FAQ")]),
 ]
@@ -855,7 +855,7 @@ def topbar(current):
         <div>
           <p class="fh">Read</p>
           <a class="ml" href="stories.html">The stories</a>
-          <a class="ml" href="our-house.html#making">The making</a>
+          <a class="ml" href="index.html#making">The making</a>
           <a class="ml" href="index.html#styles">The styles</a>
           <a class="ml" href="our-house.html">The brand</a>
           <a class="ml" href="samples.html">The discovery</a>
@@ -1262,9 +1262,7 @@ def search_index():
     add("Our Story", "Sandalwood, a grandfather's plantations, and a house built on what a scent brings back", "The house",
         "our-house.html", "about founders history brand our house rana")
     add("The Making", "Brief, story, scent, stone — in that order", "The house",
-        "our-house.html#making", "process craft perfumer grasse")
-    add("The Stones", "Seven marbles, one lid each", "The house",
-        "our-house.html#stones", "marble lid carving quarry nero calacatta verde rosso giallo")
+        "index.html#making", "process craft perfumer grasse")
 
     add("Shipping & Returns", "Delivery times, costs and how returns work", "Practical",
         "shipping.html", "delivery postage refund exchange tracking free")
@@ -1636,7 +1634,7 @@ def build():
           <p class="k">The stone</p>
           <h2>{ch['stone_title']}</h2>
           <p>{ch['stone_body']}</p>
-          <a class="ul" href="our-house.html#stones">More on the stones</a>
+          <a class="ul" href="our-house.html">More on the house</a>
         </div>
       </div>
     </section>
@@ -1802,12 +1800,11 @@ if(src){{m.src=src;m.hidden=false;v.hidden=true;v.pause();}}else{{m.hidden=true;
     # ---- 06 our house ----------------------------------------------------
     written["our-house"] = page("our-house", "Our Story",
         "It began with sandalwood, and a question about which stories run through a life. Composed in Grasse, sealed under hand-carved marble.", f"""
-<section class="banner">
-  <img src="{fp('assets/img/founders.jpg')}" alt="The founders in the studio">
+<section class="banner tall">
+  <img src="{fp('assets/img/house-hero.jpg')}" alt="The founders in the atelier">
   <div class="c">
     <p class="k">Our story</p>
-    <h1>It&rsquo;s a story left behind in an elevator, or carried gently on a breeze.</h1>
-    <p>The kiss of fragrance on a lapel, in the yellowed pages of a diary, or folded into a handkerchief.</p>
+    <h1>It&rsquo;s a story left behind in an elevator, or carried gently on a breeze. The kiss of fragrance on a lapel, in the yellowed pages of a diary, or folded into a handkerchief.</h1>
   </div>
 </section>
 
@@ -1821,10 +1818,6 @@ if(src){{m.src=src;m.hidden=false;v.hidden=true;v.pause();}}else{{m.hidden=true;
         <p>Today, each bottle of Side Story perfume begins its journey in Grasse, Provence, and is produced alongside a network of independent artisans. The fragrances are bottled in soda glass and sealed with hand-carved marble lids. Our century-old production facility, farmers, distillers, compounders, stonemasons, label makers, and designers are scattered across the globe.</p>
         <p class="signoff">Rana.</p>
       </div>
-      <div class="artaside">
-        <p class="marginnote">Seven writers. Seven stones. One perfumer.<small>The house, in short</small></p>
-        <p class="marginnote">Every writer is paid a fee and a royalty on the fragrance their story becomes.<small>How we commission</small></p>
-      </div>
     </div>
   </div>
 </section>
@@ -1833,21 +1826,19 @@ if(src){{m.src=src;m.hidden=false;v.hidden=true;v.pause();}}else{{m.hidden=true;
                  body="Ensuring that the high standards we set for ourselves are maintained, from the craftsmanship behind the bottle and packaging, the balance and sillage of the scents, and to the quality and sustainability of the ingredients. None of these elements are ever compromised.",
                  extras=False, ident="promise")}
 
-{making_section()}
-
-<section class="band" id="stones">
+<section class="band" id="credo">
   <div class="inner">
-    <p class="k">Why Side Story?</p>
-    <h2>Perfumers</h2>
-    <p class="lede">Side Story strikes a fine balance between luxury and accessibility that is largely missing in the perfume market.</p>
-    <div class="grid-2">
-      <figure><img class="figfull" src="{fp('assets/img/stone-shelf.jpg')}" alt="Raw materials and a carved stone lid" loading="lazy"><figcaption class="hint">fine raw materials from Grasse, Provence</figcaption></figure>
-      <figure><img class="figfull" src="{fp('assets/img/set-first-lines.jpg')}" alt="The Discovery Set discovery set" loading="lazy"><figcaption class="hint">a more reachable price</figcaption></figure>
-    </div>
-    <div class="cols cols-2">
-      <p>On one hand, we use fine raw materials from Grasse, Provence, and other exceptional sources, and we collaborate with skilled master perfumers such as Jacques Chabert and Argeville who elevate the concept behind each fragrance to a form of high art.</p>
-      <p>On the other, each of our &lsquo;stories&rsquo; is meant to resonate with consumers on a universal level and we have consciously decided to price the fragrances at a more reachable price than brands with similarly high manufacturing standards.</p>
-    </div>
+    <p class="k">Atelier philosophy</p>
+    <h2>Our credo</h2>
+    <ul class="credo">
+      <li>fragrances based on stories, rather than stories composed for arbitrary fragrances</li>
+      <li>perfume should be one of life&rsquo;s unremitting addictions, one that necessitates feeding</li>
+      <li>the best craftsmen work alone, with aged tools, and in dimly lit workshops</li>
+      <li>endorse cultural coalescence as being the only way forward</li>
+      <li>fewer choices, less iterations and lengthier ownership</li>
+      <li>perfume should last until the next day, like it did on our grandmothers</li>
+      <li>to never be guided by compulsions, or pay homage to passing trends.</li>
+    </ul>
   </div>
 </section>
 

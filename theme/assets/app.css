@@ -1520,6 +1520,7 @@ html.overlay-open body{overflow:hidden}
 .banner::after{content:"";position:absolute;inset:0;z-index:var(--z-behind);background:
   linear-gradient(0deg,rgba(20,17,12,.88) 0%,rgba(20,17,12,.60) 46%,rgba(20,17,12,.10) 100%),
   linear-gradient(70deg,rgba(20,17,12,.55) 0%,rgba(20,17,12,0) 65%)}
+.banner.tall{min-height:100vh;min-height:100svh}
 .banner .c{max-width:calc(44rem + var(--gutter) * 2);padding:var(--s-7) var(--gutter) var(--s-6)}
 .banner .k{color:var(--ivory);opacity:var(--o-strong)}
 .banner h1{font-size:var(--t-4);margin-top:var(--s-3)}
@@ -2334,8 +2335,10 @@ input:user-invalid,textarea:user-invalid{border-color:var(--text-error)}
 /* ---------------------------------------------------------- editorial --- */
 .article{padding-block:var(--s-6) var(--s-7)}
 .artgrid{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--s-5)}
-@media (min-width:64em){ .artgrid{grid-template-columns:minmax(0,1fr) 16rem;gap:var(--s-6)} }
 .artgrid .col{max-width:34rem}
+.credo{list-style:none;margin:var(--s-5) 0 0;padding:0;max-width:44rem}
+.credo li{font-size:var(--t-lg);line-height:1.85;padding:var(--s-3) 0;border-top:1px solid var(--line,rgba(43,46,45,.26))}
+.credo li:last-child{border-bottom:1px solid var(--line,rgba(43,46,45,.26))}
 .artgrid .col :where(p:not(.k)){font-size:var(--t-lg);line-height:1.85;margin-top:var(--s-4)}
 .artgrid .col p:first-child{margin-top:0}
 .dropcap::first-letter{float:left;font-family:var(--font-display);font-size:3.6em;
