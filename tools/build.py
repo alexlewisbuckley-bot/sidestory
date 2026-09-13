@@ -1884,7 +1884,7 @@ if(src){{m.src=src;m.hidden=false;v.hidden=true;v.pause();}}else{{m.hidden=true;
   </div>
 </section>
 
-{gift_module(kicker="Our promise", head="We take responsibility",
+{gift_module(kicker="Our promise", head="We take responsibility", img="assets/img/promise-spray.jpg",
                  body="Ensuring that the high standards we set for ourselves are maintained, from the craftsmanship behind the bottle and packaging, the balance and sillage of the scents, and to the quality and sustainability of the ingredients. None of these elements are ever compromised.",
                  extras=False, ident="promise")}
 
