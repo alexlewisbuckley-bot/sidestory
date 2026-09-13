@@ -1,16 +1,16 @@
 import { chromium } from 'playwright';
 const b = await chromium.launch({executablePath:'/opt/pw-browsers/chromium'});
-const p = await b.newPage({viewport:{width:1440,height:900},deviceScaleFactor:2});
-await p.goto('http://localhost:8802/index.html',{waitUntil:'networkidle'});
-await p.locator('#making').scrollIntoViewIfNeeded(); await p.waitForTimeout(600);
-await p.locator('.unfold').screenshot({path:'/tmp/drawer-closed.png'});
-await p.locator('.unfold summary').click(); await p.waitForTimeout(900);
-await p.locator('.unfold').screenshot({path:'/tmp/drawer-open.png'});
-console.log(JSON.stringify(await p.evaluate(()=>{
-  const d=document.querySelector('.unfold');
-  return {open:d.open, h:Math.round(d.getBoundingClientRect().height),
-    label:d.querySelector('.less').textContent,
-    paras:d.querySelectorAll('.dbody p').length,
-    cols:getComputedStyle(d.querySelector('.dbody')).gridTemplateColumns};
-})));
+const p = await b.newPage({viewport:{width:1440,height:1000},deviceScaleFactor:1.5});
+await p.goto('http://localhost:8802/contact.html',{waitUntil:'networkidle'});
+await p.waitForTimeout(400);
+await p.locator('.creach').scrollIntoViewIfNeeded(); await p.waitForTimeout(200);
+await p.locator('.creach').screenshot({path:'/tmp/reach.png'});
+const m = await b.newPage({viewport:{width:390,height:780}});
+await m.goto('http://localhost:8802/contact.html',{waitUntil:'networkidle'});
+await m.waitForTimeout(300);
+console.log(JSON.stringify(await m.evaluate(()=>({
+  pic:getComputedStyle(document.querySelector('.cpic')).display,
+  overflow:document.documentElement.scrollWidth>innerWidth,
+  chips:getComputedStyle(document.querySelector('.chips .cr')).flexWrap,
+  reach:getComputedStyle(document.querySelector('.creach')).gridTemplateColumns}))));
 await b.close();

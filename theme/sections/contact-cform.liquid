@@ -1,0 +1,169 @@
+
+<section class="cform">
+  <div class="cpic" aria-hidden="true">{% if section.settings.s1 %}<img alt="{{ section.settings.s1.alt | escape }}" src="{{ section.settings.s1 | image_url: width: 1600 }}" loading="lazy">{% else %}<img src="https://sidestory-rho.vercel.app/assets/img/house-hero.jpg?v=5ba021e2" alt="" loading="lazy" decoding="async">{% endif %}</div>
+  <div class="cwrap">
+    <div class="inner">
+      <p class="crumb"><a href="{{ section.settings.s2 }}">{{ section.settings.s16 }}</a> / Contact</p>
+      <div class="phead"><p class="k">{{ section.settings.s6 }}</p><h1>{{ section.settings.s7 }}</h1>
+        <p class="lede">{{ section.settings.s8 }}</p></div>
+      <form class="form" onsubmit="event.preventDefault();this.hidden=true;var d=this.parentNode.querySelector('.formdone');d.hidden=false;d.setAttribute('tabindex','-1');d.focus();">
+        <div class="row2">
+          <label class="field"><span>Name</span><input required></label>
+          <label class="field"><span>Email</span><input type="email" required></label>
+        </div>
+        <fieldset class="chips">
+          <legend>What is it about?</legend>
+          <div class="cr">
+            <label><input type="radio" name="about" value="An order" checked><span>An order</span></label>
+            <label><input type="radio" name="about" value="HR &amp; recruitment"><span>HR &amp; recruitment</span></label>
+            <label><input type="radio" name="about" value="Stockists &amp; wholesale"><span>Stockists &amp; wholesale</span></label>
+            <label><input type="radio" name="about" value="Press"><span>Press</span></label>
+          </div>
+        </fieldset>
+        <label class="field"><span>Message</span><textarea rows="4" required></textarea></label>
+        <div class="actions"><button class="btn btn-ink" type="submit">Send</button></div>
+      </form>
+      <div class="formdone" hidden>
+        <div class="r"></div>
+        <p class="k">{{ section.settings.s9 }}</p>
+        <h2>{{ section.settings.s10 }}</h2>
+        <p>{{ section.settings.s11 }}</p>
+      </div>
+      <div class="creach">
+        <h2 class="vh">{{ section.settings.s12 }}</h2>
+        <div><p class="k">{{ section.settings.s13 }}</p>
+          <p><a href="{{ section.settings.s3 }}">{{ section.settings.s17 }}</a><br>Monday to Friday, 9&ndash;5</p></div>
+        <div><p class="k">{{ section.settings.s14 }}</p>
+          <p>London (UK) and Dubai (UAE)<br><a href="{{ section.settings.s4 }}">{{ section.settings.s18 }}</a></p></div>
+        <div><p class="k">{{ section.settings.s15 }}</p>
+          <p><a href="{{ section.settings.s5 }}">{{ section.settings.s19 }}</a></p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+ "name": "Contact content",
+ "settings": [
+  {
+   "type": "image_picker",
+   "id": "s1",
+   "label": "Image (blank = current)"
+  },
+  {
+   "type": "text",
+   "id": "s2",
+   "label": "Link URL",
+   "default": "/"
+  },
+  {
+   "type": "text",
+   "id": "s3",
+   "label": "Link URL 2",
+   "default": "mailto:info@sidestoryparfums.com"
+  },
+  {
+   "type": "text",
+   "id": "s4",
+   "label": "Link URL 3",
+   "default": "tel:+971503745210"
+  },
+  {
+   "type": "text",
+   "id": "s5",
+   "label": "Link URL 4",
+   "default": "mailto:jannat@sidestoryparfums.com"
+  },
+  {
+   "type": "text",
+   "id": "s6",
+   "label": "Text",
+   "default": "Contact"
+  },
+  {
+   "type": "text",
+   "id": "s7",
+   "label": "Heading",
+   "default": "Contact the&nbsp;atelier."
+  },
+  {
+   "type": "text",
+   "id": "s8",
+   "label": "Text 2",
+   "default": "Our team will endeavour to reply back within two working&nbsp;days."
+  },
+  {
+   "type": "text",
+   "id": "s9",
+   "label": "Text 3",
+   "default": "Received"
+  },
+  {
+   "type": "text",
+   "id": "s10",
+   "label": "Heading 2",
+   "default": "It has&nbsp;arrived."
+  },
+  {
+   "type": "textarea",
+   "id": "s11",
+   "label": "Text 4",
+   "default": "Two people read this inbox and one of them will write back, within two working days. If it is about an order, quoting the order number will get you a faster answer."
+  },
+  {
+   "type": "text",
+   "id": "s12",
+   "label": "Heading 3",
+   "default": "How to reach&nbsp;us"
+  },
+  {
+   "type": "text",
+   "id": "s13",
+   "label": "Text 5",
+   "default": "Write to us"
+  },
+  {
+   "type": "text",
+   "id": "s14",
+   "label": "Text 6",
+   "default": "The atelier"
+  },
+  {
+   "type": "text",
+   "id": "s15",
+   "label": "Text 7",
+   "default": "Press &amp; wholesale"
+  },
+  {
+   "type": "text",
+   "id": "s16",
+   "label": "Link label",
+   "default": "Home"
+  },
+  {
+   "type": "text",
+   "id": "s17",
+   "label": "Link label 2",
+   "default": "info@sidestoryparfums.com"
+  },
+  {
+   "type": "text",
+   "id": "s18",
+   "label": "Link label 3",
+   "default": "+971 50 374 5210"
+  },
+  {
+   "type": "text",
+   "id": "s19",
+   "label": "Link label 4",
+   "default": "jannat@sidestoryparfums.com"
+  }
+ ],
+ "presets": [
+  {
+   "name": "Contact content"
+  }
+ ]
+}
+{% endschema %}

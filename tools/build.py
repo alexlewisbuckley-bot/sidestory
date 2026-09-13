@@ -1530,7 +1530,8 @@ def build():
     _fq = BY_SLUG["sunday-service"]
     _fc = CHAPTERS["sunday-service"]
     home_body = home_body.replace("<!--SS_FEAT-->", f"""<section class="yfeat">
-  <video autoplay muted loop playsinline preload="auto" poster="{fp(story_plate(_fq))}" onloadeddata="this.classList.add('ready')"><source src="https://cdn.shopify.com/videos/c/o/v/da03d65c57264c91882acb2f5f947d66.mp4" type="video/mp4"></video>
+  <img src="{fp(story_plate(_fq))}" alt="{_fq['name']}" fetchpriority="high">
+  <video autoplay muted loop playsinline preload="auto" onloadeddata="this.classList.add('ready')"><source src="https://cdn.shopify.com/videos/c/o/v/da03d65c57264c91882acb2f5f947d66.mp4" type="video/mp4"></video>
   <span class="veil" aria-hidden="true"></span>
   <div class="inner">
     <div class="c rev">
@@ -2453,36 +2454,48 @@ if(src){{m.src=src;m.hidden=false;v.hidden=true;v.pause();}}else{{m.hidden=true;
 
     written["contact"] = page("contact", "Contact",
         "Write to the house. We read everything and reply within two working days.", f"""
-<div class="inner">
-  {crumbs(("Home", "index.html"), "Contact")}
-  <div class="phead"><p class="k">Contact</p><h1>Contact the atelier.</h1>
-    <p class="lede">Our team will endeavour to reply back within two working days.</p></div>
-  <form class="form" onsubmit="event.preventDefault();this.hidden=true;var d=this.parentNode.querySelector('.formdone');d.hidden=false;d.setAttribute('tabindex','-1');d.focus();">
-    <div>
-      <div class="row2">
-        <label class="field"><span>Name</span><input required></label>
-        <label class="field"><span>Email</span><input type="email" required></label>
+<section class="cform">
+  <div class="cpic" aria-hidden="true"><img src="{fp('assets/img/house-hero.jpg')}" alt="" loading="lazy"></div>
+  <div class="cwrap">
+    <div class="inner">
+      {crumbs(("Home", "index.html"), "Contact")}
+      <div class="phead"><p class="k">Contact</p><h1>Contact the atelier.</h1>
+        <p class="lede">Our team will endeavour to reply back within two working days.</p></div>
+      <form class="form" onsubmit="event.preventDefault();this.hidden=true;var d=this.parentNode.querySelector('.formdone');d.hidden=false;d.setAttribute('tabindex','-1');d.focus();">
+        <div class="row2">
+          <label class="field"><span>Name</span><input required></label>
+          <label class="field"><span>Email</span><input type="email" required></label>
+        </div>
+        <fieldset class="chips">
+          <legend>What is it about?</legend>
+          <div class="cr">
+            <label><input type="radio" name="about" value="An order" checked><span>An order</span></label>
+            <label><input type="radio" name="about" value="HR &amp; recruitment"><span>HR &amp; recruitment</span></label>
+            <label><input type="radio" name="about" value="Stockists &amp; wholesale"><span>Stockists &amp; wholesale</span></label>
+            <label><input type="radio" name="about" value="Press"><span>Press</span></label>
+          </div>
+        </fieldset>
+        <label class="field"><span>Message</span><textarea rows="4" required></textarea></label>
+        <div class="actions"><button class="btn btn-ink" type="submit">Send</button></div>
+      </form>
+      <div class="formdone" hidden>
+        <div class="r"></div>
+        <p class="k">Received</p>
+        <h2>It has arrived.</h2>
+        <p>Two people read this inbox and one of them will write back, within two working days. If it is about an order, quoting the order number will get you a faster answer.</p>
       </div>
-      <label class="field"><span>What is it about?</span>
-        <select><option>An order</option><option>HR &amp; recruitment</option><option>Stockists &amp; wholesale</option><option>Press</option></select></label>
-      <label class="field"><span>Message</span><textarea required></textarea></label>
-      <div class="actions"><button class="btn btn-ink" type="submit">Send</button></div>
+      <div class="creach">
+        <h2 class="vh">How to reach us</h2>
+        <div><p class="k">Write to us</p>
+          <p><a href="mailto:info@sidestoryparfums.com">info@sidestoryparfums.com</a><br>Monday to Friday, 9&ndash;5</p></div>
+        <div><p class="k">The atelier</p>
+          <p>London (UK) and Dubai (UAE)<br><a href="tel:+971503745210">+971 50 374 5210</a></p></div>
+        <div><p class="k">Press &amp; wholesale</p>
+          <p><a href="mailto:jannat@sidestoryparfums.com">jannat@sidestoryparfums.com</a></p></div>
+      </div>
     </div>
-    <div class="aside-card">
-      <h2 class="vh">How to reach us</h2>
-      <h3>Directly</h3>
-      <p><a href="mailto:info@sidestoryparfums.com">info@sidestoryparfums.com</a><br>Monday to Friday, 9&ndash;5</p>
-      <p>Side Story Parfums<br>London (UK) and Dubai (UAE)<br><a href="tel:+971503745210">+971 50 374 5210</a></p>
-      <p>Press and wholesale: <a href="mailto:jannat@sidestoryparfums.com">jannat@sidestoryparfums.com</a></p>
-    </div>
-  </form>
-  <div class="formdone" hidden>
-    <div class="r"></div>
-    <p class="k">Received</p>
-    <h2>It has arrived.</h2>
-    <p>Two people read this inbox and one of them will write back, within two working days. If it is about an order, quoting the order number will get you a faster answer.</p>
   </div>
-</div>
+</section>
 """)
 
     written["legal"] = page("legal", "Privacy, Terms & Cookies",

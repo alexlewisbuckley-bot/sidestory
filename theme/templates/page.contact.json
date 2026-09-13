@@ -1,20 +1,30 @@
 {
  "sections": {
-  "contact-content": {
-   "type": "contact-content",
+  "contact-cform": {
+   "type": "contact-cform",
    "settings": {
-    "s1": "/",
-    "s2": "Contact",
-    "s3": "Contact the&nbsp;atelier.",
-    "s4": "Our team will endeavour to reply back within two working&nbsp;days.",
-    "s5": "Received",
-    "s6": "It has&nbsp;arrived.",
-    "s7": "Two people read this inbox and one of them will write back, within two working days. If it is about an order, quoting the order number will get you a faster answer.",
-    "s8": "Home"
+    "s2": "/",
+    "s3": "mailto:info@sidestoryparfums.com",
+    "s4": "tel:+971503745210",
+    "s5": "mailto:jannat@sidestoryparfums.com",
+    "s6": "Contact",
+    "s7": "Contact the&nbsp;atelier.",
+    "s8": "Our team will endeavour to reply back within two working&nbsp;days.",
+    "s9": "Received",
+    "s10": "It has&nbsp;arrived.",
+    "s11": "Two people read this inbox and one of them will write back, within two working days. If it is about an order, quoting the order number will get you a faster answer.",
+    "s12": "How to reach&nbsp;us",
+    "s13": "Write to us",
+    "s14": "The atelier",
+    "s15": "Press &amp; wholesale",
+    "s16": "Home",
+    "s17": "info@sidestoryparfums.com",
+    "s18": "+971 50 374 5210",
+    "s19": "jannat@sidestoryparfums.com"
    }
   }
  },
  "order": [
-  "contact-content"
+  "contact-cform"
  ]
 }

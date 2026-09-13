@@ -558,7 +558,9 @@ main>:first-child:is(.band,.seven):has(> .inner > .crumb){padding-top:0}
 .btn-ghost{border-color:rgba(241,240,232,.8);color:var(--ivory)}
 .btn-ghost:hover{background:rgba(241,240,232,.14)}
 .btn-ink{background:var(--ink);color:var(--ivory)}
-.btn-ink:hover{background:var(--charcoal-900)}
+/* ink is #2b2e2d and charcoal-900 is #2b2b2b: three points of green apart,
+   which is a hover state only a colour picker can see. It lifts now. */
+.btn-ink:hover{background:#3e4442}
 .btn-ghostink{border-color:rgba(43,46,45,.45);color:var(--ink)}
 .btn-ghostink:hover{border-color:var(--ink);background:rgba(43,46,45,.05)}
 .btn-sm{min-height:var(--ctl-h-sm);padding-inline:var(--ctl-px-sm);letter-spacing:var(--track-label)}
@@ -1095,6 +1097,55 @@ button:disabled,[aria-disabled="true"]{cursor:default}
 @media (prefers-reduced-motion:reduce){
   .unfold::details-content{transition:none}
 }
+
+/* ------------------------------------------------------------- contact ---
+   The form used two fifths of a very wide page and left the rest empty
+   ivory, with the details in a beige box beside it. It is a split now: the
+   atelier on the left, running the full height of the page, and the form in
+   a measured column on the right with the three ways to reach the house
+   ruled off beneath it. The photograph is decorative and is not loaded at
+   all on a phone, where the column runs full width. */
+.cform{display:grid;grid-template-columns:minmax(0,1fr)}
+.cpic{display:none}
+.cform .cwrap .inner{margin-inline:0;max-width:50rem}
+.cform .form{grid-template-columns:minmax(0,1fr);padding-block:var(--s-5) var(--s-6)}
+.cform .field textarea{min-height:8.5rem}
+@media (min-width:64em){
+  .cform{grid-template-columns:minmax(0,34%) minmax(0,1fr);align-items:stretch}
+  .cpic{display:block;position:relative;background:var(--ink);overflow:hidden}
+  .cpic img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .cform .cwrap .inner{padding-inline:var(--s-7)}
+}
+/* the subject is four named things, so it is four things to choose from
+   rather than a native select that renders differently on every platform */
+.chips{border:0;padding:0;margin:var(--s-6) 0 0;min-inline-size:0}
+.chips legend{padding:0;font-family:var(--font-sans);font-weight:500;
+  font-size:var(--t-2xs);letter-spacing:var(--track-micro);text-transform:uppercase;
+  color:var(--txt-2)}
+.chips .cr{display:flex;flex-wrap:wrap;gap:var(--s-2);margin-top:var(--s-3)}
+.chips label{display:inline-flex;position:relative}
+.chips input{position:absolute;inset:0;opacity:0;cursor:pointer}
+.chips span{display:inline-block;padding:.55rem .95rem;
+  border:1px solid rgba(43,46,45,.3);font-family:var(--font-sans);font-weight:500;
+  font-size:var(--t-2xs);letter-spacing:var(--track-micro);text-transform:uppercase;
+  color:var(--txt-2);cursor:pointer;
+  transition:background var(--d-quick) var(--settle),color var(--d-quick) var(--settle),
+             border-color var(--d-quick) var(--settle)}
+.chips label:hover span{border-color:var(--ink);color:var(--ink)}
+.chips input:checked+span{background:var(--ink);border-color:var(--ink);color:var(--ivory)}
+.chips input:focus-visible+span{outline:2px solid var(--ink);outline-offset:2px}
+.creach{display:grid;gap:var(--s-5) var(--s-6);align-items:start;
+  grid-template-columns:minmax(0,1fr);
+  border-top:1px solid var(--line);padding-block:var(--s-6) var(--s-7)}
+@media (min-width:48em){ .creach{grid-template-columns:repeat(3,minmax(0,1fr))} }
+.creach .k{white-space:nowrap}
+/* an address is one long unbreakable word; without this it sets the width of
+   its column and the three stop being thirds */
+.creach a{overflow-wrap:anywhere}
+.creach .k{color:var(--brass-text)}
+.creach :where(p:not(.k)){margin-top:var(--s-3);font-size:var(--t-xs);line-height:1.85}
+.creach a{border-bottom:1px solid rgba(43,46,45,.25)}
+.creach a:hover{border-bottom-color:var(--ink)}
 
 /* ----------------------------------------------------- 11 credentials --- */
 .creds{background:var(--ivory);border-top:1px solid var(--line)}
@@ -1993,6 +2044,11 @@ main:has(> .inner > .pfoot){padding-bottom:0}
 .yfeat{position:relative;isolation:isolate;min-height:clamp(20rem,42vw,32.5rem);
   display:grid;align-items:end;overflow:hidden}
 .yfeat>img,.yfeat>picture>img,.yfeat>video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:var(--z-art)}
+/* the film sits over its own still and fades in when it has frames to
+   show, so a slow video reads as a photograph rather than as a page
+   that has not finished loading */
+.yfeat>video{opacity:0;transition:opacity 1.2s var(--settle)}
+.yfeat>video.ready{opacity:1}
 .yfeat .veil{position:absolute;inset:0;z-index:var(--z-behind);background:
   linear-gradient(to top,rgba(18,16,12,.80) 0%,rgba(18,16,12,.46) 46%,rgba(18,16,12,0) 78%),
   linear-gradient(to right,rgba(20,18,13,.55) 0%,rgba(20,18,13,0) 62%)}

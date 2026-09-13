@@ -16,7 +16,9 @@ await p.goto('http://localhost:8802/contact.html'); await p.waitForTimeout(250);
 out.contact = await p.evaluate(()=>({h1:document.querySelector('h1').textContent,
   lede:document.querySelector('.lede').textContent,
   opts:[...document.querySelectorAll('select option')].map(o=>o.textContent),
-  aside:document.querySelector('.aside-card').innerText.split('\n').filter(Boolean)}));
+  reach:[...document.querySelectorAll('.creach div')].map(d=>d.innerText.replace(/\n/g,' | ')),
+  chips:[...document.querySelectorAll('.chips .cr span')].map(s=>s.textContent),
+  pic:!!document.querySelector('.cpic img')}));
 await p.goto('http://localhost:8802/legal.html'); await p.waitForTimeout(250);
 out.legal = await p.evaluate(()=>({lede:!!document.querySelector('.phead .lede'),
   aside:!!document.querySelector('.artaside'),
