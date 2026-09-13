@@ -318,7 +318,7 @@ MENU_SIZES = [
     ("collection-100ml.html",   "100 ml",         "&pound;160"),
     ("collection-7-5ml.html",   "7.5 ml",         "&pound;25"),
     ("collection-samples.html", "Samples",        "&pound;5"),
-    ("samples.html",            "Discovery Set",  "&pound;30"),
+    ("samples.html",            "Discovery Set",  "&pound;40"),
 ]
 SIZE_HREFS = {h for h, _, _ in MENU_SIZES}
 
@@ -865,7 +865,7 @@ def topbar(current):
           <span>Bestseller &mdash; Hotel Lobby, &pound;160</span></a>
         <a class="feature" href="samples.html">
           <img src="{fp('assets/img/set-first-lines.jpg')}" alt="The Discovery Set discovery set" loading="lazy">
-          <span>Begin here &mdash; The Discovery Set, &pound;30</span></a>
+          <span>Begin here &mdash; The Discovery Set, &pound;40</span></a>
       </div>
     </div>
     <div class="util">
@@ -1133,7 +1133,7 @@ def catalogue_json():
                                 for z in SIZES})
             for p in PRODUCTS}
     data["set"] = dict(name="The Discovery Set", stone="", col="#3E5147",
-                       notes="all seven in miniature", price=30,
+                       notes="all seven in miniature", price=40,
                        img="assets/img/set-first-lines.jpg", href="samples.html")
     return json.dumps(data, ensure_ascii=False)
 
@@ -1251,7 +1251,7 @@ def search_index():
     add("Samples", "2 ml of any story — £5", "Shop",
         "collection-samples.html",
         "2ml 2 ml sample samples try tester trial discovery decant vial smallest size price 5")
-    add("The Discovery Set", "All seven in miniature — £30", "Shop",
+    add("The Discovery Set", "All seven in miniature — £40", "Shop",
         "samples.html", "discovery set sets sampler starter bundle try first gift present")
 
 
@@ -1306,7 +1306,7 @@ def search_overlay():
         <p class="mpfh">Or start here</p>
         <div class="srchlist">
           <a href="collection.html"><span>All seven stories</span></a>
-          <a href="samples.html"><span>The Discovery Set</span><span class="sm">&pound;30</span></a>
+          <a href="samples.html"><span>The Discovery Set</span><span class="sm">&pound;40</span></a>
           <a href="collection-samples.html"><span>Samples</span><span class="sm">&pound;5</span></a>
           <a href="stories.html"><span>Your Stories</span></a>
         </div>
@@ -1376,7 +1376,7 @@ STORY_FILM = {
 PROMO_CARD = """      <article class="promo rev">
         <p class="k">Undecided?</p><h3>The Discovery Set</h3>
         <p>All seven scents in miniature &mdash; sense them on your own skin.</p>
-        <div><a class="btn btn-ghost btn-sm" href="samples.html">The set. &pound;30.</a></div>
+        <div><a class="btn btn-ghost btn-sm" href="samples.html">The set. &pound;40.</a></div>
       </article>"""
 
 
@@ -1406,7 +1406,7 @@ def build():
     # colours. It renders from product_card now, so it cannot drift again.
     home_cards = ('<div class="cards">\n'
                   + "\n".join(product_card(p) for p in PRODUCTS)
-                  + "\n" + '<article class="promo rev">\n        <p class="k">Undecided?</p><h3>The Discovery Set</h3>\n        <p>All seven scents in miniature — sense them on your own skin.</p>\n        <div><button class="btn btn-ghost btn-sm" onclick="addToBag(\'set\',\'full\',this)">The set. £30.</button></div>\n      </article>' + "\n    </div>")
+                  + "\n" + '<article class="promo rev">\n        <p class="k">Undecided?</p><h3>The Discovery Set</h3>\n        <p>All seven scents in miniature — sense them on your own skin.</p>\n        <div><button class="btn btn-ghost btn-sm" onclick="addToBag(\'set\',\'full\',this)">The set. £40.</button></div>\n      </article>' + "\n    </div>")
     home_body = home_body.replace("<!--SS_CARDS-->", home_cards)
     # The campaign band — an invented quote over the stone ledge — is the
     # stories page's featured band now, the same component with the same
@@ -1436,7 +1436,7 @@ def build():
              "Wear each a day over the week, then choose the one you favour.",
         ident="set",
         img="assets/media/discovery-set.mp4",
-        tail="""    <div class="cta"><button class="btn btn-ivory" onclick="addToBag('set','full',this)">Add the set &mdash; &pound;30</button>
+        tail="""    <div class="cta"><button class="btn btn-ivory" onclick="addToBag('set','full',this)">Add the set &mdash; &pound;40</button>
       <a class="btn btn-ghost" href="samples.html">What&rsquo;s in it</a></div>
 """))
     home_body = home_body.replace("<!--SS_STYLES-->", style_row())
@@ -1733,7 +1733,7 @@ def build():
         f'            <p><b>{ROMAN[i]}</b><span>{q["name"]} &mdash; {q["style"].rstrip(".")}</span></p>'
         for i, q in enumerate(PRODUCTS))
     written["samples"] = page("samples", "The Discovery Set",
-        "The Discovery Set — all seven stories in miniature. 2ml of each, with the opening page of every story. £30.", f"""
+        "The Discovery Set — all seven stories in miniature. 2ml of each, with the opening page of every story. £40.", f"""
     <div class="inner">
       {crumbs(("Home", "index.html"), ("The Fragrances", "collection.html"), "The Discovery Set")}
       <div class="pdp">
@@ -1754,11 +1754,11 @@ if(src){{m.src=src;m.hidden=false;v.hidden=true;v.pause();}}else{{m.hidden=true;
 
       <p class="fieldlabel">The set</p>
       <div class="sizes">
-        <button aria-current="true" data-size="full" data-price="30"><span class="szl">Seven &times; 2 ml</span><span class="szp">&pound;30</span><span class="szi">Wear each a day over the week, then choose the one you favour</span></button>
+        <button aria-current="true" data-size="full" data-price="40"><span class="szl">Seven &times; 2 ml</span><span class="szp">&pound;40</span><span class="szi">Wear each a day over the week, then choose the one you favour</span></button>
       </div>
 
       <div class="cta">
-        <button class="btn btn-ink" data-size="full" onclick="addToBag('set','full',this)">Add to bag &mdash; &pound;30</button>
+        <button class="btn btn-ink" data-size="full" onclick="addToBag('set','full',this)">Add to bag &mdash; &pound;40</button>
         <button class="btn btn-ghostink applepay" onclick="addToBag('set','full',this)"><svg class="i-apple" viewBox="0 0 384 512" aria-hidden="true" focusable="false"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.931.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/></svg> Apple Pay</button>
       </div>
 
@@ -1772,7 +1772,7 @@ if(src){{m.src=src;m.hidden=false;v.hidden=true;v.pause();}}else{{m.hidden=true;
 
       <div class="pdpbar" id="pdpbar" hidden>
         <div class="r">
-          <div class="t"><b>The Discovery Set</b><span data-barprice>&pound;30 &middot; seven &times; 2 ml</span></div>
+          <div class="t"><b>The Discovery Set</b><span data-barprice>&pound;40 &middot; seven &times; 2 ml</span></div>
           <button class="btn btn-ink" data-size="full" onclick="addToBag('set','full',this)">Add to bag</button>
         </div>
       </div>
@@ -2198,7 +2198,7 @@ if(src){{m.src=src;m.hidden=false;v.hidden=true;v.pause();}}else{{m.hidden=true;
           <thead><tr role="row"><th role="columnheader" scope="col">Order</th><th role="columnheader" scope="col">Placed</th><th role="columnheader" scope="col">Contents</th><th role="columnheader" scope="col">Status</th><th role="columnheader" scope="col">Total</th></tr></thead>
           <tbody>
             <tr role="row"><td role="cell" data-label="Order">SS-2114</td><td role="cell" data-label="Placed">28 July 2026</td><td role="cell" data-label="Contents">Sunday Service, 100ml</td><td role="cell" data-label="Status">Preparing</td><td role="cell" data-label="Total">&pound;160</td></tr>
-            <tr role="row"><td role="cell" data-label="Order">SS-1980</td><td role="cell" data-label="Placed">2 May 2026</td><td role="cell" data-label="Contents">The Discovery Set</td><td role="cell" data-label="Status">Delivered</td><td role="cell" data-label="Total">&pound;30</td></tr>
+            <tr role="row"><td role="cell" data-label="Order">SS-1980</td><td role="cell" data-label="Placed">2 May 2026</td><td role="cell" data-label="Contents">The Discovery Set</td><td role="cell" data-label="Status">Delivered</td><td role="cell" data-label="Total">&pound;40</td></tr>
             <tr role="row"><td role="cell" data-label="Order">SS-1642</td><td role="cell" data-label="Placed">14 February 2026</td><td role="cell" data-label="Contents">Hotel Lobby, 100ml</td><td role="cell" data-label="Status">Delivered</td><td role="cell" data-label="Total">&pound;160</td></tr>
           </tbody>
         </table>

@@ -78,7 +78,7 @@ def map_assets(s):
 # Store prices are AED; the four confirmed GBP price points map to their
 # store equivalents so the theme's baked copy agrees with the live cart.
 # Amounts with no confirmed AED value (shipping table, refills) pass through.
-AED = {"160": "760", "25": "200", "5": "25", "30": "150", "0": "0"}
+AED = {"160": "760", "25": "200", "5": "25", "40": "200", "30": "150", "0": "0"}
 def map_prices(s):
     # the announcement's dual-currency line collapses to the store currency
     s = s.replace("&pound;30 / AED&nbsp;150", "AED&nbsp;150")
