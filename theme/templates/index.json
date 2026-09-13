@@ -199,22 +199,22 @@
     "b1": {
      "type": "item",
      "settings": {
-      "b1": "The most literate thing to happen to British perfume in a&nbsp;decade.",
-      "b2": "FILLER \u2014 attribution to come"
+      "b1": "Hotel Lobby uses wood scents to evoke the dark oak and leather armchairs of a&nbsp;decadent hotel entrance as a&nbsp;gentle wind wafts through an open window. It\u2019s sophisticated, comforting and&nbsp;refreshing.",
+      "b2": "Cond\u00e9 Nast Traveller"
      }
     },
     "b2": {
      "type": "item",
      "settings": {
-      "b1": "Stone lids you\u2019ll fidget with forever, stories you\u2019ll actually&nbsp;read.",
-      "b2": "FILLER \u2014 attribution to come"
+      "b1": "Capturing the fervour behind getting to know someone new, this evocative scent from the artisan fragrance brand Side Story has been created to tell the tale of new connections.",
+      "b2": "Forbes"
      }
     },
     "b3": {
      "type": "item",
      "settings": {
-      "b1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod&nbsp;tempor.",
-      "b2": "FILLER \u2014 third quote to come"
+      "b1": "4PM Matinee by Side Story is a&nbsp;fragrance that transcends the ordinary. It\u2019s like a&nbsp;story in a&nbsp;bottle, blending ambition and realisation with green, woody, and amber&nbsp;notes.",
+      "b2": "Grazia"
      }
     }
    },
@@ -223,19 +223,6 @@
     "b2",
     "b3"
    ]
-  },
-  "home-news": {
-   "type": "home-news",
-   "settings": {
-    "s1": "/pages/stories",
-    "s2": "Undecided is a&nbsp;fine place to&nbsp;begin.",
-    "s3": "One letter a month \u2014 a new chapter, first readings, and nothing else.",
-    "s4": "One letter a month. Unsubscribe any time \u2014 your address is never shared.",
-    "s5": "Subscribed",
-    "s6": "The first letter is on its&nbsp;way.",
-    "s7": "One letter a month \u2014 a new chapter, first readings, and nothing else. Unsubscribe from the foot of any of them; your address is never shared.",
-    "s8": "Read the seven while you wait"
-   }
   }
  },
  "order": [
@@ -247,7 +234,6 @@
   "home-feelings",
   "home-band",
   "home-gift",
-  "home-creds",
-  "home-news"
+  "home-creds"
  ]
 }
