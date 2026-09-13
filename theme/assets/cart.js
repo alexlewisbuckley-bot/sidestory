@@ -128,7 +128,24 @@
     + '.btn-ghost[disabled]:hover,.btn-ghostink[disabled]:hover{background:transparent}'
     + '.gift{background:var(--stone-sunday-service)}'
     + '.gift>video{width:100%;aspect-ratio:3/2;object-fit:cover;order:-1}'
-    + '.yfeat>video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:var(--z-art)}';
+    + '.yfeat>video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:var(--z-art)}'
+    /* hero carousel blends over 2s */
+    + '.hero .shots img{transition:opacity 2s var(--settle)}'
+    /* browsers without svh/dvh dropped these declarations entirely; the
+       plain-vh equivalents apply only where the modern units are missing */
+    + '@supports not (height:100svh){'
+    +   '.hero{min-height:max(28rem,calc(100vh - var(--chromeh,calc(var(--annh) + var(--navh)))))}'
+    +   '.campaign{min-height:clamp(22rem,48vh,35rem)}'
+    +   '.banner{min-height:clamp(18rem,40vh,30rem)}'
+    +   '.sheet{max-height:80vh}'
+    +   '.notfound{min-height:60vh}'
+    +   '.storyband{min-height:clamp(24rem,52vh,36rem)}'
+    + '}'
+    + '@supports not (height:100dvh){'
+    +   '.drawer{height:100vh}'
+    +   '.srch{max-height:calc(100vh - var(--srch-top,var(--navh)))}'
+    +   '@media (max-width:71.875em){.srch{height:100vh;max-height:none}}'
+    + '}';
   document.head.appendChild(st);
   document.addEventListener('click', e=>{
     const b = e.target.closest('[data-remove]'); if(!b) return;
