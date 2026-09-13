@@ -975,10 +975,11 @@ def topbar(current):
         <div>
           <p class="fh">Read</p>
           <a class="ml" href="stories.html">The stories</a>
+          <a class="ml" href="share.html">Share yours</a>
           <a class="ml" href="index.html#making">The making</a>
           <a class="ml" href="index.html#styles">The styles</a>
-          <a class="ml" href="our-house.html">The brand</a>
-          <a class="ml" href="samples.html">The discovery</a>
+          <a class="ml" href="our-house.html">Our story</a>
+          <a class="ml" href="our-house.html#credo">Our credo</a>
         </div>
         <a class="feature" href="product-hotel-lobby.html">
           <img src="{fp('assets/img/p-hotel-lobby-card.jpg')}" alt="Hotel Lobby eau de parfum" loading="lazy">
