@@ -1520,7 +1520,6 @@ html.overlay-open body{overflow:hidden}
 .banner::after{content:"";position:absolute;inset:0;z-index:var(--z-behind);background:
   linear-gradient(0deg,rgba(20,17,12,.88) 0%,rgba(20,17,12,.60) 46%,rgba(20,17,12,.10) 100%),
   linear-gradient(70deg,rgba(20,17,12,.55) 0%,rgba(20,17,12,0) 65%)}
-.banner.tall{min-height:100vh;min-height:100svh}
 .banner .c{max-width:calc(44rem + var(--gutter) * 2);padding:var(--s-7) var(--gutter) var(--s-6)}
 .banner .k{color:var(--ivory);opacity:var(--o-strong)}
 .banner h1{font-size:var(--t-4);margin-top:var(--s-3)}
@@ -2131,6 +2130,11 @@ html.overlay-open body{overflow:hidden}
 .shero .lede{font-size:var(--t-lg);line-height:var(--lh-lede);opacity:var(--o-strong);
   margin-top:var(--space-5)}
 .shero .cta{display:flex;flex-wrap:wrap;gap:var(--space-4);margin-top:var(--space-5)}
+/* the house hero runs the full viewport; its headline is a long sentence,
+   so it takes a wider column and a step down from the share-page size */
+.shero.tall{min-height:100vh;min-height:100svh}
+.shero.tall .c{max-width:44rem}
+.shero.tall h1{font-size:var(--t-4)}
 
 .invite{background:var(--ivory);text-align:center;padding-block:var(--sec)}
 .invite h2{font-size:var(--t-4);line-height:1.46;max-width:38rem;

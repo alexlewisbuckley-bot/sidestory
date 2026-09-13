@@ -1800,11 +1800,17 @@ if(src){{m.src=src;m.hidden=false;v.hidden=true;v.pause();}}else{{m.hidden=true;
     # ---- 06 our house ----------------------------------------------------
     written["our-house"] = page("our-house", "Our Story",
         "It began with sandalwood, and a question about which stories run through a life. Composed in Grasse, sealed under hand-carved marble.", f"""
-<section class="banner tall">
-  <img src="{fp('assets/img/house-hero.jpg')}" alt="The founders in the atelier">
-  <div class="c">
-    <p class="k">Our story</p>
-    <h1>It&rsquo;s a story left behind in an elevator, or carried gently on a breeze. The kiss of fragrance on a lapel, in the yellowed pages of a diary, or folded into a handkerchief.</h1>
+<section class="shero tall">
+  <img src="{fp('assets/img/house-hero.jpg')}" alt="The founders in the atelier" fetchpriority="high">
+  <span class="veil" aria-hidden="true"></span>
+  <div class="inner">
+    <div class="c">
+      <p class="k">Our story</p>
+      <h1>It&rsquo;s a story left behind in an elevator, or carried gently on a breeze. The kiss of fragrance on a lapel, in the yellowed pages of a diary, or folded into a handkerchief.</h1>
+      <div class="cta">
+        <a class="btn btn-ivory" href="collection.html">Shop fragrances</a>
+      </div>
+    </div>
   </div>
 </section>
 

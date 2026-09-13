@@ -1,10 +1,12 @@
 {
  "sections": {
-  "our-story-banner": {
-   "type": "our-story-banner",
+  "our-story-shero": {
+   "type": "our-story-shero",
    "settings": {
-    "s2": "Our story",
-    "s3": "It&rsquo;s a&nbsp;story left behind in an elevator, or carried gently on a&nbsp;breeze. The kiss of fragrance on a&nbsp;lapel, in the yellowed pages of a&nbsp;diary, or folded into a&nbsp;handkerchief."
+    "s2": "/collections/the-fragrances",
+    "s3": "Our story",
+    "s4": "It&rsquo;s a&nbsp;story left behind in an elevator, or carried gently on a&nbsp;breeze. The kiss of fragrance on a&nbsp;lapel, in the yellowed pages of a&nbsp;diary, or folded into a&nbsp;handkerchief.",
+    "s5": "Shop fragrances"
    }
   },
   "our-story-band": {
@@ -61,7 +63,7 @@
   }
  },
  "order": [
-  "our-story-banner",
+  "our-story-shero",
   "our-story-band",
   "our-story-gift",
   "our-story-band-2",

@@ -1,22 +1,23 @@
 import { chromium } from 'playwright';
 const b = await chromium.launch({executablePath:'/opt/pw-browsers/chromium'});
-const p = await b.newPage({viewport:{width:1280,height:800}});
+const p = await b.newPage({viewport:{width:1440,height:900}});
+const errs=[]; p.on('pageerror',e=>errs.push(String(e)));
 await p.goto('http://localhost:8802/our-house.html');
-await p.waitForTimeout(400);
+await p.waitForTimeout(500);
 const r = await p.evaluate(()=>{
-  const banner=document.querySelector('.banner.tall');
-  const h1=banner?.querySelector('h1')?.textContent||'';
-  const sub=banner?.querySelector('.c p:not(.k)');
-  const credo=document.querySelectorAll('.credo li').length;
-  const aside=document.querySelector('.artaside');
-  const making=document.getElementById('making');
-  const stones=document.getElementById('stones');
-  const promise=document.getElementById('promise');
-  const pbg=promise?getComputedStyle(promise).backgroundColor:'';
-  return {bannerH:banner?Math.round(banner.getBoundingClientRect().height):0,
-    winH:innerHeight, h1len:h1.length, hasSub:!!sub, credo, aside:!!aside,
-    making:!!making, stones:!!stones, pbg,
-    heroImg:banner?.querySelector('img')?.getAttribute('src')||''};
+  const h=document.querySelector('.shero.tall');
+  const btn=h?.querySelector('.cta .btn');
+  const c=h?.querySelector('.c');
+  const cb=c?.getBoundingClientRect();
+  return {heroH:Math.round(h.getBoundingClientRect().height), winH:innerHeight,
+    img:h.querySelector('img')?.getAttribute('src'),
+    kicker:h.querySelector('.k')?.textContent,
+    h1px:getComputedStyle(h.querySelector('h1')).fontSize,
+    btnText:btn?.textContent, btnHref:btn?.getAttribute('href'),
+    btnBg:btn?getComputedStyle(btn).backgroundColor:'',
+    textLeft:Math.round(cb.left), textTop:Math.round(cb.top), textBottom:Math.round(cb.bottom),
+    credo:document.querySelectorAll('.credo li').length,
+    overflow:document.documentElement.scrollWidth>innerWidth};
 });
-console.log(JSON.stringify(r));
+console.log(JSON.stringify(r,null,1), 'errors:', errs.filter(e=>!/ERR_TUNNEL/.test(e)));
 await b.close();
