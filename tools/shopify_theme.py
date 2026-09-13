@@ -663,7 +663,9 @@ CART_JS = r"""
     + '.quick small,.szi{font-family:var(--font-serif);font-style:italic;font-size:var(--t-xs);letter-spacing:0;text-transform:none;color:var(--txt-2)}'
     + '.btn-ink[disabled]:hover{background:var(--ink)}'
     + '.btn-ivory[disabled]:hover{background:var(--ivory)}'
-    + '.btn-ghost[disabled]:hover,.btn-ghostink[disabled]:hover{background:transparent}';
+    + '.btn-ghost[disabled]:hover,.btn-ghostink[disabled]:hover{background:transparent}'
+    + '.gift{background:var(--stone-sunday-service)}'
+    + '.gift>video{width:100%;aspect-ratio:3/2;object-fit:cover;order:-1}';
   document.head.appendChild(st);
   document.addEventListener('click', e=>{
     const b = e.target.closest('[data-remove]'); if(!b) return;
