@@ -1849,6 +1849,15 @@ def build():
     # ---- 07 stories index --------------------------------------------
     #   Frame: P15 "Your Stories — index" (167:2473). Sunday Service is the
     #   featured story; the remaining six run in a three-up grid.
+    CARD_QUOTES = {
+        "hotel-lobby": "The bar was the kind of place Hemingway might have lingered a little too long, lights glittering on the crystal and glass.",
+        "sunday-service": "Now the leaves were dense and green, hanging heavy over the road and mottling the light on his dashboard.",
+        "sibling-rivalry": "In some ways, they were like night and day. She was cerebral, he was an artisan.",
+        "third-date": "She brushed a few stray hairs into place, then ruffled her hair again, wanting to appear thoughtfully—artfully—effortless.",
+        "4pm-matinee": "She couldn’t know that she’d succeed, but she never doubted it, either. Chasing her dream felt as natural as breathing air.",
+        "road-trip": "Leaning back in her seat, she sank her teeth into a ripe peach and remembered the afternoons, watching the clouds carousel across the sky.",
+        "pillow-talk": "She was waiting in the bed next to the open window, the down duvet ruffled around her like a snow drift.",
+    }
     FEATURED = "sunday-service"
     feat = BY_SLUG[FEATURED]
     fc   = CHAPTERS[FEATURED]
@@ -1856,17 +1865,17 @@ def build():
         <span class="plate"><img src="{fp(story_plate(q))}" alt="{q['name']}" loading="lazy"></span>
         <span class="sm"><i class="chip" style="background:{q['swatch']}"></i>{q['story']} &middot; {q['read']} read</span>
         <h3>{q['name']}</h3>
-        <p>{story_line(q)}</p>
+        <p>&ldquo;{CARD_QUOTES.get(q["slug"], story_line(q))}&rdquo;</p>
         <span class="rd">Read &rarr;</span></a>"""
         for q in PRODUCTS if q["slug"] != FEATURED)
 
     written["stories"] = page("stories", "Your Stories",
-        "Every fragrance began as fiction. Read all seven stories in full — the printed edition arrives in the box.", f"""
+        "Every fragrance begins as someone's story, a moment, and an evocative feeling. Read all seven in full — the printed edition arrives in the full size 100ml box.", f"""
 <section class="ysintro">
   <div class="inner">
     <p class="k">Your stories</p>
-    <h1>Seven stories. Read one on us.</h1>
-    <p class="lede">Every fragrance we make began as fiction, commissioned before a single note was weighed. Read them here in full &mdash; the printed edition arrives in the box.</p>
+    <h1>Seven stories. Seven moments.</h1>
+    <p class="lede">Every fragrance begins as someone&rsquo;s story, a moment, and an evocative feeling. Read them here in full &mdash; the printed edition arrives in the full size 100ml box.</p>
   </div>
 </section>
 
@@ -1891,13 +1900,6 @@ def build():
   </div>
 </section>
 
-<section class="yset">
-  <div class="inner">
-    <h2>Undecided? Read three, then choose one.</h2>
-    <p>The Discovery Set &mdash; all seven in miniature, &pound;30.</p>
-    <a class="btn btn-ivory" href="samples.html">Begin the set</a>
-  </div>
-</section>
 """)
 
     # ---- 08 the seven stories ------------------------------------------
@@ -1934,7 +1936,6 @@ def build():
     <div class="c">
       <p class="k"><i class="chip" style="background:{q['swatch']}"></i>Your stories &middot; {q['story']} &middot; {q['stone']}</p>
       <h1>{q['name']}</h1>
-      <p class="by">Written by {c['author']} &middot; {q['read']} read &middot; the story that became a fragrance</p>
     </div>
   </div>
 </section>
@@ -1954,11 +1955,7 @@ def build():
     <blockquote class="spull">&ldquo;{c['pull']}&rdquo;</blockquote>
     <div class="scol">
 {tail_html}
-      <p class="sig">&mdash; {initials}</p>
     </div>
-    <figure class="sfig">
-      <img src="{fp(story_plate(q))}" alt="{q['name']}" loading="lazy">
-    </figure>
   </div>
 </section>
 
@@ -1997,7 +1994,7 @@ def build():
 """
         written["story-" + q["slug"]] = page(
             "story-" + q["slug"], q["name"],
-            f"{q['name']} — the story that became the fragrance. Written by {c['author']}.",
+            f"{q['name']} — the story that became the fragrance.",
             story_body, current="stories.html")
         # story.html (the old ?s= page) is gone: it was a byte-identical copy
         # of the featured story at a second URL, which is duplicate content.
