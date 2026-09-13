@@ -1,10 +1,16 @@
 <section class="creds" aria-labelledby="creds-h">
   <div class="inner">
-    <p class="k rev" id="creds-h">{{ section.settings.s1 }}</p>
+    <p class="k rev" id="creds-h">{{ section.settings.s4 }}</p>
     <div class="credrow">
-      {% for block in section.blocks %}<figure class="cred rev" {{ block.shopify_attributes }}>
-        <blockquote>{{ block.settings.b1 }}</blockquote>
-        <figcaption>{{ block.settings.b2 }}</figcaption></figure>{% endfor %}
+      <figure class="cred rev">
+        <blockquote>{{ section.settings.s5 }}</blockquote>
+        <figcaption>{% if section.settings.s1 %}<img class="plogo pl-conde" alt="{{ section.settings.s1.alt | escape }}" src="{{ section.settings.s1 | image_url: width: 1600 }}" loading="lazy">{% else %}<img class="plogo pl-conde" src="https://cdn.shopify.com/s/files/1/0992/0698/8082/files/conde-nast-logo-black_1.svg?v=1789324120" alt="Condé Nast Traveller" width="617" height="87" loading="lazy" decoding="async">{% endif %}</figcaption></figure>
+      <figure class="cred rev">
+        <blockquote>{{ section.settings.s6 }}</blockquote>
+        <figcaption>{% if section.settings.s2 %}<img class="plogo pl-forbes" alt="{{ section.settings.s2.alt | escape }}" src="{{ section.settings.s2 | image_url: width: 1600 }}" loading="lazy">{% else %}<img class="plogo pl-forbes" src="https://cdn.shopify.com/s/files/1/0992/0698/8082/files/forbes-logo.png?v=1789324121" alt="Forbes" width="1000" height="250" loading="lazy" decoding="async">{% endif %}</figcaption></figure>
+      <figure class="cred rev">
+        <blockquote>{{ section.settings.s7 }}</blockquote>
+        <figcaption>{% if section.settings.s3 %}<img class="plogo pl-grazia" alt="{{ section.settings.s3.alt | escape }}" src="{{ section.settings.s3 | image_url: width: 1600 }}" loading="lazy">{% else %}<img class="plogo pl-grazia" src="https://cdn.shopify.com/s/files/1/0992/0698/8082/files/GRAZIA_logo_SVGversion.svg?v=1789324121" alt="Grazia" width="842" height="260" loading="lazy" decoding="async">{% endif %}</figcaption></figure>
     </div>
   </div>
 </section>
@@ -13,33 +19,45 @@
  "name": "Press quotes",
  "settings": [
   {
-   "type": "text",
+   "type": "image_picker",
    "id": "s1",
+   "label": "Image (blank = current)"
+  },
+  {
+   "type": "image_picker",
+   "id": "s2",
+   "label": "Image (blank = current) 2"
+  },
+  {
+   "type": "image_picker",
+   "id": "s3",
+   "label": "Image (blank = current) 3"
+  },
+  {
+   "type": "text",
+   "id": "s4",
    "label": "Text",
    "default": "In the press"
-  }
- ],
- "blocks": [
+  },
   {
-   "type": "item",
-   "name": "Quote",
-   "settings": [
-    {
-     "type": "textarea",
-     "id": "b1",
-     "label": "Quote",
-     "default": "Hotel Lobby uses wood scents to evoke the dark oak and leather armchairs of a&nbsp;decadent hotel entrance as a&nbsp;gentle wind wafts through an open window. It\u2019s sophisticated, comforting and&nbsp;refreshing."
-    },
-    {
-     "type": "text",
-     "id": "b2",
-     "label": "Caption",
-     "default": "Cond\u00e9 Nast Traveller"
-    }
-   ]
+   "type": "textarea",
+   "id": "s5",
+   "label": "Quote",
+   "default": "Hotel Lobby uses wood scents to evoke the dark oak and leather armchairs of a&nbsp;decadent hotel entrance as a&nbsp;gentle wind wafts through an open window. It\u2019s sophisticated, comforting and&nbsp;refreshing."
+  },
+  {
+   "type": "textarea",
+   "id": "s6",
+   "label": "Quote 2",
+   "default": "Capturing the fervour behind getting to know someone new, this evocative scent from the artisan fragrance brand Side Story has been created to tell the tale of new connections."
+  },
+  {
+   "type": "textarea",
+   "id": "s7",
+   "label": "Quote 3",
+   "default": "4PM Matinee by Side Story is a&nbsp;fragrance that transcends the ordinary. It\u2019s like a&nbsp;story in a&nbsp;bottle, blending ambition and realisation with green, woody, and amber&nbsp;notes."
   }
  ],
- "max_blocks": 25,
  "presets": [
   {
    "name": "Press quotes"

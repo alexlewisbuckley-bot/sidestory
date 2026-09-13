@@ -1120,6 +1120,17 @@ button:disabled,[aria-disabled="true"]{cursor:default}
 .cred figcaption{margin-top:auto;padding-top:var(--s-4);font-family:var(--font-sans);
   font-weight:500;font-size:var(--t-xs);letter-spacing:var(--track-label);
   text-transform:uppercase;color:var(--txt-2)}
+/* the attributions are the mastheads themselves. Each is capped at its own
+   height rather than a shared one: a long thin wordmark set to the same
+   height as a short heavy one always looks the larger of the two. They sit
+   on one baseline because the figcaption floors them. */
+.plogo{display:block;width:auto;max-width:min(100%,11rem);
+  opacity:.78;filter:grayscale(1)}
+.pl-conde{height:.875rem}
+.pl-forbes{height:1.125rem}
+.pl-grazia{height:1.25rem}
+.cred figcaption:has(.plogo){padding-top:var(--s-5)}
+
 .creds .credfoot{margin-top:var(--s-6);padding-top:var(--s-4);
   border-top:1px solid var(--line);font-family:var(--font-sans);font-weight:500;
   font-size:var(--t-xs);letter-spacing:var(--track-label);text-transform:uppercase;
@@ -1568,7 +1579,10 @@ html.overlay-open body{overflow:hidden}
 .flg svg{width:100%;height:100%;display:block}
 .tile .cty{white-space:nowrap}
 .pfoot :where(p:not(.k)){font-size:var(--t-md);line-height:1.8;margin-top:var(--s-3)}
-main:has(> .inner > .pfoot){padding-bottom:var(--s-7)}
+/* a plain page is one .inner and nothing else; without this it runs its last
+   rule straight into the footer, which reads as a missing section */
+main > .inner:last-child{padding-bottom:var(--s-7)}
+main:has(> .inner > .pfoot){padding-bottom:0}
 
 /* full-bleed editorial banner used at the top of the longer pages */
 .banner{position:relative;display:grid;align-items:end;isolation:isolate;

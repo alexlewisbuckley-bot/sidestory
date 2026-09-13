@@ -194,36 +194,11 @@
   "home-creds": {
    "type": "home-creds",
    "settings": {
-    "s1": "In the press"
-   },
-   "blocks": {
-    "b1": {
-     "type": "item",
-     "settings": {
-      "b1": "Hotel Lobby uses wood scents to evoke the dark oak and leather armchairs of a&nbsp;decadent hotel entrance as a&nbsp;gentle wind wafts through an open window. It\u2019s sophisticated, comforting and&nbsp;refreshing.",
-      "b2": "Cond\u00e9 Nast Traveller"
-     }
-    },
-    "b2": {
-     "type": "item",
-     "settings": {
-      "b1": "Capturing the fervour behind getting to know someone new, this evocative scent from the artisan fragrance brand Side Story has been created to tell the tale of new connections.",
-      "b2": "Forbes"
-     }
-    },
-    "b3": {
-     "type": "item",
-     "settings": {
-      "b1": "4PM Matinee by Side Story is a&nbsp;fragrance that transcends the ordinary. It\u2019s like a&nbsp;story in a&nbsp;bottle, blending ambition and realisation with green, woody, and amber&nbsp;notes.",
-      "b2": "Grazia"
-     }
-    }
-   },
-   "block_order": [
-    "b1",
-    "b2",
-    "b3"
-   ]
+    "s4": "In the press",
+    "s5": "Hotel Lobby uses wood scents to evoke the dark oak and leather armchairs of a&nbsp;decadent hotel entrance as a&nbsp;gentle wind wafts through an open window. It\u2019s sophisticated, comforting and&nbsp;refreshing.",
+    "s6": "Capturing the fervour behind getting to know someone new, this evocative scent from the artisan fragrance brand Side Story has been created to tell the tale of new connections.",
+    "s7": "4PM Matinee by Side Story is a&nbsp;fragrance that transcends the ordinary. It\u2019s like a&nbsp;story in a&nbsp;bottle, blending ambition and realisation with green, woody, and amber&nbsp;notes."
+   }
   }
  },
  "order": [

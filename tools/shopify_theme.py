@@ -252,10 +252,12 @@ def blockify(html, spec, toks):
     return html, schema, bvals
 
 
-BLOCK_SPECS = {
-    ("home", "creds"): {"pat": r'<figure class="cred rev">.*?</figure>',
-                        "name": "Quote"},
-}
+# Repeating units that are structurally identical become add/remove blocks in
+# the theme editor. The press quotes qualified until each one took its own
+# masthead: a block template can only carry one image, so all three rows came
+# out wearing the first logo. They are three fixed figures again, each with its
+# own text settings, which is the honest shape for three named publications.
+BLOCK_SPECS = {}
 
 
 def split_sections(inner):
@@ -707,7 +709,12 @@ CART_JS = r"""
     + '.unfold[open]::details-content{block-size:auto}'
     + '@media (prefers-reduced-motion:reduce){.unfold::details-content{transition:none}}'
     + '.pfoot :where(p:not(.k)){font-size:var(--t-md);line-height:1.8;margin-top:var(--s-3)}'
-    + 'main:has(> .inner > .pfoot){padding-bottom:var(--s-7)}'
+    + 'main > .inner:last-child{padding-bottom:var(--s-7)}'
+    + 'main:has(> .inner > .pfoot){padding-bottom:0}'
+    /* the press attributions are mastheads, each capped at its own height */
+    + '.plogo{display:block;width:auto;max-width:min(100%,11rem);opacity:.78;filter:grayscale(1)}'
+    + '.pl-conde{height:.875rem}.pl-forbes{height:1.125rem}.pl-grazia{height:1.25rem}'
+    + '.cred figcaption:has(.plogo){padding-top:var(--s-5)}'
     /* the credo: two marked positions to a row, the closing line spanning */
     + '.credo{list-style:none;margin:var(--s-6) 0 0;padding:0;display:grid;grid-template-columns:minmax(0,1fr);column-gap:var(--s-7)}'
     + '@media (min-width:60em){.credo{grid-template-columns:repeat(2,minmax(0,1fr))}'
