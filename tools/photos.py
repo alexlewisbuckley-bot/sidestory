@@ -82,6 +82,9 @@ EDITORIAL = [
     # smaller editorial plates use
     ("share-hero",      "share-hero.jpg",     1950, None),
     ("atelier-bench",   "atelier-bench.jpg",  1600, None),
+    # In-the-hand plates: the embossed label on linen, and the oil in the air
+    ("label-linen",     "label-linen.jpg",    1400, None),
+    ("oil-spray",       "oil-spray.jpg",      1400, None),
 ]
 
 # Story plates. Supplied editorial photography, one per fragrance, used

@@ -100,15 +100,15 @@
   "home-atelier": {
    "type": "home-atelier",
    "settings": {
-    "s3": "In the hand",
-    "s4": "Held before&nbsp;smelled.",
-    "s5": "Fragrance is the only luxury bought blind. So the object must speak first \u2014 the cold of the stone, the letterpress bite of the label, the weight of a hundred millilitres.",
-    "s6": "The stone",
-    "s7": "hand-carved, never repeated",
-    "s8": "The label",
-    "s9": "letterpress on cotton paper",
-    "s10": "The oil",
-    "s11": "undiluted, amber, slow"
+    "s4": "Heavy in the hand",
+    "s5": "Purposeful weight. Artisanal creation.",
+    "s6": "The object speaks first \u2014 the cold of the stone, the letterpress bite of the label, the intensity of the oil.",
+    "s7": "The stone",
+    "s8": "hand-turned, never repeated",
+    "s9": "The label",
+    "s10": "embossed on linen",
+    "s11": "The oil",
+    "s12": "lasting, layered, rich"
    }
   },
   "home-yfeat": {
