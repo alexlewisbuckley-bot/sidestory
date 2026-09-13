@@ -683,6 +683,67 @@ CREDO = [
 ]
 
 
+# The stockist list, and a small flag for each country. The flags are drawn
+# here at 24x16 rather than pulled from an icon set: five marks used once each
+# do not justify a dependency, and drawing them lets every one sit on the same
+# hairline rule as the rest of the page. They are the real colours — a flag
+# recoloured to the house palette is a decoration, not a flag — but they are
+# small, and each carries a hairline edge so the white-ground ones do not
+# float on the plaster.
+FLAGS = {
+ "United Kingdom":
+   '<rect width="24" height="16" fill="#012169"/>'
+   '<path d="M0 0 24 16M24 0 0 16" stroke="#fff" stroke-width="3.2"/>'
+   '<path d="M0 0 24 16M24 0 0 16" stroke="#C8102E" stroke-width="1.6"/>'
+   '<path d="M12 0V16M0 8H24" stroke="#fff" stroke-width="5.3"/>'
+   '<path d="M12 0V16M0 8H24" stroke="#C8102E" stroke-width="3.2"/>',
+ "United Arab Emirates":
+   '<rect width="24" height="16" fill="#fff"/>'
+   '<rect width="24" height="5.33" fill="#00732F"/>'
+   '<rect y="10.67" width="24" height="5.33" fill="#111"/>'
+   '<rect width="6" height="16" fill="#CE1126"/>',
+ "Qatar":
+   '<rect width="24" height="16" fill="#8A1538"/>'
+   '<path d="M0 0 H7 L10 0.89 L7 1.78 L10 2.67 L7 3.56 L10 4.44 L7 5.33 L10 6.22 '
+   'L7 7.11 L10 8.00 L7 8.89 L10 9.78 L7 10.67 L10 11.56 L7 12.44 L10 13.33 '
+   'L7 14.22 L10 15.11 L7 16.00 H0Z" fill="#fff"/>',
+ "Kuwait":
+   '<rect width="24" height="5.33" fill="#007A3D"/>'
+   '<rect y="5.33" width="24" height="5.34" fill="#fff"/>'
+   '<rect y="10.67" width="24" height="5.33" fill="#CE1126"/>'
+   '<path d="M0 0 6 5.33 6 10.67 0 16Z" fill="#111"/>',
+ "Saudi Arabia":
+   '<rect width="24" height="16" fill="#006C35"/>'
+   '<path d="M4.5 6.4c1.2-1.1 2.2.6 3.4 0s2.2.6 3.4 0 2.2.6 3.4 0 2.2.6 3.4 0" '
+   'stroke="#fff" stroke-width="1" fill="none" stroke-linecap="round"/>'
+   '<path d="M4.6 11h13.2M17.8 11l-2 -1.1M17.8 11l-2 1.1" stroke="#fff" '
+   'stroke-width="1" fill="none" stroke-linecap="round" stroke-linejoin="round"/>',
+}
+
+STOCKISTS = [
+    ("Liberty",            "London",      "United Kingdom"),
+    ("Villa 515",          "Dubai",       "United Arab Emirates"),
+    ("Galeries Lafayette", "Doha",        "Qatar"),
+    ("Harvey Nichols",     "Doha",        "Qatar"),
+    ("Maison Elixir",      "Kuwait City", "Kuwait"),
+    ("L&rsquo;Odore",      "Riyadh",      "Saudi Arabia"),
+]
+
+
+def flag(country):
+    return ('<span class="flg" aria-hidden="true"><svg viewBox="0 0 24 16">%s'
+            '<rect x=".5" y=".5" width="23" height="15" fill="none" '
+            'stroke="rgba(20,17,12,.28)"/></svg></span>' % FLAGS[country])
+
+
+def stockist_tiles(rows):
+    return "\n".join(
+        '    <div class="tile"><h3>%s</h3>'
+        '<p>%s<br>%s<span class="cty">%s</span></p></div>'
+        % (name, city, flag(country), country)
+        for name, city, country in rows)
+
+
 def credo_section():
     """Atelier philosophy, as seven marked lines rather than seven bullets.
 
@@ -723,12 +784,15 @@ def making_section():
       <figure><img class="figfull" src="{fp('assets/img/founders.jpg')}" alt="The founders at work" loading="lazy"><figcaption class="hint">Fragrances based on stories</figcaption></figure>
       <figure><img class="figfull" style="object-position:center 34%" src="{fp('assets/img/atelier-bench.jpg')}" alt="A Road Trip bottle on a workbench beside a glazed jar and a twin-lens camera" loading="lazy"><figcaption class="hint">Aged tools, dim light</figcaption></figure>
     </div>
-    <div class="cols cols-2">
-      <p>All Side Story fragrances begin with clean, natural ingredients, selected for their purity and character. Our farm-to-fragrance approach preserves every botanical, using synthetics only when they provide the most sustainable solution, without compromising the integrity of each scent.</p>
-      <p>Every bottle and lid is crafted by hand in Italy, designed to be treasured long after the fragrance is finished. Made from recyclable materials and presented in entirely plastic-free packaging, every detail reflects thoughtful design and enduring craftsmanship.</p>
-      <p>We create fragrances based on stories, rather than stories composed for arbitrary fragrances. Perfume should be one of life&rsquo;s unremitting addictions, one that necessitates feeding, and one that lasts until the next day, like it did on our grandmothers.</p>
-      <p>We believe the best craftsmen work alone, with aged tools and in dimly lit workshops. We endorse cultural coalescence as the only way forward, favour fewer choices, less iteration and lengthier ownership, and are never guided by compulsions or passing trends.</p>
-    </div>
+    <details class="unfold">
+      <summary><span class="lbl"><span class="more">Read more on the atelier</span><span class="less">Close</span><i class="sgn" aria-hidden="true"></i></span></summary>
+      <div class="dbody cols cols-2">
+        <p><b>The ingredients</b>All Side Story fragrances begin with clean, natural ingredients, selected for their purity and character. Our farm-to-fragrance approach preserves every botanical, using synthetics only when they provide the most sustainable solution, without compromising the integrity of each scent.</p>
+        <p><b>The vessel</b>Every bottle and lid is crafted by hand in Italy, designed to be treasured long after the fragrance is finished. Made from recyclable materials and presented in entirely plastic-free packaging, every detail reflects thoughtful design and enduring craftsmanship.</p>
+        <p><b>The premise</b>We create fragrances based on stories, rather than stories composed for arbitrary fragrances. Perfume should be one of life&rsquo;s unremitting addictions, one that necessitates feeding, and one that lasts until the next day, like it did on our grandmothers.</p>
+        <p><b>The workshop</b>We believe the best craftsmen work alone, with aged tools and in dimly lit workshops. We endorse cultural coalescence as the only way forward, favour fewer choices, less iteration and lengthier ownership, and are never guided by compulsions or passing trends.</p>
+      </div>
+    </details>
   </div>
 </section>"""
 
@@ -1466,7 +1530,7 @@ def build():
     _fq = BY_SLUG["sunday-service"]
     _fc = CHAPTERS["sunday-service"]
     home_body = home_body.replace("<!--SS_FEAT-->", f"""<section class="yfeat">
-  <video autoplay muted loop playsinline preload="metadata" poster="{fp(story_plate(_fq))}"><source src="https://cdn.shopify.com/videos/c/o/v/da03d65c57264c91882acb2f5f947d66.mp4" type="video/mp4"></video>
+  <video autoplay muted loop playsinline preload="auto" poster="{fp(story_plate(_fq))}" onloadeddata="this.classList.add('ready')"><source src="https://cdn.shopify.com/videos/c/o/v/da03d65c57264c91882acb2f5f947d66.mp4" type="video/mp4"></video>
   <span class="veil" aria-hidden="true"></span>
   <div class="inner">
     <div class="c rev">
@@ -2374,14 +2438,10 @@ if(src){{m.src=src;m.hidden=false;v.hidden=true;v.pause();}}else{{m.hidden=true;
     <p class="lede">Our range of stockists and countries is expanding rapidly. We are currently being retailed in various independent perfumeries and department stores in the UK, UAE, Saudi Arabia, Qatar and Kuwait.</p></div>
   <div class="grid-3">
     <h2 class="vh">Where to find us</h2>
-      <div class="tile"><h3>Liberty</h3><p>London<br>United Kingdom</p></div>
-    <div class="tile"><h3>Villa 515</h3><p>Dubai<br>United Arab Emirates</p></div>
-    <div class="tile"><h3>Galeries Lafayette</h3><p>Doha<br>Qatar</p></div>
+{stockist_tiles(STOCKISTS[:3])}
   </div>
   <div class="grid-3">
-    <div class="tile"><h3>Harvey Nichols</h3><p>Doha<br>Qatar</p></div>
-    <div class="tile"><h3>Maison Elixir</h3><p>Kuwait City<br>Kuwait</p></div>
-    <div class="tile"><h3>L&rsquo;Odore</h3><p>Riyadh<br>Saudi Arabia</p></div>
+{stockist_tiles(STOCKISTS[3:])}
   </div>
   <div class="pfoot">
     <p class="k">Become a stockist</p>

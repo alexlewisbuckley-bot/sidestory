@@ -23,7 +23,7 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="assets/fonts/libre-caslon-text-latin-400-normal.woff2">
 <link rel="preload" as="font" type="font/woff2" crossorigin href="assets/fonts/montserrat-latin-500-normal.woff2">
 <link rel="stylesheet" href="assets/css/fonts.css?v=ced2d124">
-<link rel="stylesheet" href="assets/css/app.css?v=f7cc106d">
+<link rel="stylesheet" href="assets/css/app.css?v=9a714490">
 </head><body>
 <a class="skip" href="#main">Skip to content</a>
 <div class="enter-veil" aria-hidden="true"></div>
@@ -253,7 +253,7 @@
 </section>
 
 <section class="yfeat">
-  <video autoplay muted loop playsinline preload="metadata" poster="assets/img/story-sunday-service.jpg?v=299feee0"><source src="https://cdn.shopify.com/videos/c/o/v/da03d65c57264c91882acb2f5f947d66.mp4" type="video/mp4"></video>
+  <video autoplay muted loop playsinline preload="auto" poster="assets/img/story-sunday-service.jpg?v=299feee0" onloadeddata="this.classList.add('ready')"><source src="https://cdn.shopify.com/videos/c/o/v/da03d65c57264c91882acb2f5f947d66.mp4" type="video/mp4"></video>
   <span class="veil" aria-hidden="true"></span>
   <div class="inner">
     <div class="c rev">
@@ -327,12 +327,15 @@
       <figure><picture><source type="image/avif" srcset="assets/img/founders-480.avif?v=e4758b8c 480w, assets/img/founders-960.avif?v=072fede8 960w, assets/img/founders-1600.avif?v=787feb2e 1600w" sizes="100vw"><source type="image/webp" srcset="assets/img/founders-480.webp?v=1b8aa762 480w, assets/img/founders-960.webp?v=57b4a5fd 960w, assets/img/founders-1600.webp?v=9809c80f 1600w" sizes="100vw"><img class="figfull" src="assets/img/founders.jpg?v=b4fe6c2f" alt="The founders at work" loading="lazy" decoding="async" width="1600" height="828" srcset="assets/img/founders-480.jpg?v=90a401f5 480w, assets/img/founders-960.jpg?v=6ab03efc 960w, assets/img/founders-1600.jpg?v=c53f60c3 1600w" sizes="100vw"></picture><figcaption class="hint">Fragrances based on stories</figcaption></figure>
       <figure><picture><source type="image/avif" srcset="assets/img/atelier-bench-480.avif?v=d3555179 480w, assets/img/atelier-bench-960.avif?v=c06acd25 960w, assets/img/atelier-bench-1600.avif?v=2cc583cc 1600w" sizes="100vw"><source type="image/webp" srcset="assets/img/atelier-bench-480.webp?v=607111e4 480w, assets/img/atelier-bench-960.webp?v=0760bd4c 960w, assets/img/atelier-bench-1600.webp?v=5e7241ca 1600w" sizes="100vw"><img class="figfull" style="object-position:center 34%" src="assets/img/atelier-bench.jpg?v=b8ef60af" alt="A Road Trip bottle on a workbench beside a glazed jar and a twin-lens camera" loading="lazy" decoding="async" width="1600" height="1067" srcset="assets/img/atelier-bench-480.jpg?v=fca70ec7 480w, assets/img/atelier-bench-960.jpg?v=76d85b04 960w, assets/img/atelier-bench-1600.jpg?v=740f4076 1600w" sizes="100vw"></picture><figcaption class="hint">Aged tools, dim light</figcaption></figure>
     </div>
-    <div class="cols cols-2">
-      <p>All Side Story fragrances begin with clean, natural ingredients, selected for their purity and character. Our farm-to-fragrance approach preserves every botanical, using synthetics only when they provide the most sustainable solution, without compromising the integrity of each scent.</p>
-      <p>Every bottle and lid is crafted by hand in Italy, designed to be treasured long after the fragrance is finished. Made from recyclable materials and presented in entirely plastic-free packaging, every detail reflects thoughtful design and enduring craftsmanship.</p>
-      <p>We create fragrances based on stories, rather than stories composed for arbitrary fragrances. Perfume should be one of life&rsquo;s unremitting addictions, one that necessitates feeding, and one that lasts until the next day, like it did on our grandmothers.</p>
-      <p>We believe the best craftsmen work alone, with aged tools and in dimly lit workshops. We endorse cultural coalescence as the only way forward, favour fewer choices, less iteration and lengthier ownership, and are never guided by compulsions or passing trends.</p>
-    </div>
+    <details class="unfold">
+      <summary><span class="lbl"><span class="more">Read more on the atelier</span><span class="less">Close</span><i class="sgn" aria-hidden="true"></i></span></summary>
+      <div class="dbody cols cols-2">
+        <p><b>The ingredients</b>All Side Story fragrances begin with clean, natural ingredients, selected for their purity and character. Our farm-to-fragrance approach preserves every botanical, using synthetics only when they provide the most sustainable solution, without compromising the integrity of each scent.</p>
+        <p><b>The vessel</b>Every bottle and lid is crafted by hand in Italy, designed to be treasured long after the fragrance is finished. Made from recyclable materials and presented in entirely plastic-free packaging, every detail reflects thoughtful design and enduring craftsmanship.</p>
+        <p><b>The premise</b>We create fragrances based on stories, rather than stories composed for arbitrary fragrances. Perfume should be one of life&rsquo;s unremitting addictions, one that necessitates feeding, and one that lasts until the next day, like it did on our grandmothers.</p>
+        <p><b>The workshop</b>We believe the best craftsmen work alone, with aged tools and in dimly lit workshops. We endorse cultural coalescence as the only way forward, favour fewer choices, less iteration and lengthier ownership, and are never guided by compulsions or passing trends.</p>
+      </div>
+    </details>
   </div>
 </section>
 
