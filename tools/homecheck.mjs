@@ -5,7 +5,9 @@ for (const W of [390, 1440]) {
   const ctx = await b.newContext({viewport:{width:W,height:900}, hasTouch:W<900, isMobile:W<900});
   const p = await ctx.newPage(); const errs=[];
   p.on('pageerror',e=>errs.push(String(e)));
-  p.on('console',m=>{if(m.type()==='error')errs.push(m.text());});
+  // the sandbox cannot reach cdn.shopify.com, so the film's failed fetch is
+  // an environment artifact, not a page error
+  p.on('console',m=>{if(m.type()==='error'&&!/ERR_TUNNEL_CONNECTION_FAILED/.test(m.text()))errs.push(m.text());});
   await p.goto('http://localhost:8802/index.html',{waitUntil:'networkidle'});
   console.log('\n'+W);
   // the removed line was the .seven footnote; the drawer (shared chrome on
