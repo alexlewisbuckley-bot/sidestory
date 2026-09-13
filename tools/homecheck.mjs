@@ -27,13 +27,11 @@ for (const W of [390, 1440]) {
   ok('set adds to bag', await p.evaluate(()=>+document.querySelector('.bagcount,[data-bagcount],.util .n')?.textContent.replace(/\D/g,'')>0)
      || await p.evaluate(()=>/1/.test(document.querySelector('.drawer,.bag')?.textContent||'')));
   await p.keyboard.press('Escape'); await p.waitForTimeout(400);
-  // by-style card
-  const way = await p.evaluate(()=>{const a=[...document.querySelectorAll('.way')].find(x=>x.getAttribute('href')==='#styles');
-    return a && {k:a.querySelector('.k').textContent, h:a.querySelector('h3').textContent, go:a.querySelector('.go').textContent};});
-  ok('by-style card', way && way.k==='By style', way);
+  // the ways band is gone; the #styles anchor is reached by hash directly
+  ok('no undecided band', await p.evaluate(()=>!document.querySelector('.ways')));
   ok('no private reading', await p.evaluate(()=>!/A private reading/.test(document.body.textContent)));
   ok('#styles target exists', await p.evaluate(()=>!!document.getElementById('styles')));
-  await p.evaluate(()=>document.querySelector('.way[href="#styles"]').click());
+  await p.evaluate(()=>{ location.hash='#styles'; });
   await p.waitForTimeout(900);
   const anch = await p.evaluate(()=>{const r=document.getElementById('styles').getBoundingClientRect();
     const nav=document.querySelector('.nav').getBoundingClientRect();
