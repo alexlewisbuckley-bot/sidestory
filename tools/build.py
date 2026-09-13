@@ -2007,9 +2007,9 @@ def build():
         ("II",  "We read everything",
          "Every submission is read by the house. You will hear from us either way, within a month."),
         ("III", "A shortlist goes to Grasse",
-         "Four stories a year are sent to Jacques Chabert and the Argeville noses to be read aloud, unattributed."),
+         "One story is chosen every 6 months to be sent to our perfumers in France to be read aloud, as their inspiration."),
         ("IV",  "One becomes a fragrance",
-         "Published under your name in the printed edition, with the first bottle of the run sent to you."),
+         "Story and accompanying artwork published in the printed edition, with the first bottle from the batch sent to you."),
     ]
     # The postbag shows the stories that have actually been produced — a line
     # from each, tagged Produced in green — rather than invented letters from
@@ -2071,7 +2071,7 @@ def build():
 <section class="howworks">
   <span class="ghost" aria-hidden="true">Eighth</span>
   <div class="inner">
-    <p class="k">How it works</p>
+    <p class="k">One story, One scent</p>
     <h2>Four steps, one bottle.</h2>
     <div class="hsteps">
 {steps_html}
@@ -2099,7 +2099,7 @@ def build():
       </div>
       <div class="consent">
         <label><input type="checkbox" required>
-          <span>I&rsquo;m happy for Side Story to read my story, and to contact me about it. You keep the copyright &mdash; we will ask again, in writing, before anything is published or set to scent.</span></label>
+          <span>I&rsquo;m happy for Side Story to read my narrative, and to contact me about it. We will ask again, in writing, before anything is published or used in our scent packaging.</span></label>
         <button class="btn btn-ink" type="submit">Send your story</button>
       </div>
     </form>
@@ -2121,24 +2121,16 @@ def build():
 
 <section class="postbag" id="postbag">
   <div class="inner">
-    <p class="k">From the postbag</p>
-    <h2>What people have already sent us.</h2>
+    <p class="k">From the mailbox</p>
+    <h2>The stories that inspired us already</h2>
     <p class="pintro">Every fragrance on the shelf began this way &mdash; a story first, produced later.</p>
     <div class="pnotes">
 {post_html}
     </div>
-    <a class="ul" href="stories.html">Read the full postbag &rarr;</a>
+    <a class="ul" href="stories.html">Read the full mailbox &rarr;</a>
   </div>
 </section>
 
-<section class="smallprint">
-  <div class="inner">
-    <p class="k">The small print, in plain English</p>
-    <div class="terms">
-{print_html}
-    </div>
-  </div>
-</section>
 """)
 
     # ---- 10 journal: removed with the JOURNAL data above -----------------

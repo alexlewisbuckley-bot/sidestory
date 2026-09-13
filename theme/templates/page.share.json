@@ -20,7 +20,7 @@
   "share-howworks": {
    "type": "share-howworks",
    "settings": {
-    "s1": "How it works",
+    "s1": "One story, One scent",
     "s2": "Four steps, one&nbsp;bottle.",
     "s3": "Write it&nbsp;plainly",
     "s4": "No more than 500 words. A moment, not a memoir &mdash; where you were, who was there, what the air was doing.",
@@ -29,10 +29,10 @@
     "s7": "Every submission is read by the house. You will hear from us either way, within a month.",
     "s8": "III",
     "s9": "A shortlist goes to&nbsp;Grasse",
-    "s10": "Four stories a year are sent to Jacques Chabert and the Argeville noses to be read aloud, unattributed.",
+    "s10": "One story is chosen every 6 months to be sent to our perfumers in France to be read aloud, as their inspiration.",
     "s11": "IV",
     "s12": "One becomes a&nbsp;fragrance",
-    "s13": "Published under your name in the printed edition, with the first bottle of the run sent to you.",
+    "s13": "Story and accompanying artwork published in the printed edition, with the first bottle from the batch sent to you.",
     "s14": "Eighth"
    }
   },
@@ -56,8 +56,8 @@
    "type": "share-postbag",
    "settings": {
     "s1": "/pages/stories",
-    "s2": "From the postbag",
-    "s3": "What people have already sent&nbsp;us.",
+    "s2": "From the mailbox",
+    "s3": "The stories that inspired us&nbsp;already",
     "s4": "Every fragrance on the shelf began this way &mdash; a story first, produced later.",
     "s5": "Hotel Lobby",
     "s6": "Story I &middot; Anticipation + Attraction",
@@ -71,21 +71,7 @@
     "s14": "Produced",
     "s15": "Produced",
     "s16": "Produced",
-    "s17": "Read the full postbag &rarr;"
-   }
-  },
-  "share-smallprint": {
-   "type": "share-smallprint",
-   "settings": {
-    "s1": "The small print, in plain English",
-    "s2": "It stays&nbsp;yours",
-    "s3": "You keep the copyright to everything you send. Always.",
-    "s4": "We ask before we&nbsp;publish",
-    "s5": "Nothing appears on this site, in a box, or in a bottle without your written yes.",
-    "s6": "No fee to enter, no&nbsp;purchase",
-    "s7": "You do not need to have bought anything. Open to anyone over 18.",
-    "s8": "If yours is&nbsp;chosen",
-    "s9": "You are credited by name in the printed edition, sent the first bottle of the run, and paid a commission fee agreed with you beforehand."
+    "s17": "Read the full mailbox &rarr;"
    }
   }
  },
@@ -94,7 +80,6 @@
   "share-invite",
   "share-howworks",
   "share-tellus",
-  "share-postbag",
-  "share-smallprint"
+  "share-postbag"
  ]
 }
