@@ -1414,7 +1414,7 @@ def build():
     _fq = BY_SLUG["sunday-service"]
     _fc = CHAPTERS["sunday-service"]
     home_body = home_body.replace("<!--SS_FEAT-->", f"""<section class="yfeat">
-  <img src="{fp(story_plate(_fq))}" alt="{_fq['name']}" loading="lazy">
+  <video autoplay muted loop playsinline preload="metadata" poster="{fp(story_plate(_fq))}"><source src="https://cdn.shopify.com/videos/c/o/v/da03d65c57264c91882acb2f5f947d66.mp4" type="video/mp4"></video>
   <span class="veil" aria-hidden="true"></span>
   <div class="inner">
     <div class="c rev">

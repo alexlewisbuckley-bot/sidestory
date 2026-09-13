@@ -114,11 +114,11 @@
   "home-yfeat": {
    "type": "home-yfeat",
    "settings": {
-    "s2": "/pages/stories",
-    "s3": "Story II &middot; 7 min read",
-    "s4": "Sunday Service",
-    "s5": "&ldquo;Now the leaves were dense and green, hanging heavy over the road and mottling the light on his dashboard.&rdquo;",
-    "s6": "Read the stories &rarr;"
+    "s1": "/pages/stories",
+    "s2": "Story II &middot; 7 min read",
+    "s3": "Sunday Service",
+    "s4": "&ldquo;Now the leaves were dense and green, hanging heavy over the road and mottling the light on his dashboard.&rdquo;",
+    "s5": "Read the stories &rarr;"
    }
   },
   "home-feelings": {
