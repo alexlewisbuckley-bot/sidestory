@@ -711,8 +711,9 @@ CART_JS = r"""
     + '.unfold[open]::details-content{block-size:auto}'
     + '@media (prefers-reduced-motion:reduce){.unfold::details-content{transition:none}}'
     + '.pfoot :where(p:not(.k)){font-size:var(--t-md);line-height:1.8;margin-top:var(--s-3)}'
-    + 'main > .inner:last-child{padding-bottom:var(--s-7)}'
-    + 'main:has(> .inner > .pfoot){padding-bottom:0}'
+    + '.inner > :where(.acc,.artgrid,.pfoot,.acct,.grid-3,.table,.scrollx):last-child{padding-bottom:var(--s-7)}'
+    /* the focused accordion row is washed and its rule thickened, not boxed */
+    + '.acc summary:focus-visible{outline:none;border-radius:0;background:rgba(43,46,45,.06);box-shadow:inset 0 -2px 0 0 var(--ink)}'
     /* the press attributions are mastheads, each capped at its own height */
     + '.plogo{display:block;width:auto;max-width:min(100%,11rem);opacity:.78;filter:grayscale(1)}'
     + '.pl-conde{height:.875rem}.pl-forbes{height:1.125rem}.pl-grazia{height:1.25rem}'

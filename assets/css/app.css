@@ -1630,10 +1630,13 @@ html.overlay-open body{overflow:hidden}
 .flg svg{width:100%;height:100%;display:block}
 .tile .cty{white-space:nowrap}
 .pfoot :where(p:not(.k)){font-size:var(--t-md);line-height:1.8;margin-top:var(--s-3)}
-/* a plain page is one .inner and nothing else; without this it runs its last
-   rule straight into the footer, which reads as a missing section */
-main > .inner:last-child{padding-bottom:var(--s-7)}
-main:has(> .inner > .pfoot){padding-bottom:0}
+/* A plain page runs its last rule straight into the footer, which reads as a
+   missing section. The gap is hung on the block that ends the page rather
+   than on main: in the Shopify theme every section is wrapped in a div of
+   its own, so `main > .inner` matches nothing there and the static site and
+   the theme have to be spaced by the same rule. */
+.inner > :where(.acc,.artgrid,.pfoot,.acct,.grid-3,.table,.scrollx):last-child{
+  padding-bottom:var(--s-7)}
 
 /* full-bleed editorial banner used at the top of the longer pages */
 .banner{position:relative;display:grid;align-items:end;isolation:isolate;
@@ -2025,8 +2028,13 @@ main:has(> .inner > .pfoot){padding-bottom:0}
    this site has a rounded corner. */
 .acc summary{border-radius:0}
 .acc summary:focus:not(:focus-visible){outline:none;box-shadow:none}
-.acc summary:focus-visible{outline:2px solid var(--ink);outline-offset:-2px;
-  border-radius:0;box-shadow:none}
+/* The ring was a black rectangle drawn round the full width of a row, which
+   Chrome also paints on a mouse click. The row is marked now the way a table
+   row is marked: a faint wash and the rule beneath it thickened to two
+   pixels of ink, which is 12:1 on ivory and reads as emphasis rather than as
+   a box someone drew by accident. */
+.acc summary:focus-visible{outline:none;border-radius:0;
+  background:rgba(43,46,45,.06);box-shadow:inset 0 -2px 0 0 var(--ink)}
 
 /* ============================================================ your stories
    Frames: P15 "Your Stories — index" (167:2473) and "Story — Sunday

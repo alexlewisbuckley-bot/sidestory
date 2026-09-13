@@ -1,16 +1,11 @@
 import { chromium } from 'playwright';
 const b = await chromium.launch({executablePath:'/opt/pw-browsers/chromium'});
-const p = await b.newPage({viewport:{width:1440,height:1000},deviceScaleFactor:1.5});
-await p.goto('http://localhost:8802/contact.html',{waitUntil:'networkidle'});
+const p = await b.newPage({viewport:{width:1440,height:900},deviceScaleFactor:1.5});
+await p.goto('http://localhost:8802/shipping.html',{waitUntil:'networkidle'});
+await p.evaluate(()=>{const s=document.querySelectorAll('.acc summary')[1]; s.focus();});
+await p.evaluate(()=>document.querySelector('footer').scrollIntoView({block:'end'}));
 await p.waitForTimeout(400);
-await p.locator('.creach').scrollIntoViewIfNeeded(); await p.waitForTimeout(200);
-await p.locator('.creach').screenshot({path:'/tmp/reach.png'});
-const m = await b.newPage({viewport:{width:390,height:780}});
-await m.goto('http://localhost:8802/contact.html',{waitUntil:'networkidle'});
-await m.waitForTimeout(300);
-console.log(JSON.stringify(await m.evaluate(()=>({
-  pic:getComputedStyle(document.querySelector('.cpic')).display,
-  overflow:document.documentElement.scrollWidth>innerWidth,
-  chips:getComputedStyle(document.querySelector('.chips .cr')).flexWrap,
-  reach:getComputedStyle(document.querySelector('.creach')).gridTemplateColumns}))));
+const box=await p.evaluate(()=>{const f=document.querySelector('footer').getBoundingClientRect();return Math.round(f.top);});
+await p.screenshot({path:'/tmp/ship-bottom.png',clip:{x:0,y:Math.max(0,box-260),width:1440,height:320}});
+console.log('footer top',box, await p.evaluate(()=>{const s=document.querySelectorAll('.acc summary')[1];const cs=getComputedStyle(s);return cs.boxShadow+' | bg '+cs.backgroundColor;}));
 await b.close();
