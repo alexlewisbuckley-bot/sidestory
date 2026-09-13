@@ -710,6 +710,7 @@ button:disabled,[aria-disabled="true"]{cursor:default}
    filling "the rest of the screen" would leave no room for the copy —
    there the hero simply extends past the fold, which is the lesser wrong. */
 .hero{position:relative;display:grid;align-items:end;isolation:isolate;
+  min-height:max(28rem,calc(100vh - var(--chromeh,calc(var(--annh) + var(--navh)))));
   min-height:max(28rem,calc(100svh - var(--chromeh,calc(var(--annh) + var(--navh)))));overflow:hidden}
 .hero>img,.hero>picture>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:var(--z-art);
   transform:scale(1.05);animation:kb var(--d-ambient) var(--settle) forwards}
@@ -895,7 +896,7 @@ button:disabled,[aria-disabled="true"]{cursor:default}
 
 /* ---------------------------------------------------- 06 campaign band -- */
 .campaign{position:relative;display:grid;align-items:end;isolation:isolate;
-  min-height:clamp(22rem,48svh,35rem);overflow:hidden}
+  min-height:clamp(22rem,48vh,35rem);min-height:clamp(22rem,48svh,35rem);overflow:hidden}
 .campaign>img,.campaign>picture>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:var(--z-art)}
 .campaign .v{position:absolute;inset:0;z-index:var(--z-behind);
   background:linear-gradient(14deg,rgba(23,18,12,.66),rgba(23,18,12,0) 62%)}
@@ -1163,7 +1164,7 @@ html.overlay-open body{overflow:hidden}
 .scrim.on{background:rgba(10,10,9,.55);pointer-events:auto}
 .drawer[hidden]{display:none}
 .drawer{position:fixed;top:0;right:0;z-index:var(--z-overlay);
-  width:min(26.25rem,100%);height:100dvh;background:var(--ivory);
+  width:min(26.25rem,100%);height:100vh;height:100dvh;background:var(--ivory);
   padding:var(--s-5) var(--s-5) var(--s-6);overflow-y:auto;
   translate:101% 0;transition:translate var(--d-settled) var(--settle);
   box-shadow:var(--shadow-overlay)}
@@ -1514,7 +1515,7 @@ html.overlay-open body{overflow:hidden}
 
 /* full-bleed editorial banner used at the top of the longer pages */
 .banner{position:relative;display:grid;align-items:end;isolation:isolate;
-  min-height:clamp(18rem,40svh,30rem);overflow:hidden;color:var(--ivory)}
+  min-height:clamp(18rem,40vh,30rem);min-height:clamp(18rem,40svh,30rem);overflow:hidden;color:var(--ivory)}
 .banner>img,.banner>picture>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:var(--z-art)}
 .banner::after{content:"";position:absolute;inset:0;z-index:var(--z-behind);background:
   linear-gradient(0deg,rgba(20,17,12,.88) 0%,rgba(20,17,12,.60) 46%,rgba(20,17,12,.10) 100%),
@@ -1685,7 +1686,7 @@ html.overlay-open body{overflow:hidden}
   .sheetscrim.on{background:rgba(10,10,9,.5)}
   .sheet:not([hidden]){display:flex}
   .sheet{flex-direction:column;position:fixed;left:0;right:0;bottom:0;
-    z-index:var(--z-overlay);background:var(--ivory);max-height:80svh;
+    z-index:var(--z-overlay);background:var(--ivory);max-height:80vh;max-height:80svh;
     transform:translateY(101%);transition:transform var(--d-quick) var(--settle);
     box-shadow:var(--shadow-hairline)}
   .sheet.on{transform:none}
@@ -2471,6 +2472,7 @@ input:user-invalid,textarea:user-invalid{border-color:var(--text-error)}
    like a failure. The max-height is what keeps it on the screen, and 100dvh
    shrinks when the on-screen keyboard comes up, which is when that matters. */
 .srch{position:fixed;left:0;right:0;top:var(--srch-top,var(--navh));bottom:auto;
+  max-height:calc(100vh - var(--srch-top,var(--navh)));
   max-height:calc(100dvh - var(--srch-top,var(--navh)));
   border-bottom:1px solid var(--line);box-shadow:var(--shadow-panel);
   display:block;z-index:calc(var(--z-header) - 1);background:var(--ivory);
@@ -2488,7 +2490,7 @@ input:user-invalid,textarea:user-invalid{border-color:var(--text-error)}
    It sits above the header, needs no scrim, and slides up from below the
    fold's edge rather than down. */
 @media (max-width:71.875em){
-  .srch{top:0;bottom:0;max-height:none;height:100dvh;
+  .srch{top:0;bottom:0;max-height:none;height:100vh;height:100dvh;
     z-index:var(--z-overlay);border-bottom:0;box-shadow:none;
     transform:translate3d(0,.75rem,0)}
   .srch.open{transform:none}
@@ -2616,7 +2618,7 @@ input:user-invalid,textarea:user-invalid{border-color:var(--text-error)}
 
 /* --------------------------------------------------------------- 404 --- */
 .notfound{display:grid;place-items:center;text-align:center;padding-block:var(--s-7);
-  min-height:60svh}
+  min-height:60vh;min-height:60svh}
 .notfound h1{font-size:var(--t-5);max-width:16ch}
 .notfound :where(p:not(.k)){font-size:var(--t-md);color:var(--txt);max-width:44ch;margin:var(--s-4) auto 0}
 .notfound .cta{display:flex;flex-wrap:wrap;justify-content:center;gap:var(--s-3);margin-top:var(--s-5)}
@@ -2738,7 +2740,7 @@ input:user-invalid,textarea:user-invalid{border-color:var(--text-error)}
 /* the hero is a sequence, not a still: two frames cross-fading behind the copy */
 .hero .shots{position:absolute;inset:0;z-index:var(--z-art)}
 .hero .shots img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
-  opacity:0;transition:opacity var(--d-cinematic) var(--settle);transform:scale(1.05);
+  opacity:0;transition:opacity 2s var(--settle);transform:scale(1.05);
   animation:kb var(--d-ambient) var(--settle) forwards}
 .hero .shots img.on{opacity:1}
 .hero .dots{position:absolute;right:var(--gutter);bottom:var(--s-5);z-index:var(--z-raised);
@@ -2883,7 +2885,7 @@ footer .cols a:hover,footer .cols a:focus-visible{opacity:1}
    ceiling matches the Share hero's, so the two full-bleed bands on the site
    stop at the same height. */
 .storyband{position:relative;display:grid;align-items:end;isolation:isolate;
-  min-height:clamp(24rem,52svh,36rem);overflow:hidden;color:var(--ivory)}
+  min-height:clamp(24rem,52vh,36rem);min-height:clamp(24rem,52svh,36rem);overflow:hidden;color:var(--ivory)}
 .storyband>img,.storyband>picture>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:var(--z-art)}
 /* The film sits on the still, at the same depth and later in source order, so
    it covers it without ever replacing it. It fades in only once it can play. */

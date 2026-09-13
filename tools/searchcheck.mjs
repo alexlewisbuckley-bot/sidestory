@@ -13,7 +13,7 @@ async function openSearch(pg){
 const p = await ctx.newPage();
 const errs = [];
 p.on('pageerror', e => errs.push(String(e)));
-p.on('console', m => { if (m.type()==='error') errs.push(m.text()); });
+p.on('console', m => { if (m.type()==='error'&&!/ERR_TUNNEL_CONNECTION_FAILED/.test(m.text())) errs.push(m.text()); });
 await p.goto('http://localhost:8802/index.html', { waitUntil:'networkidle' });
 console.log(`\n${W}×${H}`);
 
