@@ -701,6 +701,8 @@ CART_JS = r"""
     +   '.credo li:last-child{grid-template-columns:auto auto;justify-content:center;align-items:center;padding-block:var(--s-5)}'
     +   '.credo li:last-child p{font-family:var(--font-serif);font-style:italic;font-size:var(--t-lg);max-width:none}}'
     + '.gift>video{width:100%;aspect-ratio:3/2;object-fit:cover;order:-1}'
+    /* a square plate must not set the height of the promise band */
+    + '@media (min-width:52em){.gift>img,.gift>picture>img{object-fit:cover;max-height:clamp(24rem,40vw,35rem)}}'
     + '.yfeat>video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:var(--z-art)}'
     /* hero carousel blends over 2s */
     + '.hero .shots img{transition:opacity 2s var(--settle)}'

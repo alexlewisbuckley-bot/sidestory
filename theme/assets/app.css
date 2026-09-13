@@ -1050,7 +1050,10 @@ button:disabled,[aria-disabled="true"]{cursor:default}
 @media (min-width:52em){
   .gift{grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center}
   .gift .c{order:0}
-.gift>img,.gift>picture>img{order:1;height:100%;aspect-ratio:auto;min-height:clamp(24rem,40vw,35rem)}
+.gift>img,.gift>picture>img{order:1;height:100%;aspect-ratio:auto;object-fit:cover;
+  /* the band is as tall as the panel needs, never as tall as the plate is:
+     a square photograph would otherwise set the height of the whole row */
+  min-height:clamp(24rem,40vw,35rem);max-height:clamp(24rem,40vw,35rem)}
   .gift .c{padding-block:var(--s-7)}
 }
 
