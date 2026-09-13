@@ -340,7 +340,7 @@ FOOTER_COLS = [
     ("The House",     [("our-house.html", "Our Story"),
                        ("index.html#making", "The Making")]),
     ("The Practical", [("shipping.html", "Shipping &amp; FAQs"), ("stockists.html", "Stockists"),
-                       ("contact.html", "Contact"), ("faq.html", "FAQ")]),
+                       ("contact.html", "Contact")]),
 ]
 
 
@@ -1325,8 +1325,6 @@ def search_index():
     add("Stockists", "Where to smell them in person", "Practical",
         "stockists.html", "shops stores counters find near")
     add("Contact", "Ask us anything", "Practical", "contact.html", "email phone help support")
-    add("FAQ", "The questions we are asked most", "Practical",
-        "faq.html", "questions answers help longevity sillage vegan cruelty ingredients")
     add("Account", "Orders, dedications, and the stories you have unlocked", "Practical",
         "account.html", "login sign in profile orders")
     add("Privacy, Terms & Cookies", "The legal pages", "Practical",
@@ -2423,23 +2421,6 @@ if(src){{m.src=src;m.hidden=false;v.hidden=true;v.pause();}}else{{m.hidden=true;
     <p class="k">Received</p>
     <h2>It has arrived.</h2>
     <p>Two people read this inbox and one of them will write back, within two working days. If it is about an order, quoting the order number will get you a faster answer.</p>
-    <p><a class="ul" href="faq.html">Read the questions we are asked most</a></p>
-  </div>
-</div>
-""")
-
-    written["faq"] = page("faq", "FAQ",
-        "The questions we are actually asked.", f"""
-<div class="inner">
-  {crumbs(("Home", "index.html"), "FAQ")}
-  <div class="phead"><p class="k">The practical</p><h1>The questions we are actually asked.</h1></div>
-  <div class="acc narrow qa">
-    <details open><summary>Is the story really written first?</summary><div class="body">Yes, and it is the whole point. A novelist is commissioned and paid before any brief goes to Grasse. The perfumer works to the finished pages &mdash; the hour of day in them, the room, the weather &mdash; not to a mood board.</div></details>
-    <details><summary>What arrives in the box?</summary><div class="body">A 100ml arrives under its hand-carved stone lid, with the story printed on cotton paper in an edition matched to the run, and a 2ml sample of a second story. The 7.5ml and the samples arrive in a printed sleeve &mdash; no carved lid and no booklet at those sizes. No plastic anywhere in the parcel.</div></details>
-    <details><summary>Are the lids really all different?</summary><div class="body">Every lid is cut from a block chosen for its seam. We do not select for consistency or correct the veining, so no two repeat. We do not engrave or mark them.</div></details>
-    <details><summary>Can I refill a bottle?</summary><div class="body">Yes. Refills are &pound;120 and ship in a glass flacon; keep the stone and the glass. Send the empty back with the prepaid label and we reuse it.</div></details>
-    <details><summary>Do you test on animals?</summary><div class="body">No, and neither do our suppliers. We do not sell in markets that require it.</div></details>
-    <details><summary>Can I visit?</summary><div class="body">The Grasse shop is open by appointment on Tuesdays and Thursdays. Write to us and we will find an hour.</div></details>
   </div>
 </div>
 """)

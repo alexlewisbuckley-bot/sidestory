@@ -20,7 +20,7 @@ CDN = "https://sidestory-rho.vercel.app"
 
 SLUGS = ["hotel-lobby", "sunday-service", "sibling-rivalry", "third-date",
          "road-trip", "4pm-matinee", "pillow-talk"]
-PAGES = ["our-story", "stories", "share", "faq", "shipping", "stockists",
+PAGES = ["our-story", "stories", "share", "shipping", "stockists",
          "contact", "legal"] + ["story-" + s for s in SLUGS]
 
 # ---------------------------------------------------------------- URL map --
@@ -37,7 +37,6 @@ URLMAP += [
     ("our-house.html",          "/pages/our-story"),
     ("stories.html",            "/pages/stories"),
     ("share.html",              "/pages/share"),
-    ("faq.html",                "/pages/faq"),
     ("shipping.html",           "/pages/shipping"),
     ("stockists.html",          "/pages/stockists"),
     ("contact.html",            "/pages/contact"),
@@ -256,8 +255,6 @@ def blockify(html, spec, toks):
 BLOCK_SPECS = {
     ("home", "creds"): {"pat": r'<figure class="cred rev">.*?</figure>',
                         "name": "Quote"},
-    ("faq", "*"): {"pat": r"<details\b.*?</details>", "name": "FAQ item",
-                   "faq": True},
 }
 
 
@@ -438,7 +435,7 @@ window.SS_FREE_CENTS = {{ 15000 }};
     sectionize("page.our-story", "our-story", inner_of("our-house.html"), split=True)
     sectionize("page.stories", "your-stories", inner_of("stories.html"), split=True)
     sectionize("page.share", "share", inner_of("share.html"), split=True)
-    for p in ["faq", "shipping", "stockists", "contact", "legal"]:
+    for p in ["shipping", "stockists", "contact", "legal"]:
         sectionize("page." + p, p, inner_of(p + ".html"), split=False)
     for s in SLUGS:
         sectionize("page.story-" + s, "story-" + s,
