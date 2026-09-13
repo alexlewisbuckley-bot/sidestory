@@ -1035,8 +1035,8 @@ button:disabled,[aria-disabled="true"]{cursor:default}
 
 /* --------------------------------------------------------- 10 gifting --- */
 .gift{position:relative;display:grid;grid-template-columns:minmax(0,1fr);
-  background:var(--plum);color:var(--ivory);isolation:isolate;overflow:hidden}
-.gift>img,.gift>picture>img{width:100%;aspect-ratio:3/2;object-fit:cover;order:-1}
+  background:var(--stone-sunday-service);color:var(--ivory);isolation:isolate;overflow:hidden}
+.gift>img,.gift>picture>img,.gift>video{width:100%;aspect-ratio:3/2;object-fit:cover;order:-1}
 .gift .fade{display:none}
 .gift .k{color:var(--brass-on-dark)}
 .gift .c{padding:var(--s-6) var(--gutter) var(--s-7);max-width:calc(40rem + var(--gutter) * 2)}

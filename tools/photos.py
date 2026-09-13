@@ -85,6 +85,9 @@ EDITORIAL = [
     # In-the-hand plates: the embossed label on linen, and the oil in the air
     ("label-linen",     "label-linen.jpg",    1400, None),
     ("oil-spray",       "oil-spray.jpg",      1400, None),
+    # The Atelier band plates: the hearth still and the open Pillow Talk box
+    ("making-hearth",   "making-hearth.jpg",  1600, None),
+    ("making-box",      "making-box.jpg",     1400, None),
 ]
 
 # Story plates. Supplied editorial photography, one per fragrance, used

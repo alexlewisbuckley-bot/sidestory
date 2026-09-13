@@ -20,7 +20,8 @@ for (const W of [390, 1440]) {
       btn:btn&&btn.textContent.trim(), cta:el.querySelectorAll('.cta a,.cta button').length};});
   ok('discovery set panel present', !!g, g);
   ok('panel is full-bleed', g && Math.abs(g.w-g.vw)<=1, g);
-  ok('set image loaded', g && /set-first-lines/.test(g.img) && g.imgH>100, g);
+  ok('set video present', await p.evaluate(()=>{const v=document.querySelector('#set video');
+    return !!v && v.autoplay && v.muted && v.loop && /set-first-lines/.test(v.poster) && v.getBoundingClientRect().height>100;}));
   ok('two CTAs', g && g.cta===2, g);
   // add to bag from the panel
   await p.click('#set .cta button'); await p.waitForTimeout(500);

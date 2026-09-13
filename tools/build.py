@@ -654,26 +654,24 @@ def atelier_section():
 
 
 def making_section():
-    """The making, on Our Story and on the homepage.
-
-    The homepage had its own: three plates in a side-scrolling rail with
-    captions about arguing a story into its final line, and a credit naming
-    a perfumer, a writer and six countries — none of it Alex's, and all of
-    it contradicted by the section on Our Story that says what actually
-    happens. One section, written once, on both pages."""
+    """The making and the atelier, combined: one band, four plates in a
+    two-by-two, each with its caption and its paragraph. Written once, used
+    on the homepage and on Our Story."""
     return f"""<section class="band tint" id="making">
   <div class="inner">
     <p class="k">The making</p>
-    <h2>Begun in Grasse. Finished by hand.</h2>
-    <div class="grid-3">
-      <figure><img class="figfull" src="{fp('assets/img/plants.jpg')}" alt="Botanicals for the compositions" loading="lazy"><figcaption class="hint">clean botanicals, carefully composed</figcaption></figure>
-      <figure><img class="figfull" src="{fp('assets/img/founders.jpg')}" alt="The house at work" loading="lazy"><figcaption class="hint">crafted with intention</figcaption></figure>
-      <figure><img class="figfull" src="{fp('assets/img/spine.jpg')}" alt="Stone meeting glass" loading="lazy"><figcaption class="hint">made to last, designed to be reused</figcaption></figure>
+    <h2>The Atelier</h2>
+    <div class="grid-2">
+      <figure><img class="figfull" src="{fp('assets/img/making-hearth.jpg')}" alt="A Road Trip bottle on the hearth" loading="lazy"><figcaption class="hint">Clean botanicals, carefully composed</figcaption></figure>
+      <figure><img class="figfull" src="{fp('assets/img/making-box.jpg')}" alt="The Pillow Talk box, open" loading="lazy"><figcaption class="hint">Crafted with intention</figcaption></figure>
+      <figure><img class="figfull" src="{fp('assets/img/founders.jpg')}" alt="The founders at work" loading="lazy"><figcaption class="hint">Fragrances based on stories</figcaption></figure>
+      <figure><img class="figfull" style="object-position:center 34%" src="{fp('assets/img/atelier-bench.jpg')}" alt="A Road Trip bottle on a workbench beside a glazed jar and a twin-lens camera" loading="lazy"><figcaption class="hint">Aged tools, dim light</figcaption></figure>
     </div>
-    <div class="cols cols-3">
+    <div class="cols cols-2">
       <p>All Side Story fragrances begin with clean, natural ingredients, selected for their purity and character. Our farm-to-fragrance approach preserves every botanical, using synthetics only when they provide the most sustainable solution, without compromising the integrity of each scent.</p>
       <p>Every bottle and lid is crafted by hand in Italy, designed to be treasured long after the fragrance is finished. Made from recyclable materials and presented in entirely plastic-free packaging, every detail reflects thoughtful design and enduring craftsmanship.</p>
-      <p>Every parfum is created to linger beautifully on skin and fabric, leaving a lasting impression long after it is worn. Inspired by stories instead of seasons or trends, each fragrance is composed with depth, purpose and timeless character.</p>
+      <p>We create fragrances based on stories, rather than stories composed for arbitrary fragrances. Perfume should be one of life&rsquo;s unremitting addictions, one that necessitates feeding, and one that lasts until the next day, like it did on our grandmothers.</p>
+      <p>We believe the best craftsmen work alone, with aged tools and in dimly lit workshops. We endorse cultural coalescence as the only way forward, favour fewer choices, less iteration and lengthier ownership, and are never guided by compulsions or passing trends.</p>
     </div>
   </div>
 </section>"""
@@ -757,8 +755,13 @@ def gift_module(kicker="Kept &amp; given",
     <div class="cta"><a class="btn btn-ivory" href="collection.html">Explore gifting</a>
       <a class="btn btn-ghost" href="share.html">Add a dedication</a></div>
 """ if extras else ""
+    media = (f'<video autoplay muted loop playsinline preload="metadata" '
+             f'poster="{fp("assets/img/set-first-lines.jpg")}">'
+             f'<source src="{fp(img)}" type="video/mp4"></video>'
+             if img.endswith(".mp4") else
+             f'<img src="{fp(img)}" alt="" loading="lazy">')
     return f"""<section class="gift{' bare' if not extras else ''}" id="{ident}">
-  <img src="{fp(img)}" alt="" loading="lazy">
+  {media}
   <div class="fade"></div>
   <div class="c rev">
     <p class="k">{kicker}</p>
@@ -1429,17 +1432,17 @@ def build():
     home_body = home_body.replace("<!--SS_GIFT-->", gift_module(
         kicker="The discovery set",
         head="Read first. Decide later.",
-        body="All seven stories in miniature &mdash; 2ml of each, and the opening page of every one. "
-             "Wear one a day for a week, then choose the bottle you keep.",
+        body="All seven stories in miniature &mdash; 2ml of each. "
+             "Wear each a day over the week, then choose the one you favour.",
         ident="set",
-        img="assets/img/set-first-lines.jpg",
+        img="assets/media/discovery-set.mp4",
         tail="""    <div class="cta"><button class="btn btn-ivory" onclick="addToBag('set','full',this)">Add the set &mdash; &pound;30</button>
       <a class="btn btn-ghost" href="samples.html">What&rsquo;s in it</a></div>
 """))
     home_body = home_body.replace("<!--SS_STYLES-->", style_row())
     home_body = home_body.replace("<!--SS_SHOW-->", show_copy())
     home_body = home_body.replace("<!--SS_MAKING-->", making_section())
-    home_body = home_body.replace("<!--SS_ATELIER-->", atelier_section())
+    home_body = home_body.replace("<!--SS_ATELIER-->", "")
     # the homepage fragment is hand-written, so the threshold has to be
     # substituted into it like everywhere else — it was the one place still
     # quoting £100 after the number moved
