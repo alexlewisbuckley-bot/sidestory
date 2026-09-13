@@ -657,7 +657,7 @@ def making_section():
     """The making and the atelier, combined: one band, four plates in a
     two-by-two, each with its caption and its paragraph. Written once, used
     on the homepage and on Our Story."""
-    return f"""<section class="band tint" id="making">
+    return f"""<section class="band" id="making">
   <div class="inner">
     <p class="k">The making</p>
     <h2>The Atelier</h2>
