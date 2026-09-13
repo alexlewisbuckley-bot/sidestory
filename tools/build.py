@@ -653,6 +653,62 @@ def atelier_section():
 </section>"""
 
 
+# The seven lines of the house credo, each with a hairline mark. The marks are
+# drawn here rather than shipped as files: they are seven small line drawings
+# used once each, and a sprite or seven requests would cost more than the
+# markup does. Stroke-only, currentColor, so they take the brass from the CSS
+# and stay honest at any size.
+CREDO = [
+    ("book",
+     "fragrances based on stories, rather than stories composed for arbitrary fragrances",
+     '<path d="M12 6.6C10.5 5.3 8.4 4.7 6 4.7H3v12.8h3c2.4 0 4.5.6 6 1.8 1.5-1.2 3.6-1.8 6-1.8h3V4.7h-3c-2.4 0-4.5.6-6 1.9z"/><path d="M12 6.6v13"/>'),
+    ("drop",
+     "perfume should be one of life&rsquo;s unremitting addictions, one that necessitates feeding",
+     '<path d="M12 3.4c3.2 3.7 5.4 6.7 5.4 9.4a5.4 5.4 0 1 1-10.8 0c0-2.7 2.2-5.7 5.4-9.4z"/><path d="M9.4 13.6a2.6 2.6 0 0 0 2.6 2.6"/>'),
+    ("pestle",
+     "the best craftsmen work alone, with aged tools, and in dimly lit workshops",
+     '<path d="M4.6 10.4h14.8"/><path d="M6.2 10.4c0 3.9 2.6 6.7 5.8 6.7s5.8-2.8 5.8-6.7"/><path d="M12 17.1v3.4"/><path d="M8.4 20.5h7.2"/><path d="M19.4 3.6 14 9"/>'),
+    ("venn",
+     "endorse cultural coalescence as being the only way forward",
+     '<circle cx="9.4" cy="12" r="5.9"/><circle cx="14.6" cy="12" r="5.9"/>'),
+    ("hourglass",
+     "fewer choices, less iterations and lengthier ownership",
+     '<path d="M6.6 3.5h10.8"/><path d="M6.6 20.5h10.8"/><path d="M8.2 3.5v3.1c0 2 1.5 3.7 3.8 5.4 2.3-1.7 3.8-3.4 3.8-5.4V3.5"/><path d="M8.2 20.5v-3.1c0-2 1.5-3.7 3.8-5.4 2.3 1.7 3.8 3.4 3.8 5.4v3.1"/>'),
+    ("sunrise",
+     "perfume should last until the next day, like it did on our grandmothers",
+     '<path d="M3.4 19.4h17.2"/><path d="M8.1 15.6a3.9 3.9 0 0 1 7.8 0"/><path d="M12 4.2v2.4M5.7 7.1l1.7 1.7M18.3 7.1l-1.7 1.7M2.6 13.4H5M21.4 13.4H19"/>'),
+    ("compass",
+     "to never be guided by compulsions, or pay homage to passing trends.",
+     '<circle cx="12" cy="12" r="8.6"/><path d="m15.3 8.7-2.1 4.5-4.5 2.1 2.1-4.5z"/>'),
+]
+
+
+def credo_section():
+    """Atelier philosophy, as seven marked lines rather than seven bullets.
+
+    A plain <ul> of seven sentences read as a list of terms and conditions.
+    The same seven with a mark each, set two to a row on a wide screen and
+    one to a row on a phone, read as what they are: the house's positions,
+    each one its own statement. The closing line spans the full width so the
+    block ends square instead of ragged."""
+    items = "\n".join(
+        '      <li class="c-%s"><span class="ci" aria-hidden="true">'
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" '
+        'stroke-linecap="round" stroke-linejoin="round">%s</svg></span>'
+        '<p>%s</p></li>' % (key, art, text)
+        for key, text, art in CREDO)
+    return """<section class="band tint" id="credo">
+  <div class="inner">
+    <p class="k">Atelier philosophy</p>
+    <h2>Our credo</h2>
+    <p class="lede">Seven positions the house keeps to, and has not found a reason to revise.</p>
+    <ul class="credo">
+%s
+    </ul>
+  </div>
+</section>""" % items
+
+
 def making_section():
     """The making and the atelier, combined: one band, four plates in a
     two-by-two, each with its caption and its paragraph. Written once, used
@@ -1832,21 +1888,7 @@ if(src){{m.src=src;m.hidden=false;v.hidden=true;v.pause();}}else{{m.hidden=true;
                  body="Ensuring that the high standards we set for ourselves are maintained, from the craftsmanship behind the bottle and packaging, the balance and sillage of the scents, and to the quality and sustainability of the ingredients. None of these elements are ever compromised.",
                  extras=False, ident="promise")}
 
-<section class="band" id="credo">
-  <div class="inner">
-    <p class="k">Atelier philosophy</p>
-    <h2>Our credo</h2>
-    <ul class="credo">
-      <li>fragrances based on stories, rather than stories composed for arbitrary fragrances</li>
-      <li>perfume should be one of life&rsquo;s unremitting addictions, one that necessitates feeding</li>
-      <li>the best craftsmen work alone, with aged tools, and in dimly lit workshops</li>
-      <li>endorse cultural coalescence as being the only way forward</li>
-      <li>fewer choices, less iterations and lengthier ownership</li>
-      <li>perfume should last until the next day, like it did on our grandmothers</li>
-      <li>to never be guided by compulsions, or pay homage to passing trends.</li>
-    </ul>
-  </div>
-</section>
+{credo_section()}
 
 {spine_section()}
 """)
