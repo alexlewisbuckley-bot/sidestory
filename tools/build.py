@@ -77,42 +77,42 @@ PRODUCTS = [
     dict(slug="hotel-lobby",    name="Hotel Lobby",    stone="Nero Marquina",  swatch="var(--stone-hotel-lobby)",
          notes="Woods. Green.",        story="Story I",   feeling="Anticipation",
          line="It was a ten minutes before 8pm when he arrived, and its resplendence never failed to catch him off guard.",
-         img="p-hotel-lobby", badge="Bestseller", read="5 min", family="woods", wear="FILLER \u2014 wear line to come", theme="Anticipation + Attraction", style="Woods. Green.", origin="Nero Marquina, Basque Country",
+         perfumer="Valerie Bessone", img="p-hotel-lobby", badge="Bestseller", read="5 min", family="woods", wear="FILLER \u2014 wear line to come", theme="Anticipation + Attraction", style="Woods. Green.", origin="Nero Marquina, Basque Country",
          desc="Check in to the place where time stands still. A headlong fall into romance, at once ephemeral and enduring, beautifully captured in amber. Smoky oud and dark fig leaf unearth the mysteries of time. A hint of spice teases an untold history. Elegant sandalwood and earthy vanilla, as smooth and warming as a fine Scotch. The fragrance of watery silk, woody cypriol and supple leather, the meeting of yin and yang. Coquettish and assertive and absolutely timeless. When you know, you know.",
          top="Fig Leaf / Oud", mid="Pepper / Patchouli / Cypriol", base="Sandalwood / Coconut / Vanilla"),
     dict(slug="sibling-rivalry", name="Sibling Rivalry", stone="Leopard Salome", swatch="var(--stone-sibling-rivalry)",
          notes="Spice. Amber. Woods.", story="Story II",  feeling="Daring",
          line="The lights onstage were blinding, but she knew from the cacophony coming from the seats that the ceremony had sold out.",
-         img="p-sibling-rivalry", badge="", read="6 min", family="spice", wear="FILLER \u2014 wear line to come", theme="Daring + Deceit", style="Spice. Amber. Woods.", origin="Leopard Salome, Turkey",
+         perfumer="Valerie Bessone", img="p-sibling-rivalry", badge="", read="6 min", family="spice", wear="FILLER \u2014 wear line to come", theme="Daring + Deceit", style="Spice. Amber. Woods.", origin="Leopard Salome, Turkey",
          top="FILLER \u2014 top notes to come", mid="FILLER \u2014 middle notes to come", base="FILLER \u2014 base notes to come"),
     dict(slug="pillow-talk",    name="Pillow Talk",    stone="Calacatta",      swatch="var(--stone-pillow-talk)",
          notes="Powder. Citrus. Spice.",    story="Story III", feeling="Intimacy",
          line="They had been awake for hours, unspooling the sweet trivialities of their personal histories in sleepy whispers.",
-         img="p-pillow-talk", badge="", read="4 min", family="powder", wear="FILLER \u2014 wear line to come", theme="Intimacy + Desire", style="Powder. Citrus. Spice.", origin="Calacatta, Tuscany",
+         perfumer="Cristiano Canali", img="p-pillow-talk", badge="", read="4 min", family="powder", wear="FILLER \u2014 wear line to come", theme="Intimacy + Desire", style="Powder. Citrus. Spice.", origin="Calacatta, Tuscany",
          desc="Curl up in a perfect moment and wile away a day, a week, a lifetime. A long, languorous morning when the world feels wondrous, made bright and alluring with a taste of the new. Delicate orris blooms perfume the breeze from an open window, caressing bare skin and interlaced fingers. Yesterday’s perfume lingers on crisp white bedlinens, spicy and seductive, warmed by cinnamon-citrus sunshine. Powdery, with an enveloping musk. A little love nest to cosy into and stay a while.",
          top="Bergamot / Orange / Cinnamon", mid="Ylang Ylang / Orris / Amyris Bark", base="Gaiacwood / Patchouli / Peru Balsam / Musk"),
     dict(slug="sunday-service", name="Sunday Service", stone="Verde Jade",     swatch="var(--stone-sunday-service)",
          notes="Spice. Floral. Woods.", story="Story IV", feeling="Introspection",
          line="The drive from the city to the country always felt like rolling back time.",
-         img="p-sunday-service", badge="", read="7 min", family="incense", wear="FILLER \u2014 wear line to come", theme="Introspection + Reflection", style="Spice. Floral. Woods.", origin="Verde Jade, Rajasthan",
+         perfumer="Cristiano Canali", img="p-sunday-service", badge="", read="7 min", family="incense", wear="FILLER \u2014 wear line to come", theme="Introspection + Reflection", style="Spice. Floral. Woods.", origin="Verde Jade, Rajasthan",
          desc="Slip into a quiet, contemplative reverie. A return to old surroundings, respectful tailoring, and formal introductions. The worn leather of an heirloom wallet touched by divinely feminine antique rose, enlivened by old-world pepper &amp; spice and carried by the rich resin of ancient frankincense. The fragrance of a ponderous stroll in wildflower season at the golden hour. The essence of eyes gazing across a vast burnt saffron horizon, feet planted in the aged earth.",
          top="Saffron / Pepper", mid="Rose / Patchouli", base="Ciste Labdanum / Frankincense / Gurjum Balsam"),
     dict(slug="third-date",     name="Third Date",     stone="Rosso Levanto",  swatch="var(--stone-third-date)",
          notes="Green. Floral.",  story="Story V",  feeling="Fervour",
          line="She hardly knew him, of course—tonight was only the third date. But there was such familiarity between them.",
-         img="p-third-date", badge="", read="5 min", family="amber", wear="FILLER \u2014 wear line to come", theme="Fervour + Connection", style="Green. Floral.", origin="Rosso Levanto, Liguria",
+         perfumer="Jacques Chabert", img="p-third-date", badge="", read="5 min", family="amber", wear="FILLER \u2014 wear line to come", theme="Fervour + Connection", style="Green. Floral.", origin="Rosso Levanto, Liguria",
          desc="Carried away with delicious feeling. The exquisite vertigo of a first kiss. A sudden flush of cheeks, and weakness of knees. Sensuous plum and burnt ginger mingle with tuberose blossoms. An intoxicating musk kissed with dark vanilla lingers into the next morning. Rich, heady, and deep, a fragrance for captivating conversations, serendipitous late nights, and enraptured beginnings. Distractingly full-bodied, and instantly intriguing.",
          top="Plum / Ginger", mid="Tuberose / Patchouli", base="Vanilla / Musk"),
     dict(slug="road-trip",      name="Road Trip",      stone="Rosso Francia",  swatch="var(--stone-road-trip)",
          notes="Amber. Woods.",   story="Story VI", feeling="Escaping",
          line="They knew where they were going, but neither seemed to mind the impromptu detour along the way.",
-         img="p-road-trip", badge="New story", read="6 min", family="amber", wear="FILLER \u2014 wear line to come", theme="Escaping + Dreaming", style="Amber. Woods.", origin="Rosso Francia, Languedoc",
+         perfumer="Cristiano Canali", img="p-road-trip", badge="New story", read="6 min", family="amber", wear="FILLER \u2014 wear line to come", theme="Escaping + Dreaming", style="Amber. Woods.", origin="Rosso Francia, Languedoc",
          desc="Dive headfirst into a getaway, leaving everything else behind. An escape to pure contentment, a place where dewy mornings fade into lush and lazy afternoons, and nights belong to bonfires and blankets of stars. Sparkling, bitter citrus gives way to herbaceous notes, pepper &amp; spice, and green neroli, coming to rest in warm vanilla and sandalwood like the welcome embrace of a humid summer evening. The fragrance of feeling the earth beneath your feet and the wind in your hair: flirtatious and fearless and free.",
          top="Petitgrain (bitter orange) / Peach", mid="Neroli / Pepper / Clary Sage", base="Vetiver / Sandalwood / Coconut / Vanilla"),
     dict(slug="4pm-matinee",    name="4pm Matinee",    stone="Giallo Siena",   swatch="var(--stone-4pm-matinee)",
          notes="Green. Woods. Amber.",  story="Story VII", feeling="Ambition",
          line="She came to the afternoon matinee alone. She liked the rush of independence when the ticket seller looked around for a date.",
-         img="p-4pm-matinee", badge="", read="5 min", family="citrus", wear="FILLER \u2014 wear line to come", theme="Ambition + Realisation", style="Green. Woods. Amber.", origin="Giallo Siena, Tuscany",
+         perfumer="Laurent Marrone", img="p-4pm-matinee", badge="", read="5 min", family="citrus", wear="FILLER \u2014 wear line to come", theme="Ambition + Realisation", style="Green. Woods. Amber.", origin="Giallo Siena, Tuscany",
          desc="Make a name for yourself. A rush of possibility: eyes wide, heart full, head spinning. Coy florals and spices try sophistication on for size, dressing up the sweetness of youth with elegance and earthy refinement. Old Hollywood glamour meets contemporary character, sparkling with fresh curiosity. Sidewalks lined with trees &amp; wild thyme. The scent of striking out, on your own, in the big city. The thrill of seeing your name in lights. A fragrance for singular characters, hopeless romantics, and incurable optimists.",
          top="Bergamot / Cardamom / Nutmeg / Thyme", mid="Geranium / Lavender", base="Vanilla / Styrax / Vetiver / Musk"),
 ]
@@ -339,7 +339,7 @@ FOOTER_COLS = [
                        ("samples.html", "Discovery Set")]),
     ("The House",     [("our-house.html", "Our Story"),
                        ("index.html#making", "The Making")]),
-    ("The Practical", [("shipping.html", "Shipping &amp; Returns"), ("stockists.html", "Stockists"),
+    ("The Practical", [("shipping.html", "Shipping &amp; FAQs"), ("stockists.html", "Stockists"),
                        ("contact.html", "Contact"), ("faq.html", "FAQ")]),
 ]
 
@@ -971,7 +971,7 @@ def footer():
     <div class="fbot">
       <div class="pay"><i>VISA</i><i>MC</i><i>AMEX</i><i><svg class="i-apple" viewBox="0 0 384 512" aria-hidden="true" focusable="false"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.931.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/></svg>Pay</i></div>
       <div class="legalwrap">
-        <nav class="legal" aria-label="Legal"><a href="legal.html">Privacy</a><a href="legal.html">Terms</a><a href="legal.html">Cookies</a></nav>
+        <nav class="legal" aria-label="Legal"><a href="legal.html">Privacy</a><a href="legal.html">Terms</a></nav>
         <p class="locale">United Kingdom (GBP &pound;)</p>
       </div>
     </div>
@@ -1320,7 +1320,7 @@ def search_index():
     add("The Making", "Brief, story, scent, stone — in that order", "The house",
         "index.html#making", "process craft perfumer grasse")
 
-    add("Shipping & Returns", "Delivery times, costs and how returns work", "Practical",
+    add("Shipping & FAQs", "Delivery times, costs and how returns work", "Practical",
         "shipping.html", "delivery postage refund exchange tracking free")
     add("Stockists", "Where to smell them in person", "Practical",
         "stockists.html", "shops stores counters find near")
@@ -1736,7 +1736,7 @@ def build():
 
       <div class="acc">
             <details open><summary>The story</summary><div class="body">{ch['summary']} <br><br>{p['story']}, in nine pages, printed and boxed with the bottle; the digital edition arrives with your confirmation.</div></details>
-            <details><summary>Notes</summary><div class="body">{('<p>' + p['desc'] + '</p>') if p.get('desc') else ''}<div class="notelist"><p><b>Top</b><span>{p['top']}</span></p><p><b>Middle</b><span>{p['mid']}</span></p><p><b>Base</b><span>{p['base']}</span></p></div><p class="hint">FILLER &mdash; perfumer to be confirmed.</p></div></details>
+            <details><summary>Notes</summary><div class="body">{('<p>' + p['desc'] + '</p>') if p.get('desc') else ''}<div class="notelist"><p><b>Top</b><span>{p['top']}</span></p><p><b>Middle</b><span>{p['mid']}</span></p><p><b>Base</b><span>{p['base']}</span></p></div><p class="hint">Perfumer &mdash; {p["perfumer"]}</p></div></details>
             <details><summary>The stone</summary><div class="body">{p['origin']}, hand-cut. Veining is decided by the block, so no two lids repeat. The lid lifts free of the glass and keeps its weight in the hand.</div></details>
             <details><summary>Delivery &amp; returns</summary><div class="body">Complimentary UK delivery over &pound;{FREE_GBP}, otherwise &pound;5. Two to four working days, signed for. FILLER &mdash; returns window to come. Samples are non-returnable.</div></details>
           </div>
@@ -2346,28 +2346,24 @@ if(src){{m.src=src;m.hidden=false;v.hidden=true;v.pause();}}else{{m.hidden=true;
 """, current="bag.html")
 
     # ---- 16-20 practical pages -------------------------------------------
-    written["shipping"] = page("shipping", "Shipping & Returns",
+    written["shipping"] = page("shipping", "Shipping & FAQs",
         "Delivery times, costs and how returns work.", f"""
 <div class="inner">
-  {crumbs(("Home", "index.html"), "Shipping &amp; Returns")}
-  <div class="phead"><p class="k">The practical</p><h1>Shipping &amp; returns.</h1>
-    <p class="lede">Everything ships signed-for and without plastic. If a bottle is not for you, thirty days is plenty of time to say so.</p></div>
+  {crumbs(("Home", "index.html"), "Shipping &amp; FAQs")}
+  <div class="phead"><p class="k">The practical</p><h1>Shipping &amp; FAQs.</h1>
+    <p class="lede">Everything ships signed-for, and without plastic. We offer delivery to the UK (excluding Northern Ireland) and the UAE.</p></div>
   <div class="scrollx">
     <table class="table" role="table">
       <thead><tr role="row"><th role="columnheader" scope="col">Destination</th><th role="columnheader" scope="col">Service</th><th role="columnheader" scope="col">Time</th><th role="columnheader" scope="col">Cost</th></tr></thead>
-      <tbody>
-        <tr role="row"><td role="cell" data-label="Destination">United Kingdom</td><td role="cell" data-label="Service">Tracked, signed for</td><td role="cell" data-label="Time">2&ndash;4 working days</td><td role="cell" data-label="Cost">&pound;5, complimentary over &pound;{FREE_GBP}</td></tr>
-        <tr role="row"><td role="cell" data-label="Destination">Ireland &amp; EU</td><td role="cell" data-label="Service">Tracked, duties paid</td><td role="cell" data-label="Time">4&ndash;7 working days</td><td role="cell" data-label="Cost">&pound;12, complimentary over &pound;180</td></tr>
-        <tr role="row"><td role="cell" data-label="Destination">United States</td><td role="cell" data-label="Service">Tracked, duties paid</td><td role="cell" data-label="Time">5&ndash;8 working days</td><td role="cell" data-label="Cost">&pound;18</td></tr>
-        <tr role="row"><td role="cell" data-label="Destination">Rest of world</td><td role="cell" data-label="Service">Tracked</td><td role="cell" data-label="Time">7&ndash;14 working days</td><td role="cell" data-label="Cost">From &pound;22</td></tr>
-      </tbody>
+      <tbody><!--SS_FX_OFF-->
+        <tr role="row"><td role="cell" data-label="Destination">United Kingdom (excl. N.I.)</td><td role="cell" data-label="Service">Tracked, signed for, Royal Mail</td><td role="cell" data-label="Time">2&ndash;4 working days</td><td role="cell" data-label="Cost">&pound;5, complimentary over &pound;{FREE_GBP}</td></tr>
+        <tr role="row"><td role="cell" data-label="Destination">United Arab Emirates</td><td role="cell" data-label="Service">Tracked, signed for, TimeExpress</td><td role="cell" data-label="Time">2&ndash;4 working days</td><td role="cell" data-label="Cost">25 AED, complimentary over 150 AED</td></tr>
+      <!--SS_FX_ON--></tbody>
     </table>
   </div>
   <div class="acc">
-    <details open><summary>Returns</summary><div class="body">FILLER &mdash; returns window to come. Unopened bottles may be returned for a full refund. Email contact@sidestoryparfums.com and we send a prepaid label. Refunds are issued to the original payment method within five working days of arrival.</div></details>
-    <details><summary>Samples</summary><div class="body">Samples and The Discovery Set are not returnable, for reasons we hope are obvious.</div></details>
-    <details><summary>Damaged in transit</summary><div class="body">Stone travels well but not perfectly. Photograph the parcel as it arrived and write to us the same week; we replace without argument.</div></details>
-    <details><summary>Gifts</summary><div class="body">Gifts bought in November and December may be exchanged until 31 January. The invoice goes to the buyer by email &mdash; nothing in the parcel mentions price.</div></details>
+    <details open><summary>Returns</summary><div class="body">We do not offer a return service as of yet, and recommend you visit our in-store stockists or purchase smaller sizes first if you are unsure which full-size scent you prefer.</div></details>
+    <details><summary>Damaged in transit</summary><div class="body">Stone &amp; glass travel well but not perfectly. If your item is damaged or broken, photograph the parcel as it arrived and write to us within 24 hours; we will send out a replacement immediately. Any damage notified beyond this time frame can not be rectified.</div></details>
   </div>
 </div>
 """)
@@ -2376,20 +2372,23 @@ if(src){{m.src=src;m.hidden=false;v.hidden=true;v.pause();}}else{{m.hidden=true;
         "Where to find Side Story in person.", f"""
 <div class="inner">
   {crumbs(("Home", "index.html"), "Stockists")}
-  <div class="phead"><p class="k">In person</p><h1>Where to smell them first.</h1>
-    <p class="lede">A short list, kept short on purpose. Every stockist below carries the full seven and the printed editions.</p></div>
-  <!-- FILLER: the five stockists here were invented — real department stores,
-       no actual relationship. Swap in the true list before launch. -->
+  <div class="phead"><p class="k">In person</p><h1>Where our products are stocked.</h1>
+    <p class="lede">Our range of stockists and countries is expanding rapidly. We are currently being retailed in various independent perfumeries and department stores in the UK, UAE, Saudi Arabia, Qatar and Kuwait.</p></div>
   <div class="grid-3">
     <h2 class="vh">Where to find us</h2>
-      <div class="tile"><h3>FILLER &mdash; stockist to come</h3><p>Lorem ipsum dolor sit amet<br>Consectetur adipiscing elit</p></div>
-    <div class="tile"><h3>FILLER &mdash; stockist to come</h3><p>Lorem ipsum dolor sit amet<br>Consectetur adipiscing elit</p></div>
-    <div class="tile"><h3>FILLER &mdash; stockist to come</h3><p>Lorem ipsum dolor sit amet<br>Consectetur adipiscing elit</p></div>
+      <div class="tile"><h3>Liberty</h3><p>London<br>United Kingdom</p></div>
+    <div class="tile"><h3>Villa 515</h3><p>Dubai<br>United Arab Emirates</p></div>
+    <div class="tile"><h3>Galeries Lafayette</h3><p>Doha<br>Qatar</p></div>
   </div>
   <div class="grid-3">
-    <div class="tile"><h3>FILLER &mdash; stockist to come</h3><p>Lorem ipsum dolor sit amet<br>Consectetur adipiscing elit</p></div>
-    <div class="tile"><h3>FILLER &mdash; stockist to come</h3><p>Lorem ipsum dolor sit amet<br>Consectetur adipiscing elit</p></div>
-    <div class="tile"><h3>Become a stockist</h3><p>We are careful about this. Write to us and tell us about the shop.</p><p><a class="ul" href="contact.html">Get in touch</a></p></div>
+    <div class="tile"><h3>Harvey Nichols</h3><p>Doha<br>Qatar</p></div>
+    <div class="tile"><h3>Maison Elixir</h3><p>Kuwait City<br>Kuwait</p></div>
+    <div class="tile"><h3>L&rsquo;Odore</h3><p>Riyadh<br>Saudi Arabia</p></div>
+  </div>
+  <div class="pfoot">
+    <p class="k">Become a stockist</p>
+    <p>Write to us for retailing opportunities and MOQs.</p>
+    <p><a class="ul" href="contact.html">Get in touch</a></p>
   </div>
 </div>
 """)
@@ -2398,8 +2397,8 @@ if(src){{m.src=src;m.hidden=false;v.hidden=true;v.pause();}}else{{m.hidden=true;
         "Write to the house. We read everything and reply within two working days.", f"""
 <div class="inner">
   {crumbs(("Home", "index.html"), "Contact")}
-  <div class="phead"><p class="k">Contact</p><h1>Write to the house.</h1>
-    <p class="lede">Two people read this inbox. You will hear back within two working days, from one of them.</p></div>
+  <div class="phead"><p class="k">Contact</p><h1>Contact the atelier.</h1>
+    <p class="lede">Our team will endeavour to reply back within two working days.</p></div>
   <form class="form" onsubmit="event.preventDefault();this.hidden=true;var d=this.parentNode.querySelector('.formdone');d.hidden=false;d.setAttribute('tabindex','-1');d.focus();">
     <div>
       <div class="row2">
@@ -2407,16 +2406,16 @@ if(src){{m.src=src;m.hidden=false;v.hidden=true;v.pause();}}else{{m.hidden=true;
         <label class="field"><span>Email</span><input type="email" required></label>
       </div>
       <label class="field"><span>What is it about?</span>
-        <select><option>An order</option><option>A return</option><option>Stockists &amp; press</option><option>Something else</option></select></label>
+        <select><option>An order</option><option>HR &amp; recruitment</option><option>Stockists &amp; wholesale</option><option>Press</option></select></label>
       <label class="field"><span>Message</span><textarea required></textarea></label>
       <div class="actions"><button class="btn btn-ink" type="submit">Send</button></div>
     </div>
     <div class="aside-card">
       <h2 class="vh">How to reach us</h2>
       <h3>Directly</h3>
-      <p>contact@sidestoryparfums.com<br>+44 20 7946 0114<br>Monday to Friday, 9&ndash;5 UK</p>
-      <p>Side Story Parfums<br>Unit 4, The Bindery<br>London E2 8HD</p>
-      <p>Press and wholesale: press@sidestoryparfums.com</p>
+      <p><a href="mailto:info@sidestoryparfums.com">info@sidestoryparfums.com</a><br>Monday to Friday, 9&ndash;5</p>
+      <p>Side Story Parfums<br>London (UK) and Dubai (UAE)<br><a href="tel:+971503745210">+971 50 374 5210</a></p>
+      <p>Press and wholesale: <a href="mailto:jannat@sidestoryparfums.com">jannat@sidestoryparfums.com</a></p>
     </div>
   </form>
   <div class="formdone" hidden>
@@ -2449,22 +2448,17 @@ if(src){{m.src=src;m.hidden=false;v.hidden=true;v.pause();}}else{{m.hidden=true;
         "Privacy policy, terms of sale and cookie notice.", f"""
 <div class="inner">
   {crumbs(("Home", "index.html"), "Legal")}
-  <div class="phead"><p class="k">Legal</p><h1>Privacy, terms &amp; cookies.</h1>
-    <p class="lede">Placeholder text for the demo. The published site would carry policies reviewed by counsel; nothing below should be relied on.</p></div>
+  <div class="phead"><p class="k">Legal</p><h1>Privacy, terms &amp; cookies.</h1></div>
   <div class="artgrid">
     <div class="col">
       <h2 class="sechead">Privacy</h2>
-      <p>We collect the minimum needed to send you a parcel and a story: name, address, email, and what you ordered. Payment details are handled by our payment processor and never touch our servers. We do not sell data and we do not share it with advertisers.</p>
-      <p>You can ask us for a copy of everything we hold, or ask us to delete it, by writing to privacy@sidestoryparfums.com. We answer within thirty days.</p>
+      <p>We collect the minimum needed to send our products and a story: name, address, email, and order. Payment details are handled by our payment processor and never touch our servers. We do not sell data and we do not share it with advertisers.</p>
+      <p>You can ask us for a copy of everything we hold, or ask us to delete it, by writing to <a href="mailto:info@sidestoryparfums.com">info@sidestoryparfums.com</a>. We answer within 2 working days.</p>
       <h2 class="sechead">Terms of sale</h2>
-      <p>Prices include UK VAT and are shown in pounds sterling. A contract is formed when we email to say the parcel has shipped. FILLER &mdash; returns window to come. Unopened bottles may be returned; samples are not returnable.</p>
+      <p>Prices include VAT applicable to the country you are in, and are shown in the currency of the country your browser is directed to. All items are not returnable.</p>
       <p>Nothing in these terms affects your statutory rights.</p>
       <h2 class="sechead">Cookies</h2>
-      <p>This demo stores your bag in the browser session and nothing else. The published site would use strictly necessary cookies for the basket and checkout, and analytics only with consent.</p>
-    </div>
-    <div class="artaside">
-      <p class="marginnote">Last reviewed &mdash; placeholder<small>This is demo copy</small></p>
-      <p class="marginnote">privacy@sidestoryparfums.com<small>Data requests</small></p>
+      <p>This demo stores your bag in the browser session and nothing else. We only use strictly necessary cookies for the basket and checkout, and analytics only with consent.</p>
     </div>
   </div>
 </div>

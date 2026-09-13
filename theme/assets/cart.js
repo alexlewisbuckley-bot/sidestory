@@ -130,6 +130,11 @@
     + '.shero.tall .c{max-width:44rem}'
     + '.shero.tall h1{font-size:var(--t-4)}'
     + '.artgrid{grid-template-columns:minmax(0,1fr)}'
+    /* the closing note at the foot of a plain page, with room before the footer */
+    + '.pfoot{margin-top:var(--s-7);padding-block:var(--s-6) var(--s-7);border-top:1px solid var(--line);max-width:var(--measure)}'
+    + '.pfoot .k{color:var(--brass-text)}'
+    + '.pfoot :where(p:not(.k)){font-size:var(--t-md);line-height:1.8;margin-top:var(--s-3)}'
+    + 'main:has(> .inner > .pfoot){padding-bottom:var(--s-7)}'
     /* the credo: two marked positions to a row, the closing line spanning */
     + '.credo{list-style:none;margin:var(--s-6) 0 0;padding:0;display:grid;grid-template-columns:minmax(0,1fr);column-gap:var(--s-7)}'
     + '@media (min-width:60em){.credo{grid-template-columns:repeat(2,minmax(0,1fr))}'

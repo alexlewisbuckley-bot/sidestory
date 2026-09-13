@@ -4,18 +4,18 @@
    "type": "legal-content",
    "settings": {
     "s1": "/",
-    "s2": "Legal",
-    "s3": "Privacy, terms &amp;&nbsp;cookies.",
-    "s4": "Placeholder text for the demo. The published site would carry policies reviewed by counsel; nothing below should be relied&nbsp;on.",
+    "s2": "mailto:info@sidestoryparfums.com",
+    "s3": "Legal",
+    "s4": "Privacy, terms &amp;&nbsp;cookies.",
     "s5": "Privacy",
-    "s6": "We collect the minimum needed to send you a parcel and a story: name, address, email, and what you ordered. Payment details are handled by our payment processor and never touch our servers. We do not sell data and we do not share it with advertisers.",
-    "s7": "You can ask us for a copy of everything we hold, or ask us to delete it, by writing to privacy@sidestoryparfums.com. We answer within thirty days.",
-    "s8": "Terms of&nbsp;sale",
-    "s9": "Prices include UK VAT and are shown in pounds sterling. A contract is formed when we email to say the parcel has shipped. FILLER &mdash; returns window to come. Unopened bottles may be returned; samples are not returnable.",
-    "s10": "Nothing in these terms affects your statutory rights.",
-    "s11": "Cookies",
-    "s12": "This demo stores your bag in the browser session and nothing else. The published site would use strictly necessary cookies for the basket and checkout, and analytics only with consent.",
-    "s13": "Home"
+    "s6": "We collect the minimum needed to send our products and a story: name, address, email, and order. Payment details are handled by our payment processor and never touch our servers. We do not sell data and we do not share it with advertisers.",
+    "s7": "Terms of&nbsp;sale",
+    "s8": "Prices include VAT applicable to the country you are in, and are shown in the currency of the country your browser is directed to. All items are not returnable.",
+    "s9": "Nothing in these terms affects your statutory rights.",
+    "s10": "Cookies",
+    "s11": "This demo stores your bag in the browser session and nothing else. We only use strictly necessary cookies for the basket and checkout, and analytics only with consent.",
+    "s12": "Home",
+    "s13": "info@sidestoryparfums.com"
    }
   }
  },

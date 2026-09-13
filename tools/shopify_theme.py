@@ -79,12 +79,26 @@ def map_assets(s):
 # store equivalents so the theme's baked copy agrees with the live cart.
 # Amounts with no confirmed AED value (shipping table, refills) pass through.
 AED = {"160": "760", "25": "200", "5": "25", "40": "200", "30": "150", "0": "0"}
-def map_prices(s):
-    # the announcement's dual-currency line collapses to the store currency
-    s = s.replace("&pound;30 / AED&nbsp;150", "AED&nbsp;150")
+def _sub_prices(s):
     return re.sub(r"(?:\u00a3|£|&pound;)(\d+)\b",
                   lambda m: ("Dhs. " + AED[m.group(1)]) if m.group(1) in AED
                   else m.group(0), s)
+
+
+def map_prices(s):
+    """Sterling to the store currency, except where the page means sterling.
+
+    The shipping table names a country beside each figure: the UK row says
+    five pounds because the parcel costs five pounds, and converting it to
+    dirhams beside the word "United Kingdom" would be a lie rather than a
+    localisation. Anything between the two markers is left alone and the
+    markers themselves are dropped."""
+    # the announcement's dual-currency line collapses to the store currency
+    s = s.replace("&pound;30 / AED&nbsp;150", "AED&nbsp;150")
+    parts = re.split(r"<!--SS_FX_(?:OFF|ON)-->", s)
+    # parts alternate: converted, verbatim, converted, verbatim, ...
+    return "".join(part if i % 2 else _sub_prices(part)
+                   for i, part in enumerate(parts))
 
 
 def read(name):
@@ -668,6 +682,11 @@ CART_JS = r"""
     + '.shero.tall .c{max-width:44rem}'
     + '.shero.tall h1{font-size:var(--t-4)}'
     + '.artgrid{grid-template-columns:minmax(0,1fr)}'
+    /* the closing note at the foot of a plain page, with room before the footer */
+    + '.pfoot{margin-top:var(--s-7);padding-block:var(--s-6) var(--s-7);border-top:1px solid var(--line);max-width:var(--measure)}'
+    + '.pfoot .k{color:var(--brass-text)}'
+    + '.pfoot :where(p:not(.k)){font-size:var(--t-md);line-height:1.8;margin-top:var(--s-3)}'
+    + 'main:has(> .inner > .pfoot){padding-bottom:var(--s-7)}'
     /* the credo: two marked positions to a row, the closing line spanning */
     + '.credo{list-style:none;margin:var(--s-6) 0 0;padding:0;display:grid;grid-template-columns:minmax(0,1fr);column-gap:var(--s-7)}'
     + '@media (min-width:60em){.credo{grid-template-columns:repeat(2,minmax(0,1fr))}'

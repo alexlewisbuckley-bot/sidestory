@@ -1513,6 +1513,15 @@ html.overlay-open body{overflow:hidden}
 .phead.center{text-align:center}
 .phead.center h1,.phead.center .lede{margin-inline:auto}
 
+/* the closing note at the foot of a plain page — the stockist invitation,
+   for one. It carries its own breathing room so the page does not run
+   straight into the footer. */
+.pfoot{margin-top:var(--s-7);padding-block:var(--s-6) var(--s-7);
+  border-top:1px solid var(--line);max-width:var(--measure)}
+.pfoot .k{color:var(--brass-text)}
+.pfoot :where(p:not(.k)){font-size:var(--t-md);line-height:1.8;margin-top:var(--s-3)}
+main:has(> .inner > .pfoot){padding-bottom:var(--s-7)}
+
 /* full-bleed editorial banner used at the top of the longer pages */
 .banner{position:relative;display:grid;align-items:end;isolation:isolate;
   min-height:clamp(18rem,40vh,30rem);min-height:clamp(18rem,40svh,30rem);overflow:hidden;color:var(--ivory)}

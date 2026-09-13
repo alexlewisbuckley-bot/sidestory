@@ -4,7 +4,11 @@ let fails=0; const ok=(n,v,x)=>{if(!v)fails++;console.log((v?'PASS ':'FAIL ')+n+
 for (const W of [390, 768, 1024, 1440, 1920]) {
   const ctx = await b.newContext({viewport:{width:W,height:900}, hasTouch:W<900, isMobile:W<900});
   const p = await ctx.newPage(); const errs=[];
-  p.on('pageerror',e=>errs.push(String(e))); p.on('console',m=>{if(m.type()==='error')errs.push(m.text());});
+  // the sandbox cannot reach cdn.shopify.com, so the film's request fails here
+  // and nowhere else; every other console error is real and must fail the run
+  const noise=t=>/ERR_TUNNEL_CONNECTION_FAILED|ERR_NAME_NOT_RESOLVED/.test(t);
+  p.on('pageerror',e=>{if(!noise(String(e)))errs.push(String(e));});
+  p.on('console',m=>{if(m.type()==='error'&&!noise(m.text()))errs.push(m.text());});
   await p.goto('http://localhost:8802/index.html',{waitUntil:'networkidle'});
   await p.evaluate(()=>document.querySelectorAll('.rev').forEach(e=>e.classList.add('in')));
   await p.waitForTimeout(1400);
@@ -44,7 +48,7 @@ for (const W of [390, 768, 1024, 1440, 1920]) {
   ok('three quotes', c.n===3, c);
   ok('quote marks render', c.marks===3, c);
   ok('attributions bottom-align per row', c.capBottoms.length===c.tops.length, c);
-  ok('stockist demoted to a footline', c.foot, c);
+  ok('no stockist footline', !c.foot, c);   // deleted from the design
   ok('no horizontal overflow', await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));
   if(errs.length) ok('no console errors', false, errs.slice(0,3));
   await ctx.close();
