@@ -192,8 +192,7 @@
   "home-creds": {
    "type": "home-creds",
    "settings": {
-    "s1": "In the press",
-    "s2": "FILLER \u2014 stockist line to come"
+    "s1": "In the press"
    },
    "blocks": {
     "b1": {
