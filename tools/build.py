@@ -195,7 +195,7 @@ CHAPTERS = {
   # Sunday Service — copy supplied by Alex, 1 Aug. Paragraphs verbatim.
   "sunday-service": dict(
     summary="As he slipped into the pew, he noted how soft the wood felt beneath his fingers, polished and worn from so many years of human touch. But the music was the same. The cool, oaky air of the church was the same. The smell\u2014ageing paper, freshly mown grass\u2014just the same. As much as time was hurtling by, it felt in the moment that nothing had changed.",
-    pull="The music was the same. The cool, oaky air of the church was the same.",
+    pull="Now the leaves were dense and green, hanging heavy over the road and mottling the light on his dashboard.",
     pullref="From Sunday Service, Chapter I",
     numeral="IV", chapter="Chapter I of IX", title="Rolling back time.", author="[author to be credited]",
     paras=[
