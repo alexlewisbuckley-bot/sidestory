@@ -318,14 +318,14 @@ MENU_SIZES = [
     ("collection-100ml.html",   "100 ml",         "&pound;160"),
     ("collection-7-5ml.html",   "7.5 ml",         "&pound;25"),
     ("collection-samples.html", "Samples",        "&pound;5"),
-    ("samples.html",            "Discovery Sets", "&pound;30"),
+    ("samples.html",            "Discovery Set",  "&pound;30"),
 ]
 SIZE_HREFS = {h for h, _, _ in MENU_SIZES}
 
 NAV_LINKS = [
     ("collection.html", "The Fragrances"),
     ("collection-samples.html", "Samples"),
-    ("samples.html",    "Discovery Sets"),
+    ("samples.html",    "Discovery Set"),
     ("stories.html",    "Your Stories"),
     ("share.html",      "Share Yours"),
     ("our-house.html",  "Our Story"),
@@ -336,7 +336,7 @@ FOOTER_COLS = [
     # entry, and Gifting is gone because the house does not offer it.
     ("The Shelf",     [("collection.html", "The Fragrances"),
                        ("collection-samples.html", "Samples"),
-                       ("samples.html", "Discovery Sets")]),
+                       ("samples.html", "Discovery Set")]),
     ("The House",     [("our-house.html", "Our Story"), ("our-house.html#making", "The Making"),
                        ("our-house.html#stones", "The Stones")]),
     ("The Practical", [("shipping.html", "Shipping &amp; Returns"), ("stockists.html", "Stockists"),
@@ -1719,13 +1719,16 @@ def build():
     # product a shopper is most likely to start with the only thing on the
     # shelf without a product page. It is the PDP layout now: gallery and buy
     # column, the accordion, the sticky bar, and the seven spines beneath.
-    set_gal = [(fp("assets/img/set-first-lines.jpg"), "The Discovery Set &mdash; seven miniatures in their folder"),
-               (fp("assets/img/unboxing.jpg"), "Opened, with the printed pages"),
-               (fp("assets/img/spine.jpg"), "The embossed folder")]
-    set_thumbs = "\n".join(
-        '<button%s onclick="pdpSwap(this,\'%s\')" aria-label="%s"><img src="%s" alt="" loading="lazy"></button>'
-        % (' aria-current="true"' if i == 0 else "", u, alt, u)
-        for i, (u, alt) in enumerate(set_gal))
+    set_gal = [(fp("assets/img/set-vials.jpg"), "The seven vials in their box"),
+               (fp("assets/img/set-skyline.jpg"), "The set, opened at dusk"),
+               (fp("assets/img/set-boxes.jpg"), "The set among the seven boxes"),
+               (fp("assets/img/set-boxlid.jpg"), "The lid, letterpressed")]
+    set_thumbs = (
+        '<button aria-current="true" onclick="setShow(null,this)" aria-label="The film">'
+        '<img src="%s" alt="" loading="lazy"></button>\n' % fp("assets/img/set-vials.jpg")
+        + "\n".join(
+        '<button onclick="setShow(\'%s\',this)" aria-label="%s"><img src="%s" alt="" loading="lazy"></button>'
+        % (u, alt, u) for u, alt in set_gal))
     set_lines = "\n".join(
         f'            <p><b>{ROMAN[i]}</b><span>{q["name"]} &mdash; {q["style"].rstrip(".")}</span></p>'
         for i, q in enumerate(PRODUCTS))
@@ -1735,18 +1738,23 @@ def build():
       {crumbs(("Home", "index.html"), ("The Fragrances", "collection.html"), "The Discovery Set")}
       <div class="pdp">
         <div class="gal">
-          <img class="main" id="pdpmain" src="{set_gal[0][0]}" alt="The Discovery Set &mdash; seven miniatures in their folder">
+          <video class="main" id="setfilm" autoplay muted loop playsinline preload="metadata" poster="{set_gal[0][0]}"><source src="{fp('assets/media/discovery-set.mp4')}" type="video/mp4"></video>
+          <img class="main" id="pdpmain" src="{set_gal[0][0]}" alt="The Discovery Set" hidden>
           <div class="strip">{set_thumbs}</div>
+          <script>function setShow(src,btn){{var v=document.getElementById('setfilm'),m=document.getElementById('pdpmain');
+document.querySelectorAll('.gal .strip button').forEach(function(b){{b.removeAttribute('aria-current')}});
+btn.setAttribute('aria-current','true');
+if(src){{m.src=src;m.hidden=false;v.hidden=true;v.pause();}}else{{m.hidden=true;v.hidden=false;v.play();}}}}</script>
         </div>
         <div class="info">
           <p class="k">The seven stories &middot; in miniature</p>
       <h1>The Discovery Set</h1>
       <p class="sub">Seven &times; 2ml &middot; seven first pages &middot; one folder</p>
-      <blockquote>Fragrance is the only luxury bought blind, and we would rather you did not. Wear one a day for a week, then choose the bottle you keep.</blockquote>
+      <blockquote>Wear each a day over the week, then choose the one you favour.</blockquote>
 
       <p class="fieldlabel">The set</p>
       <div class="sizes">
-        <button aria-current="true" data-size="full" data-price="30"><span class="szl">Seven &times; 2 ml</span><span class="szp">&pound;30</span><span class="szi">Every story&rsquo;s opening page, letterpressed, in a stone-grey folder</span></button>
+        <button aria-current="true" data-size="full" data-price="30"><span class="szl">Seven &times; 2 ml</span><span class="szp">&pound;30</span><span class="szi">Wear each a day over the week, then choose the one you favour</span></button>
       </div>
 
       <div class="cta">
@@ -1758,8 +1766,8 @@ def build():
             <details open><summary>What&rsquo;s in the set</summary><div class="body"><div class="notelist">
 {set_lines}
             </div></div></details>
-            <details><summary>How it works</summary><div class="body">The set arrives as seven 2ml vials in a stone-grey folder, each paired with the first page of the story it was written from. Wear one a day for a week, then choose the bottle you keep. A single sample is &pound;5 and arrives the same way, with its opening page.</div></details>
-            <details><summary>Delivery &amp; returns</summary><div class="body">Complimentary UK delivery over &pound;{FREE_GBP}, otherwise &pound;5. Two to four working days, signed for. FILLER &mdash; returns window to come. Samples are non-returnable.</div></details>
+            <details><summary>How it works</summary><div class="body">The set arrives as seven 2ml vials in a custom linen box, each paired with a short story elaborating on the scent&rsquo;s inspiration. Wear one a day for a week, then choose the one you favour most. A single sample is &pound;5.</div></details>
+            <details><summary>Delivery &amp; returns</summary><div class="body">Complimentary UK delivery over &pound;{FREE_GBP}, otherwise &pound;5. Two to four working days, signed for. Non-refundable.</div></details>
       </div>
 
       <div class="pdpbar" id="pdpbar" hidden>
@@ -2150,7 +2158,7 @@ def build():
     </form>
     <div class="tagrow">
       <a href="collection.html">All seven</a><a href="collection-samples.html">Samples</a>
-      <a href="samples.html">Discovery Sets</a><a href="stories.html">Stories</a>
+      <a href="samples.html">Discovery Set</a><a href="stories.html">Stories</a>
       <a href="collection.html">Woods</a><a href="collection.html">Citrus</a><a href="collection.html">Incense</a>
     </div>
   </div>

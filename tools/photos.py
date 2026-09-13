@@ -90,6 +90,11 @@ EDITORIAL = [
     ("making-box",      "making-box.jpg",     1400, None),
     # The Discovery Set flatlay: vials in the open box, raking light
     ("discovery-flatlay", "discovery-flatlay.jpg", 1400, None),
+    # Discovery Set PDP gallery
+    ("set-skyline",     "set-skyline.jpg",    1400, None),
+    ("set-boxes",       "set-boxes.jpg",      1400, None),
+    ("set-boxlid",      "set-boxlid.jpg",     1100, None),
+    ("set-vials",       "set-vials.jpg",      1400, None),
 ]
 
 # Story plates. Supplied editorial photography, one per fragrance, used
