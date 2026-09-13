@@ -920,7 +920,9 @@ def topbar(current):
     # the panel used to offer five ways to slice the shelf; there are seven
     # fragrances, so the shelf itself is the shorter list
     storylinks = "\n".join(
-        '          <a class="ml" href="product-%s.html">%s</a>' % (p["slug"], p["name"])
+        '          <a class="ml" href="product-%s.html">'
+        '<i class="chip" style="background:%s"></i>%s</a>'
+        % (p["slug"], p["swatch"], p["name"])
         for p in PRODUCTS)
     cur = ' aria-current="page"'
     items = "\n      ".join(
@@ -985,7 +987,7 @@ def topbar(current):
           <img src="{fp('assets/img/p-hotel-lobby-card.jpg')}" alt="Hotel Lobby eau de parfum" loading="lazy">
           <span>Bestseller &mdash; Hotel Lobby, &pound;160</span></a>
         <a class="feature" href="samples.html">
-          <img src="{fp('assets/img/set-first-lines.jpg')}" alt="The Discovery Set discovery set" loading="lazy">
+          <img src="{fp('assets/img/set-skyline.jpg')}" alt="The Discovery Set, five miniatures in their box" loading="lazy">
           <span>Begin here &mdash; The Discovery Set, &pound;40</span></a>
       </div>
     </div>

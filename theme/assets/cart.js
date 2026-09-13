@@ -164,8 +164,11 @@
     /* the focused accordion row is washed and its rule thickened, not boxed */
     + '.acc summary:focus-visible{outline:none;border-radius:0;background:rgba(43,46,45,.06);box-shadow:inset 0 -2px 0 0 var(--ink)}'
     /* the press attributions are mastheads, each capped at its own height */
-    + '.plogo{display:block;width:auto;max-width:min(100%,11rem);opacity:.78;filter:grayscale(1)}'
-    + '.pl-conde{height:.875rem}.pl-forbes{height:1.125rem}.pl-grazia{height:1.25rem}'
+    + '.plogo{display:block;width:auto;max-width:min(100%,11rem);filter:brightness(0) saturate(0);opacity:.72}'
+    + '.pl-conde{height:.875rem}.pl-forbes{height:1rem}.pl-grazia{height:1.25rem}'
+    /* the stone travels with the name in the mega panel */
+    + '.mega a.ml .chip{width:.5rem;height:.5rem;margin-right:.7em;transition:transform var(--d-quick) var(--settle)}'
+    + '.mega a.ml:hover .chip{transform:scale(1.25)}'
     + '.cred figcaption:has(.plogo){padding-top:var(--s-5)}'
     /* contact: a split page, chips for the subject, a ruled reach strip */
     + '.cform{display:grid;grid-template-columns:minmax(0,1fr)}'

@@ -1176,9 +1176,12 @@ button:disabled,[aria-disabled="true"]{cursor:default}
    height as a short heavy one always looks the larger of the two. They sit
    on one baseline because the figcaption floors them. */
 .plogo{display:block;width:auto;max-width:min(100%,11rem);
-  opacity:.78;filter:grayscale(1)}
+  /* three mastheads drawn in three different blacks read as three different
+     weights. brightness(0) flattens every one of them to the same ink, and
+     the opacity then sets them all to the attribution grey at once. */
+  filter:brightness(0) saturate(0);opacity:.72}
 .pl-conde{height:.875rem}
-.pl-forbes{height:1.125rem}
+.pl-forbes{height:1rem}
 .pl-grazia{height:1.25rem}
 .cred figcaption:has(.plogo){padding-top:var(--s-5)}
 
@@ -2942,6 +2945,10 @@ input:user-invalid,textarea:user-invalid{border-color:var(--text-error)}
 /* these used to slide .35rem to the right on hover — the same gesture the
    footer links had, and the only two places on the site that did it */
 .mega a.ml:hover,.mega a.ml:focus-visible{color:var(--ink)}
+/* the shelf reads by stone as much as by name, so the stone comes with it */
+.mega a.ml .chip{width:.5rem;height:.5rem;margin-right:.7em;
+  transition:transform var(--d-quick) var(--settle)}
+.mega a.ml:hover .chip{transform:scale(1.25)}
 .mega .feature{display:block;min-width:0;overflow:hidden}
 .mega .feature img{width:100%;aspect-ratio:6/5;object-fit:cover;background:var(--plaster);
   transition:transform var(--d-slow) var(--settle)}
