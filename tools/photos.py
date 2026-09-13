@@ -88,6 +88,8 @@ EDITORIAL = [
     # The Atelier band plates: the hearth still and the open Pillow Talk box
     ("making-hearth",   "making-hearth.jpg",  1600, None),
     ("making-box",      "making-box.jpg",     1400, None),
+    # The Discovery Set flatlay: vials in the open box, raking light
+    ("discovery-flatlay", "discovery-flatlay.jpg", 1400, None),
 ]
 
 # Story plates. Supplied editorial photography, one per fragrance, used
