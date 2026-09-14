@@ -180,6 +180,10 @@
     + '.mpshop>.mpfh:first-child{margin-top:0}'
     + '.mplinks .chip{width:.4375rem;height:.4375rem;margin-right:.75em;flex:none}'
     + '.mputil{margin-top:var(--s-6);padding-top:var(--s-3);border-top:1px solid var(--line)}'
+    /* one typeface down the whole phone menu */
+    + '.mplinks a,.mpsizes a{min-height:2.875rem;font-family:var(--font-serif);font-size:var(--t-md);border-bottom:1px solid rgba(43,46,45,.08)}'
+    + '.mpsizes a span{font-family:var(--font-serif)}'
+    + '.mputil a{font-family:var(--font-serif);font-size:var(--t-sm);letter-spacing:0;text-transform:none}'
     + '@media (min-width:40em){'
     +   '.mpnav{grid-column:1;grid-row:1}'
     +   '.mpshop{grid-column:2;grid-row:1;margin-top:0}'

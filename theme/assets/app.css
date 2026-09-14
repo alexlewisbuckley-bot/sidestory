@@ -1482,12 +1482,17 @@ html.overlay-open body{overflow:hidden}
 /* 2.75rem rows, not 2.875 — eleven links stand in the panel now (four sizes
    and seven stories) and the taller row put the utility line one thumb-flick
    past an 844px screen. 44px is still comfortably past the 24px floor. */
+/* One typeface down the whole panel. The destinations were set in the serif
+   and everything under them in the sans, so a menu of fifteen links read as
+   two menus that happened to be stacked. They are all the serif now, and the
+   hierarchy is carried by size and by the weight of the rule between rows —
+   which is what size and rules are for. */
 .mplinks a,.mpsizes a{display:flex;align-items:center;justify-content:space-between;
-  gap:var(--s-3);min-height:2.75rem;
-  font-family:var(--font-sans);font-size:var(--t-sm);line-height:1.3;color:var(--txt);
-  border-bottom:1px solid rgba(43,46,45,.06);
+  gap:var(--s-3);min-height:2.875rem;
+  font-family:var(--font-serif);font-size:var(--t-md);line-height:1.3;color:var(--txt);
+  border-bottom:1px solid rgba(43,46,45,.08);
   transition:color var(--d-quick) var(--settle)}
-.mpsizes a span{color:var(--txt-2);font-variant-numeric:tabular-nums}
+.mpsizes a span{color:var(--txt-2);font-variant-numeric:tabular-nums;font-family:var(--font-serif)}
 .mplinks a[aria-current="page"]{color:var(--ink)}
 /* the current page is marked the way the rest of the site marks state — a
    brass dot, not a rule or a fill */
@@ -1540,8 +1545,8 @@ html.overlay-open body{overflow:hidden}
   .mputil{grid-column:1 / -1;grid-row:2}
 }
 .mputil a{display:inline-flex;align-items:center;min-height:2.75rem;
-  font-family:var(--font-sans);font-size:var(--t-xs);letter-spacing:var(--track-label);
-  text-transform:uppercase;color:var(--txt-2)}
+  font-family:var(--font-serif);font-size:var(--t-sm);letter-spacing:0;
+  text-transform:none;color:var(--txt-2)}
 
 @media (prefers-reduced-motion:reduce){
   .menupanel,.menupanel .mpin>*{transition-delay:0s !important}
