@@ -1549,8 +1549,19 @@ def build():
     _fc = CHAPTERS["sunday-service"]
     home_body = home_body.replace("<!--SS_FEAT-->", f"""<section class="yfeat">
   <img src="{fp(story_plate(_fq))}" alt="{_fq['name']}" fetchpriority="high">
-  <video autoplay muted loop playsinline preload="auto" onloadeddata="this.classList.add('ready')"><source src="https://cdn.shopify.com/videos/c/o/v/da03d65c57264c91882acb2f5f947d66.mp4" type="video/mp4"></video>
+  <video class="film" autoplay muted loop playsinline webkit-playsinline preload="auto" disablepictureinpicture onloadeddata="this.classList.add('ready')"><source src="https://cdn.shopify.com/videos/c/o/v/da03d65c57264c91882acb2f5f947d66.mp4" type="video/mp4"></video>
   <span class="veil" aria-hidden="true"></span>
+  <script>/* iOS refuses to autoplay inline video in Low Power Mode, and shows its
+  own play glyph over a paused one. The first touch or scroll anywhere on the
+  page is a user gesture, and a gesture is all the refusal is waiting for: the
+  film is asked again then, and the listeners retire as soon as it is running. */
+  (function(){{var v=document.querySelector('.yfeat video');if(!v)return;
+  v.muted=true;var evs=['touchstart','pointerdown','keydown','scroll'];
+  function stop(){{evs.forEach(function(e){{document.removeEventListener(e,go,true)}})}}
+  function go(){{if(!v.paused){{stop();return}}var p=v.play();
+  if(p&&p.then)p.then(stop,function(){{}})}}
+  v.addEventListener('playing',stop);go();
+  evs.forEach(function(e){{document.addEventListener(e,go,{{capture:true,passive:true}})}})}})();</script>
   <div class="inner">
     <div class="c rev">
       <p class="k">{_fq['story']} &middot; {_fq['read']} read</p>

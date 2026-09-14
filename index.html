@@ -262,8 +262,19 @@
 
 <section class="yfeat">
   <picture><source type="image/avif" srcset="assets/img/story-sunday-service-480.avif?v=dbd522ea 480w, assets/img/story-sunday-service-960.avif?v=3182da98 960w, assets/img/story-sunday-service-1600.avif?v=b096a9cd 1600w" sizes="100vw"><source type="image/webp" srcset="assets/img/story-sunday-service-480.webp?v=e87fb359 480w, assets/img/story-sunday-service-960.webp?v=f1a4da10 960w, assets/img/story-sunday-service-1600.webp?v=3ed137fe 1600w" sizes="100vw"><img src="assets/img/story-sunday-service.jpg?v=299feee0" alt="Sunday Service" fetchpriority="high" decoding="async" width="1800" height="960" srcset="assets/img/story-sunday-service-480.jpg?v=fd267d52 480w, assets/img/story-sunday-service-960.jpg?v=93ed7b80 960w, assets/img/story-sunday-service-1600.jpg?v=0f6d4d9e 1600w" sizes="100vw"></picture>
-  <video autoplay muted loop playsinline preload="auto" onloadeddata="this.classList.add('ready')"><source src="https://cdn.shopify.com/videos/c/o/v/da03d65c57264c91882acb2f5f947d66.mp4" type="video/mp4"></video>
+  <video class="film" autoplay muted loop playsinline webkit-playsinline preload="auto" disablepictureinpicture onloadeddata="this.classList.add('ready')"><source src="https://cdn.shopify.com/videos/c/o/v/da03d65c57264c91882acb2f5f947d66.mp4" type="video/mp4"></video>
   <span class="veil" aria-hidden="true"></span>
+  <script>/* iOS refuses to autoplay inline video in Low Power Mode, and shows its
+  own play glyph over a paused one. The first touch or scroll anywhere on the
+  page is a user gesture, and a gesture is all the refusal is waiting for: the
+  film is asked again then, and the listeners retire as soon as it is running. */
+  (function(){var v=document.querySelector('.yfeat video');if(!v)return;
+  v.muted=true;var evs=['touchstart','pointerdown','keydown','scroll'];
+  function stop(){evs.forEach(function(e){document.removeEventListener(e,go,true)})}
+  function go(){if(!v.paused){stop();return}var p=v.play();
+  if(p&&p.then)p.then(stop,function(){})}
+  v.addEventListener('playing',stop);go();
+  evs.forEach(function(e){document.addEventListener(e,go,{capture:true,passive:true})})})();</script>
   <div class="inner">
     <div class="c rev">
       <p class="k">Story II &middot; 7 min read</p>
