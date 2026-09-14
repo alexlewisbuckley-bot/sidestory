@@ -1492,27 +1492,52 @@ html.overlay-open body{overflow:hidden}
 /* the current page is marked the way the rest of the site marks state — a
    brass dot, not a rule or a fill */
 .mplinks a{justify-content:flex-start}
+.mplinks .chip{width:.4375rem;height:.4375rem;margin-right:.75em;flex:none}
 .mplinks a[aria-current="page"]::after{content:"";width:.3125rem;height:.3125rem;
   margin-left:var(--s-2);border-radius:50%;background:var(--brass-text);flex:none}
 
 .mpfh{margin-top:var(--s-5);margin-bottom:var(--s-2);
   font-family:var(--font-sans);font-weight:500;font-size:var(--t-xs);
   letter-spacing:var(--track-label);text-transform:uppercase;color:var(--brass-text)}
-.mpin>.mpfh:first-child{margin-top:0}
+.mpin>.mpfh:first-child,.mpshop>.mpfh:first-child{margin-top:0}
 
-.mputil{display:flex;flex-wrap:wrap;column-gap:var(--s-4);row-gap:0;margin-top:var(--s-5)}
+/* ---------------------------------------------------------------------------
+   The destinations lead. They were a wrapped row of tracked micro caps at the
+   foot of the panel, under eleven shop links — the treatment a footer gets,
+   applied to the main navigation, so on a phone the only way to reach Our
+   Story was to scroll past the whole shelf and then find it among the small
+   print. They are full-width serif rows at the top now, each with a rule and
+   a mark at the right edge, and the shelf follows underneath where a shelf
+   belongs. The utilities that really are small print — account, stockists,
+   shipping — keep the micro caps, at the bottom, where they read correctly.
+   --------------------------------------------------------------------------- */
+.mpnav a{display:flex;align-items:center;justify-content:space-between;gap:var(--s-3);
+  min-height:3.25rem;font-family:var(--font-serif);font-size:var(--t-2);
+  line-height:1.25;color:var(--ink);border-bottom:1px solid var(--line);
+  transition:color var(--d-quick) var(--settle)}
+.mpnav a:first-child{border-top:1px solid var(--line)}
+.mpnav .arw{width:1.5rem;height:1px;background:var(--brass);opacity:.5;flex:none;
+  position:relative;transition:opacity var(--d-quick) var(--settle),
+                               transform var(--d-quick) var(--settle)}
+.mpnav .arw::after{content:"";position:absolute;right:0;top:-.1875rem;
+  width:.375rem;height:.375rem;border-top:1px solid var(--brass);
+  border-right:1px solid var(--brass);transform:rotate(45deg)}
+.mpnav a:active .arw,.mpnav a:hover .arw{opacity:1;transform:translateX(.1875rem)}
+.mpnav a[aria-current="page"]{color:var(--brass-text)}
+.mpshop{margin-top:var(--s-6)}
+
+.mputil{display:flex;flex-wrap:wrap;column-gap:var(--s-4);row-gap:0;
+  margin-top:var(--s-6);padding-top:var(--s-3);border-top:1px solid var(--line)}
 /* A tablet, or a phone turned on its side, is wide enough that one column
-   leaves half the panel empty and pushes the utilities below the fold in
-   landscape. Two columns: the shop on the left, where it now leads, and the
-   destinations on the right. */
+   leaves half the panel empty. Destinations on the left, the shelf on the
+   right, utilities across the foot. */
 @media (min-width:40em){
   .mpin{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);
     column-gap:var(--s-6);align-items:start;padding-top:var(--s-4)}
-  .mpin>.mpfh:nth-of-type(1){grid-column:1;grid-row:1;margin-top:0}
-  .mpsizes{grid-column:1;grid-row:2}
-  .mpin>.mpfh:nth-of-type(2){grid-column:2;grid-row:1;margin-top:0}
-  .mplinks{grid-column:2;grid-row:2}
-  .mputil{grid-column:1 / -1;grid-row:3}
+  .mpnav{grid-column:1;grid-row:1}
+  .mpshop{grid-column:2;grid-row:1;margin-top:0}
+  .mpshop>.mpfh:first-child{margin-top:0}
+  .mputil{grid-column:1 / -1;grid-row:2}
 }
 .mputil a{display:inline-flex;align-items:center;min-height:2.75rem;
   font-family:var(--font-sans);font-size:var(--t-xs);letter-spacing:var(--track-label);

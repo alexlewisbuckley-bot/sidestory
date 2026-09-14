@@ -941,12 +941,22 @@ def topbar(current):
     # foot; Search, Account and Journal left the panel at Alex's request, so
     # the header's own Search stays visible at every width now.
     mobstories = "\n      ".join(
-        '<a href="product-%s.html">%s</a>' % (p["slug"], p["name"])
+        '<a href="product-%s.html"><i class="chip" style="background:%s"></i>%s</a>'
+        % (p["slug"], p["swatch"], p["name"])
         for p in PRODUCTS)
-    mob = "\n      ".join(
-        '<a href="%s"%s>%s</a>' % (href, cur if href == current else "", label)
+    # The destinations lead the panel. They spent a release as tracked micro
+    # caps in a wrapped row at the very bottom, under eleven shop links, which
+    # is where a footer goes and not where a menu's main navigation goes.
+    mobnav = "\n      ".join(
+        '<a href="%s"%s>%s<i class="arw" aria-hidden="true"></i></a>'
+        % (href, cur if href == current else "", label)
         for href, label in (list((h, l) for h, l in NAV_LINKS if h not in SIZE_HREFS)
                             + [("contact.html", "Contact")]))
+    mob = "\n      ".join(
+        '<a href="%s"%s>%s</a>' % (href, cur if href == current else "", label)
+        for href, label in [("account.html", "Account"),
+                            ("stockists.html", "Stockists"),
+                            ("shipping.html", "Shipping &amp; FAQs")])
     megasizes = "\n".join(
         '          <a class="ml" href="%s">%s &mdash; %s</a>' % (h, label, price)
         for h, label, price in MENU_SIZES)
@@ -1000,13 +1010,18 @@ def topbar(current):
 </div>
 <nav class="menupanel" id="menupanel" aria-label="Menu" hidden>
   <div class="mpin">
-    <p class="mpfh">Shop by size</p>
-    <div class="mpsizes">
-{mobsizes}
+    <div class="mpnav">
+      {mobnav}
     </div>
-    <p class="mpfh">Shop by stories</p>
-    <div class="mplinks">
+    <div class="mpshop">
+      <p class="mpfh">Shop by size</p>
+      <div class="mpsizes">
+{mobsizes}
+      </div>
+      <p class="mpfh">Shop by stories</p>
+      <div class="mplinks">
       {mobstories}
+      </div>
     </div>
     <div class="mputil">
       {mob}
