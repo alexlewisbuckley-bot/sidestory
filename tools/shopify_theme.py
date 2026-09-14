@@ -721,9 +721,9 @@ CART_JS = r"""
     + '.mega a.ml .chip{width:.5rem;height:.5rem;margin-right:.7em;transition:transform var(--d-quick) var(--settle)}'
     + '.mega a.ml:hover .chip{transform:scale(1.25)}'
     /* the phone menu: destinations lead, the shelf follows, utilities at the foot */
-    + '.mpnav a{display:flex;align-items:center;justify-content:space-between;gap:var(--s-3);min-height:3.25rem;font-family:var(--font-serif);font-size:var(--t-2);line-height:1.25;color:var(--ink);border-bottom:1px solid var(--line);transition:color var(--d-quick) var(--settle)}'
+    + '.mpnav a{display:flex;align-items:center;justify-content:space-between;gap:var(--s-3);min-height:2.875rem;font-family:var(--font-serif);font-size:var(--t-sm);line-height:1.3;color:var(--ink);border-bottom:1px solid var(--line);transition:color var(--d-quick) var(--settle)}'
     + '.mpnav a:first-child{border-top:1px solid var(--line)}'
-    + '.mpnav .arw{width:1.5rem;height:1px;background:var(--brass);opacity:.5;flex:none;position:relative;transition:opacity var(--d-quick) var(--settle),transform var(--d-quick) var(--settle)}'
+    + '.mpnav .arw{width:1.25rem;height:1px;background:var(--brass);opacity:.5;flex:none;position:relative;transition:opacity var(--d-quick) var(--settle),transform var(--d-quick) var(--settle)}'
     + '.mpnav .arw::after{content:"";position:absolute;right:0;top:-.1875rem;width:.375rem;height:.375rem;border-top:1px solid var(--brass);border-right:1px solid var(--brass);transform:rotate(45deg)}'
     + '.mpnav a:active .arw,.mpnav a:hover .arw{opacity:1;transform:translateX(.1875rem)}'
     + '.mpnav a[aria-current="page"]{color:var(--brass-text)}'
@@ -732,7 +732,7 @@ CART_JS = r"""
     + '.mplinks .chip{width:.4375rem;height:.4375rem;margin-right:.75em;flex:none}'
     + '.mputil{margin-top:var(--s-6);padding-top:var(--s-3);border-top:1px solid var(--line)}'
     /* one typeface down the whole phone menu */
-    + '.mplinks a,.mpsizes a{min-height:2.875rem;font-family:var(--font-serif);font-size:var(--t-md);border-bottom:1px solid rgba(43,46,45,.08)}'
+    + '.mplinks a,.mpsizes a{min-height:2.875rem;font-family:var(--font-serif);font-size:var(--t-sm);border-bottom:1px solid rgba(43,46,45,.08)}'
     + '.mpsizes a span{font-family:var(--font-serif)}'
     + '.mputil a{font-family:var(--font-serif);font-size:var(--t-sm);letter-spacing:0;text-transform:none}'
     + '@media (min-width:40em){'

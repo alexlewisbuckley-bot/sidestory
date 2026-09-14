@@ -1489,7 +1489,7 @@ html.overlay-open body{overflow:hidden}
    which is what size and rules are for. */
 .mplinks a,.mpsizes a{display:flex;align-items:center;justify-content:space-between;
   gap:var(--s-3);min-height:2.875rem;
-  font-family:var(--font-serif);font-size:var(--t-md);line-height:1.3;color:var(--txt);
+  font-family:var(--font-serif);font-size:var(--t-sm);line-height:1.3;color:var(--txt);
   border-bottom:1px solid rgba(43,46,45,.08);
   transition:color var(--d-quick) var(--settle)}
 .mpsizes a span{color:var(--txt-2);font-variant-numeric:tabular-nums;font-family:var(--font-serif)}
@@ -1516,12 +1516,16 @@ html.overlay-open body{overflow:hidden}
    belongs. The utilities that really are small print — account, stockists,
    shipping — keep the micro caps, at the bottom, where they read correctly.
    --------------------------------------------------------------------------- */
+/* One typeface, one size, one row height, top to bottom. The destinations
+   were set larger to mark them as the primary list, but the arrow and the
+   heavier rule already do that, and three type sizes in a panel this short
+   read as clutter rather than as hierarchy. */
 .mpnav a{display:flex;align-items:center;justify-content:space-between;gap:var(--s-3);
-  min-height:3.25rem;font-family:var(--font-serif);font-size:var(--t-2);
-  line-height:1.25;color:var(--ink);border-bottom:1px solid var(--line);
+  min-height:2.875rem;font-family:var(--font-serif);font-size:var(--t-sm);
+  line-height:1.3;color:var(--ink);border-bottom:1px solid var(--line);
   transition:color var(--d-quick) var(--settle)}
 .mpnav a:first-child{border-top:1px solid var(--line)}
-.mpnav .arw{width:1.5rem;height:1px;background:var(--brass);opacity:.5;flex:none;
+.mpnav .arw{width:1.25rem;height:1px;background:var(--brass);opacity:.5;flex:none;
   position:relative;transition:opacity var(--d-quick) var(--settle),
                                transform var(--d-quick) var(--settle)}
 .mpnav .arw::after{content:"";position:absolute;right:0;top:-.1875rem;
