@@ -2527,18 +2527,11 @@ input:user-invalid,textarea:user-invalid{border-color:var(--text-error)}
 .credo li{display:grid;grid-template-columns:auto minmax(0,1fr);gap:var(--s-4);
   align-items:start;padding:var(--s-4) 0;border-top:1px solid var(--line)}
 .credo li:last-child{border-bottom:1px solid var(--line)}
-@media (min-width:60em){ .credo li:last-child{grid-column:1 / -1} }
+
 .credo .ci{width:1.75rem;height:1.75rem;color:var(--brass);margin-top:-.1rem}
 .credo .ci svg{width:100%;height:100%;display:block;vector-effect:non-scaling-stroke}
 .credo p{font-size:var(--t-md);line-height:1.75;margin:0;max-width:40ch}
-/* the closing line is a coda, not an eighth position: it runs the full width,
-   centred, so the block ends on a statement rather than on an empty half */
-@media (min-width:60em){
-  .credo li:last-child{grid-template-columns:auto auto;justify-content:center;
-    align-items:center;padding-block:var(--s-5)}
-  .credo li:last-child p{font-family:var(--font-serif);font-style:italic;
-    font-size:var(--t-lg);max-width:none}
-}
+
 .artgrid .col :where(p:not(.k)){font-size:var(--t-lg);line-height:1.85;margin-top:var(--s-4)}
 .artgrid .col p:first-child{margin-top:0}
 .dropcap::first-letter{float:left;font-family:var(--font-display);font-size:3.6em;

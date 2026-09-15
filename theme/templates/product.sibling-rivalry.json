@@ -12,11 +12,18 @@
     "s7": "Sibling Rivalry",
     "s8": "The story",
     "s9": "Notes",
-    "s10": "Perfumer &mdash; Valerie Bessone",
-    "s11": "The stone",
-    "s12": "Delivery &amp; returns",
-    "s13": "Home",
-    "s14": "The Fragrances"
+    "s10": "Get into the spirit of competition. An exhilarating spark ignites the thrill of the chase. Crisp citrus and crackling botanicals feel invigorating as a risky proposition, engaged in a game of one-upmanship with a hint of spice and emboldened with heady amber and rich resins. The scent of audacious provocations and the subtle threat of subterfuge. An electric feat of fancy for seekers and strivers and those who dare to desire.",
+    "s11": "Top",
+    "s12": "Middle",
+    "s13": "Base",
+    "s14": "Perfumer &mdash; Valerie Bessone",
+    "s15": "The stone",
+    "s16": "Delivery &amp; returns",
+    "s17": "Home",
+    "s18": "The Fragrances",
+    "s19": "Grapefruit / Violet / Carambole / Ginger",
+    "s20": "Rose / Patchouli / Sandalwood",
+    "s21": "Incense / Cistus / Vanilla"
    }
   },
   "pdp-sibling-rivalry-storyband": {
@@ -35,15 +42,22 @@
     "s5": "Game on.",
     "s6": "The lights onstage were blinding, but she knew from the cacophony coming from the seats that the ceremony had sold out. She\u2019d always felt at ease in the spotlight, yet it still gave her a thrill to draw such a large crowd. She rehearsed her remarks in her head \u2013 I couldn\u2019t have written this book alone\u2026 I am honored and humbled to receive this award\u2026 \u2013 and then felt a buzz in her handbag. A message from her younger brother, her most adoring fan \u2013 and her toughest competitor.",
     "s7": "Congratulations, sis. Tennis this weekend? Can\u2019t let all the success go to your head. I\u2019ve been working on my backhand\u2026",
-    "s8": "III",
-    "s9": "Read the full story"
+    "s8": "crisp grapefruit and crackling botanicals, a\u00a0hint of spice over heady amber and rich resins",
+    "s9": "III",
+    "s10": "Read the full story"
    }
   },
   "pdp-sibling-rivalry-margins": {
    "type": "pdp-sibling-rivalry-margins",
    "settings": {
     "s1": "Notes &amp; composition",
-    "s2": "The pyramid, read as&nbsp;margins."
+    "s2": "The pyramid, read as&nbsp;margins.",
+    "s3": "Top",
+    "s4": "Grapefruit / Violet / Carambole / Ginger",
+    "s5": "Middle",
+    "s6": "Rose / Patchouli / Sandalwood",
+    "s7": "Base",
+    "s8": "Incense / Cistus / Vanilla"
    }
   },
   "pdp-sibling-rivalry-stoneband": {

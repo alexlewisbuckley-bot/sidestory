@@ -230,17 +230,12 @@
     + '.creach a:hover{border-bottom-color:var(--ink)}'
     /* the credo: two marked positions to a row, the closing line spanning */
     + '.credo{list-style:none;margin:var(--s-6) 0 0;padding:0;display:grid;grid-template-columns:minmax(0,1fr);column-gap:var(--s-7)}'
-    + '@media (min-width:60em){.credo{grid-template-columns:repeat(2,minmax(0,1fr))}'
-    +   '.credo li:last-child{grid-column:1 / -1}}'
+    + '@media (min-width:60em){.credo{grid-template-columns:repeat(2,minmax(0,1fr))}}'
     + '.credo li{display:grid;grid-template-columns:auto minmax(0,1fr);gap:var(--s-4);align-items:start;padding:var(--s-4) 0;border-top:1px solid var(--line)}'
     + '.credo li:last-child{border-bottom:1px solid var(--line)}'
     + '.credo .ci{width:1.75rem;height:1.75rem;color:var(--brass);margin-top:-.1rem}'
     + '.credo .ci svg{width:100%;height:100%;display:block;vector-effect:non-scaling-stroke}'
     + '.credo p{font-size:var(--t-md);line-height:1.75;margin:0;max-width:40ch}'
-    /* the closing line runs the full width, centred, as a coda */
-    + '@media (min-width:60em){'
-    +   '.credo li:last-child{grid-template-columns:auto auto;justify-content:center;align-items:center;padding-block:var(--s-5)}'
-    +   '.credo li:last-child p{font-family:var(--font-serif);font-style:italic;font-size:var(--t-lg);max-width:none}}'
     + '.gift>video{width:100%;aspect-ratio:3/2;object-fit:cover;order:-1}'
     /* a square plate must not set the height of the promise band */
     + '@media (min-width:52em){.gift>img,.gift>picture>img{object-fit:cover;max-height:clamp(24rem,40vw,35rem)}}'

@@ -81,10 +81,11 @@ PRODUCTS = [
          desc="Check in to the place where time stands still. A headlong fall into romance, at once ephemeral and enduring, beautifully captured in amber. Smoky oud and dark fig leaf unearth the mysteries of time. A hint of spice teases an untold history. Elegant sandalwood and earthy vanilla, as smooth and warming as a fine Scotch. The fragrance of watery silk, woody cypriol and supple leather, the meeting of yin and yang. Coquettish and assertive and absolutely timeless. When you know, you know.",
          top="Fig Leaf / Oud", mid="Pepper / Patchouli / Cypriol", base="Sandalwood / Coconut / Vanilla"),
     dict(slug="sibling-rivalry", name="Sibling Rivalry", stone="Leopard Salome", swatch="var(--stone-sibling-rivalry)",
-         notes="Spice. Amber. Woods.", story="Story II",  feeling="Daring",
+         notes="Amber. Spice. Aromatic.", story="Story II",  feeling="Daring",
          line="The lights onstage were blinding, but she knew from the cacophony coming from the seats that the ceremony had sold out.",
-         perfumer="Valerie Bessone", img="p-sibling-rivalry", badge="", read="6 min", family="spice", wear="FILLER \u2014 wear line to come", theme="Daring + Deceit", style="Spice. Amber. Woods.", origin="Leopard Salome, Turkey",
-         top="FILLER \u2014 top notes to come", mid="FILLER \u2014 middle notes to come", base="FILLER \u2014 base notes to come"),
+         perfumer="Valerie Bessone", img="p-sibling-rivalry", badge="", read="6 min", family="amber", wear="FILLER \u2014 wear line to come", theme="Daring + Deceit", style="Amber. Spice. Aromatic.", origin="Leopard Salome, Turkey",
+         desc="Get into the spirit of competition. An exhilarating spark ignites the thrill of the chase. Crisp citrus and crackling botanicals feel invigorating as a risky proposition, engaged in a game of one-upmanship with a hint of spice and emboldened with heady amber and rich resins. The scent of audacious provocations and the subtle threat of subterfuge. An electric feat of fancy for seekers and strivers and those who dare to desire.",
+         top="Grapefruit / Violet / Carambole / Ginger", mid="Rose / Patchouli / Sandalwood", base="Incense / Cistus / Vanilla"),
     dict(slug="pillow-talk",    name="Pillow Talk",    stone="Calacatta",      swatch="var(--stone-pillow-talk)",
          notes="Powder. Citrus. Spice.",    story="Story III", feeling="Intimacy",
          line="They had been awake for hours, unspooling the sweet trivialities of their personal histories in sleepy whispers.",
@@ -162,11 +163,11 @@ CHAPTERS = {
       "With an impish grin, she dashed off a reply:",
       "Game on.",
     ],
-    scent="FILLER \u2014 scent line to come",
+    scent="crisp grapefruit and crackling botanicals, a\u00a0hint of spice over heady amber and rich resins",
     caption="FILLER \u2014 caption to come",
-    margins=[("Opening","FILLER \u2014 note to come","FILLER \u2014 line to come"),
-             ("Heart","FILLER \u2014 note to come","FILLER \u2014 line to come"),
-             ("Base","FILLER \u2014 note to come","FILLER \u2014 line to come")],
+    margins=[("Opening","Grapefruit / Violet / Carambole / Ginger","the thrill of the chase"),
+             ("Heart","Rose / Patchouli / Sandalwood","a game of one-upmanship"),
+             ("Base","Incense / Cistus / Vanilla","the subtle threat of subterfuge")],
     stone_title="Leopard Salome, cut once.",
     stone_body="FILLER \u2014 stone note to come"),
 
@@ -676,6 +677,11 @@ CREDO = [
     ("sunrise",
      "perfume should last until the next day, like it did on our grandmothers",
      '<path d="M3.4 19.4h17.2"/><path d="M8.1 15.6a3.9 3.9 0 0 1 7.8 0"/><path d="M12 4.2v2.4M5.7 7.1l1.7 1.7M18.3 7.1l-1.7 1.7M2.6 13.4H5M21.4 13.4H19"/>'),
+    ("leaf",
+     "raw materials bought by harvest and by field, never by the year\u2019s average",
+     '<path d="M19.4 4.6C10.8 4.6 6 8.9 6 15.1c0 1.6.4 3.1 1.1 4.3"/>'
+     '<path d="M19.4 4.6c0 8.6-4.6 13.1-11 13.8"/>'
+     '<path d="M4.6 20.5c1-2.7 2.6-5 4.8-6.8"/>'),
     ("compass",
      "to never be guided by compulsions, or pay homage to passing trends.",
      '<circle cx="12" cy="12" r="8.6"/><path d="m15.3 8.7-2.1 4.5-4.5 2.1 2.1-4.5z"/>'),
@@ -782,7 +788,7 @@ def credo_section():
   <div class="inner">
     <p class="k">Atelier philosophy</p>
     <h2>Our credo</h2>
-    <p class="lede">Seven positions the house keeps to, and has not found a reason to revise.</p>
+    <p class="lede">Eight positions the house keeps to, and has not found a reason to revise.</p>
     <ul class="credo">
 %s
     </ul>
@@ -1114,7 +1120,7 @@ DRAWER = f"""<div class="scrim" id="scrim" onclick="closeDrawer()"></div>
 # valued, and filed four of the seven under families their styles never
 # mention. FILLER styles contribute nothing: Sibling Rivalry joins the
 # filters the day its style arrives, by editing the product line alone.
-_FAMILY_ORDER = ["Woods", "Green", "Floral", "Spice", "Amber", "Citrus", "Powder"]
+_FAMILY_ORDER = ["Woods", "Green", "Aromatic", "Floral", "Spice", "Amber", "Citrus", "Powder"]
 
 
 def style_families(p):

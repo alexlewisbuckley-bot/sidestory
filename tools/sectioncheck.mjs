@@ -28,9 +28,11 @@ for (const W of [390, 768, 1024, 1440, 1920]) {
       clipped: rows.some(x=>x.scrollWidth>x.clientWidth+1) };
   });
   console.log('  sty '+JSON.stringify(f));
-  ok('seven styles', f.n===7, f);
-  ok('Woods leads with its five', f.first && f.first.name==='Woods'
-     && /5 stories/i.test(f.first.count) && f.first.chips===5
+  // eight families since Sibling Rivalry moved to Amber. Spice. Aromatic.
+  ok('eight styles', f.n===8, f);
+  // the row states its own membership, so the count and the chips must agree
+  ok('Woods leads, and its count matches its chips', f.first && f.first.name==='Woods'
+     && f.first.chips===Number((f.first.count.match(/\d+/)||[])[0])
      && f.first.href==='collection.html?scent=woods', f.first);
   ok('member names present', f.first && /Hotel Lobby/.test(f.first.who), f.first);
   ok('rows do not overlap', !f.overlap, f);
