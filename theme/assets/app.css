@@ -2060,6 +2060,9 @@ html.overlay-open body{overflow:hidden}
   gap:var(--s-3);align-items:baseline;margin:0}
 .acc .notelist b{font-family:var(--font-sans);font-weight:500;font-size:var(--t-2xs);
   letter-spacing:var(--track-micro);text-transform:uppercase;color:var(--txt-2)}
+/* the description and the pyramid sat flush: the last line of prose and the
+   word TOP shared a baseline gap of nothing at all */
+.acc .body > p + .notelist,.acc .body > p + p{margin-top:var(--s-4)}
 .acc .body .hint{margin-top:var(--s-3)}
 
 /* Safari paints its own focus ring on a summary that was opened with a mouse,

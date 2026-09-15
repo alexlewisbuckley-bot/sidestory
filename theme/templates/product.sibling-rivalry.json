@@ -12,17 +12,11 @@
     "s7": "Sibling Rivalry",
     "s8": "The story",
     "s9": "Notes",
-    "s10": "Top",
-    "s11": "Middle",
-    "s12": "Base",
-    "s13": "Perfumer &mdash; Valerie Bessone",
-    "s14": "The stone",
-    "s15": "Delivery &amp; returns",
-    "s16": "Home",
-    "s17": "The Fragrances",
-    "s18": "FILLER \u2014 top notes to come",
-    "s19": "FILLER \u2014 middle notes to come",
-    "s20": "FILLER \u2014 base notes to come"
+    "s10": "Perfumer &mdash; Valerie Bessone",
+    "s11": "The stone",
+    "s12": "Delivery &amp; returns",
+    "s13": "Home",
+    "s14": "The Fragrances"
    }
   },
   "pdp-sibling-rivalry-storyband": {
@@ -39,26 +33,17 @@
     "s3": "/pages/story-sibling-rivalry",
     "s4": "The story &middot; Chapter I of IX",
     "s5": "Game on.",
-    "s6": "written by [author to be credited] &mdash; nine pages, printed and boxed with this bottle",
-    "s7": "The lights onstage were blinding, but she knew from the cacophony coming from the seats that the ceremony had sold out. She\u2019d always felt at ease in the spotlight, yet it still gave her a thrill to draw such a large crowd. She rehearsed her remarks in her head \u2013 I couldn\u2019t have written this book alone\u2026 I am honored and humbled to receive this award\u2026 \u2013 and then felt a buzz in her handbag. A message from her younger brother, her most adoring fan \u2013 and her toughest competitor.",
-    "s8": "Congratulations, sis. Tennis this weekend? Can\u2019t let all the success go to your head. I\u2019ve been working on my backhand\u2026",
-    "s9": "FILLER \u2014 scent line to come",
-    "s10": "FILLER \u2014 caption to come",
-    "s11": "III",
-    "s12": "Read the full story"
+    "s6": "The lights onstage were blinding, but she knew from the cacophony coming from the seats that the ceremony had sold out. She\u2019d always felt at ease in the spotlight, yet it still gave her a thrill to draw such a large crowd. She rehearsed her remarks in her head \u2013 I couldn\u2019t have written this book alone\u2026 I am honored and humbled to receive this award\u2026 \u2013 and then felt a buzz in her handbag. A message from her younger brother, her most adoring fan \u2013 and her toughest competitor.",
+    "s7": "Congratulations, sis. Tennis this weekend? Can\u2019t let all the success go to your head. I\u2019ve been working on my backhand\u2026",
+    "s8": "III",
+    "s9": "Read the full story"
    }
   },
   "pdp-sibling-rivalry-margins": {
    "type": "pdp-sibling-rivalry-margins",
    "settings": {
     "s1": "Notes &amp; composition",
-    "s2": "The pyramid, read as&nbsp;margins.",
-    "s3": "Top",
-    "s4": "FILLER \u2014 top notes to come",
-    "s5": "Middle",
-    "s6": "FILLER \u2014 middle notes to come",
-    "s7": "Base",
-    "s8": "FILLER \u2014 base notes to come"
+    "s2": "The pyramid, read as&nbsp;margins."
    }
   },
   "pdp-sibling-rivalry-stoneband": {
@@ -67,8 +52,7 @@
     "s2": "/pages/our-story",
     "s3": "The stone",
     "s4": "Leopard Salome, cut&nbsp;once.",
-    "s5": "FILLER \u2014 stone note to come",
-    "s6": "More on the house"
+    "s5": "More on the house"
    }
   },
   "pdp-sibling-rivalry-seven": {

@@ -639,7 +639,6 @@ def atelier_section():
     a claim, then two halves of it side by side. No new CSS."""
     return f"""<section class="band" id="atelier">
   <div class="inner">
-    <p class="k">FILLER &mdash; eyebrow to come</p>
     <h2>Ateliers Journey</h2>
     <div class="grid-2">
       <figure><img class="figfull" src="{fp('assets/img/founders.jpg')}" alt="The workshop" loading="lazy"><figcaption class="hint">Fragrances based on stories &mdash; never stories composed for arbitrary fragrances.</figcaption></figure>
@@ -742,6 +741,27 @@ def stockist_tiles(rows):
         '<p>%s<br>%s<span class="cty">%s</span></p></div>'
         % (name, city, flag(country), country)
         for name, city, country in rows)
+
+
+# Copy that has not been written yet is marked FILLER in the data rather than
+# left blank, so a missing line is obvious in the source. It should never be
+# obvious on the page: every render site asks this first, and a field that is
+# still a placeholder returns nothing at all. The block that would have held
+# it is then omitted, which is the honest rendering of "we have not written
+# this yet" — better than a caption that says so out loud.
+def said(v):
+    """The value, or "" if it is still a placeholder."""
+    v = "" if v is None else str(v)
+    return "" if v.startswith("FILLER") or v.startswith("[") else v
+
+
+def note_rows(p):
+    """The note pyramid, minus any tier that has not been written yet."""
+    rows = "".join(
+        "<p><b>%s</b><span>%s</span></p>" % (label, said(p[key]))
+        for label, key in (("Top", "top"), ("Middle", "mid"), ("Base", "base"))
+        if said(p[key]))
+    return '<div class="notelist">%s</div>' % rows if rows else ""
 
 
 def credo_section():
@@ -1727,8 +1747,9 @@ def build():
         # annotating each — six pieces of copy per fragrance, none of it ours,
         # and it disagreed with the Notes accordion further up the same page.
         pyramid = "\n".join(
-            f"      <div><b>{a}</b><em>{b}</em></div>"
-            for a, b in (("Top", p["top"]), ("Middle", p["mid"]), ("Base", p["base"])))
+            f"      <div><b>{a}</b><em>{said(b)}</em></div>"
+            for a, b in (("Top", p["top"]), ("Middle", p["mid"]), ("Base", p["base"]))
+            if said(b))
         paras = "\n".join(f"        <p>{t}</p>" for t in excerpt_paras(ch["paras"]))
         film = STORY_FILM.get(p["slug"])
         filmtag = ('\n      <video class="bandfilm" data-src="%s" muted loop playsinline '
@@ -1748,12 +1769,10 @@ def build():
         <div>
           <p class="k">The story &middot; {ch['chapter']}</p>
           <h2>{ch['title']}</h2>
-          <p class="byline">written by {ch['author']} &mdash; nine pages, printed and boxed with this bottle</p>
           <div class="excerpt">
     {paras}
           </div>
-          <p class="scent">{ch['scent']}</p>
-          <div class="go">
+{('          <p class="scent">' + said(ch['scent']) + '</p>' + chr(10)) if said(ch['scent']) else ''}          <div class="go">
             <a class="btn btn-ghostink" href="story-{p['slug']}.html">Read the full story</a>
             <small>The full story ships in the box</small>
           </div>
@@ -1761,8 +1780,7 @@ def build():
         <figure class="plates2">
           <img class="big" src="{gal[1] if len(gal) > 1 else fp('assets/img/unboxing.jpg')}" alt="{p['name']}, as the chapter was written" loading="lazy">
           <img class="small" src="{gal[2] if len(gal) > 2 else fp('assets/img/spine.jpg')}" alt="" loading="lazy">
-          <figcaption>{ch['caption']}</figcaption>
-        </figure>
+{('          <figcaption>' + said(ch['caption']) + '</figcaption>' + chr(10)) if said(ch['caption']) else ''}        </figure>
       </div>
     </section>
 
@@ -1782,8 +1800,7 @@ def build():
         <div>
           <p class="k">The stone</p>
           <h2>{ch['stone_title']}</h2>
-          <p>{ch['stone_body']}</p>
-          <a class="ul" href="our-house.html">More on the house</a>
+{('          <p>' + said(ch['stone_body']) + '</p>' + chr(10)) if said(ch['stone_body']) else ''}          <a class="ul" href="our-house.html">More on the house</a>
         </div>
       </div>
     </section>
@@ -1828,9 +1845,9 @@ def build():
 
       <div class="acc">
             <details open><summary>The story</summary><div class="body">{ch['summary']}</div></details>
-            <details><summary>Notes</summary><div class="body">{('<p>' + p['desc'] + '</p>') if p.get('desc') else ''}<div class="notelist"><p><b>Top</b><span>{p['top']}</span></p><p><b>Middle</b><span>{p['mid']}</span></p><p><b>Base</b><span>{p['base']}</span></p></div><p class="hint">Perfumer &mdash; {p["perfumer"]}</p></div></details>
+            <details><summary>Notes</summary><div class="body">{('<p>' + p['desc'] + '</p>') if p.get('desc') else ''}{note_rows(p)}<p class="hint">Perfumer &mdash; {p["perfumer"]}</p></div></details>
             <details><summary>The stone</summary><div class="body">{p['origin']}, hand-cut. Veining is decided by the block, so no two lids repeat. The lid lifts free of the glass and keeps its weight in the hand.</div></details>
-            <details><summary>Delivery &amp; returns</summary><div class="body">Complimentary UK delivery over &pound;{FREE_GBP}, otherwise &pound;5. Two to four working days, signed for. FILLER &mdash; returns window to come. Samples are non-returnable.</div></details>
+            <details><summary>Delivery &amp; returns</summary><div class="body">Complimentary UK delivery over &pound;{FREE_GBP}, otherwise &pound;5. Two to four working days, signed for. Non-refundable.</div></details>
           </div>
         </div>
       </div>
@@ -2059,12 +2076,12 @@ if(src){{m.src=src;m.hidden=false;v.hidden=true;v.pause();}}else{{m.hidden=true;
 
         notes_html = "\n".join(
             '        <p class="marginnote">%s<small>In the margin &mdash; %02d of 09</small></p>'
-            % (note, n * 2 + 1)
-            for n, (_lab, note, _aside) in enumerate(c["margins"]))
+            % (said(note), n * 2 + 1)
+            for n, (_lab, note, _aside) in enumerate(c["margins"]) if said(note))
 
         rows_html = "\n".join(
-            '          <div class="nrow"><b>%s</b><span>%s</span></div>' % (lab, note)
-            for lab, note, _aside in c["margins"])
+            '          <div class="nrow"><b>%s</b><span>%s</span></div>' % (lab, said(note))
+            for lab, note, _aside in c["margins"] if said(note))
 
         initials = ".".join(w[0] for w in c["author"].split()) + "."
 
@@ -2103,7 +2120,7 @@ if(src){{m.src=src;m.hidden=false;v.hidden=true;v.pause();}}else{{m.hidden=true;
     <div class="c">
       <p class="k">The scent this became</p>
       <h2>{q['name']}</h2>
-      <p class="lede">{c['scent'][0].upper() + c['scent'][1:]}, beneath a lid of {q['stone']}.</p>
+{('      <p class="lede">' + said(c['scent'])[0].upper() + said(c['scent'])[1:] + ', beneath a lid of ' + q['stone'] + '.</p>') if said(c['scent']) else '      <p class="lede">Beneath a lid of ' + q['stone'] + '.</p>'}
       <div class="notes">
 {rows_html}
       </div>
@@ -2312,8 +2329,7 @@ if(src){{m.src=src;m.hidden=false;v.hidden=true;v.pause();}}else{{m.hidden=true;
         "Your orders and the stories you have unlocked.", f"""
 <div class="inner">
   {crumbs(("Home", "index.html"), "Account")}
-  <div class="phead"><p class="k">Account &middot; FILLER &mdash; demo preview</p><h1>Welcome back.</h1>
-    <p class="lede">FILLER &mdash; the orders and editions below are sample data, shown so the layout can be judged. Accounts arrive with the launch.</p></div>
+  <div class="phead"><p class="k">Account</p><h1>Welcome back.</h1></div>
   <div class="acct">
     <nav class="acctnav" aria-label="Account">
       <a href="account.html" aria-current="page">Orders</a>
