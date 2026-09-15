@@ -1043,9 +1043,10 @@ def footer():
   <div class="inner">
     <div class="cols">
       {cols}
+      <div class="fbrand fbrand-m"><img src="{fp(FOOTER_LOGO)}" alt="Side Story &mdash; Parfums &amp; Oils" width="300" height="68" loading="lazy" decoding="async"></div>
     </div>
     <div class="fmid">
-      <p class="fcopy">&copy; Side Story Parfums MMXXVI &middot; Made in Grasse</p>
+      <p class="fcopy">Made in Grasse</p>
       <div class="fbrand"><picture>
         <source media="(min-width:48em)" srcset="{fp(FOOTER_LOGO_R)}">
         <img src="{fp(FOOTER_LOGO)}" alt="Side Story &mdash; Parfums &amp; Oils" width="300" height="68" decoding="async"></picture></div>

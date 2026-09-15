@@ -735,6 +735,16 @@ CART_JS = r"""
     + '.mplinks a,.mpsizes a{min-height:2.875rem;font-family:var(--font-serif);font-size:var(--t-sm);border-bottom:1px solid rgba(43,46,45,.08)}'
     + '.mpsizes a span{font-family:var(--font-serif)}'
     + '.mputil a{font-family:var(--font-serif);font-size:var(--t-sm);letter-spacing:0;text-transform:none}'
+    /* the footer on a phone: the practical beside the shelf, the mark in the
+       cell the third column leaves empty, and one line of copy */
+    + '.fbrand-m{display:none}'
+    + '@media (max-width:47.9375em){'
+    +   'footer .cols{grid-template-columns:repeat(2,minmax(0,1fr));column-gap:var(--s-5);row-gap:var(--s-6)}'
+    +   'footer .cols>div:nth-child(2){order:3}'
+    +   'footer .cols>div:nth-child(3){order:2}'
+    +   'footer .cols>.fbrand-m{order:4;display:flex;align-items:flex-end;width:auto;max-width:11rem;padding-bottom:.35rem}'
+    +   '.fmid .fbrand{display:none}'
+    +   '.fmid{margin-top:var(--s-5)}}'
     + '@media (min-width:40em){'
     +   '.mpnav{grid-column:1;grid-row:1}'
     +   '.mpshop{grid-column:2;grid-row:1;margin-top:0}'

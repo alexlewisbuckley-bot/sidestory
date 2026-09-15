@@ -1229,6 +1229,10 @@ footer a:hover{opacity:1}
   text-transform:uppercase;line-height:1.8;opacity:var(--o-strong)}
 .fbrand{width:clamp(9rem,16vw,13.75rem);color:var(--ivory)}
 .fbrand img{width:100%;height:auto;display:block}
+/* the mark is drawn twice and shown once: beside the copy line on a wide
+   screen, and on a phone in the cell the third column leaves empty, which is
+   the only piece of the footer that was doing nothing */
+.fbrand-m{display:none}
 .fbot{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;
   gap:var(--s-3) var(--s-4);margin-top:var(--s-5);padding-top:var(--s-4);
   border-top:1px solid rgba(241,240,232,.14)}
@@ -3231,6 +3235,18 @@ footer .fbot a,footer .legal a,footer .fcopy a,
   /* no rule above the first link: the menu does not have one either, and the
      heading is already doing the work of opening the group */
   footer .fh{margin-bottom:var(--s-2)}
+  /* two columns on a phone, and the practical beside the shelf: they are the
+     two lists a reader actually wants — what to buy, and what happens after —
+     while the house is where you go once, at leisure. The mark takes the
+     fourth cell. */
+  footer .cols{grid-template-columns:repeat(2,minmax(0,1fr));
+    column-gap:var(--s-5);row-gap:var(--s-6)}
+  footer .cols>div:nth-child(2){order:3}
+  footer .cols>div:nth-child(3){order:2}
+  footer .cols>.fbrand-m{order:4;display:flex;align-items:flex-end;
+    width:auto;max-width:11rem;padding-bottom:.35rem}
+  .fmid .fbrand{display:none}
+  .fmid{margin-top:var(--s-5)}
   .fbot a,.legal a,.fcopy a{min-height:0;display:inline-block;padding-block:.5rem}
   .legal a{margin-block:-.35rem}
   .ffield input,.ffield textarea,.field input,.field textarea,.news input{
