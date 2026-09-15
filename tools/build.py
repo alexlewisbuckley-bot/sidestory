@@ -1389,7 +1389,8 @@ def search_index():
     for p in PRODUCTS:
         add(p["name"], f'{p["style"]} · {p["origin"]}', "Fragrances",
             f'product-{p["slug"]}.html',
-            p["feeling"], " ".join(style_families(p)), p["theme"], p["story"], p["top"], p["mid"], p["base"],
+            p["feeling"], " ".join(style_families(p)), p["theme"], p["story"],
+            said(p["top"]), said(p["mid"]), said(p["base"]),
             "eau de parfum perfume bottle 100ml notes")
     for p in PRODUCTS:
         add(f'{p["name"]} — the story', f'{p["story"]} · {p["feeling"]} · {p["read"]}', "Stories",
